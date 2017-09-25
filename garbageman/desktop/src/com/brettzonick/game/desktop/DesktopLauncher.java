@@ -12,6 +12,7 @@ public class DesktopLauncher {
 		config.resizable = false;
 		config.height = 720;
 		config.width = 1280;
+		config.foregroundFPS = 60;
 
 		new LwjglApplication(new Garbageman(), config);
 	}

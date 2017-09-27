@@ -1,12 +1,12 @@
-package com.brettzonick.game.screens;
+package com.brettzonick.game.java.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.brettzonick.game.Garbageman;
-import com.brettzonick.game.world.InputHandler;
+import com.brettzonick.game.java.Garbageman;
+import com.brettzonick.game.java.world.InputHandler;
 
 /**
  * Created by bzonick5979 on 9/25/2017.

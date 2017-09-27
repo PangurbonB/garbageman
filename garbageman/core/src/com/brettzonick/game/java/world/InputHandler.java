@@ -1,9 +1,6 @@
-package com.brettzonick.game.world;
+package com.brettzonick.game.java.world;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.brettzonick.game.Garbageman;
 
 /**
  * Created by bzonick5979 on 9/21/2017.

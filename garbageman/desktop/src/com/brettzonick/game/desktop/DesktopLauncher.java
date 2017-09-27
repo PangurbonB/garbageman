@@ -2,7 +2,7 @@ package com.brettzonick.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.brettzonick.game.Garbageman;
+import com.brettzonick.game.java.Garbageman;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

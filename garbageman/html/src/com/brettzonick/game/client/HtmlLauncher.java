@@ -3,7 +3,7 @@ package com.brettzonick.game.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.brettzonick.game.Garbageman;
+import com.brettzonick.game.java.Garbageman;
 
 public class HtmlLauncher extends GwtApplication {
 

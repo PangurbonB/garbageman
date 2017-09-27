@@ -1,4 +1,4 @@
-package com.brettzonick.game;
+package com.brettzonick.game.java;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
@@ -8,9 +8,9 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.brettzonick.game.screens.GameScreen;
-import com.brettzonick.game.screens.MainMenuScreen;
-import com.brettzonick.game.world.InputHandler;
+import com.brettzonick.game.java.screens.GameScreen;
+import com.brettzonick.game.java.screens.MainMenuScreen;
+import com.brettzonick.game.java.world.InputHandler;
 
 public class Garbageman extends Game {
 

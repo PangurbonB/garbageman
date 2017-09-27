@@ -36,12 +36,11 @@ public class GameScreen implements Screen{
 
         Gdx.input.setInputProcessor(new InputHandler());
 
-        System.out.println(""+Gdx.graphics.getDeltaTime());
-
         float dt = Gdx.graphics.getDeltaTime();
 
         if (Gdx.input.isKeyPressed(Input.Keys.Q))
             Gdx.app.exit();
+        /*
         if (Gdx.input.isKeyPressed(Input.Keys.L))
             x += SPEED*dt;
         if (Gdx.input.isKeyPressed(Input.Keys.J))
@@ -50,15 +49,18 @@ public class GameScreen implements Screen{
             y += SPEED*dt;
         if (Gdx.input.isKeyPressed(Input.Keys.K))
             y -= SPEED*dt;
+        */
 
         img = new Texture("assets/PLAY.png");
 
         game.batch.begin();
 
+        /*
         if(x > (img.getWidth()) + 720) x = 0-(img.getWidth());
         if(x < 0-(img.getWidth())) x = (img.getWidth()) + 720;
         if(y > (img.getHeight()) + 1280) y = 0-(img.getHeight());
         if(y < 0-(img.getHeight())) y = (img.getHeight()) + 1280;
+        */
 
         game.batch.draw(img, x, y);
 

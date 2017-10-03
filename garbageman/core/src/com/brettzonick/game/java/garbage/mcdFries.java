@@ -5,14 +5,10 @@ package com.brettzonick.game.java.garbage;
  */
 
 public class mcdFries extends Trash {
-
     {
         type = VEGGIE;
         rarity = COMMON;
         name = "MacDouggal's fries";
         //img =
     }
-
-
-
 }

@@ -33,6 +33,8 @@ public class Trash {
     //public String
     public int type = UNUSABLE;
     public int rarity = COMMON;
-
+    //Nastiness is on a scale of 1-100
+    //1 is fresh, 100 is foul
+    public int nast = 1;
 
 }

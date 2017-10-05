@@ -5,7 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.brettzonick.game.java.Garbageman;
+import com.brettzonick.game.java.garbage.McdFries;
+import com.brettzonick.game.java.garbage.Trash;
 import com.brettzonick.game.java.world.InputHandler;
 
 /**
@@ -19,6 +23,8 @@ public class GameScreen implements Screen{
     public static final float SPEED = 1000;
 
     Garbageman game;
+
+    McdFries fries = new McdFries();
 
     @Override
     public void show() {
@@ -38,6 +44,31 @@ public class GameScreen implements Screen{
 
         float dt = Gdx.graphics.getDeltaTime();
 
+
+
+        fries.addListener(new InputListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y,
+                                int pointer, int button) {
+                boolean touchdown=true;
+
+
+            }
+
+            public boolean touchDown(InputEvent event, float x, float y,
+                                     int pointer, int button) {
+                boolean touchdown=false;
+                fries.img = "error";
+
+                return true;
+            }
+
+            public void mouseMoved(InputEvent event, float x, float y, int pointer, int button){
+
+            }
+
+        });
+
         if (Gdx.input.isKeyPressed(Input.Keys.Q))
             Gdx.app.exit();
         /*
@@ -51,7 +82,7 @@ public class GameScreen implements Screen{
             y -= SPEED*dt;
         */
 
-        img = new Texture("assets/PLAY.png");
+        img = new Texture(fries.baseImgName + fries.img + fries.fileType);
 
         game.batch.begin();
 

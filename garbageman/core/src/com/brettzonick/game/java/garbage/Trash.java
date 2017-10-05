@@ -1,10 +1,12 @@
 package com.brettzonick.game.java.garbage;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
 /**
  * Created by bzonick5979 on 9/27/2017.
  */
 
-public class Trash {
+public class Trash extends Actor{
 
     //Ingredient types
     public final int UNUSABLE = 0;
@@ -30,7 +32,11 @@ public class Trash {
 
 
     public String name = "Bug";
-    //public String
+    public String baseImgName = "assets/TrashImgs/";
+    public String fileType = ".png";
+    public String img = "error";
+    public int x,y = 0;
+    public boolean inBag = false;
     public int type = UNUSABLE;
     public int rarity = COMMON;
     //Nastiness is on a scale of 1-100

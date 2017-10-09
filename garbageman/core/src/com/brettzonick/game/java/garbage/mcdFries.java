@@ -13,4 +13,5 @@ public class McdFries extends Trash {
     }
 
 
+
 }

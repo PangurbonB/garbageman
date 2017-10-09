@@ -36,11 +36,14 @@ public class Trash extends Actor{
     public String fileType = ".png";
     public String img = "error";
     public int x,y = 0;
+    public int width,height = 32;
     public boolean inBag = false;
     public int type = UNUSABLE;
     public int rarity = COMMON;
     //Nastiness is on a scale of 1-100
     //1 is fresh, 100 is foul
     public int nast = 1;
+
+    public boolean selected = false;
 
 }

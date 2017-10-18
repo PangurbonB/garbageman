@@ -28,6 +28,11 @@ import com.brettzonick.game.java.garbage.Trash;
 import com.brettzonick.game.java.world.GestureHandler;
 import com.brettzonick.game.java.world.InputHandler;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by bzonick5979 on 9/27/2017.
  */
@@ -48,7 +53,13 @@ public class Trashcan implements Screen {
     //table.add(img);
     Camera camera;
 
+    Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
+    Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
+    ArrayList<Image> imgs = new ArrayList();
+
     int x,y = 0;
+
+    float friction = .1f;
 
 
 
@@ -86,11 +97,21 @@ public class Trashcan implements Screen {
         skin.add("mcdFries", new Texture(str));
         img = new Image(skin, "mcdFries");
 
+        oldLocMap.put("y"+img.getName(), img.getY());
+        oldLocMap.put("x"+img.getName(), img.getX());
+
+        velMap.put("y"+img.getName(), img.getY());
+        velMap.put("x"+img.getName(), img.getX());
+
+        imgs.add(img);
 
     }
 
     @Override
     public void render(float delta) {
+
+        final float oldX = x;
+        final float oldY = y;
 
         fries.setX(x);
         fries.setY(y);
@@ -111,8 +132,28 @@ public class Trashcan implements Screen {
         img.addListener(new ClickListener(){
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
                 img.moveBy(x - img.getWidth() / 2, y - img.getHeight() / 2);
+                float yVel = y-oldLocMap.get("y"+img.getName());
+                float xVel = x-oldLocMap.get("x"+img.getName());
+                oldLocMap.put("y"+img.getName(), img.getY());
+                oldLocMap.put("x"+img.getName(), img.getX());
+                velMap.put("y"+img.getName(), yVel);
+                velMap.put("x"+img.getName(), xVel);
+            }
+
+            public void touchUp(InputEvent event, float x, float y, int pointer) {
+
+
+                System.out.println("test");
+                System.out.println(x-oldLocMap.get("x"+img.getName()));
+
+
             }
         });
+
+        if(!velMap.get("x"+img.getName()).equals(0f)){
+            System.out.println(velMap.get("y"+img.getName()));
+        }
+
 
         stage.draw();
 

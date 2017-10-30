@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.brettzonick.game.java.Garbageman;
 import com.brettzonick.game.java.garbage.McdFries;
+import com.brettzonick.game.java.garbage.Pork;
 import com.brettzonick.game.java.garbage.Trash;
 import com.brettzonick.game.java.world.GestureHandler;
 import com.brettzonick.game.java.world.InputHandler;
@@ -46,12 +47,18 @@ public class Trashcan implements Screen {
     SpriteBatch batch;
     Skin skin;
 
+    int incVal = 0;
+
     final McdFries fries = new McdFries();
     Table table;
     String str = fries.baseImgName + fries.img + fries.fileType;
-    Image img = new Image();
+    Image img1 = new Image();
+    Image img2 = new Image();
+    Image img3 = new Image();
     //table.add(img);
     Camera camera;
+
+    boolean wasTouched = false;
 
     Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
     Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
@@ -82,12 +89,29 @@ public class Trashcan implements Screen {
         this.stage = stage;
         this.batch = batch;
         this.font = font;
+        for(int i=0; i<100; i++){
+            for(int k=0; k<imgs.size(); k++) {
+                oldLocMap.put("y" + Integer.toString(i) + imgs.get(k).getName(), imgs.get(k).getY());
+                oldLocMap.put("x" + Integer.toString(i) + imgs.get(k).getName(), imgs.get(k).getX());
+            }
+        }
+
+
+        //velMap.put("y"+img.getName(), 0f);
+        //velMap.put("x"+img.getName(), 0f);
 
         fries.setSize(32, 32);
 
     }
 
 
+    public Image makeGarbage(String name){
+        Image img;
+        Skin skin1 = new Skin();
+        skin1.add("mcdFries", new Texture(name));
+        img = new Image(skin1, "mcdFries");
+        return img;
+    }
 
     @Override
     public void show() {
@@ -95,23 +119,32 @@ public class Trashcan implements Screen {
 
         skin = new Skin();
         skin.add("mcdFries", new Texture(str));
-        img = new Image(skin, "mcdFries");
+        img1 = new Image(skin, "mcdFries");
 
-        oldLocMap.put("y"+img.getName(), img.getY());
-        oldLocMap.put("x"+img.getName(), img.getX());
+        skin = new Skin();
+        skin.add("mcdFries", new Texture(str));
+        img2 = new Image(skin, "mcdFries");
 
-        velMap.put("y"+img.getName(), img.getY());
-        velMap.put("x"+img.getName(), img.getX());
+        skin = new Skin();
+        skin.add("mcdFries", new Texture(str));
+        img3 = new Image(skin, "mcdFries");
 
-        imgs.add(img);
+
+
+        imgs.add(makeGarbage(str));
+        imgs.add(makeGarbage(str));
+        imgs.add(makeGarbage(str));
+        Pork pork = new Pork();
+        imgs.add(makeGarbage(pork.baseImgName + pork.img + pork.fileType));
+
+        for(int i=0; i<imgs.size(); i++){
+            imgs.get(i).setSize(64, 64);
+        }
 
     }
 
     @Override
     public void render(float delta) {
-
-        final float oldX = x;
-        final float oldY = y;
 
         fries.setX(x);
         fries.setY(y);
@@ -122,38 +155,82 @@ public class Trashcan implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.Q))
             Gdx.app.exit();
-
-        stage.addActor(img);
+        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+            Gdx.app.exit();
+        }
 
         //stage.addActor(fries);
 
         game.batch.begin();
 
-        img.addListener(new ClickListener(){
-            public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                img.moveBy(x - img.getWidth() / 2, y - img.getHeight() / 2);
-                float yVel = y-oldLocMap.get("y"+img.getName());
-                float xVel = x-oldLocMap.get("x"+img.getName());
-                oldLocMap.put("y"+img.getName(), img.getY());
-                oldLocMap.put("x"+img.getName(), img.getX());
-                velMap.put("y"+img.getName(), yVel);
-                velMap.put("x"+img.getName(), xVel);
-            }
+        //System.out.println("X:"+img.getX());
+        //System.out.println("Y:"+img.getY());
+        for(int i=0; i<imgs.size(); i++) {
+            stage.addActor(imgs.get(i));
+            final int k = i;
+            imgs.get(i).addListener(new ClickListener() {
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    if (wasTouched) {
+                        /*
+                        System.out.println("X values (velocity, old pos, new pos):");
+                        System.out.println(velMap.get("x" + imgs.get(k).getName()));
+                        System.out.println(oldLocMap.get("x" + "0" + imgs.get(k).getName()));
+                        System.out.println(oldLocMap.get("x" + "100" + imgs.get(k).getName()));
+                        System.out.println(imgs.get(k));
 
-            public void touchUp(InputEvent event, float x, float y, int pointer) {
+                        System.out.println("Y values (velocity, old pos, new pos):");
+                        System.out.println(velMap.get("y" + imgs.get(k).getName()));
+                        System.out.println(oldLocMap.get("y" + "0" + imgs.get(k).getName()));
+                        System.out.println(oldLocMap.get("y" + "100" + imgs.get(k).getName()));
+                        System.out.println(imgs.get(k).getY());
 
 
-                System.out.println("test");
-                System.out.println(x-oldLocMap.get("x"+img.getName()));
+                        for (int i = 0; i < 100; i++) {
+                            oldLocMap.put("y" + Integer.toString(i) + imgs.get(k).getName(), imgs.get(k).getY());
+                            oldLocMap.put("x" + Integer.toString(i) + imgs.get(k).getName(), imgs.get(k).getX());
+                        }
+                        */
+                    }
+                    wasTouched = false;
+
+                }
 
 
-            }
-        });
+                public void touchDragged(InputEvent event, float x, float y, int pointer) {
 
-        if(!velMap.get("x"+img.getName()).equals(0f)){
-            System.out.println(velMap.get("y"+img.getName()));
+                    wasTouched = true;
+
+                    final float oldX = imgs.get(k).getX();
+                    final float oldY = imgs.get(k).getY();
+
+                    String sX = Float.toString(oldX);
+                    String sY = Float.toString(oldY);
+
+                    /*
+                    final float yVel = oldY - oldLocMap.get("y" + "0" + imgs.get(k).getName());
+                    final float xVel = oldX - oldLocMap.get("x" + "0" + imgs.get(k).getName());
+
+                    velMap.put("y" + imgs.get(k).getName(), yVel);
+                    velMap.put("x" + imgs.get(k).getName(), xVel);
+                    for (int i = 100; i >= 0; i--) {
+                        oldLocMap.remove("x" + Integer.toString(i + 1) + imgs.get(k).getName());
+                        oldLocMap.remove("y" + Integer.toString(i + 1) + imgs.get(k).getName());
+                        oldLocMap.put("x" + Integer.toString(i + 1) + imgs.get(k).getName(), oldLocMap.get("x" + Integer.toString(i) + imgs.get(k).getName()));
+                        oldLocMap.put("y" + Integer.toString(i + 1) + imgs.get(k).getName(), oldLocMap.get("y" + Integer.toString(i) + imgs.get(k).getName()));
+
+                    }
+                    oldLocMap.remove("y" + "0" + imgs.get(k).getName());
+                    oldLocMap.remove("x" + "0" + imgs.get(k).getName());
+                    oldLocMap.put("y" + "0" + imgs.get(k).getName(), Float.parseFloat(sY));
+                    oldLocMap.put("x" + "0" + imgs.get(k).getName(), Float.parseFloat(sX));
+                    */
+
+
+                    imgs.get(k).moveBy(x - imgs.get(k).getWidth() / 2, y - imgs.get(k).getHeight() / 2);
+
+                }
+            });
         }
-
 
         stage.draw();
 

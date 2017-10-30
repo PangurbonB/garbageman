@@ -32,7 +32,7 @@ public class Trash extends Actor{
 
 
     public String name = "Bug";
-    public String baseImgName = "assets/TrashImgs/";
+    public String baseImgName = "assets/Garbage/";
     public String fileType = ".png";
     public String img = "error";
     public int x,y = 0;

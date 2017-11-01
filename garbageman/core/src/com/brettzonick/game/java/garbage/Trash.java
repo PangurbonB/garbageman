@@ -35,6 +35,7 @@ public class Trash extends Actor{
     public String baseImgName = "assets/Garbage/";
     public String fileType = ".png";
     public String img = "error";
+    public String desc = "Item is missing description";
     public int x,y = 0;
     public int width,height = 32;
     public boolean inBag = false;

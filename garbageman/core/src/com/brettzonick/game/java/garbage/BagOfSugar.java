@@ -9,7 +9,7 @@ public class BagOfSugar extends Trash {
     {
         type = SWEETENER;
         rarity = BOUGHT;
-        name = "bagOfSugar";
+        name = "Bag of Sugar";
         img = "bagOfSugar";
     }
 

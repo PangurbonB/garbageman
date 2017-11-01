@@ -4,12 +4,11 @@ package com.brettzonick.game.java.garbage;
  * Created by bzonick5979 on 10/30/2017.
  */
 
-public class Pork extends Trash {
+public class Bread extends Trash {
     {
-        type = MEAT;
+        type = WRAP;
         rarity = BOUGHT;
-        name = "Pork";
-        img = "pork";
+        name = "Bread";
+        img = "bread";
     }
-
 }

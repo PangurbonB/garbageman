@@ -23,6 +23,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.brettzonick.game.java.Garbageman;
+import com.brettzonick.game.java.garbage.AppleCore;
+import com.brettzonick.game.java.garbage.BagOfSugar;
+import com.brettzonick.game.java.garbage.CrowWithOddEyeInfection;
 import com.brettzonick.game.java.garbage.McdFries;
 import com.brettzonick.game.java.garbage.Pork;
 import com.brettzonick.game.java.garbage.Trash;
@@ -135,7 +138,11 @@ public class Trashcan implements Screen {
         imgs.add(makeGarbage(str));
         imgs.add(makeGarbage(str));
         Pork pork = new Pork();
+        AppleCore app = new AppleCore();
+        CrowWithOddEyeInfection bag = new CrowWithOddEyeInfection();
         imgs.add(makeGarbage(pork.baseImgName + pork.img + pork.fileType));
+        imgs.add(makeGarbage(app.baseImgName + app.img + app.fileType));
+        imgs.add(makeGarbage(bag.baseImgName + bag.img + bag.fileType));
 
         for(int i=0; i<imgs.size(); i++){
             imgs.get(i).setSize(64, 64);

@@ -92,12 +92,7 @@ public class Trashcan implements Screen {
         this.stage = stage;
         this.batch = batch;
         this.font = font;
-        for(int i=0; i<100; i++){
-            for(int k=0; k<imgs.size(); k++) {
-                oldLocMap.put("y" + imgs.get(k).getName()+ Integer.toString(i), imgs.get(k).getY());
-                oldLocMap.put("x" + imgs.get(k).getName() + Integer.toString(i), imgs.get(k).getX());
-            }
-        }
+
 
 
         //velMap.put("y"+img.getName(), 0f);
@@ -144,6 +139,18 @@ public class Trashcan implements Screen {
         imgs.add(makeGarbage(app.baseImgName + app.img + app.fileType));
         imgs.add(makeGarbage(bag.baseImgName + bag.img + bag.fileType));
 
+        for(int i=0; i<100; i++){
+            for(int k=0; k<imgs.size(); k++) {
+                oldLocMap.put("y" + imgs.get(k).getName()+ Integer.toString(i), imgs.get(k).getY());
+                oldLocMap.put("x" + imgs.get(k).getName() + Integer.toString(i), imgs.get(k).getX());
+            }
+        }
+
+        for (int k = 0; k < imgs.size(); k++) {
+            velMap.put(imgs.get(k).getName() + "x", 0f);
+            velMap.put(imgs.get(k).getName() + "y", 0f);
+        }
+
         for(int i=0; i<imgs.size(); i++){
             imgs.get(i).setSize(64, 64);
         }
@@ -175,6 +182,26 @@ public class Trashcan implements Screen {
         for(int i=0; i<imgs.size(); i++) {
             stage.addActor(imgs.get(i));
             final int k = i;
+            //System.out.println(velMap.get(imgs.get(i).getName() + "x"));
+
+            imgs.get(k).setX(imgs.get(k).getX()+velMap.get(imgs.get(k).getName() + "x"));
+            imgs.get(k).setY(imgs.get(k).getY()+velMap.get(imgs.get(k).getName() + "y"));
+
+
+            float tx = velMap.get(imgs.get(k).getName()+ "x");
+            float ty = velMap.get(imgs.get(k).getName()+ "y");
+            float tm = (float) Math.sqrt((tx*tx)+(ty*ty));
+
+            float fric = .97f;
+
+            if(velMap.get(imgs.get(k).getName()+ "x") >= 0)
+                velMap.put(imgs.get(k).getName() + "x", tx * fric/*((tm-.5f)/tm)*/);
+            if(velMap.get(imgs.get(k).getName()+ "x") <= 0)
+                velMap.put(imgs.get(k).getName() + "x", tx * fric/*((tm+.5f)/tm)*/);
+            if(velMap.get(imgs.get(k).getName()+ "y") >= 0)
+                velMap.put(imgs.get(k).getName() + "y", ty * fric/*((tm-.5f)/tm)*/);
+            if(velMap.get(imgs.get(k).getName()+ "y") <= 0)
+                velMap.put(imgs.get(k).getName() + "y", ty * fric/*((tm+.5f)/tm)*/);
 
             imgs.get(i).addListener(new ClickListener() {
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {

@@ -203,7 +203,7 @@ public class MainMenuScreen implements Screen {
             ff.draw(game.batch, "THIS IS TEXT", 20, 20);
             ff.setColor(Color.BLACK);
 
-            System.out.println("WEKTPK}PW#ETK}PKW}PYT::: " + manager.isLoaded("size10.ttf"));
+            //System.out.println("WEKTPK}PW#ETK}PKW}PYT::: " + manager.isLoaded("size10.ttf"));
         }
         //manager.get("font1.fnt", BitmapFont.class).draw(game.batch, "TEST", 50, 50);
 

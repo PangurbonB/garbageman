@@ -62,7 +62,7 @@ public class GameScreen implements Screen{
         menuButtonStyle.imageUp = buttonSkins.getDrawable("menuButton");
         menuButton = new ImageButton(menuButtonStyle);
         menuButton.setPosition(0, game.window_height - mbHeight+2);
-        System.out.println(game.window_height - mbHeight);
+        //System.out.println(game.window_height - mbHeight);
         menuButton.setSize(mbWidth, mbHeight);
         menuButton.setVisible(true);
         menuButton.addListener(new InputListener(){

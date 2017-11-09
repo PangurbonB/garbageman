@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,16 +15,22 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.garbage.AppleCore;
 import com.garbageman.game.garbage.CrowWithOddEyeInfection;
 import com.garbageman.game.garbage.McdFries;
 import com.garbageman.game.garbage.Pork;
+import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.world.GestureHandler;
 import com.garbageman.game.world.InputHandler;
+import com.sun.org.apache.xpath.internal.operations.Lt;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +42,6 @@ public class Trashcan implements Screen {
 
 
     Garbageman game;
-    BitmapFont font;
     SpriteBatch batch;
     Skin skin;
 
@@ -47,14 +53,27 @@ public class Trashcan implements Screen {
     Image img1 = new Image();
     Image img2 = new Image();
     Image img3 = new Image();
+    boolean consoleOpen = false;
+    Skin txtSkin = new Skin(Gdx.files.internal("uiskin.json"));
+    TextField text = new TextField("", txtSkin);
+
+    Label Ltext;
+    Label.LabelStyle textStyle;
+
     //table.add(img);
     Camera camera;
 
     boolean wasTouched = false;
+    int consoleIndex = 0;
 
     Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
     Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
     ArrayList<Image> imgs = new ArrayList();
+    ArrayList<String> consoleLog = new ArrayList<String>();
+
+    BitmapFont font = new BitmapFont();
+
+    boolean addNums = false;
 
     int countFrame = 0;
     int x,y = 0;
@@ -73,6 +92,7 @@ public class Trashcan implements Screen {
 
         InputProcessor inputProcessorOne = new InputHandler();
         InputProcessor inputProcessorTwo = new GestureDetector(new GestureHandler());
+        //InputProcessor inputProcessorthree = new K
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(inputProcessorOne);
         inputMultiplexer.addProcessor(inputProcessorTwo);
@@ -83,6 +103,8 @@ public class Trashcan implements Screen {
         this.stage = stage;
         this.batch = batch;
         this.font = font;
+
+        consoleLog.add("");
 
 
 
@@ -102,10 +124,91 @@ public class Trashcan implements Screen {
         return img;
     }
 
+    public void makeSoftGarbage(String name){
+        try {
+            Image img;
+            Trash trash = new Trash();
+            Skin skin1 = new Skin();
+            skin1.add("mcdFries", new Texture(trash.baseImgName + name + trash.fileType));
+            imgs.add(new Image(skin1, "mcdFries"));
+            imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size()));
+            velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
+            velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
+            imgs.get(imgs.size() - 1).toBack();
+        }
+        catch (GdxRuntimeException e){
+            System.out.println("Invalid item spawn");
+        }
+    }
+
+    public void add(String[] cmds){
+        try {
+            makeSoftGarbage(cmds[1]);
+        }
+        catch (GdxRuntimeException e){
+            System.out.println("Missing item name for spawn");
+        }
+        if(cmds.length == 4){
+            try{
+                int tx = Integer.parseInt(cmds[2]);
+                int ty = Integer.parseInt(cmds[3]);
+                imgs.get(imgs.size()-1).setX(tx);
+                imgs.get(imgs.size()-1).setY(ty);
+            }
+            catch (GdxRuntimeException e){
+
+            }
+        }
+    }
+
+    public void remove(String[] cmds){
+
+    }
+
+    public void addNumbers(){
+        addNums = true;
+    }
+
+    public void interpretConsole(TextField text){
+        String cText = consoleLog.get(consoleLog.size()-1);
+        String[] cmds = cText.split(" ");
+        if (cmds[0].equals("add")){
+            add(cmds);
+        }
+        else if (cmds[0].equals("remove")){
+            remove(cmds);
+        }
+        else if (cmds[0].equals("addNumbers")){
+            addNumbers();
+        }
+        else if (cmds[0].equals("setSize")){
+            try{
+                imgs.get(Integer.parseInt(cmds[1])-1).setSize(Integer.parseInt(cmds[2]), Integer.parseInt(cmds[3]));
+            }
+            catch (GdxRuntimeException e){
+
+            }
+        }
+        else if (cmds[0].equals("resetSize")){
+            for(Image i : imgs){
+                i.setSize(64, 64);
+            }
+        }
+        else if (cmds[0].equals("move")){
+            try{
+                imgs.get(Integer.parseInt(cmds[1])-1).setX(Integer.parseInt(cmds[2]));
+                imgs.get(Integer.parseInt(cmds[1])-1).setY(Integer.parseInt(cmds[3]));
+            }
+            catch (GdxRuntimeException e){
+
+            }
+        }
+    }
+
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-
+        text.toFront();
         imgs.add(makeGarbage(str));
         imgs.add(makeGarbage(str));
         imgs.add(makeGarbage(str));
@@ -140,23 +243,78 @@ public class Trashcan implements Screen {
 
     @Override
     public void render(float delta) {
-
+        game.batch.begin();
+        text.toFront();
         fries.setX(x);
         fries.setY(y);
         fries.setSize(32, 32);
 
+        if(addNums) {
+            for (Image i : imgs) {
+                textStyle = new Label.LabelStyle();
+                textStyle.font = font;
+                Ltext = new Label(i.getName(), textStyle);
+                Ltext.setBounds(0, .2f, stage.getWidth(), 2);
+                Ltext.setFontScale(1f, 1f);
+                Ltext.setX(i.getX());
+                Ltext.setY(i.getY());
+            }
+        }
+
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (Gdx.input.isKeyPressed(Input.Keys.Q))
+        if (Gdx.input.isKeyPressed(Input.Keys.Q ) && !consoleOpen)
             Gdx.app.exit();
-        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.E) && !consoleOpen) {
             Gdx.app.exit();
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && consoleOpen){
+            consoleIndex -= 1;
+            if (consoleIndex < 0)
+                consoleIndex = 0;
+            text.setText(consoleLog.get(consoleIndex));
+            text.setCursorPosition(text.getText().length());
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && consoleOpen){
+            consoleIndex += 1;
+            if (consoleIndex >= consoleLog.size())
+                consoleIndex = consoleLog.size()-1;
+            text.setText(consoleLog.get(consoleIndex));
+            text.setCursorPosition(text.getText().length());
+        }
+
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.GRAVE)) {
+            consoleIndex = consoleLog.size()-1;
+            if(!consoleOpen) {
+                consoleOpen = true;
+                text.setWidth(stage.getWidth());
+                stage.addActor(text);
+                text.setTextFieldListener(new TextField.TextFieldListener() {
+                    @Override
+                    public void keyTyped(TextField textField, char c) {
+                        if (c == '\n' || c == '\r') {
+                            consoleLog.add(textField.getText());
+                            textField.setText("");
+                            consoleIndex = consoleLog.size();
+                            textField.setCursorPosition(textField.getText().length());
+                            interpretConsole(textField);
+                        }
+
+                    }
+                });
+            }
+            else{
+                consoleOpen = false;
+                text.setText("");
+                text.remove();
+            }
         }
 
         //stage.addActor(fries);
 
-        game.batch.begin();
+
 
         //System.out.println("X:"+img.getX());
         //System.out.println("Y:"+img.getY());
@@ -260,6 +418,7 @@ public class Trashcan implements Screen {
         }
 
         stage.draw();
+
 
 
         game.batch.end();

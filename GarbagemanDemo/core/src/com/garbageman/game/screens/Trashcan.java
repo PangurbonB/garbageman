@@ -11,24 +11,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.garbage.AppleCore;
-import com.garbageman.game.garbage.BagOfSugar;
 import com.garbageman.game.garbage.CrowWithOddEyeInfection;
 import com.garbageman.game.garbage.McdFries;
 import com.garbageman.game.garbage.Pork;
-import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.world.GestureHandler;
 import com.garbageman.game.world.InputHandler;
 
@@ -36,10 +29,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-/**
- * Created by bzonick5979 on 9/27/2017.
- */
 
 public class Trashcan implements Screen {
 
@@ -67,9 +56,12 @@ public class Trashcan implements Screen {
     Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
     ArrayList<Image> imgs = new ArrayList();
 
+    int countFrame = 0;
     int x,y = 0;
 
     float friction = .1f;
+
+
 
 
 
@@ -86,18 +78,12 @@ public class Trashcan implements Screen {
         inputMultiplexer.addProcessor(inputProcessorTwo);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        //
 
         this.game = game;
         this.stage = stage;
         this.batch = batch;
         this.font = font;
-        for(int i=0; i<100; i++){
-            for(int k=0; k<imgs.size(); k++) {
-                oldLocMap.put("y" + imgs.get(k).getName()+ Integer.toString(i), imgs.get(k).getY());
-                oldLocMap.put("x" + imgs.get(k).getName() + Integer.toString(i), imgs.get(k).getX());
-            }
-        }
+
 
 
         //velMap.put("y"+img.getName(), 0f);
@@ -120,20 +106,6 @@ public class Trashcan implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin();
-        skin.add("mcdFries", new Texture(str));
-        img1 = new Image(skin, "mcdFries");
-
-        skin = new Skin();
-        skin.add("mcdFries", new Texture(str));
-        img2 = new Image(skin, "mcdFries");
-
-        skin = new Skin();
-        skin.add("mcdFries", new Texture(str));
-        img3 = new Image(skin, "mcdFries");
-
-
-
         imgs.add(makeGarbage(str));
         imgs.add(makeGarbage(str));
         imgs.add(makeGarbage(str));
@@ -143,6 +115,22 @@ public class Trashcan implements Screen {
         imgs.add(makeGarbage(pork.baseImgName + pork.img + pork.fileType));
         imgs.add(makeGarbage(app.baseImgName + app.img + app.fileType));
         imgs.add(makeGarbage(bag.baseImgName + bag.img + bag.fileType));
+
+        for (int i = 0; i < imgs.size(); i++) {
+            imgs.get(i).setName(Integer.toString(i));
+        }
+
+        for(int i=0; i<100; i++){
+            for(int k=0; k<imgs.size(); k++) {
+                oldLocMap.put("y" + "null" + Integer.toString(i), imgs.get(k).getY());
+                oldLocMap.put("x" + "null" + Integer.toString(i), imgs.get(k).getX());
+            }
+        }
+
+        for (int k = 0; k < imgs.size(); k++) {
+            velMap.put(imgs.get(k).getName() + "x", 0f);
+            velMap.put(imgs.get(k).getName() + "y", 0f);
+        }
 
         for(int i=0; i<imgs.size(); i++){
             imgs.get(i).setSize(64, 64);
@@ -175,19 +163,57 @@ public class Trashcan implements Screen {
         for(int i=0; i<imgs.size(); i++) {
             stage.addActor(imgs.get(i));
             final int k = i;
+            //System.out.println(velMap.get(imgs.get(i).getName() + "x"));
+
+            imgs.get(k).setX(imgs.get(k).getX()+velMap.get(imgs.get(k).getName() + "x"));
+            imgs.get(k).setY(imgs.get(k).getY()+velMap.get(imgs.get(k).getName() + "y"));
+
+
+            float tx = velMap.get(imgs.get(k).getName()+ "x");
+            float ty = velMap.get(imgs.get(k).getName()+ "y");
+            float tm = (float) Math.sqrt((tx*tx)+(ty*ty));
+
+            float fric = .9f;
+
+            if(velMap.get(imgs.get(k).getName()+ "x") >= 0)
+                velMap.put(imgs.get(k).getName() + "x", tx * fric/*((tm-.5f)/tm)*/);
+            if(velMap.get(imgs.get(k).getName()+ "x") <= 0)
+                velMap.put(imgs.get(k).getName() + "x", tx * fric/*((tm+.5f)/tm)*/);
+            if(velMap.get(imgs.get(k).getName()+ "y") >= 0)
+                velMap.put(imgs.get(k).getName() + "y", ty * fric/*((tm-.5f)/tm)*/);
+            if(velMap.get(imgs.get(k).getName()+ "y") <= 0)
+                velMap.put(imgs.get(k).getName() + "y", ty * fric/*((tm+.5f)/tm)*/);
 
             imgs.get(i).addListener(new ClickListener() {
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                     if (wasTouched) {
                         System.out.println("X:");
-                        System.out.println(oldLocMap.get("x"+imgs.get(k).getName()+"0"));
-                        System.out.println(oldLocMap.get("x"+imgs.get(k).getName()+"99"));
+                        System.out.println(oldLocMap.get("x"+"null"+"0"));
+                        System.out.println(oldLocMap.get("x"+"null"+"9"));
                         System.out.println("Y:");
-                        System.out.println(oldLocMap.get("y"+imgs.get(k).getName()+"0"));
-                        System.out.println(oldLocMap.get("y"+imgs.get(k).getName()+"99"));
+                        System.out.println(oldLocMap.get("y"+"null"+"0"));
+                        System.out.println(oldLocMap.get("y"+"null"+"9"));
 
-                        float yVel = oldLocMap.get("y"+imgs.get(k).getName()+"0") - oldLocMap.get("y"+imgs.get(k).getName()+"99");
-                        float xVel = oldLocMap.get("x"+imgs.get(k).getName()+"0") - oldLocMap.get("x"+imgs.get(k).getName()+"99");
+                        boolean gotX = false;
+                        boolean gotY = false;
+                        float xVel = 0f;
+                        float yVel = 0f;
+                        for (int i = 9; i > 0; i--) {
+
+                            if(oldLocMap.get("y" + "null" + "0") - oldLocMap.get("y" + "null" + Integer.toString(i)) != 0f){
+                                yVel = oldLocMap.get("y" + "null" + "0") - oldLocMap.get("y" + "null" + Integer.toString(i));
+                                gotY = true;
+                            }
+                            if(oldLocMap.get("x" + "null" + "0") - oldLocMap.get("x" + "null" + Integer.toString(i)) != 0f){
+                                xVel = oldLocMap.get("x" + "null" + "0") - oldLocMap.get("x" + "null" + Integer.toString(i));
+                                gotX = true;
+                            }
+
+                        }
+                        if(!gotX) xVel = 0f;
+                        if(!gotY) yVel = 0f;
+
+
 
                         System.out.println("VELOCITIES:");
                         System.out.println("xVel:"+xVel);
@@ -196,12 +222,12 @@ public class Trashcan implements Screen {
                         velMap.put(imgs.get(k).getName() + "x", xVel);
                         velMap.put(imgs.get(k).getName() + "y", yVel);
 
-                        for(int i=0; i<100; i++){
-                            oldLocMap.put("y" + imgs.get(k).getName()+ Integer.toString(i), imgs.get(k).getY());
-                            oldLocMap.put("x" + imgs.get(k).getName() + Integer.toString(i), imgs.get(k).getX());
+                        for(int i=0; i<10; i++){
+                            oldLocMap.put("y" + "null" + Integer.toString(i), imgs.get(k).getY());
+                            oldLocMap.put("x" + "null" + Integer.toString(i), imgs.get(k).getX());
                         }
-
                     }
+
                     wasTouched = false;
 
                 }
@@ -216,13 +242,17 @@ public class Trashcan implements Screen {
 
                     String sX = Float.toString(oldX);
                     String sY = Float.toString(oldY);
-                    for(int i=99; i>=0; i--){
-                        oldLocMap.put("y"+imgs.get(k).getName()+Integer.toString(i+1), oldLocMap.get("y"+imgs.get(k).getName()+Integer.toString(i)));
-                        oldLocMap.put("x"+imgs.get(k).getName()+Integer.toString(i+1), oldLocMap.get("x"+imgs.get(k).getName()+Integer.toString(i)));
+                    if(countFrame == 9) {
+                        for (int i = 9; i >= 0; i--) {
+                            oldLocMap.put("y" + "null" + Integer.toString(i + 1), oldLocMap.get("y" + "null" + Integer.toString(i)));
+                            oldLocMap.put("x" + "null" + Integer.toString(i + 1), oldLocMap.get("x" + "null" + Integer.toString(i)));
+                        }
+                        countFrame = 0;
                     }
-                    oldLocMap.put("x"+imgs.get(k).getName()+"0", imgs.get(k).getX());
-                    oldLocMap.put("y"+imgs.get(k).getName()+"0", imgs.get(k).getY());
+                    oldLocMap.put("x"+"null"+"0", imgs.get(k).getX());
+                    oldLocMap.put("y"+"null"+"0", imgs.get(k).getY());
 
+                    countFrame ++;
                     imgs.get(k).moveBy(x - imgs.get(k).getWidth() / 2, y - imgs.get(k).getHeight() / 2);
 
                 }

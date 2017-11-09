@@ -205,8 +205,16 @@ public class Trashcan implements Screen {
             }
         }
         else if (cmds[0].equals("setSizeAll")){
-            for(Image i : imgs){
-                i.setSize(Integer.parseInt(cmds[1]), Integer.parseInt(cmds[2]));
+            try {
+                for (Image i : imgs) {
+                    i.setSize(Integer.parseInt(cmds[1]), Integer.parseInt(cmds[2]));
+                }
+            }
+            catch (GdxRuntimeException e){
+
+            }
+            catch (IndexOutOfBoundsException e){
+
             }
         }
         else if (cmds[0].equals("move")){

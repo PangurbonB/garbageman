@@ -158,11 +158,10 @@ public class Trashcan implements Screen {
             catch (GdxRuntimeException e){
 
             }
+            catch (IndexOutOfBoundsException e){
+
+            }
         }
-    }
-
-    public void remove(String[] cmds){
-
     }
 
     public void addNumbers(){
@@ -176,7 +175,15 @@ public class Trashcan implements Screen {
             add(cmds);
         }
         else if (cmds[0].equals("remove")){
-            remove(cmds);
+            try{
+                imgs.get(Integer.parseInt(cmds[1])-1).remove();
+            }
+            catch (GdxRuntimeException e){
+
+            }
+            catch (IndexOutOfBoundsException e){
+
+            }
         }
         else if (cmds[0].equals("addNumbers")){
             addNumbers();
@@ -186,6 +193,9 @@ public class Trashcan implements Screen {
                 imgs.get(Integer.parseInt(cmds[1])-1).setSize(Integer.parseInt(cmds[2]), Integer.parseInt(cmds[3]));
             }
             catch (GdxRuntimeException e){
+
+            }
+            catch (IndexOutOfBoundsException e){
 
             }
         }
@@ -200,6 +210,9 @@ public class Trashcan implements Screen {
                 imgs.get(Integer.parseInt(cmds[1])-1).setY(Integer.parseInt(cmds[3]));
             }
             catch (GdxRuntimeException e){
+
+            }
+            catch (IndexOutOfBoundsException e){
 
             }
         }

@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -70,6 +71,7 @@ public class Trashcan implements Screen {
     Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
     ArrayList<Image> imgs = new ArrayList();
     ArrayList<String> consoleLog = new ArrayList<String>();
+    ArrayList<Actor> nums = new ArrayList<Actor>();
 
     BitmapFont font = new BitmapFont();
 
@@ -165,7 +167,23 @@ public class Trashcan implements Screen {
     }
 
     public void addNumbers(){
+
+        nums.clear();
         addNums = true;
+
+        if(addNums) {
+            for (Image i : imgs) {
+                textStyle = new Label.LabelStyle();
+                textStyle.font = font;
+                Ltext = new Label(i.getName(), textStyle);
+                Ltext.setBounds(0, .2f, stage.getWidth(), 2);
+                Ltext.setFontScale(1f, 1f);
+                Ltext.setX(i.getX());
+                Ltext.setY(i.getY());
+                stage.addActor(Ltext);
+                nums.add(Ltext);
+            }
+        }
     }
 
     public void interpretConsole(TextField text){
@@ -265,6 +283,8 @@ public class Trashcan implements Screen {
             imgs.get(i).setSize(64, 64);
         }
 
+
+
     }
 
     @Override
@@ -275,16 +295,9 @@ public class Trashcan implements Screen {
         fries.setY(y);
         fries.setSize(32, 32);
 
-        if(addNums) {
-            for (Image i : imgs) {
-                textStyle = new Label.LabelStyle();
-                textStyle.font = font;
-                Ltext = new Label(i.getName(), textStyle);
-                Ltext.setBounds(0, .2f, stage.getWidth(), 2);
-                Ltext.setFontScale(1f, 1f);
-                Ltext.setX(i.getX());
-                Ltext.setY(i.getY());
-            }
+        for (int i = 0; i < nums.size(); i++) {
+            nums.get(i).setX(imgs.get(i).getX()+.5f*imgs.get(i).getWidth());
+            nums.get(i).setY(imgs.get(i).getY()+.5f*imgs.get(i).getHeight());
         }
 
         Gdx.gl.glClearColor(1, 1, 1, 1);

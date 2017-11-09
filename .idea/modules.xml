@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/garbageman/android/android.iml" filepath="$PROJECT_DIR$/garbageman/android/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/garbageman/desktop/desktop.iml" filepath="$PROJECT_DIR$/garbageman/desktop/desktop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/garbageman/core/src/com/brettzonick/game/game.iml" filepath="$PROJECT_DIR$/garbageman/core/src/com/brettzonick/game/game.iml" />
+      <module fileurl="file://$PROJECT_DIR$/garbageman/html/html.iml" filepath="$PROJECT_DIR$/garbageman/html/html.iml" />
+      <module fileurl="file://$PROJECT_DIR$/garbageman/ios/ios.iml" filepath="$PROJECT_DIR$/garbageman/ios/ios.iml" />
+    </modules>
+  </component>
+</project>

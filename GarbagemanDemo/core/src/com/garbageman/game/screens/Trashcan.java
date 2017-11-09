@@ -206,7 +206,7 @@ public class Trashcan implements Screen {
         }
         else if (cmds[0].equals("setSizeAll")){
             for(Image i : imgs){
-                i.setSize(Integer.parseInt(cmds[2]), Integer.parseInt(cmds[3]));
+                i.setSize(Integer.parseInt(cmds[1]), Integer.parseInt(cmds[2]));
             }
         }
         else if (cmds[0].equals("move")){

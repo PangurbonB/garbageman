@@ -79,11 +79,23 @@ public class Trashcan implements Screen {
 
     int countFrame = 0;
     int x,y = 0;
+    float fric = .9f;
 
-    float friction = .1f;
-
-
-
+    String[] helpList = {
+        "Commands (items in parentheses are optional)",
+        "",
+        "add [itemname] ([x] [y])               -- Adds a new item of trash to the game",
+        "remove [itemnumber]                    -- Removes an item of trash from the game. Item number can be found by using addNumbers",
+        "addNumbers                             -- Displays numbers ontop of items",
+        "setSize [itemnumber] [width] [height]  -- Sets the size of a specific item to a specific height/width",
+        "resetSize                              -- Resets the size of every item on screen to 64x64",
+        "setSizeAll [width] [height]            -- Sets the size of every item on screen to a specific width and height",
+        "move [itemnumber] [x] [y]              -- Moves a specified item to specified x and y values",
+        "setVel [itemnumber] [xVel] [yVel]      -- Sets the velocity of a specific item",
+        "removeVels                             -- Sets the velocity of every item in the game to be 0",
+        "setFric [fric]                         -- Sets the global friction coefficient. 1 is no friction, 0 is 100% friction, 2 is very funny",
+        "help                                   -- Displays this command"
+    };
 
 
     Stage stage = new Stage();
@@ -247,6 +259,40 @@ public class Trashcan implements Screen {
 
             }
         }
+        else if (cmds[0].equals("setVel")) {
+            try{
+                velMap.put(imgs.get(Integer.parseInt(cmds[1])-1).getName() + "x", Float.parseFloat(cmds[2]));
+                velMap.put(imgs.get(Integer.parseInt(cmds[1])-1).getName() + "y", Float.parseFloat(cmds[3]));
+            }
+            catch (GdxRuntimeException e){
+
+            }
+            catch (IndexOutOfBoundsException e){
+
+            }
+        }
+        else if (cmds[0].equals("removeVels")) {
+            for (Image i : imgs) {
+                velMap.put(i.getName() + "x", 0f);
+                velMap.put(i.getName() + "y", 0f);
+            }
+        }
+        else if (cmds[0].equals("setFric")) {
+            try{
+                fric = Float.parseFloat(cmds[1]);
+            }
+            catch (GdxRuntimeException e){
+
+            }
+            catch (IndexOutOfBoundsException e){
+
+            }
+        }
+        else if (cmds[0].equals("help")){
+            for (int i = 0; i < helpList.length; i++) {
+                System.out.println(helpList[i]);
+            }
+        }
     }
 
     @Override
@@ -339,6 +385,7 @@ public class Trashcan implements Screen {
                             consoleIndex = consoleLog.size();
                             textField.setCursorPosition(textField.getText().length());
                             interpretConsole(textField);
+                            System.out.println(consoleLog.get(consoleLog.size()-1));
                         }
 
                     }
@@ -370,7 +417,7 @@ public class Trashcan implements Screen {
             float ty = velMap.get(imgs.get(k).getName()+ "y");
             float tm = (float) Math.sqrt((tx*tx)+(ty*ty));
 
-            float fric = .9f;
+
 
             if(velMap.get(imgs.get(k).getName()+ "x") >= 0)
                 velMap.put(imgs.get(k).getName() + "x", tx * fric/*((tm-.5f)/tm)*/);

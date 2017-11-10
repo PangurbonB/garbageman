@@ -149,6 +149,7 @@ public class Trashcan implements Screen {
             velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
             velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
             imgs.get(imgs.size() - 1).toBack();
+            imgs.get(imgs.size()-1).setSize(64,64);
         }
         catch (GdxRuntimeException e){
             System.out.println("Invalid item spawn");
@@ -174,6 +175,24 @@ public class Trashcan implements Screen {
             }
             catch (IndexOutOfBoundsException e){
 
+            }
+        }
+        if (cmds.length == 3){
+            for (int i = 0; i < Integer.parseInt(cmds[2])-1; i++) {
+                makeSoftGarbage(cmds[1]);
+            }
+        }
+        if (cmds.length == 5){
+            int tx = Integer.parseInt(cmds[2]);
+            int ty = Integer.parseInt(cmds[3]);
+            imgs.get(imgs.size()-1).setX(tx);
+            imgs.get(imgs.size()-1).setY(ty);
+            for (int i = 0; i < Integer.parseInt(cmds[4])-1; i++) {
+                makeSoftGarbage(cmds[1]);
+                tx = Integer.parseInt(cmds[2]);
+                ty = Integer.parseInt(cmds[3]);
+                imgs.get(imgs.size()-1).setX(tx);
+                imgs.get(imgs.size()-1).setY(ty);
             }
         }
     }
@@ -220,7 +239,7 @@ public class Trashcan implements Screen {
         }
         else if (cmds[0].equals("setSize")){
             try{
-                imgs.get(Integer.parseInt(cmds[1])-1).setSize(Integer.parseInt(cmds[2]), Integer.parseInt(cmds[3]));
+                imgs.get(Integer.parseInt(cmds[1])).setSize(Integer.parseInt(cmds[2]), Integer.parseInt(cmds[3]));
             }
             catch (GdxRuntimeException e){
 
@@ -315,8 +334,8 @@ public class Trashcan implements Screen {
 
         for(int i=0; i<100; i++){
             for(int k=0; k<imgs.size(); k++) {
-                oldLocMap.put("y" + "null" + Integer.toString(i), imgs.get(k).getY());
-                oldLocMap.put("x" + "null" + Integer.toString(i), imgs.get(k).getX());
+                oldLocMap.put("y" + "null" + Integer.toString(i), imgs.get(k).getY()+i);
+                oldLocMap.put("x" + "null" + Integer.toString(i), imgs.get(k).getX()+i);
             }
         }
 
@@ -479,6 +498,7 @@ public class Trashcan implements Screen {
 
                 public void touchDragged(InputEvent event, float x, float y, int pointer) {
 
+                    //System.out.println("test");
                     wasTouched = true;
 
                     final float oldX = imgs.get(k).getX();

@@ -20,12 +20,14 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -60,6 +62,8 @@ public class MainMenuScreen implements Screen {
     private final int pbWidth = 350;
     private String screenName = "MainMenuScreen";
     private BitmapFont FONT;
+    private Label lab;
+    private TextButton toTest;
 
     private boolean checkCurrentScreen(){
         return game.currentScreen.equals(screenName);
@@ -78,12 +82,18 @@ public class MainMenuScreen implements Screen {
         playButtonInactive = new Texture("assets/playButtonActive.png");
     }
 
+    public void setLabColor(){
+        System.out.println("hello");
+    };
+
     @Override
     public void show() {
         game.currentScreen = screenName;
         Gdx.input.setInputProcessor(stage);
 
-        FileHandleResolver resolver = new InternalFileHandleResolver();
+
+
+        /*FileHandleResolver resolver = new InternalFileHandleResolver();
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
         manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
         FreetypeFontLoader.FreeTypeFontLoaderParameter size1Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
@@ -135,6 +145,44 @@ public class MainMenuScreen implements Screen {
        // bbstyle = skin.get("playButton", TextButton.TextButtonStyle.class);
         TextButton testButton = new TextButton("Helo ther", bbstyle); // */
 
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/PressStart2P.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 35;
+        BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
+        generator.dispose(); // don't forget to dispose to avoid memory leaks!
+
+        /*BitmapFont font = new BitmapFont();
+        Label.LabelStyle sty = new Label.LabelStyle();
+        sty.font = font12;
+        Label lab = new Label("Hello Dana!", sty);
+        lab.setBounds(25, 25, 25, 25);
+        //lab.setFontScale(4);
+        lab.setColor(Color.BLACK);
+        lab.setPosition(50, 650);
+        stage.addActor(lab);*/
+
+        TextButton.TextButtonStyle bs = new TextButton.TextButtonStyle();
+        bs.font = font12;
+        bs.fontColor = Color.BLACK;
+        toTest = new TextButton("TEST UI", bs);
+        float num = 150;
+        toTest.setBounds(num, num, num, num);
+        toTest.setColor(Color.BLACK);
+        toTest.setSize(250, 75);
+        toTest.setPosition(0, 500);
+        toTest.setVisible(true);
+        toTest.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                toTest.getLabel().setText("ME LLAMO:TYRONE");
+                //game.setScreen(new GameScreen(game));
+                return true;
+            }
+        });
+        stage.addActor(toTest);
+
+
+
+
         Skin playButtonSkin = new Skin();
         playButtonSkin.add("play", new Texture("assets/playButton.png"));
         playButtonSkin.add("exit", new Texture("assets/exitButton.png"));
@@ -150,7 +198,6 @@ public class MainMenuScreen implements Screen {
         playButton.setSize(pbWidth, pbHeight);
         playButton.setPosition((game.window_width-pbWidth)/2, (game.window_height-pbHeight)/2);
         playButton.addListener(new InputListener(){
-            @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //System.out.println(game.getScreen() + "   " + this.getClass());
                 if (checkCurrentScreen()){
@@ -158,7 +205,6 @@ public class MainMenuScreen implements Screen {
                 }
                 return true;
             }
-            @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("UP");
             }
@@ -196,6 +242,7 @@ public class MainMenuScreen implements Screen {
         //stage.addActor(TEST);
         stage.addActor(playButton);
         stage.addActor(exitButton);
+        //stage.addActor(lab);
         game.batch.begin();
 
         if (manager.update() && manager.isLoaded("size10.ttf")) {

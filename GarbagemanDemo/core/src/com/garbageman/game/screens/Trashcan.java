@@ -77,6 +77,8 @@ public class Trashcan implements Screen {
 
     boolean addNums = false;
 
+    Texture background = new Texture("assets/Screens/dumpster1.png");
+
     int countFrame = 0;
     int x,y = 0;
     float fric = .9f;
@@ -104,6 +106,8 @@ public class Trashcan implements Screen {
 
     public Trashcan (Garbageman game){
 
+
+
         InputProcessor inputProcessorOne = new InputHandler();
         InputProcessor inputProcessorTwo = new GestureDetector(new GestureHandler());
         //InputProcessor inputProcessorthree = new K
@@ -117,6 +121,15 @@ public class Trashcan implements Screen {
         this.stage = stage;
         this.batch = batch;
         this.font = font;
+        this.background = background;
+
+        Image bg = makeGarbage("assets/Screens/dumpster1.png");
+        stage.addActor(bg);
+        bg.toBack();
+        bg.setWidth(stage.getWidth());
+        bg.setHeight(stage.getHeight());
+
+
 
         consoleLog.add("");
 
@@ -130,6 +143,7 @@ public class Trashcan implements Screen {
     }
 
 
+
     public Image makeGarbage(String name){
         Image img;
         Skin skin1 = new Skin();
@@ -140,16 +154,16 @@ public class Trashcan implements Screen {
 
     public void makeSoftGarbage(String name){
         try {
-            Image img;
             Trash trash = new Trash();
             Skin skin1 = new Skin();
             skin1.add("mcdFries", new Texture(trash.baseImgName + name + trash.fileType));
             imgs.add(new Image(skin1, "mcdFries"));
-            imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size()));
+            imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size()-1));
             velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
             velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
             imgs.get(imgs.size() - 1).toBack();
             imgs.get(imgs.size()-1).setSize(64,64);
+            addNumber(imgs.get(imgs.size()-1));
         }
         catch (GdxRuntimeException e){
             System.out.println("Invalid item spawn");
@@ -197,23 +211,22 @@ public class Trashcan implements Screen {
         }
     }
 
-    public void addNumbers(){
+    public void addNumber(Image img){
+        textStyle = new Label.LabelStyle();
+        textStyle.font = font;
+        Ltext = new Label(img.getName(), textStyle);
+        Ltext.setBounds(0, .2f, stage.getWidth(), 2);
+        Ltext.setFontScale(1f, 1f);
+        Ltext.setX(img.getX());
+        Ltext.setY(img.getY());
+        stage.addActor(Ltext);
+        nums.add(Ltext);
 
-        nums.clear();
-        addNums = true;
+    }
 
-        if(addNums) {
-            for (Image i : imgs) {
-                textStyle = new Label.LabelStyle();
-                textStyle.font = font;
-                Ltext = new Label(i.getName(), textStyle);
-                Ltext.setBounds(0, .2f, stage.getWidth(), 2);
-                Ltext.setFontScale(1f, 1f);
-                Ltext.setX(i.getX());
-                Ltext.setY(i.getY());
-                stage.addActor(Ltext);
-                nums.add(Ltext);
-            }
+    public void makeNumsVisible(boolean vis){
+        for(Actor i : nums){
+            i.setVisible(vis);
         }
     }
 
@@ -226,6 +239,8 @@ public class Trashcan implements Screen {
         else if (cmds[0].equals("remove")){
             try{
                 imgs.get(Integer.parseInt(cmds[1])-1).remove();
+                nums.get(Integer.parseInt(cmds[1])-1).remove();
+
             }
             catch (GdxRuntimeException e){
 
@@ -233,9 +248,22 @@ public class Trashcan implements Screen {
             catch (IndexOutOfBoundsException e){
 
             }
+            catch (NumberFormatException e){
+                if (cmds[1].equals("all")) {
+                    imgs.clear();
+                    nums.clear();
+                }
+            }
         }
         else if (cmds[0].equals("addNumbers")){
-            addNumbers();
+            for (int i = 0; i < imgs.size(); i++) {
+                makeNumsVisible(true);
+            }
+        }
+        else if (cmds[0].equals("removeNumbers")){
+            for (int i = 0; i < imgs.size(); i++) {
+                makeNumsVisible(false);
+            }
         }
         else if (cmds[0].equals("setSize")){
             try{
@@ -245,6 +273,9 @@ public class Trashcan implements Screen {
 
             }
             catch (IndexOutOfBoundsException e){
+
+            }
+            catch (NumberFormatException e){
 
             }
         }
@@ -265,6 +296,9 @@ public class Trashcan implements Screen {
             catch (IndexOutOfBoundsException e){
 
             }
+            catch (NumberFormatException e){
+
+            }
         }
         else if (cmds[0].equals("move")){
             try{
@@ -277,6 +311,9 @@ public class Trashcan implements Screen {
             catch (IndexOutOfBoundsException e){
 
             }
+            catch (NumberFormatException e){
+
+            }
         }
         else if (cmds[0].equals("setVel")) {
             try{
@@ -287,6 +324,9 @@ public class Trashcan implements Screen {
 
             }
             catch (IndexOutOfBoundsException e){
+
+            }
+            catch (NumberFormatException e){
 
             }
         }
@@ -306,6 +346,9 @@ public class Trashcan implements Screen {
             catch (IndexOutOfBoundsException e){
 
             }
+            catch (NumberFormatException e){
+
+            }
         }
         else if (cmds[0].equals("help")){
             for (int i = 0; i < helpList.length; i++) {
@@ -318,15 +361,7 @@ public class Trashcan implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         text.toFront();
-        imgs.add(makeGarbage(str));
-        imgs.add(makeGarbage(str));
-        imgs.add(makeGarbage(str));
-        Pork pork = new Pork();
-        AppleCore app = new AppleCore();
-        CrowWithOddEyeInfection bag = new CrowWithOddEyeInfection();
-        imgs.add(makeGarbage(pork.baseImgName + pork.img + pork.fileType));
-        imgs.add(makeGarbage(app.baseImgName + app.img + app.fileType));
-        imgs.add(makeGarbage(bag.baseImgName + bag.img + bag.fileType));
+        makeSoftGarbage("Crowwithoddeyeinfection");
 
         for (int i = 0; i < imgs.size(); i++) {
             imgs.get(i).setName(Integer.toString(i));
@@ -515,6 +550,8 @@ public class Trashcan implements Screen {
                     }
                     oldLocMap.put("x"+"null"+"0", imgs.get(k).getX());
                     oldLocMap.put("y"+"null"+"0", imgs.get(k).getY());
+
+                    //System.out.println();
 
                     countFrame ++;
                     imgs.get(k).moveBy(x - imgs.get(k).getWidth() / 2, y - imgs.get(k).getHeight() / 2);

@@ -8,10 +8,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -33,9 +36,12 @@ import com.garbageman.game.world.GestureHandler;
 import com.garbageman.game.world.InputHandler;
 import com.sun.org.apache.xpath.internal.operations.Lt;
 
+import java.util.Random;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class Trashcan implements Screen {
@@ -44,16 +50,12 @@ public class Trashcan implements Screen {
 
     Garbageman game;
     SpriteBatch batch;
-    Skin skin;
-
-    int incVal = 0;
 
     final McdFries fries = new McdFries();
-    Table table;
-    String str = fries.baseImgName + fries.img + fries.fileType;
-    Image img1 = new Image();
-    Image img2 = new Image();
-    Image img3 = new Image();
+
+    String currBg = "background1";
+
+
     boolean consoleOpen = false;
     Skin txtSkin = new Skin(Gdx.files.internal("uiskin.json"));
     TextField text = new TextField("", txtSkin);
@@ -61,21 +63,18 @@ public class Trashcan implements Screen {
     Label Ltext;
     Label.LabelStyle textStyle;
 
-    //table.add(img);
-    Camera camera;
-
     boolean wasTouched = false;
     int consoleIndex = 0;
 
     Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
     Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
+    Map<String, Float[]> bglocs = Collections.synchronizedMap(new HashMap());
     ArrayList<Image> imgs = new ArrayList();
     ArrayList<String> consoleLog = new ArrayList<String>();
     ArrayList<Actor> nums = new ArrayList<Actor>();
 
-    BitmapFont font = new BitmapFont();
 
-    boolean addNums = false;
+    BitmapFont font = new BitmapFont();
 
     Texture background = new Texture("assets/Screens/dumpster1.png");
 
@@ -90,7 +89,7 @@ public class Trashcan implements Screen {
         "remove [itemnumber]                    -- Removes an item of trash from the game. Item number can be found by using addNumbers",
         "addNumbers                             -- Displays numbers ontop of items",
         "setSize [itemnumber] [width] [height]  -- Sets the size of a specific item to a specific height/width",
-        "resetSize                              -- Resets the size of every item on screen to 64x64",
+        "resetSize                              -- Resets the size of every item on screen to 160x160",
         "setSizeAll [width] [height]            -- Sets the size of every item on screen to a specific width and height",
         "move [itemnumber] [x] [y]              -- Moves a specified item to specified x and y values",
         "setVel [itemnumber] [xVel] [yVel]      -- Sets the velocity of a specific item",
@@ -105,7 +104,8 @@ public class Trashcan implements Screen {
     //private Viewport viewport;
 
     public Trashcan (Garbageman game){
-
+        Float[] xys = {227f,131f,1069f,601f};
+        bglocs.put("dumpster1", xys);
 
 
         InputProcessor inputProcessorOne = new InputHandler();
@@ -122,6 +122,7 @@ public class Trashcan implements Screen {
         this.batch = batch;
         this.font = font;
         this.background = background;
+
 
         Image bg = makeGarbage("assets/Screens/dumpster1.png");
         stage.addActor(bg);
@@ -143,6 +144,20 @@ public class Trashcan implements Screen {
     }
 
 
+    public Float[] generateLocation(HashMap bglocs){
+        Float[] currlocs = (Float[]) bglocs.get(currBg);
+        float stx = currlocs[0];
+        float sty = currlocs[1];
+        float fx = currlocs[2];
+        float fy = currlocs[3];
+
+        Random rand = null;
+        int nx = rand.nextInt(((int)fx - (int)stx) + 1) + (int)stx;
+        int ny = rand.nextInt(((int)fy - (int)sty) + 1) + (int)sty;
+
+        Float[] ncoords = {(float)nx, (float)ny};
+        return ncoords;
+    }
 
     public Image makeGarbage(String name){
         Image img;
@@ -162,7 +177,7 @@ public class Trashcan implements Screen {
             velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
             velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
             imgs.get(imgs.size() - 1).toBack();
-            imgs.get(imgs.size()-1).setSize(64,64);
+            imgs.get(imgs.size()-1).setSize(160,160);
             addNumber(imgs.get(imgs.size()-1));
         }
         catch (GdxRuntimeException e){
@@ -265,6 +280,9 @@ public class Trashcan implements Screen {
                 makeNumsVisible(false);
             }
         }
+        else if (cmds[0].equals("cursorLoc")){
+            System.out.println(Gdx.input.getX()+","+Gdx.input.getY());
+        }
         else if (cmds[0].equals("setSize")){
             try{
                 imgs.get(Integer.parseInt(cmds[1])).setSize(Integer.parseInt(cmds[2]), Integer.parseInt(cmds[3]));
@@ -281,7 +299,7 @@ public class Trashcan implements Screen {
         }
         else if (cmds[0].equals("resetSize")){
             for(Image i : imgs){
-                i.setSize(64, 64);
+                i.setSize(160, 160);
             }
         }
         else if (cmds[0].equals("setSizeAll")){
@@ -380,7 +398,7 @@ public class Trashcan implements Screen {
         }
 
         for(int i=0; i<imgs.size(); i++){
-            imgs.get(i).setSize(64, 64);
+            imgs.get(i).setSize(160, 160);
         }
 
 

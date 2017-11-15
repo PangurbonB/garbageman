@@ -173,8 +173,8 @@ public class MainMenuScreen implements Screen {
         toTest.setVisible(true);
         toTest.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                toTest.getLabel().setText("ME LLAMO:TYRONE");
-                //game.setScreen(new GameScreen(game));
+                //toTest.getLabel().setText("ME LLAMO:TYRONE");
+                game.setScreen(new GameScreen(game));
                 return true;
             }
         });
@@ -223,7 +223,6 @@ public class MainMenuScreen implements Screen {
            }
         });
         exitButton.setVisible(true);
-
 
 
         System.out.println("called");

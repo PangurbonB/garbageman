@@ -6,14 +6,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.garbageman.game.Garbageman;
 
 /**
@@ -27,7 +31,7 @@ public class GameScreen implements Screen{
     public static final int SPEED = 1000;
     Garbageman game;
     private final boolean resetOnOpen = false;
-    private ImageButton menuButton;
+    private TextButton menuButton;
     private final float mbHeight = 76;
     private final float mbWidth = 150;
     private Stage stage = new Stage();
@@ -41,6 +45,22 @@ public class GameScreen implements Screen{
     public boolean checkCurrentScreen(){
         return game.currentScreen.equals(screenName);
     }
+
+    public TextButton newButton(String txt, int fontSize, float posX, float posY, float sizeX, float sizeY){
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/PressStart2P.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = fontSize;
+        BitmapFont press2P = generator.generateFont(parameter);
+        generator.dispose();
+        TextButton.TextButtonStyle tStyle = new TextButton.TextButtonStyle();
+        tStyle.font = press2P;
+        TextButton bu = new TextButton(txt, tStyle);
+        bu.getLabel().setColor(Color.BLACK);
+        bu.setSize(sizeX, sizeY);
+        bu.setPosition(posX, posY);
+        stage.addActor(bu);
+        return bu;//just in case it's needed
+    };
 
     @Override
     public void show() {
@@ -56,7 +76,7 @@ public class GameScreen implements Screen{
             }
         }
 
-        Skin buttonSkins = new Skin();
+        /*Skin buttonSkins = new Skin();
         buttonSkins.add("menuButton", new Texture("assets/menuButton1.png"));
         ImageButton.ImageButtonStyle menuButtonStyle = new ImageButton.ImageButtonStyle();
         menuButtonStyle.imageUp = buttonSkins.getDrawable("menuButton");
@@ -72,8 +92,16 @@ public class GameScreen implements Screen{
                }
               return true;
            }
-        });
+        });*/
 
+        menuButton = newButton("Menu", 30, 0, game.window_height - mbHeight+2, 150, 50);
+        menuButton.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (checkCurrentScreen())
+                    game.setScreen(new MainMenuScreen(game));
+                return true;
+            }
+        });
 
 
     }
@@ -89,9 +117,13 @@ public class GameScreen implements Screen{
         shape.rect(posX, posY, width, height, bb, bb, bb, bb);
         shape.end();
     }
-    public void makeText(String txt){
-
+    public void updateRep(int len, double rep){
+        //rep = 50;//for now, out of 100
+        int num = (int)(len*rep);
+        makeRect(((game.window_width-len)/2), game.window_height-75, num, 50, Color.BLUE);
     }
+
+    int rep = 50;
     @Override
     public void render(float delta) {
         //System.out.println("" + Gdx.graphics.getDeltaTime());
@@ -116,6 +148,19 @@ public class GameScreen implements Screen{
             game.setScreen(new MainMenuScreen(game));
         }
 
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
+            if (rep >= 1){
+                rep--;
+                System.out.println(rep);
+            }
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
+            if (rep < 100){
+                rep++;
+                System.out.println(rep);
+            }
+        }
+
         if (this.x > game.window_width){
             this.x = 0-img.getWidth();
         }
@@ -135,6 +180,9 @@ public class GameScreen implements Screen{
         stage.addActor(menuButton);
 
         makeRect(0, game.window_height-100, game.window_width, 100, Color.valueOf("#939598"));
+        int len = 500;
+        makeRect((game.window_width-len)/2, game.window_height-75, len, 50, Color.LIGHT_GRAY);
+        updateRep(len, (double)rep/100);
 
         stage.draw();
         game.batch.begin();

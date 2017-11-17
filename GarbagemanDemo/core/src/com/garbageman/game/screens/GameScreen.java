@@ -16,9 +16,13 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.Garbageman;
+
+import sun.font.TextLabel;
 
 /**
  * Created by dpearson6225 on 9/25/2017.
@@ -37,6 +41,8 @@ public class GameScreen implements Screen{
     private Stage stage = new Stage();
     private String screenName = "GameScreen";
     private ShapeRenderer shape = new ShapeRenderer();
+    private Label repText;
+    private Label moneyText;
 
     public GameScreen(Garbageman game){
         this.game = game;
@@ -46,12 +52,17 @@ public class GameScreen implements Screen{
         return game.currentScreen.equals(screenName);
     }
 
-    public TextButton newButton(String txt, int fontSize, float posX, float posY, float sizeX, float sizeY){
+    public BitmapFont makeFont(int size){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/PressStart2P.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = fontSize;
+        parameter.size = size;
         BitmapFont press2P = generator.generateFont(parameter);
         generator.dispose();
+        return press2P;
+    }
+
+    public TextButton newButton(String txt, String type, int fontSize, float posX, float posY, float sizeX, float sizeY){
+        BitmapFont press2P = makeFont(fontSize);
         TextButton.TextButtonStyle tStyle = new TextButton.TextButtonStyle();
         tStyle.font = press2P;
         TextButton bu = new TextButton(txt, tStyle);
@@ -94,7 +105,7 @@ public class GameScreen implements Screen{
            }
         });*/
 
-        menuButton = newButton("Menu", 30, 0, game.window_height - mbHeight+2, 150, 50);
+        menuButton = newButton("Menu", "button", 30, 0, game.window_height - mbHeight+2, 150, 50);
         menuButton.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (checkCurrentScreen())
@@ -103,7 +114,17 @@ public class GameScreen implements Screen{
             }
         });
 
+        Label.LabelStyle repStyle = new Label.LabelStyle();
+        repStyle.font = makeFont(25);
+        repText = new Label("Reputation", repStyle);
+        repText.setBounds(250, game.window_height-75, 250, 75);
+        repText.setColor(Color.BLACK);
+        stage.addActor(repText);
 
+        moneyText = new Label("MUNY", repStyle);
+        moneyText.setBounds(200, game.window_height-75, 150, 50);
+        moneyText.setColor(Color.BLACK);
+        stage.addActor(moneyText);
     }
 
 
@@ -120,10 +141,27 @@ public class GameScreen implements Screen{
     public void updateRep(int len, double rep){
         //rep = 50;//for now, out of 100
         int num = (int)(len*rep);
-        makeRect(((game.window_width-len)/2), game.window_height-75, num, 50, Color.BLUE);
+        Color color = Color.valueOf("#00ff11");
+        double repcal = rep*100;
+        if (repcal >= 75){
+            color = Color.valueOf("#00ff11");
+        }
+        else if (repcal < 75 && repcal >= 50){
+           color = Color.valueOf("#d7f442");
+        }
+        else if (repcal < 50 && repcal >= 25){
+            color = Color.valueOf("#f4b841");
+        }
+        else if (repcal < 25){
+            color = Color.valueOf("#f45541");
+        }
+        makeRect(((game.window_width-len)/2), game.window_height-75, num, 50, color);
     }
 
+    //this data will eventually be global and saved, for now it's here as a demo
     int rep = 50;
+    int money = 50;
+
     @Override
     public void render(float delta) {
         //System.out.println("" + Gdx.graphics.getDeltaTime());
@@ -151,12 +189,14 @@ public class GameScreen implements Screen{
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
             if (rep >= 1){
                 rep--;
+                money--;
                 System.out.println(rep);
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
             if (rep < 100){
                 rep++;
+                money++;
                 System.out.println(rep);
             }
         }
@@ -183,6 +223,16 @@ public class GameScreen implements Screen{
         int len = 500;
         makeRect((game.window_width-len)/2, game.window_height-75, len, 50, Color.LIGHT_GRAY);
         updateRep(len, (double)rep/100);
+        if (repText != null){
+            repText.setText("Reputation: " + rep + "/100");
+            repText.setBounds((game.window_width-len)/2, game.window_height-75, len, 50);
+            repText.setAlignment(Align.center);
+        }
+        if (moneyText != null){
+            moneyText.setText("$"+money);
+            moneyText.setAlignment(Align.center);
+            moneyText.setColor(Color.BLACK);
+        }
 
         stage.draw();
         game.batch.begin();

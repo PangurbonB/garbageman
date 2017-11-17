@@ -25,7 +25,17 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.garbage.AppleCore;
 import com.garbageman.game.garbage.BagOfSugar;
+import com.garbageman.game.garbage.BananaPeel;
+import com.garbageman.game.garbage.Bean;
+import com.garbageman.game.garbage.Bread;
 import com.garbageman.game.garbage.CrowWithOddEyeInfection;
+import com.garbageman.game.garbage.DirtyKitchenSponge;
+import com.garbageman.game.garbage.Feces;
+import com.garbageman.game.garbage.HandfulOfAnts;
+import com.garbageman.game.garbage.HomelessBeardShavings;
+import com.garbageman.game.garbage.Ketchup;
+import com.garbageman.game.garbage.Leaf;
+import com.garbageman.game.garbage.Lettuce;
 import com.garbageman.game.garbage.McdFries;
 import com.garbageman.game.garbage.Pork;
 import com.garbageman.game.garbage.Trash;
@@ -66,7 +76,6 @@ public class Trashcan implements Screen {
     Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
     Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
     ArrayList<Image> imgs = new ArrayList();
-
     int x,y = 0;
 
     float friction = .1f;
@@ -86,7 +95,7 @@ public class Trashcan implements Screen {
         inputMultiplexer.addProcessor(inputProcessorTwo);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        //
+
 
         this.game = game;
         this.stage = stage;
@@ -120,6 +129,7 @@ public class Trashcan implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
+        /*
         skin = new Skin();
         skin.add("mcdFries", new Texture(str));
         img1 = new Image(skin, "mcdFries");
@@ -143,6 +153,7 @@ public class Trashcan implements Screen {
         imgs.add(makeGarbage(pork.baseImgName + pork.img + pork.fileType));
         imgs.add(makeGarbage(app.baseImgName + app.img + app.fileType));
         imgs.add(makeGarbage(bag.baseImgName + bag.img + bag.fileType));
+        */
 
         for(int i=0; i<imgs.size(); i++){
             imgs.get(i).setSize(64, 64);

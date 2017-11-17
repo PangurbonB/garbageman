@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.garbageman.game.GarbageSpriteSheet;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.garbage.AppleCore;
 import com.garbageman.game.garbage.CrowWithOddEyeInfection;
@@ -106,6 +107,9 @@ public class Trashcan implements Screen {
     public Trashcan (Garbageman game){
         Float[] xys = {227f,131f,1069f,601f};
         bglocs.put("dumpster1", xys);
+
+        Image img = GarbageSpriteSheet.randomPiece();
+        stage.addActor(img);
 
 
         InputProcessor inputProcessorOne = new InputHandler();

@@ -23,6 +23,9 @@ public class Garbageman extends Game {
 	public static final String title = "Garbageman";
 	public String currentScreen = "MainMenuScreen";
 	public AssetManager manager = new AssetManager();
+	public int money = 50;
+	public int reputation = 50;
+	public final int repMax = 100;
 
 	public void print(final String msg){
 		System.out.println(msg);
@@ -33,8 +36,6 @@ public class Garbageman extends Game {
         //this.create();
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
-
-
 
 		//Gdx.input.setInputProcessor(new GetInput());
 	}

@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.Garbageman;
+import com.garbageman.game.UI;
 
 import sun.font.TextLabel;
 
@@ -43,6 +44,7 @@ public class GameScreen implements Screen{
     private ShapeRenderer shape = new ShapeRenderer();
     private Label repText;
     private Label moneyText;
+    UI ui;
 
     public GameScreen(Garbageman game){
         this.game = game;
@@ -78,6 +80,8 @@ public class GameScreen implements Screen{
         game.currentScreen = screenName;
         Gdx.input.setInputProcessor(stage);
 
+        ui = new UI(stage, game, this.screenName);
+        ui.makeUI();
         System.out.println("");
         if (img == null) {
             img = new Texture("assets/tyrone.jpg");
@@ -113,18 +117,6 @@ public class GameScreen implements Screen{
                 return true;
             }
         });
-
-        Label.LabelStyle repStyle = new Label.LabelStyle();
-        repStyle.font = makeFont(25);
-        repText = new Label("Reputation", repStyle);
-        repText.setBounds(250, game.window_height-75, 250, 75);
-        repText.setColor(Color.BLACK);
-        stage.addActor(repText);
-
-        moneyText = new Label("MUNY", repStyle);
-        moneyText.setBounds(200, game.window_height-75, 150, 50);
-        moneyText.setColor(Color.BLACK);
-        stage.addActor(moneyText);
     }
 
 
@@ -138,29 +130,8 @@ public class GameScreen implements Screen{
         shape.rect(posX, posY, width, height, bb, bb, bb, bb);
         shape.end();
     }
-    public void updateRep(int len, double rep){
-        //rep = 50;//for now, out of 100
-        int num = (int)(len*rep);
-        Color color = Color.valueOf("#00ff11");
-        double repcal = rep*100;
-        if (repcal >= 75){
-            color = Color.valueOf("#00ff11");
-        }
-        else if (repcal < 75 && repcal >= 50){
-           color = Color.valueOf("#d7f442");
-        }
-        else if (repcal < 50 && repcal >= 25){
-            color = Color.valueOf("#f4b841");
-        }
-        else if (repcal < 25){
-            color = Color.valueOf("#f45541");
-        }
-        makeRect(((game.window_width-len)/2), game.window_height-75, num, 50, color);
-    }
 
     //this data will eventually be global and saved, for now it's here as a demo
-    int rep = 50;
-    int money = 50;
 
     @Override
     public void render(float delta) {
@@ -187,17 +158,17 @@ public class GameScreen implements Screen{
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
-            if (rep >= 1){
-                rep--;
-                money--;
-                System.out.println(rep);
+            if (game.reputation >= 1){
+                game.reputation--;
+                game.money--;
+                System.out.println(game.reputation);
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
-            if (rep < 100){
-                rep++;
-                money++;
-                System.out.println(rep);
+            if (game.reputation < 100){
+                game.reputation++;
+                game.money++;
+                System.out.println(game.reputation);
             }
         }
 
@@ -218,21 +189,7 @@ public class GameScreen implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.addActor(menuButton);
-
-        makeRect(0, game.window_height-100, game.window_width, 100, Color.valueOf("#939598"));
-        int len = 500;
-        makeRect((game.window_width-len)/2, game.window_height-75, len, 50, Color.LIGHT_GRAY);
-        updateRep(len, (double)rep/100);
-        if (repText != null){
-            repText.setText("Reputation: " + rep + "/100");
-            repText.setBounds((game.window_width-len)/2, game.window_height-75, len, 50);
-            repText.setAlignment(Align.center);
-        }
-        if (moneyText != null){
-            moneyText.setText("$"+money);
-            moneyText.setAlignment(Align.center);
-            moneyText.setColor(Color.BLACK);
-        }
+        ui.update();
 
         stage.draw();
         game.batch.begin();

@@ -5,45 +5,32 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.garbageman.game.GarbageSpriteSheet;
 import com.garbageman.game.Garbageman;
-import com.garbageman.game.garbage.AppleCore;
-import com.garbageman.game.garbage.CrowWithOddEyeInfection;
 import com.garbageman.game.garbage.McdFries;
-import com.garbageman.game.garbage.Pork;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.world.GestureHandler;
 import com.garbageman.game.world.InputHandler;
-import com.sun.org.apache.xpath.internal.operations.Lt;
 
 import java.util.Random;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class Trashcan implements Screen {
@@ -55,7 +42,7 @@ public class Trashcan implements Screen {
 
     final McdFries fries = new McdFries();
 
-    String currBg = "background1";
+    String currBg = "dumpster1";
 
 
     boolean consoleOpen = false;
@@ -70,7 +57,7 @@ public class Trashcan implements Screen {
 
     Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
     Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
-    Map<String, Float[]> bglocs = Collections.synchronizedMap(new HashMap());
+    Map<String, int[]> bglocs = Collections.synchronizedMap(new HashMap());
     ArrayList<Image> imgs = new ArrayList();
     ArrayList<String> consoleLog = new ArrayList<String>();
     ArrayList<Actor> nums = new ArrayList<Actor>();
@@ -106,14 +93,21 @@ public class Trashcan implements Screen {
     //private Viewport viewport;
 
     public Trashcan (Garbageman game){
-        Float[] xys = {227f,131f,1069f,601f};
+        int[] xys = {200,270,930,610};
         bglocs.put("dumpster1", xys);
 
-        for (int i = 0; i < 20; i++) {
-            makeSoftGarbage(GarbageSpriteSheet.randomPiece());
+        int[] currLocs = bglocs.get(currBg);
+        Random rand = new Random();
+        System.out.println(currLocs[3]);
+        for (int i = 0; i < 30; i++) {
+            System.out.println(stage.getHeight());
+            int currX = (rand.nextInt(currLocs[2] - currLocs[0])+currLocs[0]);
+            int currY = (int)stage.getHeight()- (rand.nextInt(currLocs[3] - currLocs[1])+currLocs[1]);
+            System.out.println("currX: "+currX);
+            System.out.println("currY: "+currY+"\n");
+            int size = 256;
+            makeSoftGarbage(GarbageSpriteSheet.randomPiece(), currX, currY, size);
         }
-
-
 
         InputProcessor inputProcessorOne = new InputHandler();
         InputProcessor inputProcessorTwo = new GestureDetector(new GestureHandler());
@@ -199,6 +193,40 @@ public class Trashcan implements Screen {
             velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
             imgs.get(imgs.size() - 1).toBack();
             imgs.get(imgs.size()-1).setSize(160,160);
+            addNumber(imgs.get(imgs.size()-1));
+        }
+        catch (GdxRuntimeException e){
+            System.out.println("Invalid item spawn");
+        }
+    }
+
+    public void makeSoftGarbage(Image img, int x, int y){
+        try {
+            imgs.add(img);
+            imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size()-1));
+            velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
+            velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
+            imgs.get(imgs.size() - 1).toBack();
+            imgs.get(imgs.size()-1).setSize(160,160);
+            imgs.get(imgs.size()-1).setX(x);
+            imgs.get(imgs.size()-1).setY(y);
+            addNumber(imgs.get(imgs.size()-1));
+        }
+        catch (GdxRuntimeException e){
+            System.out.println("Invalid item spawn");
+        }
+    }
+
+    public void makeSoftGarbage(Image img, int x, int y, int size){
+        try {
+            imgs.add(img);
+            imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size()-1));
+            velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
+            velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
+            imgs.get(imgs.size() - 1).toBack();
+            imgs.get(imgs.size()-1).setSize(size,size);
+            imgs.get(imgs.size()-1).setX(x);
+            imgs.get(imgs.size()-1).setY(y);
             addNumber(imgs.get(imgs.size()-1));
         }
         catch (GdxRuntimeException e){

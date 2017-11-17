@@ -35,10 +35,6 @@ public class GarbageSpriteSheet {
         }
 
         Skin skin = new Skin();
-        System.out.println("WIDTH: "+WIDTH);
-        System.out.println("x: "+ x);
-        System.out.println("y: "+ y);
-        System.out.println( x*32+" "+y*32+" "+(32)+" "+(32));
         TextureRegion temp = new TextureRegion();
         temp.setTexture(new Texture("assets/Garbage/genericGarbage.png"));
         temp.setRegion(x*32, y*32, (32), (32));

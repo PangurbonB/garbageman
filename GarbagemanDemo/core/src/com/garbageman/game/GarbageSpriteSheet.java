@@ -22,12 +22,12 @@ public class GarbageSpriteSheet {
 
     public static Image randomPiece(){
         Random rand = new Random();
-        int x = rand.nextInt(TRASH_TOTAL%4);
-        int y = rand.nextInt(4);
+        int x = rand.nextInt(TRASH_TOTAL%WIDTH);
+        int y = rand.nextInt(TRASH_TOTAL/WIDTH);
         while (true) {
             if (xy(x, y) > TRASH_TOTAL-1) {
-                x = rand.nextInt(TRASH_TOTAL%4);
-                y = rand.nextInt(4);
+                x = rand.nextInt(TRASH_TOTAL%WIDTH);
+                y = rand.nextInt(TRASH_TOTAL/WIDTH);
             }
             else{
                 break;
@@ -35,10 +35,14 @@ public class GarbageSpriteSheet {
         }
 
         Skin skin = new Skin();
-        TextureRegion temp = new TextureRegion(new Texture("assets/Garbage/genericGarbage.png"), x*WIDTH, y*WIDTH, x*WIDTH+32, x*WIDTH+32);
-        Texture tex = temp.getTexture();
-        skin.add("temp", tex);
-        Image img = new Image(skin, "temp");
+        System.out.println("WIDTH: "+WIDTH);
+        System.out.println("x: "+ x);
+        System.out.println("y: "+ y);
+        System.out.println( x*32+" "+y*32+" "+(32)+" "+(32));
+        TextureRegion temp = new TextureRegion();
+        temp.setTexture(new Texture("assets/Garbage/genericGarbage.png"));
+        temp.setRegion(x*32, y*32, (32), (32));
+        Image img = new Image(temp);
         return img;
     }
 

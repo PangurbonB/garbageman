@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -108,13 +109,14 @@ public class Trashcan implements Screen {
         Float[] xys = {227f,131f,1069f,601f};
         bglocs.put("dumpster1", xys);
 
-        Image img = GarbageSpriteSheet.randomPiece();
-        stage.addActor(img);
+        for (int i = 0; i < 20; i++) {
+            makeSoftGarbage(GarbageSpriteSheet.randomPiece());
+        }
+
 
 
         InputProcessor inputProcessorOne = new InputHandler();
         InputProcessor inputProcessorTwo = new GestureDetector(new GestureHandler());
-        //InputProcessor inputProcessorthree = new K
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(inputProcessorOne);
         inputMultiplexer.addProcessor(inputProcessorTwo);
@@ -177,6 +179,21 @@ public class Trashcan implements Screen {
             Skin skin1 = new Skin();
             skin1.add("mcdFries", new Texture(trash.baseImgName + name + trash.fileType));
             imgs.add(new Image(skin1, "mcdFries"));
+            imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size()-1));
+            velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
+            velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
+            imgs.get(imgs.size() - 1).toBack();
+            imgs.get(imgs.size()-1).setSize(160,160);
+            addNumber(imgs.get(imgs.size()-1));
+        }
+        catch (GdxRuntimeException e){
+            System.out.println("Invalid item spawn");
+        }
+    }
+
+    public void makeSoftGarbage(Image img){
+        try {
+            imgs.add(img);
             imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size()-1));
             velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
             velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);

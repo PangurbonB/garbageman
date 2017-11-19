@@ -9,9 +9,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.screens.MainMenuScreen;
+import com.garbageman.game.screens.Trashcan;
 
 /**
  * Created by dpearson6225 on 11/17/2017.
@@ -23,6 +26,8 @@ public class UI {
     String screenName;
     private Label repText;
     private Label moneyText;
+    private TextButton menuButton;
+    private TextButton invButton;
     private ShapeRenderer shape = new ShapeRenderer();
 
     public UI(Stage stage, Garbageman game, String screenName){
@@ -83,6 +88,39 @@ public class UI {
         moneyText.setBounds(200, game.window_height-75, 150, 50);
         moneyText.setColor(Color.BLACK);
         stage.addActor(moneyText);
+
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = makeFont(35);
+        menuButton = new TextButton("Menu", buttonStyle);
+        menuButton.setBounds(0, game.window_height-75, 175, 50);
+        menuButton.getLabel().setColor(Color.BLACK);
+        menuButton.getLabel().setAlignment(Align.center);
+        menuButton.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (checkCurrentScreen()){
+                    game.setScreen(new MainMenuScreen(game));
+                }
+                return true;
+            }
+        });
+        stage.addActor(menuButton);
+
+        TextButton.TextButtonStyle invBStyle = new TextButton.TextButtonStyle();
+        invBStyle.font = makeFont(25);
+        invButton = new TextButton("Inventory", invBStyle);
+        int invWidth = 250;
+        invButton.setBounds(game.window_width-invWidth, game.window_height-75, invWidth, 50);
+        invButton.getLabel().setAlignment(Align.center);
+        invButton.getLabel().setColor(Color.BLACK);
+        invButton.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (checkCurrentScreen()){
+                    game.setScreen(new Trashcan(game));
+                }
+                return true;
+            }
+        });
+        stage.addActor(invButton);
     }
 
     public void update(){

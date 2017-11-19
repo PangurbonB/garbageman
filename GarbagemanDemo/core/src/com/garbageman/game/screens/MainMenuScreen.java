@@ -35,6 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.garbageman.game.Garbageman;
+import com.garbageman.game.UI;
 import com.garbageman.game.game.world.GestureHandler;
 import com.garbageman.game.game.world.GetInput;
 
@@ -90,7 +91,6 @@ public class MainMenuScreen implements Screen {
     public void show() {
         game.currentScreen = screenName;
         Gdx.input.setInputProcessor(stage);
-
 
 
         /*FileHandleResolver resolver = new InternalFileHandleResolver();

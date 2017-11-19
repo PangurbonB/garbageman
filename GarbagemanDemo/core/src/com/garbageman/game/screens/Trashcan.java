@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.garbageman.game.GarbageSpriteSheet;
 import com.garbageman.game.Garbageman;
+import com.garbageman.game.UI;
 import com.garbageman.game.garbage.McdFries;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.world.GestureHandler;
@@ -626,7 +627,6 @@ public class Trashcan implements Screen {
                 }
             });
         }
-
         stage.draw();
 
 

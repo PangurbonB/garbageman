@@ -36,7 +36,7 @@ public class GameScreen implements Screen{
     public static final int SPEED = 1000;
     Garbageman game;
     private final boolean resetOnOpen = false;
-    private TextButton menuButton;
+    //private TextButton menuButton;
     private final float mbHeight = 76;
     private final float mbWidth = 150;
     private Stage stage = new Stage();
@@ -82,7 +82,7 @@ public class GameScreen implements Screen{
 
         ui = new UI(stage, game, this.screenName);
         ui.makeUI();
-        System.out.println("");
+        //System.out.println("");
         if (img == null) {
             img = new Texture("assets/tyrone.jpg");
             if (resetOnOpen) {
@@ -109,14 +109,14 @@ public class GameScreen implements Screen{
            }
         });*/
 
-        menuButton = newButton("Menu", "button", 30, 0, game.window_height - mbHeight+2, 150, 50);
+        /*menuButton = newButton("Menu", "button", 30, 0, game.window_height - mbHeight+2, 150, 50);
         menuButton.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (checkCurrentScreen())
                     game.setScreen(new MainMenuScreen(game));
                 return true;
             }
-        });
+        });*/
     }
 
 
@@ -161,14 +161,14 @@ public class GameScreen implements Screen{
             if (game.reputation >= 1){
                 game.reputation--;
                 game.money--;
-                System.out.println(game.reputation);
+                //System.out.println(game.reputation);
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
             if (game.reputation < 100){
                 game.reputation++;
                 game.money++;
-                System.out.println(game.reputation);
+                //System.out.println(game.reputation);
             }
         }
 
@@ -188,7 +188,7 @@ public class GameScreen implements Screen{
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.addActor(menuButton);
+        //stage.addActor(menuButton);
         ui.update();
 
         stage.draw();

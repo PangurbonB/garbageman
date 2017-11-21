@@ -114,12 +114,14 @@ public class UI {
         invButton.getLabel().setColor(Color.BLACK);
         invButton.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("CLIEKED + " + checkCurrentScreen());
                 if (checkCurrentScreen()){
                     game.setScreen(new Trashcan(game));
                 }
                 return true;
             }
         });
+        System.out.println("MADE LISTNER FOR INVBUTTON");
         stage.addActor(invButton);
     }
 

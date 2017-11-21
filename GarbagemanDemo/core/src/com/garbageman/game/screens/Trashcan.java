@@ -57,6 +57,7 @@ public class Trashcan implements Screen {
     int consoleIndex = 0;
 
     private UI ui;
+    private String screenName = "Trashcan";
 
     Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
     Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
@@ -430,7 +431,8 @@ public class Trashcan implements Screen {
     @Override
     public void show() {
 
-        ui = new UI(stage, game, "trashcan");
+        game.currentScreen = this.screenName;
+        ui = new UI(stage, game, this.screenName);
         ui.makeUI();
         Gdx.input.setInputProcessor(stage);
         text.toFront();

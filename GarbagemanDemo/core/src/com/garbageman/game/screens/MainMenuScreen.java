@@ -65,6 +65,7 @@ public class MainMenuScreen implements Screen {
     private BitmapFont FONT;
     private Label lab;
     private TextButton toTest;
+    private UI ui;
 
     private boolean checkCurrentScreen(){
         return game.currentScreen.equals(screenName);
@@ -150,6 +151,9 @@ public class MainMenuScreen implements Screen {
         parameter.size = 35;
         BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
         generator.dispose(); // don't forget to dispose to avoid memory leaks!
+
+        ui = new UI(stage, game, this.screenName);
+        ui.makeUI();
 
         /*BitmapFont font = new BitmapFont();
         Label.LabelStyle sty = new Label.LabelStyle();
@@ -242,6 +246,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(playButton);
         stage.addActor(exitButton);
         //stage.addActor(lab);
+        ui.update();
         game.batch.begin();
 
         if (manager.update() && manager.isLoaded("size10.ttf")) {

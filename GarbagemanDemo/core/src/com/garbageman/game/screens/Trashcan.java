@@ -56,6 +56,8 @@ public class Trashcan implements Screen {
     boolean wasTouched = false;
     int consoleIndex = 0;
 
+    private UI ui;
+
     Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
     Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
     Map<String, int[]> bglocs = Collections.synchronizedMap(new HashMap());
@@ -427,6 +429,9 @@ public class Trashcan implements Screen {
 
     @Override
     public void show() {
+
+        ui = new UI(stage, game, "trashcan");
+        ui.makeUI();
         Gdx.input.setInputProcessor(stage);
         text.toFront();
         makeSoftGarbage("Crowwithoddeyeinfection");
@@ -457,6 +462,8 @@ public class Trashcan implements Screen {
 
     @Override
     public void render(float delta) {
+
+
         game.batch.begin();
         text.toFront();
         fries.setX(x);
@@ -627,6 +634,9 @@ public class Trashcan implements Screen {
                 }
             });
         }
+
+        ui.update();
+
         stage.draw();
 
 

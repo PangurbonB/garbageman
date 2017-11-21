@@ -182,7 +182,7 @@ public class Trashcan implements Screen {
             velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
             imgs.get(imgs.size() - 1).toBack();
             imgs.get(imgs.size()-1).setSize(160,160);
-            addNumber(imgs.get(imgs.size()-1));
+            //addNumber(imgs.get(imgs.size()-1));
         }
         catch (GdxRuntimeException e){
             System.out.println("Invalid item spawn");
@@ -190,35 +190,11 @@ public class Trashcan implements Screen {
     }
 
     public void makeSoftGarbage(Image img){
-        try {
-            imgs.add(img);
-            imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size()-1));
-            velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
-            velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
-            imgs.get(imgs.size() - 1).toBack();
-            imgs.get(imgs.size()-1).setSize(160,160);
-            addNumber(imgs.get(imgs.size()-1));
-        }
-        catch (GdxRuntimeException e){
-            System.out.println("Invalid item spawn");
-        }
+        makeSoftGarbage(img, 0, 0);
     }
 
     public void makeSoftGarbage(Image img, int x, int y){
-        try {
-            imgs.add(img);
-            imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size()-1));
-            velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
-            velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
-            imgs.get(imgs.size() - 1).toBack();
-            imgs.get(imgs.size()-1).setSize(160,160);
-            imgs.get(imgs.size()-1).setX(x);
-            imgs.get(imgs.size()-1).setY(y);
-            addNumber(imgs.get(imgs.size()-1));
-        }
-        catch (GdxRuntimeException e){
-            System.out.println("Invalid item spawn");
-        }
+        makeSoftGarbage(img, x, y, 160);
     }
 
     public void makeSoftGarbage(Image img, int x, int y, int size){

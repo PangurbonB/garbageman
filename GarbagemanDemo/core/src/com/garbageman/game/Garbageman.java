@@ -31,6 +31,25 @@ public class Garbageman extends Game {
 		System.out.println(msg);
 	}
 
+	public void giveReputation(int amt){
+		int plus = this.reputation+amt;
+		if (plus >= 0 && plus <= this.repMax){
+			this.reputation = plus;
+		}
+		else
+			System.out.println("error: " + amt + " rep tried to give");
+		System.out.println("new rep " + this.reputation);
+	}
+
+	public void giveMoney(int amt){
+		//for now
+		if (this.money + amt >= 0)
+			this.money = this.money + amt;
+		else
+			System.out.println("Money can't be less than 0: " + (this.money+amt));
+
+	}
+
 	@Override
 	public void create () {
         //this.create();

@@ -158,18 +158,14 @@ public class GameScreen implements Screen{
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
-            if (game.reputation >= 1){
-                game.reputation--;
-                game.money--;
-                //System.out.println(game.reputation);
-            }
+            game.giveReputation(-1);
+            game.giveMoney(-1);
+            //System.out.println(game.reputation);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
-            if (game.reputation < 100){
-                game.reputation++;
-                game.money++;
-                //System.out.println(game.reputation);
-            }
+            game.giveReputation(1);
+            game.giveMoney(1);
+            //System.out.println(game.reputation);
         }
 
         if (this.x > game.window_width){

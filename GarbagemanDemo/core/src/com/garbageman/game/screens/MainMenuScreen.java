@@ -65,7 +65,7 @@ public class MainMenuScreen implements Screen {
     private BitmapFont FONT;
     private Label lab;
     private TextButton toTest;
-    private UI ui;
+    private Image backing;
 
     private boolean checkCurrentScreen(){
         return game.currentScreen.equals(screenName);
@@ -93,6 +93,8 @@ public class MainMenuScreen implements Screen {
         game.currentScreen = screenName;
         Gdx.input.setInputProcessor(stage);
 
+        /*backing = new Image(new Texture("assets/Screens/mainTitle_single.png"));
+        backing.setBounds(0, 0, game.window_width, game.window_height); //*/
 
         /*FileHandleResolver resolver = new InternalFileHandleResolver();
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
@@ -151,9 +153,6 @@ public class MainMenuScreen implements Screen {
         parameter.size = 35;
         BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
         generator.dispose(); // don't forget to dispose to avoid memory leaks!
-
-        ui = new UI(stage, game, this.screenName);
-        ui.makeUI();
 
         /*BitmapFont font = new BitmapFont();
         Label.LabelStyle sty = new Label.LabelStyle();
@@ -243,10 +242,11 @@ public class MainMenuScreen implements Screen {
 
 
         //stage.addActor(TEST);
+        if (backing != null)
+            stage.addActor(backing);
         stage.addActor(playButton);
         stage.addActor(exitButton);
         //stage.addActor(lab);
-        ui.update();
         game.batch.begin();
 
         if (manager.update() && manager.isLoaded("size10.ttf")) {

@@ -31,7 +31,7 @@ import sun.font.TextLabel;
 
 public class GameScreen implements Screen{
 
-    Texture img;
+    Image img;
     public static float x, y;
     public static final int SPEED = 1000;
     Garbageman game;
@@ -84,7 +84,10 @@ public class GameScreen implements Screen{
         ui.makeUI();
         //System.out.println("");
         if (img == null) {
-            img = new Texture("assets/tyrone.jpg");
+            img = new Image(new Texture("assets/Garbage/Pork.png"));
+            int nn = 256;
+            img.setSize(nn, nn);
+            stage.addActor(img);
             if (resetOnOpen) {
                 x = 0;
                 y = 0;
@@ -185,11 +188,12 @@ public class GameScreen implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //stage.addActor(menuButton);
+        img.setPosition(x, y);
         ui.update();
 
         stage.draw();
         game.batch.begin();
-        game.batch.draw(img, x, y);
+        //game.batch.draw(img, x, y);
         game.batch.end();
 
     }

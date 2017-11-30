@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.garbageman.game.Backpack;
 import com.garbageman.game.GarbageSpriteSheet;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.UI;
@@ -37,6 +38,10 @@ import java.util.Map;
 public class Trashcan implements Screen {
 
 
+
+    Skin skin = new Skin();
+    Backpack backpack = new Backpack();
+    Image backpackImg = new Image();
 
     Garbageman game;
     SpriteBatch batch;
@@ -407,6 +412,22 @@ public class Trashcan implements Screen {
     @Override
     public void show() {
 
+
+
+        backpack.setWidth(backpack.horizSlots*100);
+        backpack.setWidth(backpack.vertSlots*100);
+
+        Skin skin = new Skin();
+        skin.add("hi", new Texture("assets/Buttons/PLAY.png"));
+        backpackImg.setDrawable(skin, "hi");
+        backpackImg.setSize(300, stage.getHeight());
+        backpackImg.setX(stage.getWidth()-300);
+        stage.addActor(backpackImg);
+        backpackImg.toFront();
+
+
+
+
         game.currentScreen = this.screenName;
         ui = new UI(stage, game, this.screenName);
         ui.makeUI();
@@ -440,6 +461,7 @@ public class Trashcan implements Screen {
 
     @Override
     public void render(float delta) {
+
 
 
         game.batch.begin();
@@ -537,7 +559,17 @@ public class Trashcan implements Screen {
 
             imgs.get(i).addListener(new ClickListener() {
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                    if (wasTouched) {
+
+                    if(imgs.get(k).getX()-(imgs.get(k).getWidth()/2) >= stage.getWidth()-backpackImg.getWidth()){
+                        imgs.get(k).setVisible(false);
+                        if(backpack.contents.length < backpack.totalSlots)
+                        backpack.contents[backpack.contents.length] = imgs.get(k);
+                        for (int i = 0; i < backpack.contents.length; i++) {
+                            System.out.println(backpack.contents[i].getName());
+                        }
+
+                    }
+                    else if (wasTouched) {
                         System.out.println("X:");
                         System.out.println(oldLocMap.get("x"+"null"+"0"));
                         System.out.println(oldLocMap.get("x"+"null"+"9"));

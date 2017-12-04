@@ -84,14 +84,14 @@ public class GameScreen implements Screen{
         ui.makeUI();
         //System.out.println("");
         if (img == null) {
-            img = new Image(new Texture("assets/Garbage/Pork.png"));
+            /*img = new Image(new Texture("assets/Garbage/Pork.png"));
             int nn = 256;
             img.setSize(nn, nn);
             stage.addActor(img);
             if (resetOnOpen) {
                 x = 0;
                 y = 0;
-            }
+            }*/
         }
 
         /*Skin buttonSkins = new Skin();
@@ -141,7 +141,7 @@ public class GameScreen implements Screen{
         //System.out.println("" + Gdx.graphics.getDeltaTime());
         float plus = SPEED * Gdx.graphics.getDeltaTime();
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D)){
+        /*if (Gdx.input.isKeyPressed(Input.Keys.D)){
             move(plus, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)){
@@ -158,7 +158,7 @@ public class GameScreen implements Screen{
         }
         if (Gdx.input.isKeyPressed(Input.Keys.G)){
             game.setScreen(new MainMenuScreen(game));
-        }
+        }*/
 
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
             game.giveReputation(-1);
@@ -171,7 +171,7 @@ public class GameScreen implements Screen{
             //System.out.println(game.reputation);
         }
 
-        if (this.x > game.window_width){
+        /*if (this.x > game.window_width){
             this.x = 0-img.getWidth();
         }
         else if (this.x < 0-img.getWidth()){
@@ -182,19 +182,22 @@ public class GameScreen implements Screen{
         }
         else if (this.y < 0-img.getHeight()){
             this.y = game.window_height-img.getHeight()+img.getHeight();
-        }
+        }*/
 
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //stage.addActor(menuButton);
-        img.setPosition(x, y);
-        ui.update();
+        //img.setPosition(x, y);
 
-        stage.draw();
+
+
         game.batch.begin();
         //game.batch.draw(img, x, y);
         game.batch.end();
+        ui.update();
+        stage.draw();
+
 
     }
 

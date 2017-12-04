@@ -9,7 +9,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.BooleanArray;
 import com.badlogic.gdx.utils.IntFloatMap;
 import com.garbageman.game.game.world.GetInput;
@@ -27,6 +29,7 @@ public class Garbageman extends Game {
 	public int reputation = 50;
 	public final int repMax = 100;
 
+
 	public void print(final String msg){
 		System.out.println(msg);
 	}
@@ -39,6 +42,15 @@ public class Garbageman extends Game {
 		else
 			System.out.println("error: " + amt + " rep tried to give");
 		System.out.println("new rep " + this.reputation);
+	}
+
+	public BitmapFont makeFont(int size){
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/PressStart2P.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		BitmapFont press2P = generator.generateFont(parameter);
+		generator.dispose();
+		return press2P;
 	}
 
 	public void giveMoney(int amt){
@@ -63,6 +75,7 @@ public class Garbageman extends Game {
 	public void render () {
        // this.render();
 		super.render();
+		//System.out.println(this.currentScreen);
 		//System.out.println(this.currentScreen);
 	}
 	

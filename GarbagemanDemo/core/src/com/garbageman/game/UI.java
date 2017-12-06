@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,8 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
+import com.garbageman.game.screens.GameScreen;
 import com.garbageman.game.screens.MainMenuScreen;
 import com.garbageman.game.screens.Trashcan;
+import com.garbageman.game.screens.ViewInventory;
+
+import java.util.ArrayList;
 
 /**
  * Created by dpearson6225 on 11/17/2017.
@@ -29,6 +34,9 @@ public class UI {
     private TextButton menuButton;
     private TextButton invButton;
     private ShapeRenderer shape = new ShapeRenderer();
+    private boolean showInv = false;
+    private ArrayList<Actor> inv = new ArrayList<Actor>();
+
 
     public UI(Stage stage, Garbageman game, String screenName){
         this.stage = stage;
@@ -114,19 +122,45 @@ public class UI {
         invButton.getLabel().setColor(Color.BLACK);
         invButton.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("CLIEKED + " + checkCurrentScreen());
-                if (checkCurrentScreen()){
-                    game.setScreen(new Trashcan(game));
-                }
+                //System.out.println("CLIEKED + " + checkCurrentScreen());
+                showInv = !showInv;
                 return true;
             }
         });
-        System.out.println("MADE LISTNER FOR INVBUTTON");
+        //System.out.println("MADE LISTNER FOR INVBUTTON");
         stage.addActor(invButton);
+
+        BitmapFont labFont = game.makeFont(25);
+        TextButton.TextButtonStyle invbbs = new TextButton.TextButtonStyle();
+        invbbs.font = labFont;
+        int size = 150;
+        int yPos = game.window_height-300;
+        int yPlus = size+20;
+        int xPos = 50;
+        int xPlus = size+20;
+        int tot = 1;
+        for (int y = 0; y <= 3; y++){
+            System.out.println("looped");
+            for (int x = 0; x <= 6; x++){
+                TextButton localB = new TextButton("ITEM: "+tot, invbbs);
+                localB.setBounds(xPos, yPos, size, size);
+                inv.add(localB);
+                localB.setVisible(true);
+                stage.addActor(localB);
+                xPos = xPos + xPlus;
+                System.out.println(x);
+                tot++;
+                System.out.println(x + " "+(x <= 6));
+            }
+            yPos = yPos - yPlus;
+            xPos = 50;
+        }
+        System.out.println("DONE");
     }
 
     public void update(){
-        makeRect(0, game.window_height-100, game.window_width, 100, Color.valueOf("#939598"));
+        Color barBackgroundGrey = Color.valueOf("#939598");
+        makeRect(0, game.window_height-100, game.window_width, 100, barBackgroundGrey);
         int len = 500;
         makeRect((game.window_width-len)/2, game.window_height-75, len, 50, Color.LIGHT_GRAY);
         updateRep(len, (double)game.reputation/100);
@@ -139,6 +173,14 @@ public class UI {
             moneyText.setText("$"+game.money);
             moneyText.setAlignment(Align.center);
             moneyText.setColor(Color.BLACK);
+        }
+
+        if (showInv == true){
+            makeRect(0, 0, game.window_width, game.window_height-75, barBackgroundGrey);
+
+        }
+        else if (showInv == false){
+
         }
     }
 }

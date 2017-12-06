@@ -1,12 +1,13 @@
 package com.garbageman.game.garbage;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
  * Created by bzonick5979 on 9/27/2017.
  */
 
-public class Trash extends Actor{
+public class Trash extends Image{
 
     //Ingredient types
     public final int UNUSABLE = 0;

@@ -28,6 +28,8 @@ import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.world.GestureHandler;
 import com.garbageman.game.world.InputHandler;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 import java.util.ArrayList;
@@ -67,7 +69,7 @@ public class Trashcan implements Screen {
     Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
     Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
     Map<String, int[]> bglocs = Collections.synchronizedMap(new HashMap());
-    ArrayList<Image> imgs = new ArrayList();
+    ArrayList<Trash> imgs = new ArrayList();
     ArrayList<String> consoleLog = new ArrayList<String>();
     ArrayList<Actor> nums = new ArrayList<Actor>();
 
@@ -171,17 +173,17 @@ public class Trashcan implements Screen {
     public Image makeGarbage(String name){
         Image img;
         Skin skin1 = new Skin();
-        skin1.add("mcdFries", new Texture(name));
-        img = new Image(skin1, "mcdFries");
+        skin1.add(name, new Texture(name));
+        img = new Image(skin1, name);
         return img;
     }
 
-    public void makeSoftGarbage(String name){
+    public void makeSoftGarbage(Trash trash){
         try {
-            Trash trash = new Trash();
             Skin skin1 = new Skin();
-            skin1.add("mcdFries", new Texture(trash.baseImgName + name + trash.fileType));
-            imgs.add(new Image(skin1, "mcdFries"));
+            skin1.add(trash.name, new Texture(trash.baseImgName + trash.name + trash.fileType));
+            trash.setDrawable(skin1, trash.name);
+            imgs.add(trash);
             imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size()-1));
             velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
             velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
@@ -424,6 +426,7 @@ public class Trashcan implements Screen {
         backpackImg.setX(stage.getWidth()-300);
         stage.addActor(backpackImg);
         backpackImg.toFront();
+        backpackImg.setVisible(false);
 
 
 
@@ -462,6 +465,12 @@ public class Trashcan implements Screen {
     @Override
     public void render(float delta) {
 
+        if(Gdx.input.getX() >= stage.getWidth()-backpackImg.getWidth()){
+            backpackImg.setVisible(true);
+        }
+        else{
+            backpackImg.setVisible(false);
+        }
 
 
         game.batch.begin();
@@ -560,13 +569,22 @@ public class Trashcan implements Screen {
             imgs.get(i).addListener(new ClickListener() {
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 
-                    if(imgs.get(k).getX()-(imgs.get(k).getWidth()/2) >= stage.getWidth()-backpackImg.getWidth()){
+                    if(imgs.get(k).getX()-(imgs.get(k).getWidth()/2) >= stage.getWidth()-backpackImg.getWidth() && wasTouched){
                         imgs.get(k).setVisible(false);
-                        if(backpack.contents.length < backpack.totalSlots)
-                        backpack.contents[backpack.contents.length] = imgs.get(k);
-                        for (int i = 0; i < backpack.contents.length; i++) {
-                            System.out.println(backpack.contents[i].getName());
+                        System.out.println(imgs.get(k).getDrawable().toString());
+
+
+
+
+                        if(backpack.contents.size() < backpack.totalSlots && !imgs.get(k).getDrawable().toString().equals("TextureRegionDrawable"))
+                        backpack.contents.add(imgs.get(k));
+                        System.out.println("Size: "+ backpack.contents.size());
+                        for (int i = 0; i < backpack.contents.size(); i++) {
+
+                            System.out.println("Name "+i+": "+backpack.contents.get(i).getName());
                         }
+
+                        //System.out.println(backpack.contents.size());
 
                     }
                     else if (wasTouched) {

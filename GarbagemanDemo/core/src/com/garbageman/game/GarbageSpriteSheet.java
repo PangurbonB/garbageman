@@ -22,6 +22,7 @@ public class GarbageSpriteSheet {
 
     public static Image randomPiece(){
         Random rand = new Random();
+
         int x = rand.nextInt(TRASH_TOTAL%WIDTH);
         int y = rand.nextInt(TRASH_TOTAL/WIDTH);
         while (true) {

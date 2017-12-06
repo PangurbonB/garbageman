@@ -178,6 +178,7 @@ public class Trashcan implements Screen {
         return img;
     }
 
+    /*
     public void makeSoftGarbage(Trash trash){
         try {
             Skin skin1 = new Skin();
@@ -195,18 +196,21 @@ public class Trashcan implements Screen {
             System.out.println("Invalid item spawn");
         }
     }
-
-    public void makeSoftGarbage(Image img){
+*/
+    public void makeSoftGarbage(Trash img){
         makeSoftGarbage(img, 0, 0);
     }
 
-    public void makeSoftGarbage(Image img, int x, int y){
+    public void makeSoftGarbage(Trash img, int x, int y){
         makeSoftGarbage(img, x, y, 160);
     }
 
-    public void makeSoftGarbage(Image img, int x, int y, int size){
+    public void makeSoftGarbage(Trash trash, int x, int y, int size){
         try {
-            imgs.add(img);
+            Skin skin1 = new Skin();
+            skin1.add(trash.name, new Texture(trash.baseImgName + trash.name + trash.fileType));
+            trash.setDrawable(skin1,trash.name);
+            imgs.add(trash);
             imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size()-1));
             velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
             velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);

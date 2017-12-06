@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Trash extends Image{
 
+
     //Ingredient types
     public final int UNUSABLE = 0;
     public final int MEAT = 1;

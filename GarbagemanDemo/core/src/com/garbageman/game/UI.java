@@ -3,6 +3,7 @@ package com.garbageman.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -11,8 +12,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.screens.GameScreen;
 import com.garbageman.game.screens.MainMenuScreen;
@@ -36,6 +43,8 @@ public class UI {
     private ShapeRenderer shape = new ShapeRenderer();
     private boolean showInv = false;
     private ArrayList<Actor> inv = new ArrayList<Actor>();
+    private boolean showInfo = false;
+    private int infoX, infoY;
 
 
     public UI(Stage stage, Garbageman game, String screenName){
@@ -133,29 +142,65 @@ public class UI {
         BitmapFont labFont = game.makeFont(25);
         TextButton.TextButtonStyle invbbs = new TextButton.TextButtonStyle();
         invbbs.font = labFont;
-        int size = 150;
+        int size = 128;
+        int startX = 200;
         int yPos = game.window_height-300;
         int yPlus = size+20;
-        int xPos = 50;
+        int xPos = startX;
         int xPlus = size+20;
         int tot = 1;
         for (int y = 0; y <= 3; y++){
-            System.out.println("looped");
-            for (int x = 0; x <= 6; x++){
-                TextButton localB = new TextButton("ITEM: "+tot, invbbs);
-                localB.setBounds(xPos, yPos, size, size);
+            //System.out.println("looped");
+            for (int x = 0; x < 5; x++){
+                Skin lbs = new Skin();
+                Texture img = new Texture("assets/Garbage/McdFries.png");
+                lbs.add("default", img);
+
+                ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
+                ibStyle.imageUp = lbs.getDrawable("default");
+                ibStyle.imageUp.setMinHeight(size);
+                ibStyle.imageUp.setMinWidth(size);
+                final ImageButton localB = new ImageButton(ibStyle);
+                localB.setBounds(xPos+25, yPos, size, size);
+                localB.setSize(256,256);
+                localB.setSkin(lbs);
+                localB.addListener(new InputListener(){
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        //create info
+                        //System.out.println("CLIEDK");
+                        //new InfoFrame(game, stage, (int)localB.getX(), (int)localB.getY());
+                        //makeRect((int)localB.getX(), (int)localB.getY(), 100, 100, Color.BLUE);
+                        showInfo = true;
+                        infoX = (int)localB.getX();
+                        infoY = (int)localB.getY();
+                        return true;
+                    };
+                });
                 inv.add(localB);
-                localB.setVisible(true);
+                localB.setVisible(false);
                 stage.addActor(localB);
                 xPos = xPos + xPlus;
-                System.out.println(x);
+                //System.out.println(x);
                 tot++;
-                System.out.println(x + " "+(x <= 6));
+                //System.out.println(x + " "+(x <= 6));
             }
             yPos = yPos - yPlus;
-            xPos = 50;
+            xPos = startX;
         }
-        System.out.println("DONE");
+        Label infoName = new Label("Item Name", repStyle);
+        infoName.setAlignment(Align.center);
+        infoName.setBounds( game.window_height-75-75, 75, 250, 75);
+        infoName.setVisible(false);
+        stage.addActor(infoName);
+        inv.add(infoName);
+        //System.out.println("DONE");
+    }
+
+    private void setInvVis(boolean val){
+        for (int i = 0; i < inv.size(); i++){
+            Actor b = inv.get(i);
+            b.setVisible(val);
+        }
     }
 
     public void update(){
@@ -177,10 +222,14 @@ public class UI {
 
         if (showInv == true){
             makeRect(0, 0, game.window_width, game.window_height-75, barBackgroundGrey);
-
+            setInvVis(true);
+            if (showInfo){
+                //System.out.println("SHOW ME");
+                makeRect(0, 0, 250, game.window_height-75 , Color.BLUE);
+            }
         }
         else if (showInv == false){
-
+            setInvVis(false);
         }
     }
 }

@@ -117,7 +117,7 @@ public class Trashcan implements Screen {
             System.out.println("currX: "+currX);
             System.out.println("currY: "+currY+"\n");
             int size = 256;
-            makeSoftGarbage(GarbageSpriteSheet.randomPiece(), currX, currY, size);
+            //makeSoftGarbage(GarbageSpriteSheet.randomPiece(), currX, currY, size);
         }
 
         InputProcessor inputProcessorOne = new InputHandler();
@@ -227,7 +227,7 @@ public class Trashcan implements Screen {
 
     public void add(String[] cmds){
         try {
-            makeSoftGarbage(cmds[1]);
+            //makeSoftGarbage(cmds[1]);
         }
         catch (GdxRuntimeException e){
             System.out.println("Missing item name for spawn");
@@ -248,7 +248,7 @@ public class Trashcan implements Screen {
         }
         if (cmds.length == 3){
             for (int i = 0; i < Integer.parseInt(cmds[2])-1; i++) {
-                makeSoftGarbage(cmds[1]);
+                //makeSoftGarbage(cmds[1]);
             }
         }
         if (cmds.length == 5){
@@ -257,7 +257,7 @@ public class Trashcan implements Screen {
             imgs.get(imgs.size()-1).setX(tx);
             imgs.get(imgs.size()-1).setY(ty);
             for (int i = 0; i < Integer.parseInt(cmds[4])-1; i++) {
-                makeSoftGarbage(cmds[1]);
+                //makeSoftGarbage(cmds[1]);
                 tx = Integer.parseInt(cmds[2]);
                 ty = Integer.parseInt(cmds[3]);
                 imgs.get(imgs.size()-1).setX(tx);
@@ -440,7 +440,7 @@ public class Trashcan implements Screen {
         ui.makeUI();
         Gdx.input.setInputProcessor(stage);
         text.toFront();
-        makeSoftGarbage("Crowwithoddeyeinfection");
+        //makeSoftGarbage("Crowwithoddeyeinfection");
 
         for (int i = 0; i < imgs.size(); i++) {
             imgs.get(i).setName(Integer.toString(i));

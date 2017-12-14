@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.garbageman.game.garbage.Trash;
 
 import java.util.Random;
 
@@ -20,7 +22,7 @@ public class GarbageSpriteSheet {
         return x + WIDTH*y;
     }
 
-    public static Image randomPiece(){
+    public static Trash randomPiece(){
         Random rand = new Random();
 
         int x = rand.nextInt(TRASH_TOTAL%WIDTH);
@@ -39,7 +41,8 @@ public class GarbageSpriteSheet {
         TextureRegion temp = new TextureRegion();
         temp.setTexture(new Texture("assets/Garbage/genericGarbage.png"));
         temp.setRegion(x*32, y*32, (32), (32));
-        Image img = new Image(temp);
+        Trash img = new Trash();
+        img.setDrawable((Drawable) img);
         return img;
     }
 

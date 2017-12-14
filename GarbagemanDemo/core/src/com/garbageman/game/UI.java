@@ -43,8 +43,14 @@ public class UI {
     private ShapeRenderer shape = new ShapeRenderer();
     private boolean showInv = false;
     private ArrayList<Actor> inv = new ArrayList<Actor>();
+    private ArrayList<Actor> infoFrame = new ArrayList<Actor>();
+    private Actor currentDown;
     private boolean showInfo = false;
     private int infoX, infoY;
+    private ArrayList<String> curInfoList = new ArrayList<String>();
+    private Label infoName;
+    private Label rotten;
+    private Label desc;
 
 
     public UI(Stage stage, Garbageman game, String screenName){
@@ -144,7 +150,7 @@ public class UI {
         invbbs.font = labFont;
         int size = 128;
         int startX = 200;
-        int yPos = game.window_height-300;
+        int yPos = game.window_height-350;
         int yPlus = size+20;
         int xPos = startX;
         int xPlus = size+20;
@@ -170,9 +176,25 @@ public class UI {
                         //System.out.println("CLIEDK");
                         //new InfoFrame(game, stage, (int)localB.getX(), (int)localB.getY());
                         //makeRect((int)localB.getX(), (int)localB.getY(), 100, 100, Color.BLUE);
-                        showInfo = true;
-                        infoX = (int)localB.getX();
-                        infoY = (int)localB.getY();
+                        if (currentDown == null || currentDown != localB) {
+                            showInfo = true;
+                            infoX = (int) localB.getX();
+                            infoY = (int) localB.getY();
+                            currentDown = localB;
+                            curInfoList.clear();
+                            curInfoList.add(0, "This name: "+x);
+                            curInfoList.add(1, "15");//rottenness
+                            curInfoList.add(2, "Uncommon");
+                            curInfoList.add(3, "This is a test item. For testing, you just click the button and it puts in this description.");
+                            System.out.println("SIZE:"+curInfoList.size());
+
+                        }
+                        else if (currentDown != null){
+                            if (currentDown == localB){
+                                currentDown = null;
+                                showInfo = false;
+                            }
+                        }
                         return true;
                     };
                 });
@@ -187,19 +209,30 @@ public class UI {
             yPos = yPos - yPlus;
             xPos = startX;
         }
-        Label infoName = new Label("Item Name", repStyle);
+        Label.LabelStyle smallerStyle = new Label.LabelStyle();
+        smallerStyle.font = game.makeFont(15);
+        infoName = new Label("Item Name", smallerStyle);
         infoName.setAlignment(Align.center);
-        infoName.setBounds( game.window_height-75-75, 75, 250, 75);
+        infoName.setBounds(0, game.window_height-200, 250, 75);
         infoName.setVisible(false);
         stage.addActor(infoName);
-        inv.add(infoName);
+        infoFrame.add(infoName);
         //System.out.println("DONE");
     }
 
-    private void setInvVis(boolean val){
-        for (int i = 0; i < inv.size(); i++){
-            Actor b = inv.get(i);
-            b.setVisible(val);
+    private void setInvVis(boolean val, boolean getInfoFrame){
+        ArrayList<Actor> check = null;
+        if (getInfoFrame == false){
+            check = inv;
+        }
+        else if (getInfoFrame == true){
+            check = infoFrame;
+        }
+        if (check != null) {
+            for (int i = 0; i < check.size(); i++) {
+                Actor b = check.get(i);
+                b.setVisible(val);
+            }
         }
     }
 
@@ -222,14 +255,20 @@ public class UI {
 
         if (showInv == true){
             makeRect(0, 0, game.window_width, game.window_height-75, barBackgroundGrey);
-            setInvVis(true);
-            if (showInfo){
-                //System.out.println("SHOW ME");
+            setInvVis(true, false);
+            invButton.getLabel().setText("Close");
+            if (showInfo && curInfoList.size()== 4){
+                setInvVis(true, true);
                 makeRect(0, 0, 250, game.window_height-75 , Color.BLUE);
+                infoName.setText(curInfoList.get(0));
+            }
+            else{
+                setInvVis(false, true);
             }
         }
         else if (showInv == false){
-            setInvVis(false);
+            setInvVis(false, false);
+            invButton.getLabel().setText("Inventory");
         }
     }
 }

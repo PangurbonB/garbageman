@@ -430,6 +430,7 @@ public class Trashcan implements Screen {
         background.setHeight(stage.getHeight()-100);
 
 
+
         game.currentScreen = this.screenName;
         ui = new UI(stage, game, this.screenName);
         ui.makeUI();
@@ -461,6 +462,7 @@ public class Trashcan implements Screen {
 
     @Override
     public void render(float delta) {
+        background.toBack();
         if (Gdx.input.getX() >= stage.getWidth() - backpackImg.getWidth() - backpackOpenProc && wasTouched) {
             backpackImg.setVisible(true);
         } else {
@@ -613,6 +615,7 @@ public class Trashcan implements Screen {
 
                 public void touchDragged(InputEvent event, float x, float y, int pointer) {
                     wasTouched = true;
+                    imgs.get(k).toFront();
 
                     final float oldX = imgs.get(k).getX();
                     final float oldY = imgs.get(k).getY();

@@ -61,97 +61,90 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Trashcan implements Screen {
+    //All of my initializations:
+        //Basic Stuffs
+            Garbageman game;
+            SpriteBatch batch;
+            Stage stage = new Stage();
+            private UI ui;
+            BitmapFont font = new BitmapFont();
 
+        //Backpack Stuffs
+            Backpack backpack = new Backpack();
+            //Distance from backpack to open it (in pixels)
+            final int backpackOpenProc = 200;
+            Image backpackImg = new Image();
 
-    Skin skin = new Skin();
-    Backpack backpack = new Backpack();
-    Image backpackImg = new Image();
+        //Console Stuffs
+            boolean consoleOpen = false;
+            Label Ltext;
+            Label.LabelStyle textStyle;
+            int consoleIndex = 0;
+            Skin txtSkin = new Skin(Gdx.files.internal("uiskin.json"));
+            TextField text = new TextField("", txtSkin);
 
-    Garbageman game;
-    SpriteBatch batch;
+        //Background/Screen Stuffs
+            String currBg = "dumpster1";
+            Texture background = new Texture("assets/Screens/dumpster1.png");
+            private String screenName = "Trashcan";
 
-    final McdFries fries = new McdFries();
+        //Interaction Stuffs
+            boolean wasTouched = false;
+            int countFrame = 0;
+            float fric = .9f;
 
-    String currBg = "dumpster1";
+        //Array/Arraylist/Map Stuffs
+            Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
+            Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
+            Map<String, int[]> bglocs = Collections.synchronizedMap(new HashMap());
+            ArrayList<Trash> imgs = new ArrayList();
+            ArrayList<String> consoleLog = new ArrayList<String>();
+            ArrayList<Actor> nums = new ArrayList<Actor>();
 
+        //Filled Array Stuffs
+            String[] helpList = {
+                    "Commands (items in parentheses are optional)",
+                    "",
+                    "add [itemname] ([x] [y])               -- Adds a new item of trash to the game",
+                    "remove [itemnumber]                    -- Removes an item of trash from the game. Item number can be found by using addNumbers",
+                    "addNumbers                             -- Displays numbers ontop of items",
+                    "setSize [itemnumber] [width] [height]  -- Sets the size of a specific item to a specific height/width",
+                    "resetSize                              -- Resets the size of every item on screen to 160x160",
+                    "setSizeAll [width] [height]            -- Sets the size of every item on screen to a specific width and height",
+                    "move [itemnumber] [x] [y]              -- Moves a specified item to specified x and y values",
+                    "setVel [itemnumber] [xVel] [yVel]      -- Sets the velocity of a specific item",
+                    "removeVels                             -- Sets the velocity of every item in the game to be 0",
+                    "setFric [fric]                         -- Sets the global friction coefficient. 1 is no friction, 0 is 100% friction, 2 is very funny",
+                    "help                                   -- Displays this command"
+            };
 
-    boolean consoleOpen = false;
-    Skin txtSkin = new Skin(Gdx.files.internal("uiskin.json"));
-    TextField text = new TextField("", txtSkin);
+            Class[] garbageItems = {
+                    AppleCore.class,
+                    BagOfSugar.class,
+                    BananaPeel.class,
+                    Bean.class,
+                    Bread.class,
+                    CrowWithOddEyeInfection.class,
+                    DirtyKitchenSponge.class,
+                    Feces.class,
+                    HandfulOfAnts.class,
+                    HomelessBeardShavings.class,
+                    Ketchup.class,
+                    Leaf.class,
+                    Lettuce.class,
+                    McdFries.class,
+                    McdHamburger.class,
+                    MysteryEyeball.class,
+                    OldNewspaper.class,
+                    Pork.class,
+                    RabbitFoot.class,
+                    Salad.class,
+                    Smarties.class,
+                    Strawberry.class,
+                    ToiletPaper.class,
+                    Vomit.class
+            };
 
-    Label Ltext;
-    Label.LabelStyle textStyle;
-
-    boolean wasTouched = false;
-    int consoleIndex = 0;
-
-    private UI ui;
-    private String screenName = "Trashcan";
-
-    Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
-    Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
-    Map<String, int[]> bglocs = Collections.synchronizedMap(new HashMap());
-    ArrayList<Trash> imgs = new ArrayList();
-    ArrayList<String> consoleLog = new ArrayList<String>();
-    ArrayList<Actor> nums = new ArrayList<Actor>();
-
-
-    BitmapFont font = new BitmapFont();
-
-    Texture background = new Texture("assets/Screens/dumpster1.png");
-
-    int countFrame = 0;
-    int x, y = 0;
-    float fric = .9f;
-
-    String[] helpList = {
-            "Commands (items in parentheses are optional)",
-            "",
-            "add [itemname] ([x] [y])               -- Adds a new item of trash to the game",
-            "remove [itemnumber]                    -- Removes an item of trash from the game. Item number can be found by using addNumbers",
-            "addNumbers                             -- Displays numbers ontop of items",
-            "setSize [itemnumber] [width] [height]  -- Sets the size of a specific item to a specific height/width",
-            "resetSize                              -- Resets the size of every item on screen to 160x160",
-            "setSizeAll [width] [height]            -- Sets the size of every item on screen to a specific width and height",
-            "move [itemnumber] [x] [y]              -- Moves a specified item to specified x and y values",
-            "setVel [itemnumber] [xVel] [yVel]      -- Sets the velocity of a specific item",
-            "removeVels                             -- Sets the velocity of every item in the game to be 0",
-            "setFric [fric]                         -- Sets the global friction coefficient. 1 is no friction, 0 is 100% friction, 2 is very funny",
-            "help                                   -- Displays this command"
-    };
-
-    Class[] garbageItems = {
-            AppleCore.class,
-            BagOfSugar.class,
-            BananaPeel.class,
-            Bean.class,
-            Bread.class,
-            CrowWithOddEyeInfection.class,
-            DirtyKitchenSponge.class,
-            Feces.class,
-            HandfulOfAnts.class,
-            HomelessBeardShavings.class,
-            Ketchup.class,
-            Leaf.class,
-            Lettuce.class,
-            McdFries.class,
-            McdHamburger.class,
-            MysteryEyeball.class,
-            OldNewspaper.class,
-            Pork.class,
-            RabbitFoot.class,
-            Salad.class,
-            Smarties.class,
-            Strawberry.class,
-            ToiletPaper.class,
-            Vomit.class
-    };
-
-
-
-    Stage stage = new Stage();
-
-    //private Viewport viewport;
 
     public Trashcan(Garbageman game) {
         int[] xys = {200, 270, 930, 610};
@@ -166,10 +159,9 @@ public class Trashcan implements Screen {
             int currY = (int) stage.getHeight() - (rand.nextInt(currLocs[3] - currLocs[1]) + currLocs[1]);
             System.out.println("currX: " + currX);
             System.out.println("currY: " + currY + "\n");
-            int size = 256;
-            //makeSoftGarbage(GarbageSpriteSheet.randomPiece(), currX, currY, size);
         }
 
+        //Stuff to make this work with two inputprocessors
         InputProcessor inputProcessorOne = new InputHandler();
         InputProcessor inputProcessorTwo = new GestureDetector(new GestureHandler());
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -177,32 +169,16 @@ public class Trashcan implements Screen {
         inputMultiplexer.addProcessor(inputProcessorTwo);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-
+        //Making sure everything initializes properly
         this.game = game;
         this.stage = stage;
         this.batch = batch;
         this.font = font;
         this.background = background;
-
-
-        //Image bg = makeGarbage("assets/Screens/dumpster1.png");
-        //stage.addActor(bg);
-        //bg.toBack();
-        //bg.setWidth(stage.getWidth());
-       // bg.setHeight(stage.getHeight());
-
-
         consoleLog.add("");
-
-
-        //velMap.put("y"+img.getName(), 0f);
-        //velMap.put("x"+img.getName(), 0f);
-
-        fries.setSize(32, 32);
-
     }
 
-
+    //For generating random pieces of garbage inside of a defined area
     public Float[] generateLocation(HashMap bglocs) {
         Float[] currlocs = (Float[]) bglocs.get(currBg);
         float stx = currlocs[0];
@@ -217,38 +193,6 @@ public class Trashcan implements Screen {
         Float[] ncoords = {(float) nx, (float) ny};
         return ncoords;
     }
-
-    public Trash makeGarbage(String name) {
-
-
-        /*
-        Skin skin1 = new Skin();
-        skin1.add(name, new Texture(name));
-        img = new Image(skin1, name);
-        return img;
-        */
-        return null;
-    }
-
-    /*
-    public void makeSoftGarbage(Trash trash){
-        try {
-            Skin skin1 = new Skin();
-            skin1.add(trash.name, new Texture(trash.baseImgName + trash.name + trash.fileType));
-            trash.setDrawable(skin1, trash.name);
-            imgs.add(trash);
-            imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size()-1));
-            velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
-            velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
-            imgs.get(imgs.size() - 1).toBack();
-            imgs.get(imgs.size()-1).setSize(160,160);
-            //addNumber(imgs.get(imgs.size()-1));
-        }
-        catch (GdxRuntimeException e){
-            System.out.println("Invalid item spawn");
-        }
-    }
-*/
 
     public void makeSoftGarbage(String string) {
         try {
@@ -302,6 +246,8 @@ public class Trashcan implements Screen {
         }
     }
 
+
+    //A command triggered thru the console. Adds a new piece of garbage to the world
     public void add(String[] cmds) {
         try {
             makeSoftGarbage(cmds[1]);
@@ -342,6 +288,7 @@ public class Trashcan implements Screen {
         }
     }
 
+    //Adds a number to a specified item. The number represents that item's name.
     public void addNumber(Image img) {
         textStyle = new Label.LabelStyle();
         textStyle.font = font;
@@ -355,13 +302,15 @@ public class Trashcan implements Screen {
 
     }
 
+    //Makes numbers invisible or visible
     public void makeNumsVisible(boolean vis) {
         for (Actor i : nums) {
             i.setVisible(vis);
         }
     }
 
-    public void interpretConsole(TextField text) {
+    //Takes the console's most recent entry and tries to interpret it into a command. Lots of try/catches and if's. Could be made into a switch/case.
+    public void interpretConsole() {
         String cText = consoleLog.get(consoleLog.size() - 1);
         String[] cmds = cText.split(" ");
         if (cmds[0].equals("add")) {
@@ -461,22 +410,16 @@ public class Trashcan implements Screen {
         }
     }
 
+    //The method that initially draws things.
     @Override
     public void show() {
         McdFries mcdFries = new McdFries();
         makeSoftGarbage(mcdFries);
-
-
-
-
-        backpack.setWidth(backpack.horizSlots * 100);
-        backpack.setWidth(backpack.vertSlots * 100);
-
         Skin skin = new Skin();
         skin.add("hi", new Texture("assets/Buttons/PLAY.png"));
         backpackImg.setDrawable(skin, "hi");
         backpackImg.setSize(backpack.getWidth(), stage.getHeight());
-        backpackImg.setX(stage.getWidth() - 300);
+        backpackImg.setX(stage.getWidth() - backpackImg.getWidth());
         stage.addActor(backpackImg);
         backpackImg.toFront();
         backpackImg.setVisible(false);
@@ -487,7 +430,6 @@ public class Trashcan implements Screen {
         ui.makeUI();
         Gdx.input.setInputProcessor(stage);
         text.toFront();
-        //makeSoftGarbage("Crowwithoddeyeinfection");
 
         for (int i = 0; i < imgs.size(); i++) {
             imgs.get(i).setName(Integer.toString(i));
@@ -514,19 +456,13 @@ public class Trashcan implements Screen {
 
     @Override
     public void render(float delta) {
-
-        if (Gdx.input.getX() >= stage.getWidth() - backpackImg.getWidth() && wasTouched) {
+        if (Gdx.input.getX() >= stage.getWidth() - backpackImg.getWidth() - backpackOpenProc && wasTouched) {
             backpackImg.setVisible(true);
         } else {
             backpackImg.setVisible(false);
         }
-        
         game.batch.begin();
         text.toFront();
-        fries.setX(x);
-        fries.setY(y);
-        fries.setSize(32, 32);
-
         for (int i = 0; i < nums.size(); i++) {
             nums.get(i).setX(imgs.get(i).getX() + .5f * imgs.get(i).getWidth());
             nums.get(i).setY(imgs.get(i).getY() + .5f * imgs.get(i).getHeight());
@@ -537,9 +473,11 @@ public class Trashcan implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.Q) && !consoleOpen)
             Gdx.app.exit();
+
         if (Gdx.input.isKeyPressed(Input.Keys.E) && !consoleOpen) {
             Gdx.app.exit();
         }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && consoleOpen) {
             consoleIndex -= 1;
             if (consoleIndex < 0)
@@ -547,6 +485,7 @@ public class Trashcan implements Screen {
             text.setText(consoleLog.get(consoleIndex));
             text.setCursorPosition(text.getText().length());
         }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && consoleOpen) {
             consoleIndex += 1;
             if (consoleIndex >= consoleLog.size())
@@ -554,7 +493,6 @@ public class Trashcan implements Screen {
             text.setText(consoleLog.get(consoleIndex));
             text.setCursorPosition(text.getText().length());
         }
-
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.GRAVE)) {
             consoleIndex = consoleLog.size() - 1;
@@ -570,7 +508,7 @@ public class Trashcan implements Screen {
                             textField.setText("");
                             consoleIndex = consoleLog.size();
                             textField.setCursorPosition(textField.getText().length());
-                            interpretConsole(textField);
+                            interpretConsole();
                             System.out.println(consoleLog.get(consoleLog.size() - 1));
                         }
 
@@ -583,11 +521,6 @@ public class Trashcan implements Screen {
             }
         }
 
-        //stage.addActor(fries);
-
-
-        //System.out.println("X:"+img.getX());
-        //System.out.println("Y:"+img.getY());
         for (int i = 0; i < imgs.size(); i++) {
             stage.addActor(imgs.get(i));
             final int k = i;
@@ -626,8 +559,6 @@ public class Trashcan implements Screen {
 
                             System.out.println("Name " + i + ": " + backpack.contents.get(i).getName());
                         }
-
-                        //System.out.println(backpack.contents.size());
 
                     } else if (wasTouched) {
                         System.out.println("X:");
@@ -676,8 +607,6 @@ public class Trashcan implements Screen {
 
 
                 public void touchDragged(InputEvent event, float x, float y, int pointer) {
-
-                    //System.out.println("test");
                     wasTouched = true;
 
                     final float oldX = imgs.get(k).getX();
@@ -694,8 +623,6 @@ public class Trashcan implements Screen {
                     }
                     oldLocMap.put("x" + "null" + "0", imgs.get(k).getX());
                     oldLocMap.put("y" + "null" + "0", imgs.get(k).getY());
-
-                    //System.out.println();
 
                     countFrame++;
                     imgs.get(k).moveBy(x - imgs.get(k).getWidth() / 2, y - imgs.get(k).getHeight() / 2);
@@ -714,10 +641,6 @@ public class Trashcan implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        //viewport.setScreenWidth(width);
-        //viewport.setScreenHeight(height);
-        //stage.setViewport(viewport);
-
 
     }
 

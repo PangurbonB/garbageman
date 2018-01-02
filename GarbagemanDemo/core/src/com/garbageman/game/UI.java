@@ -138,7 +138,8 @@ public class UI {
         invButton.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //System.out.println("CLIEKED + " + checkCurrentScreen());
-                showInv = !showInv;
+                if (!screenName.equals("Trashcan"))
+                    showInv = !showInv;
                 return true;
             }
         });

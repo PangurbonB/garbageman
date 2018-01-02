@@ -21,6 +21,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.garbageman.game.garbage.McdFries;
+import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.GameScreen;
 import com.garbageman.game.screens.MainMenuScreen;
 import com.garbageman.game.screens.Trashcan;
@@ -51,6 +53,9 @@ public class UI {
     private Label infoName;
     private Label rotten;
     private Label desc;
+    private String trashcanScreenName = "Trashcan";
+    public int topbarHeight = 100;
+    public ArrayList<Image> jumpToTop = new ArrayList<Image>();
 
 
     public UI(Stage stage, Garbageman game, String screenName){
@@ -72,11 +77,16 @@ public class UI {
         return press2P;
     }
 
-    private void makeRect(int posX, int posY, int width, int height, Color bb){
-        shape.setAutoShapeType(true);
+    private Image makeRect(int posX, int posY, int width, int height, Color bb){
+        /*shape.setAutoShapeType(true);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.rect(posX, posY, width, height, bb, bb, bb, bb);
-        shape.end();
+        shape.end();*/
+        Image item = new Image(new Texture("assets/Buttons/whiteBlank.png"));
+        item.setBounds(posX, posY, width, height);
+        item.setColor(bb);
+        stage.addActor(item);
+        return item;
     }
 
     private void updateRep(int len, double rep){
@@ -97,6 +107,10 @@ public class UI {
             color = Color.valueOf("#f45541");
         }
         makeRect(((game.window_width-len)/2), game.window_height-75, num, 50, color);
+    }
+
+    private Texture getTextureFromTrash(Trash item){
+        return new Texture("assets/Garbage/"+item.img+".png");
     }
 
     public void makeUI(){
@@ -138,13 +152,32 @@ public class UI {
         invButton.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //System.out.println("CLIEKED + " + checkCurrentScreen());
-                if (!screenName.equals("Trashcan"))
+                if (!screenName.equals(trashcanScreenName)) {
                     showInv = !showInv;
+                }
+                else if (screenName.equals(trashcanScreenName)){
+                    //BRETT THIS IS WHERE YOU CAN DO INV STUFF IN THE DUMPSTER SCREEN
+                }
                 return true;
             }
         });
         //System.out.println("MADE LISTNER FOR INVBUTTON");
         stage.addActor(invButton);
+
+        //this is the top section buttons for later:
+        BitmapFont topFont = game.makeFont(20);
+        TextButton.TextButtonStyle topStyle = new TextButton.TextButtonStyle();
+        topStyle.font = topFont;
+        int topSize = (int) Math.ceil(game.window_width/game.sections.length);
+        System.out.println("len: "+topSize+",     num: "+(topSize*game.sections.length)+",    width: "+game.window_width);
+        for (int i = 0; i < game.sections.length; i++){
+            TextButton button = new TextButton(game.sections[i], topStyle);
+            //button.setBounds();
+            button.setVisible(false);
+            inv.add(button);
+            stage.addActor(button);
+        }
+
 
         BitmapFont labFont = game.makeFont(25);
         TextButton.TextButtonStyle invbbs = new TextButton.TextButtonStyle();
@@ -160,7 +193,8 @@ public class UI {
             //System.out.println("looped");
             for (int x = 0; x < 5; x++){
                 Skin lbs = new Skin();
-                Texture img = new Texture("assets/Garbage/McdFries.png");
+                Trash item = new McdFries();
+                Texture img = getTextureFromTrash(item);
                 lbs.add("default", img);
 
                 ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
@@ -239,7 +273,7 @@ public class UI {
 
     public void update(){
         Color barBackgroundGrey = Color.valueOf("#939598");
-        makeRect(0, game.window_height-100, game.window_width, 100, barBackgroundGrey);
+        makeRect(0, game.window_height-topbarHeight, game.window_width, 100, barBackgroundGrey);
         int len = 500;
         makeRect((game.window_width-len)/2, game.window_height-75, len, 50, Color.LIGHT_GRAY);
         updateRep(len, (double)game.reputation/100);

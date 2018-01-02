@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -28,6 +29,18 @@ public class Garbageman extends Game {
 	public int money = 50;
 	public int reputation = 50;
 	public final int repMax = 100;
+	public String[] sections = {"Veggies", "Meats", "Wraps", "Fillers", "Sweeteners", "Sauces"};
+	public String[] sectionsForMainInv = {"Veggies", "Meats", "Wraps", "Fillers", "Sweeteners", "Sauces", "Complete Meals", "Restaurant Items"};
+
+
+	//colors for rarity:
+	public Color common = Color.WHITE;
+	public Color uncommon = Color.valueOf("#08f900");
+	public Color rare = Color.valueOf("#0004f9");
+	public Color veryRare = Color.valueOf("#8d00f9");
+	public Color legendary = Color.valueOf("#00f9f0");
+	public Color questionMark = Color.valueOf("#f9009d");
+	public Color purchased = Color.BLACK;
 
 
 	public void print(final String msg){

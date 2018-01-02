@@ -190,6 +190,10 @@ public class GameScreen implements Screen{
         //stage.addActor(menuButton);
         //img.setPosition(x, y);
 
+        /*Image img = new Image(new Texture("assets/Buttons/whiteBlank.png"));
+        img.setPosition(100, 100);
+        img.setColor(Color.BLUE);
+        stage.addActor(img);*/
 
 
         game.batch.begin();

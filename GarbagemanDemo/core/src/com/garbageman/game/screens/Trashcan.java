@@ -300,7 +300,6 @@ public class Trashcan implements Screen {
         Ltext.setY(img.getY());
         stage.addActor(Ltext);
         nums.add(Ltext);
-
     }
 
     //Makes numbers invisible or visible

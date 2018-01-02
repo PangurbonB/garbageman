@@ -85,7 +85,7 @@ public class Trashcan implements Screen {
 
         //Background/Screen Stuffs
             String currBg = "dumpster1";
-            Texture background = new Texture("assets/Screens/dumpster1.png");
+            Image background = new Image(new Texture("assets/Screens/dumpster1.png"));
             private String screenName = "Trashcan";
 
         //Interaction Stuffs
@@ -194,6 +194,7 @@ public class Trashcan implements Screen {
         return ncoords;
     }
 
+    //Makes a new piece of garbage, but does most of the work for you.
     public void makeSoftGarbage(String string) {
         try {
             for (int i = 0; i < garbageItems.length; i++) {
@@ -208,7 +209,7 @@ public class Trashcan implements Screen {
                 }
             }
         } catch (GdxRuntimeException e) {
-            System.out.println("Invalid item spawn: " + e);
+            e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -242,7 +243,7 @@ public class Trashcan implements Screen {
             imgs.get(imgs.size() - 1).setY(y);
             addNumber(imgs.get(imgs.size() - 1));
         } catch (GdxRuntimeException e) {
-            System.out.println("Invalid item spawn " + e);
+            e.printStackTrace();
         }
     }
 
@@ -413,16 +414,20 @@ public class Trashcan implements Screen {
     //The method that initially draws things.
     @Override
     public void show() {
-        McdFries mcdFries = new McdFries();
-        makeSoftGarbage(mcdFries);
         Skin skin = new Skin();
         skin.add("hi", new Texture("assets/Buttons/PLAY.png"));
+
+
+
         backpackImg.setDrawable(skin, "hi");
         backpackImg.setSize(backpack.getWidth(), stage.getHeight());
         backpackImg.setX(stage.getWidth() - backpackImg.getWidth());
         stage.addActor(backpackImg);
         backpackImg.toFront();
         backpackImg.setVisible(false);
+        stage.addActor(background);
+        background.setWidth(stage.getWidth());
+        background.setHeight(stage.getHeight()-100);
 
 
         game.currentScreen = this.screenName;

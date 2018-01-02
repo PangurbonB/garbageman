@@ -520,8 +520,7 @@ public class Trashcan implements Screen {
         } else {
             backpackImg.setVisible(false);
         }
-
-
+        
         game.batch.begin();
         text.toFront();
         fries.setX(x);

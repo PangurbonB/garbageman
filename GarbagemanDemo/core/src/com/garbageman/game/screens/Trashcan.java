@@ -475,7 +475,7 @@ public class Trashcan implements Screen {
         Skin skin = new Skin();
         skin.add("hi", new Texture("assets/Buttons/PLAY.png"));
         backpackImg.setDrawable(skin, "hi");
-        backpackImg.setSize(300, stage.getHeight());
+        backpackImg.setSize(backpack.getWidth(), stage.getHeight());
         backpackImg.setX(stage.getWidth() - 300);
         stage.addActor(backpackImg);
         backpackImg.toFront();
@@ -515,7 +515,7 @@ public class Trashcan implements Screen {
     @Override
     public void render(float delta) {
 
-        if (Gdx.input.getX() >= stage.getWidth() - backpackImg.getWidth()) {
+        if (Gdx.input.getX() >= stage.getWidth() - backpackImg.getWidth() && wasTouched) {
             backpackImg.setVisible(true);
         } else {
             backpackImg.setVisible(false);

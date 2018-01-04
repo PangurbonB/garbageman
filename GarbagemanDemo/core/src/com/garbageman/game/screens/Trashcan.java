@@ -96,7 +96,7 @@ public class Trashcan implements Screen {
         //Array/Arraylist/Map Stuffs
             Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
             Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
-            Map<String, int[]> bglocs = Collections.synchronizedMap(new HashMap());
+            Map<String, Float[]> bglocs = Collections.synchronizedMap(new HashMap());
             ArrayList<Trash> imgs = new ArrayList();
             ArrayList<String> consoleLog = new ArrayList<String>();
             ArrayList<Actor> nums = new ArrayList<Actor>();
@@ -147,16 +147,16 @@ public class Trashcan implements Screen {
 
 
     public Trashcan(Garbageman game) {
-        int[] xys = {200, 270, 930, 610};
+        Float[] xys = {200f, 270f, 930f, 610f};
         bglocs.put("dumpster1", xys);
 
-        int[] currLocs = bglocs.get(currBg);
+        Float[] currLocs = bglocs.get(currBg);
         Random rand = new Random();
         System.out.println(currLocs[3]);
         for (int i = 0; i < 30; i++) {
             System.out.println(stage.getHeight());
-            int currX = (rand.nextInt(currLocs[2] - currLocs[0]) + currLocs[0]);
-            int currY = (int) stage.getHeight() - (rand.nextInt(currLocs[3] - currLocs[1]) + currLocs[1]);
+            int currX = (rand.nextInt(currLocs[2].intValue() - currLocs[0].intValue()) + currLocs[0].intValue());
+            int currY = (int) stage.getHeight() - (rand.nextInt(currLocs[3].intValue() - currLocs[1].intValue()) + currLocs[1].intValue());
             System.out.println("currX: " + currX);
             System.out.println("currY: " + currY + "\n");
         }
@@ -180,19 +180,18 @@ public class Trashcan implements Screen {
     }
 
     //For generating random pieces of garbage inside of a defined area
-    public Float[] generateLocation(HashMap bglocs) {
-        Float[] currlocs = (Float[]) bglocs.get(currBg);
-        float stx = currlocs[0];
-        float sty = currlocs[1];
-        float fx = currlocs[2];
-        float fy = currlocs[3];
+    public Float[] generateLocation() {
+        Float[] cls = bglocs.get(currBg);
+        float stx = cls[0];
+        float sty = cls[1];
+        float fx = cls[2];
+        float fy = cls[3];
 
-        Random rand = null;
+        Random rand = new Random();
         int nx = rand.nextInt(((int) fx - (int) stx) + 1) + (int) stx;
         int ny = rand.nextInt(((int) fy - (int) sty) + 1) + (int) sty;
 
-        Float[] ncoords = {(float) nx, (float) ny};
-        return ncoords;
+        return new Float[] {(float) nx, (float) ny};
     }
 
     //Makes a new piece of garbage, but does most of the work for you.
@@ -247,6 +246,20 @@ public class Trashcan implements Screen {
             e.printStackTrace();
         }
     }
+
+
+    public void spawnJunk(int amt){
+        for (int i = 0; i < amt; i++) {
+            Float[] plocs = generateLocation();
+            Trash junk = GarbageSpriteSheet.randomPiece();
+            junk.setOrigin(plocs[0], plocs[1]);
+            junk.setVisible(true);
+            junk.toFront();
+            junk.setOrigin(0, 0);
+
+        }
+    }
+
 
 
     //A command triggered thru the console. Adds a new piece of garbage to the world
@@ -429,7 +442,7 @@ public class Trashcan implements Screen {
         background.setWidth(stage.getWidth());
         background.setHeight(stage.getHeight()-100);
 
-
+        spawnJunk(20);
 
         game.currentScreen = this.screenName;
         ui = new UI(stage, game, this.screenName);

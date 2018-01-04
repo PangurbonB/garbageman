@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.BooleanArray;
 import com.badlogic.gdx.utils.IntFloatMap;
 import com.garbageman.game.game.world.GetInput;
+import com.garbageman.game.garbage.McdHamburger;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.GameScreen;
 import com.garbageman.game.screens.MainMenuScreen;
@@ -34,6 +35,7 @@ public class Garbageman extends Game {
 	public String[] sectionsForMainInv = {"Veggies", "Meats", "Wraps", "Fillers", "Sweeteners", "Sauces", "Complete Meals", "Restaurant Items"};
 
 	public Backpack backpack = new Backpack();
+	public UI ui = new UI();
 
 
 	//colors for rarity:
@@ -78,11 +80,14 @@ public class Garbageman extends Game {
 
 	}
 
+
 	@Override
 	public void create () {
         //this.create();
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
+		for (int i = 0; i <= 6; i++)
+			this.backpack.contents.add(new McdHamburger());
 
 		//Gdx.input.setInputProcessor(new GetInput());
 	}

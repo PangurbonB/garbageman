@@ -54,8 +54,9 @@ public class ViewInventory implements Screen{
         stage = new Stage();
         game.currentScreen = screenName;
         Gdx.input.setInputProcessor(stage);
-        ui = new UI(this.stage, game, this.screenName);
-        ui.makeUI();
+
+        game.ui.init(game, stage, screenName);
+        game.ui.makeUI();
 
         Label.LabelStyle headingStyle = new Label.LabelStyle();
         headingStyle.font = game.makeFont(35);
@@ -72,7 +73,7 @@ public class ViewInventory implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        ui.update();
+        game.ui.update();
         stage.draw();
     }
 

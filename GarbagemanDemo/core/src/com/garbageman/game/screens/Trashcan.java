@@ -598,6 +598,7 @@ public class Trashcan implements Screen {
                         System.out.println("xVel:" + xVel);
                         System.out.println("yVel:" + yVel);
 
+
                         velMap.put(imgs.get(k).getName() + "x", xVel);
                         velMap.put(imgs.get(k).getName() + "y", yVel);
 
@@ -616,11 +617,6 @@ public class Trashcan implements Screen {
                     wasTouched = true;
                     imgs.get(k).toFront();
 
-                    final float oldX = imgs.get(k).getX();
-                    final float oldY = imgs.get(k).getY();
-
-                    String sX = Float.toString(oldX);
-                    String sY = Float.toString(oldY);
                     if (countFrame == 9) {
                         for (int i = 9; i >= 0; i--) {
                             oldLocMap.put("y" + "null" + Integer.toString(i + 1), oldLocMap.get("y" + "null" + Integer.toString(i)));
@@ -637,12 +633,10 @@ public class Trashcan implements Screen {
                 }
             });
         }
-
         ui.update();
 
         stage.draw();
-
-
+        
         game.batch.end();
     }
 

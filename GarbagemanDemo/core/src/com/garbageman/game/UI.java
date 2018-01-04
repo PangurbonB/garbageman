@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.garbage.McdFries;
+import com.garbageman.game.garbage.McdHamburger;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.GameScreen;
 import com.garbageman.game.screens.MainMenuScreen;
@@ -116,74 +117,10 @@ public class UI {
         this.game = game;
         this.screenName = screenName;
         shape = new ShapeRenderer();
+        upInv();
     }
 
-    public void makeUI(){
-        Label.LabelStyle repStyle = new Label.LabelStyle();
-        repStyle.font = makeFont(25);
-        repText = new Label("Reputation", repStyle);
-        repText.setBounds(250, game.window_height-75, 250, 75);
-        repText.setColor(Color.BLACK);
-        stage.addActor(repText);
-
-        moneyText = new Label("MUNY", repStyle);
-        moneyText.setBounds(200, game.window_height-75, 150, 50);
-        moneyText.setColor(Color.BLACK);
-        stage.addActor(moneyText);
-
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = makeFont(35);
-        menuButton = new TextButton("Menu", buttonStyle);
-        menuButton.setBounds(0, game.window_height-75, 175, 50);
-        menuButton.getLabel().setColor(Color.BLACK);
-        menuButton.getLabel().setAlignment(Align.center);
-        menuButton.addListener(new InputListener(){
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (checkCurrentScreen()){
-                    game.setScreen(new MainMenuScreen(game));
-                }
-                return true;
-            }
-        });
-        stage.addActor(menuButton);
-
-        TextButton.TextButtonStyle invBStyle = new TextButton.TextButtonStyle();
-        invBStyle.font = makeFont(25);
-        invButton = new TextButton("Inventory", invBStyle);
-        int invWidth = 250;
-        invButton.setBounds(game.window_width-invWidth, game.window_height-75, invWidth, 50);
-        invButton.getLabel().setAlignment(Align.center);
-        invButton.getLabel().setColor(Color.BLACK);
-        invButton.addListener(new InputListener(){
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //System.out.println("CLIEKED + " + checkCurrentScreen());
-                if (!screenName.equals(trashcanScreenName)) {
-                    showInv = !showInv;
-                }
-                else if (screenName.equals(trashcanScreenName)){
-                    //BRETT THIS IS WHERE YOU CAN DO INV STUFF IN THE DUMPSTER SCREEN
-                }
-                return true;
-            }
-        });
-        //System.out.println("MADE LISTNER FOR INVBUTTON");
-        stage.addActor(invButton);
-
-        //this is the top section buttons for later:
-        BitmapFont topFont = game.makeFont(20);
-        TextButton.TextButtonStyle topStyle = new TextButton.TextButtonStyle();
-        topStyle.font = topFont;
-        int topSize = (int) Math.ceil(game.window_width/game.sections.length);
-        System.out.println("len: "+topSize+",     num: "+(topSize*game.sections.length)+",    width: "+game.window_width);
-        for (int i = 0; i < game.sections.length; i++){
-            TextButton button = new TextButton(game.sections[i], topStyle);
-            //button.setBounds();
-            button.setVisible(false);
-            inv.add(button);
-            stage.addActor(button);
-        }
-
-
+    public void upInv(){
         BitmapFont labFont = game.makeFont(25);
         TextButton.TextButtonStyle invbbs = new TextButton.TextButtonStyle();
         invbbs.font = labFont;
@@ -204,6 +141,7 @@ public class UI {
         stage.addActor(noContent);
         inv.add(noContent);
         if (game.backpack.contents.size()> 0) {
+            System.out.println("contents: "+ game.backpack.contents.size());
             noContent.setVisible(false);
             for (int y = 0; y <= 3; y++) {
                 //System.out.println("looped");
@@ -276,7 +214,79 @@ public class UI {
         else if (game.backpack.contents.size()== 0){
             System.out.println("THERE IS NO INV STUFF");
             noContent.setVisible(true);
+            game.backpack.add(new McdHamburger());
         }
+    }
+
+    public void makeUI(){
+        Label.LabelStyle repStyle = new Label.LabelStyle();
+        repStyle.font = makeFont(25);
+        repText = new Label("Reputation", repStyle);
+        repText.setBounds(250, game.window_height-75, 250, 75);
+        repText.setColor(Color.BLACK);
+        stage.addActor(repText);
+
+        moneyText = new Label("MUNY", repStyle);
+        moneyText.setBounds(200, game.window_height-75, 150, 50);
+        moneyText.setColor(Color.BLACK);
+        stage.addActor(moneyText);
+
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = makeFont(35);
+        menuButton = new TextButton("Menu", buttonStyle);
+        menuButton.setBounds(0, game.window_height-75, 175, 50);
+        menuButton.getLabel().setColor(Color.BLACK);
+        menuButton.getLabel().setAlignment(Align.center);
+        menuButton.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (checkCurrentScreen()){
+                    game.setScreen(new MainMenuScreen(game));
+                }
+                return true;
+            }
+        });
+        stage.addActor(menuButton);
+
+        if (!game.currentScreen.equals("Trashcan")){
+            TextButton.TextButtonStyle invBStyle = new TextButton.TextButtonStyle();
+            invBStyle.font = makeFont(25);
+            invButton = new TextButton("Inventory", invBStyle);
+            int invWidth = 250;
+            invButton.setBounds(game.window_width-invWidth, game.window_height-75, invWidth, 50);
+            invButton.getLabel().setAlignment(Align.center);
+            invButton.getLabel().setColor(Color.BLACK);
+            invButton.addListener(new InputListener(){
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    //System.out.println("CLIEKED + " + checkCurrentScreen());
+                    if (!screenName.equals(trashcanScreenName)) {
+                        showInv = !showInv;
+                    }
+                    else if (screenName.equals(trashcanScreenName)){
+                        //BRETT THIS IS WHERE YOU CAN DO INV STUFF IN THE DUMPSTER SCREEN
+                    }
+                    return true;
+                }
+            });
+            //System.out.println("MADE LISTNER FOR INVBUTTON");
+            stage.addActor(invButton);
+        }
+
+        //this is the top section buttons for later:
+        BitmapFont topFont = game.makeFont(20);
+        TextButton.TextButtonStyle topStyle = new TextButton.TextButtonStyle();
+        topStyle.font = topFont;
+        int topSize = (int) Math.ceil(game.window_width/game.sections.length);
+        System.out.println("len: "+topSize+",     num: "+(topSize*game.sections.length)+",    width: "+game.window_width);
+        for (int i = 0; i < game.sections.length; i++){
+            TextButton button = new TextButton(game.sections[i], topStyle);
+            //button.setBounds();
+            button.setVisible(false);
+            inv.add(button);
+            stage.addActor(button);
+        }
+
+
+        upInv();
     }
 
     private void setInvVis(boolean val, boolean getInfoFrame){

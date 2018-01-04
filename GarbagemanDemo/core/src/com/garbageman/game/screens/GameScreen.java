@@ -48,6 +48,7 @@ public class GameScreen implements Screen{
 
     public GameScreen(Garbageman game){
         this.game = game;
+        this.ui = game.ui;
     }
 
     public boolean checkCurrentScreen(){
@@ -80,8 +81,8 @@ public class GameScreen implements Screen{
         game.currentScreen = screenName;
         Gdx.input.setInputProcessor(stage);
 
-        ui = new UI(stage, game, this.screenName);
-        ui.makeUI();
+        game.ui.init(game, stage, screenName);
+        game.ui.makeUI();
         //System.out.println("");
         if (img == null) {
             /*img = new Image(new Texture("assets/Garbage/Pork.png"));
@@ -199,7 +200,7 @@ public class GameScreen implements Screen{
         game.batch.begin();
         //game.batch.draw(img, x, y);
         game.batch.end();
-        ui.update();
+        game.ui.update();
         stage.draw();
 
 

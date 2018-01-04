@@ -43,7 +43,7 @@ public class UI {
     private Label moneyText;
     private TextButton menuButton;
     private TextButton invButton;
-    private ShapeRenderer shape = new ShapeRenderer();
+    private ShapeRenderer shape;
     private boolean showInv = false;
     private ArrayList<Actor> inv = new ArrayList<Actor>();
     private ArrayList<Actor> infoFrame = new ArrayList<Actor>();
@@ -59,10 +59,7 @@ public class UI {
     public ArrayList<Image> jumpToTop = new ArrayList<Image>();
 
 
-    public UI(Stage stage, Garbageman game, String screenName){
-        this.stage = stage;
-        this.game = game;
-        this.screenName = screenName;
+    public UI(){
     }
 
     private boolean checkCurrentScreen(){
@@ -112,6 +109,13 @@ public class UI {
 
     private Texture getTextureFromTrash(Trash item){
         return new Texture("assets/Garbage/"+item.img+".png");
+    }
+
+    public void init(Garbageman game, Stage stage, String screenName){
+        this.stage = stage;
+        this.game = game;
+        this.screenName = screenName;
+        shape = new ShapeRenderer();
     }
 
     public void makeUI(){
@@ -190,70 +194,89 @@ public class UI {
         int xPos = startX;
         int xPlus = size+20;
         int tot = 1;
-        for (int y = 0; y <= 3; y++){
-            //System.out.println("looped");
-            for (int x = 0; x < 5; x++){
-                Skin lbs = new Skin();
-                Trash item = new McdFries();
-                Texture img = getTextureFromTrash(item);
-                lbs.add("default", img);
+        Label.LabelStyle invlbs = new Label.LabelStyle();
+        invlbs.font = labFont;
+        invlbs.fontColor = Color.BLACK;
+        Label noContent = new Label("Your Inventory is Empty", invlbs);
+        noContent.setAlignment(Align.center);
+        noContent.setBounds((game.window_width-200)/2, game.window_height-250, 200, 50);
+        noContent.setVisible(false);
+        stage.addActor(noContent);
+        inv.add(noContent);
+        if (game.backpack.contents.size()> 0) {
+            noContent.setVisible(false);
+            for (int y = 0; y <= 3; y++) {
+                //System.out.println("looped");
+                for (int x = 0; x < 5; x++) {
+                    if (game.backpack.contents.size() <= tot) {
+                        Skin lbs = new Skin();
+                        Trash item = game.backpack.contents.get(x);
+                        Texture img = getTextureFromTrash(item);
+                        lbs.add("default", img);
 
-                ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
-                ibStyle.imageUp = lbs.getDrawable("default");
-                ibStyle.imageUp.setMinHeight(size);
-                ibStyle.imageUp.setMinWidth(size);
-                final ImageButton localB = new ImageButton(ibStyle);
-                localB.setBounds(xPos+25, yPos, size, size);
-                localB.setSize(256,256);
-                localB.setSkin(lbs);
-                localB.addListener(new InputListener(){
-                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        //create info
-                        //System.out.println("CLIEDK");
-                        //new InfoFrame(game, stage, (int)localB.getX(), (int)localB.getY());
-                        //makeRect((int)localB.getX(), (int)localB.getY(), 100, 100, Color.BLUE);
-                        if (currentDown == null || currentDown != localB) {
-                            showInfo = true;
-                            infoX = (int) localB.getX();
-                            infoY = (int) localB.getY();
-                            currentDown = localB;
-                            curInfoList.clear();
-                            curInfoList.add(0, "This name: "+x);
-                            curInfoList.add(1, "15");//rottenness
-                            curInfoList.add(2, "Uncommon");
-                            curInfoList.add(3, "This is a test item. For testing, you just click the button and it puts in this description.");
-                            System.out.println("SIZE:"+curInfoList.size());
+                        ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
+                        ibStyle.imageUp = lbs.getDrawable("default");
+                        ibStyle.imageUp.setMinHeight(size);
+                        ibStyle.imageUp.setMinWidth(size);
+                        final ImageButton localB = new ImageButton(ibStyle);
+                        localB.setBounds(xPos + 25, yPos, size, size);
+                        localB.setSize(256, 256);
+                        localB.setSkin(lbs);
+                        localB.addListener(new InputListener() {
+                            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                //create info
+                                //System.out.println("CLIEDK");
+                                //new InfoFrame(game, stage, (int)localB.getX(), (int)localB.getY());
+                                //makeRect((int)localB.getX(), (int)localB.getY(), 100, 100, Color.BLUE);
+                                if (currentDown == null || currentDown != localB) {
+                                    showInfo = true;
+                                    infoX = (int) localB.getX();
+                                    infoY = (int) localB.getY();
+                                    currentDown = localB;
+                                    curInfoList.clear();
+                                    curInfoList.add(0, "This name: " + x);
+                                    curInfoList.add(1, "15");//rottenness
+                                    curInfoList.add(2, "Uncommon");
+                                    curInfoList.add(3, "This is a test item. For testing, you just click the button and it puts in this description.");
+                                    System.out.println("SIZE:" + curInfoList.size());
 
-                        }
-                        else if (currentDown != null){
-                            if (currentDown == localB){
-                                currentDown = null;
-                                showInfo = false;
+                                } else if (currentDown != null) {
+                                    if (currentDown == localB) {
+                                        currentDown = null;
+                                        showInfo = false;
+                                    }
+                                }
+                                return true;
                             }
-                        }
-                        return true;
-                    };
-                });
-                inv.add(localB);
-                localB.setVisible(false);
-                stage.addActor(localB);
-                xPos = xPos + xPlus;
-                //System.out.println(x);
-                tot++;
-                //System.out.println(x + " "+(x <= 6));
+
+                            ;
+                        });
+                        inv.add(localB);
+                        localB.setVisible(false);
+                        stage.addActor(localB);
+                        xPos = xPos + xPlus;
+                        //System.out.println(x);
+                        tot++;
+                        //System.out.println(x + " "+(x <= 6));
+                    }
+                }
+                yPos = yPos - yPlus;
+                xPos = startX;
             }
-            yPos = yPos - yPlus;
-            xPos = startX;
+            Label.LabelStyle smallerStyle = new Label.LabelStyle();
+            smallerStyle.font = game.makeFont(15);
+            infoName = new Label("Item Name", smallerStyle);
+            infoName.setAlignment(Align.center);
+            infoName.setBounds(0, game.window_height - 200, 250, 75);
+            infoName.setVisible(false);
+            stage.addActor(infoName);
+            infoFrame.add(infoName);
+            //System.out.println("DONE");
         }
-        Label.LabelStyle smallerStyle = new Label.LabelStyle();
-        smallerStyle.font = game.makeFont(15);
-        infoName = new Label("Item Name", smallerStyle);
-        infoName.setAlignment(Align.center);
-        infoName.setBounds(0, game.window_height-200, 250, 75);
-        infoName.setVisible(false);
-        stage.addActor(infoName);
-        infoFrame.add(infoName);
-        //System.out.println("DONE");
+        else if (game.backpack.contents.size()== 0){
+            System.out.println("THERE IS NO INV STUFF");
+            noContent.setVisible(true);
+        }
     }
 
     private void setInvVis(boolean val, boolean getInfoFrame){

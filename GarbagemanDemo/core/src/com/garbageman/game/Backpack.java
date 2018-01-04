@@ -25,5 +25,44 @@ public class Backpack extends Actor{
         this.setHeight(height);
     }
 
+    public boolean add(Trash item){
+        boolean success = false;
+        if (this.contents.size() < this.totalSlots){
+            contents.add(item);
+            success = true;
+
+        }
+        return success;
+    }
+
+    public int getIndex(String findObj){
+        int index = 0;
+        for (int i = 0; i < contents.size(); i++) {
+            if (contents.get(i).name.equals(findObj)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
+    public boolean remove(int index){
+        boolean success = false;
+        if (contents.size()<= index) {
+            contents.remove(index);
+            success = true;
+        }
+        return success;
+    }
+
+    public boolean remove(String itemName){
+        boolean success = false;
+        int index = getIndex(itemName);
+        if (index != 0){
+            remove(index);
+        }
+        return success;
+    }
+
 }
 

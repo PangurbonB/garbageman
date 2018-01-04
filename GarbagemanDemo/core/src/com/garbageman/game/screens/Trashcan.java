@@ -445,8 +445,8 @@ public class Trashcan implements Screen {
         spawnJunk(20);
 
         game.currentScreen = this.screenName;
-        ui = new UI(stage, game, this.screenName);
-        ui.makeUI();
+        game.ui.init(game, stage, screenName);
+        game.ui.makeUI();
         Gdx.input.setInputProcessor(stage);
         text.toFront();
 
@@ -647,7 +647,7 @@ public class Trashcan implements Screen {
                 }
             });
         }
-        ui.update();
+        game.ui.update();
 
         stage.draw();
         

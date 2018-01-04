@@ -70,7 +70,7 @@ public class Trashcan implements Screen {
             BitmapFont font = new BitmapFont();
 
         //Backpack Stuffs
-            Backpack backpack = new Backpack();
+            Backpack backpack;
             //Distance from backpack to open it (in pixels)
             final int backpackOpenProc = 200;
             Image backpackImg = new Image();
@@ -171,6 +171,7 @@ public class Trashcan implements Screen {
 
         //Making sure everything initializes properly
         this.game = game;
+        this.backpack = game.backpack;
         this.stage = stage;
         this.batch = batch;
         this.font = font;

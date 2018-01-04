@@ -37,6 +37,7 @@ import java.util.ArrayList;
 public class UI {
     Stage stage;
     Garbageman game;
+    Backpack backpack;
     String screenName;
     private Label repText;
     private Label moneyText;
@@ -77,16 +78,16 @@ public class UI {
         return press2P;
     }
 
-    private Image makeRect(int posX, int posY, int width, int height, Color bb){
-        /*shape.setAutoShapeType(true);
+    private void makeRect(int posX, int posY, int width, int height, Color bb){
+        shape.setAutoShapeType(true);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.rect(posX, posY, width, height, bb, bb, bb, bb);
-        shape.end();*/
-        Image item = new Image(new Texture("assets/Buttons/whiteBlank.png"));
+        shape.end();//*/
+        /*Image item = new Image(new Texture("assets/Buttons/whiteBlank.png"));
         item.setBounds(posX, posY, width, height);
         item.setColor(bb);
         stage.addActor(item);
-        return item;
+        return item;*/
     }
 
     private void updateRep(int len, double rep){

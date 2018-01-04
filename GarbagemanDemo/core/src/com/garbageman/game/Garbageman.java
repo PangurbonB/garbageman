@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.BooleanArray;
 import com.badlogic.gdx.utils.IntFloatMap;
 import com.garbageman.game.game.world.GetInput;
+import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.GameScreen;
 import com.garbageman.game.screens.MainMenuScreen;
 
@@ -31,6 +32,8 @@ public class Garbageman extends Game {
 	public final int repMax = 100;
 	public String[] sections = {"Veggies", "Meats", "Wraps", "Fillers", "Sweeteners", "Sauces"};
 	public String[] sectionsForMainInv = {"Veggies", "Meats", "Wraps", "Fillers", "Sweeteners", "Sauces", "Complete Meals", "Restaurant Items"};
+
+	public Backpack backpack = new Backpack();
 
 
 	//colors for rarity:

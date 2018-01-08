@@ -343,8 +343,6 @@ public class UI {
             catch(java.lang.NullPointerException e){
                 //e.printStackTrace();
             }
-
-
         }
     }
 }

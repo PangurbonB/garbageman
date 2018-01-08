@@ -147,8 +147,8 @@ public class Trashcan implements Screen {
 
 
     public Trashcan(Garbageman game) {
-        Float[] xys = {200f, 270f, 930f, 610f};
-        bglocs.put("dumpster1", xys);
+        Float[] xys = {230f, 50f, 930f, 410f};
+        bglocs.put(currBg, xys);
 
         Float[] currLocs = bglocs.get(currBg);
         Random rand = new Random();
@@ -192,6 +192,20 @@ public class Trashcan implements Screen {
         int ny = rand.nextInt(((int) fy - (int) sty) + 1) + (int) sty;
 
         return new Float[] {(float) nx, (float) ny};
+    }
+
+    public Trash makeRandGarbage(int x){
+        try {
+            Trash object = (Trash) Class.forName(garbageItems[x].getName()).newInstance();
+            return object;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     //Makes a new piece of garbage, but does most of the work for you.
@@ -252,15 +266,37 @@ public class Trashcan implements Screen {
         for (int i = 0; i < amt; i++) {
             Float[] plocs = generateLocation();
             Trash junk = GarbageSpriteSheet.randomPiece();
-            junk.setOrigin(plocs[0], plocs[1]);
+            junk.setX(plocs[0]);
+            junk.setY(plocs[1]);
+            System.out.println(plocs[0]+" "+ plocs[1]);
+            stage.addActor(junk);
             junk.setVisible(true);
+            junk.setSize(200, 200);
             junk.toFront();
-            junk.setOrigin(0, 0);
-
+            imgs.add(junk);
         }
     }
 
-
+    public void spawnItem(int amt){
+        for (int i = 0; i < amt; i++) {
+            Float[] plocs = generateLocation();
+            Random rand = new Random();
+            int t = rand.nextInt(garbageItems.length-1);
+            Trash item = makeRandGarbage(t);
+            Texture tex = new Texture(item.baseImgName+item.img+item.fileType);
+            Skin sk = new Skin();
+            sk.add("t", tex);
+            item.setDrawable(sk.getDrawable("t"));
+            item.setX(plocs[0]);
+            item.setY(plocs[1]);
+            System.out.println(plocs[0]+" "+ plocs[1]);
+            stage.addActor(item);
+            item.setVisible(true);
+            item.setSize(128, 128);
+            item.toFront();
+            imgs.add(item);
+        }
+    }
 
     //A command triggered thru the console. Adds a new piece of garbage to the world
     public void add(String[] cmds) {
@@ -442,7 +478,10 @@ public class Trashcan implements Screen {
         background.setWidth(stage.getWidth());
         background.setHeight(stage.getHeight()-100);
 
-        spawnJunk(20);
+
+
+        spawnItem(20);
+        spawnJunk(40);
 
         game.currentScreen = this.screenName;
         game.ui.init(game, stage, screenName);
@@ -491,13 +530,14 @@ public class Trashcan implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (Gdx.input.isKeyPressed(Input.Keys.Q) && !consoleOpen)
+        if (Gdx.input.isKeyPressed(Input.Keys.Q) && !consoleOpen || Gdx.input.isKeyPressed(Input.Keys.E) && !consoleOpen)
             Gdx.app.exit();
 
-        if (Gdx.input.isKeyPressed(Input.Keys.E) && !consoleOpen) {
-            Gdx.app.exit();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P )) {
+            System.out.println("Current X,Y:"+Gdx.input.getX()+", "+Gdx.input.getY());
         }
 
+        /*Console controls*/
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && consoleOpen) {
             consoleIndex -= 1;
             if (consoleIndex < 0)

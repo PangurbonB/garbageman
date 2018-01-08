@@ -59,6 +59,10 @@ public class UI {
     public int topbarHeight = 100;
     public ArrayList<Image> jumpToTop = new ArrayList<Image>();
 
+    //inv stuff
+    private Actor repBar, background, barBackground, invBackground, invInfo;
+    private int len = 500;
+
 
     public UI(){
     }
@@ -76,16 +80,17 @@ public class UI {
         return press2P;
     }
 
-    private void makeRect(int posX, int posY, int width, int height, Color bb){
-        shape.setAutoShapeType(true);
+    private Actor makeRect(int posX, int posY, int width, int height, Color bb, boolean vis){
+        /*shape.setAutoShapeType(true);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.rect(posX, posY, width, height, bb, bb, bb, bb);
         shape.end();//*/
-        /*Image item = new Image(new Texture("assets/Buttons/whiteBlank.png"));
+        Image item = new Image(new Texture("assets/Buttons/whiteBlank.png"));
         item.setBounds(posX, posY, width, height);
         item.setColor(bb);
         stage.addActor(item);
-        return item;*/
+        item.setVisible(vis);
+        return item;//*/
     }
 
     private void updateRep(int len, double rep){
@@ -105,7 +110,9 @@ public class UI {
         else if (repcal < 25){
             color = Color.valueOf("#f45541");
         }
-        makeRect(((game.window_width-len)/2), game.window_height-75, num, 50, color);
+       //SIZE BAR HERE
+        this.repBar.setWidth(num);
+        this.repBar.setColor(color);
     }
 
     private Texture getTextureFromTrash(Trash item){
@@ -118,6 +125,14 @@ public class UI {
         this.screenName = screenName;
         shape = new ShapeRenderer();
         upInv();
+        Color barBackgroundGrey = Color.valueOf("#939598");
+        this.background = makeRect(0, game.window_height-topbarHeight, game.window_width, 100, barBackgroundGrey, true);
+        this.barBackground =  makeRect((game.window_width-len)/2, game.window_height-75, len, 50, Color.LIGHT_GRAY, true);
+        this.repBar =  makeRect(((game.window_width-len)/2), game.window_height-75, 0, 50, Color.valueOf("#00ff11"), true);
+        this.invBackground =  makeRect(0, 0, game.window_width, game.window_height-75, barBackgroundGrey, false);
+        this.invInfo =  makeRect(0, 0, 250, game.window_height-75 , Color.BLUE, false);
+        inv.add(this.invBackground);
+        inv.add(this.invInfo);
     }
 
     public void upInv(){
@@ -139,16 +154,19 @@ public class UI {
         noContent.setBounds((game.window_width-200)/2, game.window_height-250, 200, 50);
         noContent.setVisible(false);
         stage.addActor(noContent);
-        inv.add(noContent);
+        //inv.add(noContent);
         if (game.backpack.contents.size()> 0) {
-            System.out.println("contents: "+ game.backpack.contents.size());
+            //System.out.println("contents: "+ game.backpack.contents.size());
             noContent.setVisible(false);
+           // System.out.println("set vis false: "+noContent.isVisible());
             for (int y = 0; y <= 3; y++) {
                 //System.out.println("looped");
                 for (int x = 0; x < 5; x++) {
-                    if (game.backpack.contents.size() <= tot) {
+                    //System.out.println("tot: "+tot+"  "+"size: "+game.backpack.contents.size());
+                    if (tot <= game.backpack.contents.size()) {
+                        //System.out.println("here we are");
                         Skin lbs = new Skin();
-                        Trash item = game.backpack.contents.get(x);
+                        Trash item = new McdHamburger(); //game.backpack.contents.get(tot);
                         Texture img = getTextureFromTrash(item);
                         lbs.add("default", img);
 
@@ -293,9 +311,16 @@ public class UI {
         ArrayList<Actor> check = null;
         if (getInfoFrame == false){
             check = inv;
+            invInfo.setVisible(false);
         }
         else if (getInfoFrame == true){
             check = infoFrame;
+        }
+        if (showInfo){
+           invInfo.setVisible(true);
+        }
+        else if (!showInfo){
+            invInfo.setVisible(false);
         }
         if (check != null) {
             for (int i = 0; i < check.size(); i++) {
@@ -307,9 +332,7 @@ public class UI {
 
     public void update(){
         Color barBackgroundGrey = Color.valueOf("#939598");
-        makeRect(0, game.window_height-topbarHeight, game.window_width, 100, barBackgroundGrey);
-        int len = 500;
-        makeRect((game.window_width-len)/2, game.window_height-75, len, 50, Color.LIGHT_GRAY);
+
         updateRep(len, (double)game.reputation/100);
         if (repText != null){
             repText.setText("Reputation: " + game.reputation + "/100");
@@ -323,12 +346,12 @@ public class UI {
         }
 
         if (showInv == true){
-            makeRect(0, 0, game.window_width, game.window_height-75, barBackgroundGrey);
+            upInv();
             setInvVis(true, false);
             invButton.getLabel().setText("Close");
             if (showInfo && curInfoList.size()== 4){
                 setInvVis(true, true);
-                makeRect(0, 0, 250, game.window_height-75 , Color.BLUE);
+
                 infoName.setText(curInfoList.get(0));
             }
             else{

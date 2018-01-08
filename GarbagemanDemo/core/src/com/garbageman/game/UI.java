@@ -337,7 +337,14 @@ public class UI {
         }
         else if (showInv == false){
             setInvVis(false, false);
-            invButton.getLabel().setText("Inventory");
+            try{
+                invButton.getLabel().setText("Inventory");
+            }
+            catch(java.lang.NullPointerException e){
+                e.printStackTrace();
+            }
+
+
         }
     }
 }

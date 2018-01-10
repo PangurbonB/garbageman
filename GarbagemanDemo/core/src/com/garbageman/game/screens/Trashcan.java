@@ -332,6 +332,9 @@ public class Trashcan implements Screen {
 
     //Updates item numbers.
     private void updateNumbers(){
+        for (int i = 0; i < nums.size(); i++) {
+            nums.get(i).remove();
+        }
         nums.clear();
         for (int i = 0; i < imgs.size(); i++) {
             imgs.get(i).setName(Integer.toString(i));
@@ -346,6 +349,19 @@ public class Trashcan implements Screen {
             Ltext.setVisible(true);
             Ltext.toFront();
             nums.add(Ltext);
+        }
+    }
+
+    private void updateImages(){
+        ArrayList<Trash> temp = new ArrayList<Trash>();
+        for (int i = 0; i < imgs.size(); i++) {
+            if (!imgs.get(i).equals(null)){
+                temp.add(imgs.get(i));
+            }
+        }
+        imgs.clear();
+        for (int i = 0; i < temp.size(); i++) {
+            imgs.add(temp.get(i));
         }
     }
 
@@ -610,8 +626,12 @@ public class Trashcan implements Screen {
                         System.out.println(imgs.get(k).getDrawable().toString());
 
 
-                        if (backpack.contents.size() < backpack.totalSlots && !imgs.get(k).getDrawable().toString().equals("TextureRegionDrawable"))
-                            backpack.contents.add(imgs.get(k));
+                        if (!imgs.get(k).getDrawable().toString().equals("TextureRegionDrawable"))
+                            backpack.add(imgs.get(k));
+                            nums.remove(k);
+                            imgs.remove(k);
+                            updateNumbers();
+                            updateImages();
                         System.out.println("Size: " + backpack.contents.size());
                         for (int i = 0; i < backpack.contents.size(); i++) {
 

@@ -51,8 +51,6 @@ import com.garbageman.game.garbage.Vomit;
 import com.garbageman.game.world.GestureHandler;
 import com.garbageman.game.world.InputHandler;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 import java.util.ArrayList;
@@ -86,9 +84,8 @@ public class Trashcan implements Screen {
         //Background/Screen Stuffs
             String currBg = "dumpster1";
             Image background = new Image(new Texture("assets/Screens/dumpster1.png"));
-            private String screenName = "Trashcan";
 
-        //Interaction Stuffs
+    //Interaction Stuffs
             boolean wasTouched = false;
             int countFrame = 0;
             float fric = .9f;
@@ -172,10 +169,6 @@ public class Trashcan implements Screen {
         //Making sure everything initializes properly
         this.game = game;
         this.backpack = game.backpack;
-        this.stage = stage;
-        this.batch = batch;
-        this.font = font;
-        this.background = background;
         consoleLog.add("");
     }
 
@@ -196,8 +189,7 @@ public class Trashcan implements Screen {
 
     public Trash makeRandGarbage(int x){
         try {
-            Trash object = (Trash) Class.forName(garbageItems[x].getName()).newInstance();
-            return object;
+            return (Trash) Class.forName(garbageItems[x].getName()).newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -211,15 +203,12 @@ public class Trashcan implements Screen {
     //Makes a new piece of garbage, but does most of the work for you.
     public void makeSoftGarbage(String string) {
         try {
-            for (int i = 0; i < garbageItems.length; i++) {
-                if(garbageItems[i].getSimpleName().toLowerCase().equals(string.toLowerCase())){
-                    System.out.println(garbageItems[i].getSimpleName());
+            for (Class garbageItem : garbageItems) {
+                if (garbageItem.getSimpleName().toLowerCase().equals(string.toLowerCase())) {
+                    System.out.println(garbageItem.getSimpleName());
 
-                    Trash object = (Trash) Class.forName(garbageItems[i].getName()).newInstance();
+                    Trash object = (Trash) Class.forName(garbageItem.getName()).newInstance();
                     makeSoftGarbage(object);
-                }
-                else{
-                    //System.out.println(garbageItems[i].getSimpleName()+ " "+ string);
                 }
             }
         } catch (GdxRuntimeException e) {
@@ -255,7 +244,7 @@ public class Trashcan implements Screen {
             imgs.get(imgs.size() - 1).setSize(size, size);
             imgs.get(imgs.size() - 1).setX(x);
             imgs.get(imgs.size() - 1).setY(y);
-            addNumber(imgs.get(imgs.size() - 1));
+            updateNumbers();
         } catch (GdxRuntimeException e) {
             e.printStackTrace();
         }
@@ -274,6 +263,7 @@ public class Trashcan implements Screen {
             junk.setSize(200, 200);
             junk.toFront();
             imgs.add(junk);
+            updateNumbers();
         }
     }
 
@@ -295,6 +285,7 @@ public class Trashcan implements Screen {
             item.setSize(128, 128);
             item.toFront();
             imgs.add(item);
+            updateNumbers();
         }
     }
 
@@ -314,14 +305,14 @@ public class Trashcan implements Screen {
                 imgs.get(imgs.size() - 1).setX(tx);
                 imgs.get(imgs.size() - 1).setY(ty);
             } catch (GdxRuntimeException e) {
-
+                e.printStackTrace();
             } catch (IndexOutOfBoundsException e) {
-
+                e.printStackTrace();
             }
         }
         if (cmds.length == 3){
             for (int i = 0; i < Integer.parseInt(cmds[2])-1; i++) {
-                //makeSoftGarbage(cmds[1]);
+                makeSoftGarbage(cmds[1]);
             }
         }
         if (cmds.length == 5) {
@@ -339,28 +330,34 @@ public class Trashcan implements Screen {
         }
     }
 
-    //Adds a number to a specified item. The number represents that item's name.
-    public void addNumber(Image img) {
-        textStyle = new Label.LabelStyle();
-        textStyle.font = font;
-        Ltext = new Label(img.getName(), textStyle);
-        Ltext.setBounds(0, .2f, stage.getWidth(), 2);
-        Ltext.setFontScale(1f, 1f);
-        Ltext.setX(img.getX());
-        Ltext.setY(img.getY());
-        stage.addActor(Ltext);
-        nums.add(Ltext);
+    //Updates item numbers.
+    private void updateNumbers(){
+        nums.clear();
+        for (int i = 0; i < imgs.size(); i++) {
+            imgs.get(i).setName(Integer.toString(i));
+            textStyle = new Label.LabelStyle();
+            textStyle.font = font;
+            Ltext = new Label(imgs.get(i).getName(), textStyle);
+            Ltext.setBounds(0, .2f, stage.getWidth(), 2);
+            Ltext.setFontScale(1f, 1f);
+            Ltext.setX(imgs.get(i).getX());
+            Ltext.setY(imgs.get(i).getY());
+            stage.addActor(Ltext);
+            Ltext.setVisible(true);
+            Ltext.toFront();
+            nums.add(Ltext);
+        }
     }
 
     //Makes numbers invisible or visible
-    public void makeNumsVisible(boolean vis) {
+    private void makeNumsVisible(boolean vis) {
         for (Actor i : nums) {
             i.setVisible(vis);
         }
     }
 
     //Takes the console's most recent entry and tries to interpret it into a command. Lots of try/catches and if's. Could be made into a switch/case.
-    public void interpretConsole() {
+    private void interpretConsole() {
         String cText = consoleLog.get(consoleLog.size() - 1);
         String[] cmds = cText.split(" ");
         if (cmds[0].equals("add")) {
@@ -371,9 +368,9 @@ public class Trashcan implements Screen {
                 nums.get(Integer.parseInt(cmds[1]) - 1).remove();
 
             } catch (GdxRuntimeException e) {
-
+                e.printStackTrace();
             } catch (IndexOutOfBoundsException e) {
-
+                e.printStackTrace();
             } catch (NumberFormatException e) {
                 if (cmds[1].equals("all")) {
                     imgs.clear();
@@ -394,11 +391,11 @@ public class Trashcan implements Screen {
             try {
                 imgs.get(Integer.parseInt(cmds[1])).setSize(Integer.parseInt(cmds[2]), Integer.parseInt(cmds[3]));
             } catch (GdxRuntimeException e) {
-
+                e.printStackTrace();
             } catch (IndexOutOfBoundsException e) {
-
+                e.printStackTrace();
             } catch (NumberFormatException e) {
-
+                e.printStackTrace();
             }
         } else if (cmds[0].equals("resetSize")) {
             for (Image i : imgs) {
@@ -410,33 +407,33 @@ public class Trashcan implements Screen {
                     i.setSize(Integer.parseInt(cmds[1]), Integer.parseInt(cmds[2]));
                 }
             } catch (GdxRuntimeException e) {
-
+                e.printStackTrace();
             } catch (IndexOutOfBoundsException e) {
-
+                e.printStackTrace();
             } catch (NumberFormatException e) {
-
+                e.printStackTrace();
             }
         } else if (cmds[0].equals("move")) {
             try {
                 imgs.get(Integer.parseInt(cmds[1]) - 1).setX(Integer.parseInt(cmds[2]));
                 imgs.get(Integer.parseInt(cmds[1]) - 1).setY(Integer.parseInt(cmds[3]));
             } catch (GdxRuntimeException e) {
-
+                e.printStackTrace();
             } catch (IndexOutOfBoundsException e) {
-
+                e.printStackTrace();
             } catch (NumberFormatException e) {
-
+                e.printStackTrace();
             }
         } else if (cmds[0].equals("setVel")) {
             try {
                 velMap.put(imgs.get(Integer.parseInt(cmds[1]) - 1).getName() + "x", Float.parseFloat(cmds[2]));
                 velMap.put(imgs.get(Integer.parseInt(cmds[1]) - 1).getName() + "y", Float.parseFloat(cmds[3]));
             } catch (GdxRuntimeException e) {
-
+                e.printStackTrace();
             } catch (IndexOutOfBoundsException e) {
-
+                e.printStackTrace();
             } catch (NumberFormatException e) {
-
+                e.printStackTrace();
             }
         } else if (cmds[0].equals("removeVels")) {
             for (Image i : imgs) {
@@ -447,15 +444,15 @@ public class Trashcan implements Screen {
             try {
                 fric = Float.parseFloat(cmds[1]);
             } catch (GdxRuntimeException e) {
-
+                e.printStackTrace();
             } catch (IndexOutOfBoundsException e) {
-
+                e.printStackTrace();
             } catch (NumberFormatException e) {
-
+                e.printStackTrace();
             }
         } else if (cmds[0].equals("help")) {
-            for (int i = 0; i < helpList.length; i++) {
-                System.out.println(helpList[i]);
+            for (String aHelpList : helpList) {
+                System.out.println(aHelpList);
             }
         }
     }
@@ -483,7 +480,8 @@ public class Trashcan implements Screen {
         spawnItem(20);
         spawnJunk(40);
 
-        game.currentScreen = this.screenName;
+        String screenName = "Trashcan";
+        game.currentScreen = screenName;
         game.ui.init(game, stage, screenName);
         game.ui.makeUI();
         Gdx.input.setInputProcessor(stage);
@@ -670,6 +668,7 @@ public class Trashcan implements Screen {
                 public void touchDragged(InputEvent event, float x, float y, int pointer) {
                     wasTouched = true;
                     imgs.get(k).toFront();
+                    nums.get(k).toFront();
 
                     if (countFrame == 9) {
                         for (int i = 9; i >= 0; i--) {
@@ -687,6 +686,7 @@ public class Trashcan implements Screen {
                 }
             });
         }
+
         game.ui.update();
 
         stage.draw();

@@ -94,7 +94,6 @@ public class GameScreen implements Screen{
                 y = 0;
             }*/
         }
-
         /*Skin buttonSkins = new Skin();
         buttonSkins.add("menuButton", new Texture("assets/menuButton1.png"));
         ImageButton.ImageButtonStyle menuButtonStyle = new ImageButton.ImageButtonStyle();

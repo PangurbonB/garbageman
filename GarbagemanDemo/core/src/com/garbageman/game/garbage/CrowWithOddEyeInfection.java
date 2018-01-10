@@ -7,7 +7,7 @@ package com.garbageman.game.garbage;;
 public class CrowWithOddEyeInfection extends Trash {
     {
         type = MEAT;
-        rarity = LEGENDARY;
+        rarity = BEYOND_COMPREHENSION;
         name = "Crow With Odd Eye Infection";
         img = "crowwithoddeyeinfection";
     }

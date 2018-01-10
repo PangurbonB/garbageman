@@ -30,7 +30,7 @@ public class Trash extends Image{
     public final int VERYRARE = 3;
     public final int LEGENDARY = 4;
     public final int BOUGHT = 5;
-
+    public final int BEYOND_COMPREHENSION = 6;
 
 
     public String name = "Bug";
@@ -48,5 +48,33 @@ public class Trash extends Image{
     public int nast = 1;
 
     public boolean selected = false;
+
+    public String getRarity(int in){
+        String str = "";
+        switch (in){
+            case 1:
+                str = "Uncommon";
+                break;
+            case 2:
+                str = "Rare";
+                break;
+            case 3:
+                str = "Very Rare";
+                break;
+            case 4:
+                str = "Legendary";
+                break;
+            case 5:
+                str = "Bought";
+                break;
+            case 6:
+                str = "???";
+                break;
+            default:
+                str = "Common";
+                break;
+        }
+        return str;
+    }
 
 }

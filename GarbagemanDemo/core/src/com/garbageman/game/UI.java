@@ -52,7 +52,7 @@ public class UI {
     private boolean showInfo = false;
     private int infoX, infoY;
     private ArrayList<String> curInfoList = new ArrayList<String>();
-    private Label infoName;
+    //private Label infoName;
     private Label rotten;
     private Label desc;
     private String trashcanScreenName = "Trashcan";
@@ -64,6 +64,7 @@ public class UI {
     private int len = 500;
     private ArrayList<Trash> curInv = new ArrayList<Trash>();
     private Label noContent;
+    private ArrayList<Label>infoLabels = new ArrayList<Label>();
 
 
     public UI(){
@@ -227,22 +228,24 @@ public class UI {
                 }
                 Label.LabelStyle smallerStyle = new Label.LabelStyle();
                 smallerStyle.font = game.makeFont(15);
-                infoName = new Label("Item Name", smallerStyle);
-                infoName.setAlignment(Align.center);
-                infoName.setBounds(0, game.window_height - 200, 250, 75);
-                infoName.setVisible(false);
-                stage.addActor(infoName);
-                infoFrame.add(infoName);
+                for (int x = 0; x <= curInfoList.size(); x++) {
+                    Label infoName = new Label("Item Name", smallerStyle);
+                    infoName.setAlignment(Align.center);
+                    infoName.setBounds(0, game.window_height - (200 * x), 250, 75);
+                    infoName.setVisible(false);
+                    stage.addActor(infoName);
+                    infoFrame.add(infoName);
+                }
                 curInv = game.backpack.contents;
                 //System.out.println("DONE");
             } else if (game.backpack.contents.size() == 0) {
                 System.out.println("THERE IS NO INV STUFF");
                 noContent.setVisible(true);
-                game.backpack.add(new McdHamburger());
+                //game.backpack.add(new McdHamburger());
             }
         }
         catch (java.lang.NullPointerException j){
-
+            //lol this always errors System.out.println("figgle");
         }
     }
 
@@ -363,7 +366,12 @@ public class UI {
             if (showInfo && curInfoList.size()== 4){
                 setInvVis(true, true);
 
-                infoName.setText(curInfoList.get(0));
+                System.out.println("INFO_LABELS: "+infoLabels.size());//this returns 0 xd
+                if (infoLabels.size()> 0) {
+                    for (int x = 0; x <= infoLabels.size(); x++) {
+                        infoLabels.get(x).setText(curInfoList.get(x));
+                    }
+                }
             }
             else{
                 setInvVis(false, true);

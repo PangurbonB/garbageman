@@ -67,6 +67,7 @@ public class UI {
 
 
     public UI(){
+
     }
 
     private boolean checkCurrentScreen(){
@@ -170,7 +171,7 @@ public class UI {
                         if (tot < game.backpack.contents.size()) {
                             //System.out.println("here we are");
                             Skin lbs = new Skin();
-                            Trash item = game.backpack.contents.get(tot);
+                            final Trash item = game.backpack.contents.get(tot);
                             System.out.println("interval " + tot + ";;;; " + item.name);
                             Texture img = getTextureFromTrash(item);
                             lbs.add("default", img);
@@ -195,9 +196,9 @@ public class UI {
                                         infoY = (int) localB.getY();
                                         currentDown = localB;
                                         curInfoList.clear();
-                                        curInfoList.add(0, "This name: " + x);
-                                        curInfoList.add(1, "15");//rottenness
-                                        curInfoList.add(2, "Uncommon");
+                                        curInfoList.add(0, "Item: " + item.name);
+                                        curInfoList.add(1, Integer.toString(item.nast));//rottenness
+                                        curInfoList.add(2, item.getRarity(item.rarity));
                                         curInfoList.add(3, "This is a test item. For testing, you just click the button and it puts in this description.");
                                         System.out.println("SIZE:" + curInfoList.size());
 

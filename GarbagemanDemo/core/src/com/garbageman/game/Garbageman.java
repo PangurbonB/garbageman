@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.utils.BooleanArray;
 import com.badlogic.gdx.utils.IntFloatMap;
 import com.garbageman.game.game.world.GetInput;
@@ -21,6 +22,9 @@ import com.garbageman.game.garbage.MysteryEyeball;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.GameScreen;
 import com.garbageman.game.screens.MainMenuScreen;
+
+import java.util.Collections;
+import java.util.HashMap;
 
 public class Garbageman extends Game {
 	public SpriteBatch batch;
@@ -47,6 +51,8 @@ public class Garbageman extends Game {
 	public Color legendary = Color.valueOf("#00f9f0");
 	public Color questionMark = Color.valueOf("#f9009d");
 	public Color purchased = Color.BLACK;
+
+	public java.util.Map<String, Color> colorMap = Collections.synchronizedMap(new HashMap());
 
 
 	public void print(final String msg){
@@ -82,6 +88,8 @@ public class Garbageman extends Game {
 	}
 
 
+
+
 	@Override
 	public void create () {
         //this.create();
@@ -91,6 +99,14 @@ public class Garbageman extends Game {
 			this.backpack.contents.add(new MysteryEyeball());
 
 		//Gdx.input.setInputProcessor(new GetInput());
+
+		colorMap.put("common", common);
+		colorMap.put("uncommon", uncommon);
+		colorMap.put("rare", rare);
+		colorMap.put("veryRare", veryRare);
+		colorMap.put("legendary", legendary);
+		colorMap.put("bought", purchased);
+		colorMap.put("???", questionMark);
 	}
 
 	@Override

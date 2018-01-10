@@ -2,6 +2,7 @@ package com.garbageman.game;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.garbageman.game.garbage.McdHamburger;
 import com.garbageman.game.garbage.Trash;
 
 import java.util.ArrayList;

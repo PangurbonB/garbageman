@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.BooleanArray;
 import com.badlogic.gdx.utils.IntFloatMap;
 import com.garbageman.game.game.world.GetInput;
 import com.garbageman.game.garbage.McdHamburger;
+import com.garbageman.game.garbage.MysteryEyeball;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.GameScreen;
 import com.garbageman.game.screens.MainMenuScreen;
@@ -87,7 +88,7 @@ public class Garbageman extends Game {
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
 		for (int i = 0; i <= 6; i++)
-			this.backpack.contents.add(new McdHamburger());
+			this.backpack.contents.add(new MysteryEyeball());
 
 		//Gdx.input.setInputProcessor(new GetInput());
 	}

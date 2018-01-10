@@ -156,7 +156,7 @@ public class UI {
         int yPlus = size+20;
         int xPos = startX;
         int xPlus = size+20;
-        int tot = 1;
+        int tot = 0;
         //inv.add(noContent);
         try {
             if (game.backpack.contents.size() > 0 && !noContent.equals(null)) {
@@ -232,6 +232,7 @@ public class UI {
                 infoName.setVisible(false);
                 stage.addActor(infoName);
                 infoFrame.add(infoName);
+                curInv = game.backpack.contents;
                 //System.out.println("DONE");
             } else if (game.backpack.contents.size() == 0) {
                 System.out.println("THERE IS NO INV STUFF");
@@ -354,7 +355,8 @@ public class UI {
         }
 
         if (showInv == true){
-            upInv();
+            if (!game.backpack.contents.equals(curInv))
+                upInv();
             setInvVis(true, false);
             invButton.getLabel().setText("Close");
             if (showInfo && curInfoList.size()== 4){

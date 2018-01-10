@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Backpack extends Actor{
 
     public int vertSlots = 5;
-    public int horizSlots = 4;
+    public int horizSlots = 3;
     public int totalSlots = vertSlots * horizSlots;
 
     public ArrayList<Trash> contents = new ArrayList<Trash>();
@@ -32,6 +32,9 @@ public class Backpack extends Actor{
             contents.add(item);
             success = true;
 
+        }
+        else{
+            System.out.println(this.contents.size()+"     "+this.totalSlots);
         }
         return success;
     }

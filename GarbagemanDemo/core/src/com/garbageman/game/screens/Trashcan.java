@@ -58,6 +58,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import sun.font.TextLabel;
+
 public class Trashcan implements Screen {
     //All of my initializations:
         //Basic Stuffs
@@ -96,7 +98,6 @@ public class Trashcan implements Screen {
             Map<String, Float[]> bglocs = Collections.synchronizedMap(new HashMap());
             ArrayList<Trash> imgs = new ArrayList();
             ArrayList<String> consoleLog = new ArrayList<String>();
-            ArrayList<Actor> nums = new ArrayList<Actor>();
 
         //Filled Array Stuffs
             String[] helpList = {
@@ -244,7 +245,6 @@ public class Trashcan implements Screen {
             imgs.get(imgs.size() - 1).setSize(size, size);
             imgs.get(imgs.size() - 1).setX(x);
             imgs.get(imgs.size() - 1).setY(y);
-            updateNumbers();
         } catch (GdxRuntimeException e) {
             e.printStackTrace();
         }
@@ -263,7 +263,6 @@ public class Trashcan implements Screen {
             junk.setSize(200, 200);
             junk.toFront();
             imgs.add(junk);
-            updateNumbers();
         }
     }
 
@@ -285,7 +284,7 @@ public class Trashcan implements Screen {
             item.setSize(128, 128);
             item.toFront();
             imgs.add(item);
-            updateNumbers();
+
         }
     }
 
@@ -330,48 +329,6 @@ public class Trashcan implements Screen {
         }
     }
 
-    //Updates item numbers.
-    private void updateNumbers(){
-        for (int i = 0; i < nums.size(); i++) {
-            nums.get(i).remove();
-        }
-        nums.clear();
-        for (int i = 0; i < imgs.size(); i++) {
-            imgs.get(i).setName(Integer.toString(i));
-            textStyle = new Label.LabelStyle();
-            textStyle.font = font;
-            Ltext = new Label(imgs.get(i).getName(), textStyle);
-            Ltext.setBounds(0, .2f, stage.getWidth(), 2);
-            Ltext.setFontScale(1f, 1f);
-            Ltext.setX(imgs.get(i).getX());
-            Ltext.setY(imgs.get(i).getY());
-            stage.addActor(Ltext);
-            Ltext.setVisible(true);
-            Ltext.toFront();
-            nums.add(Ltext);
-        }
-    }
-
-    private void updateImages(){
-        ArrayList<Trash> temp = new ArrayList<Trash>();
-        for (int i = 0; i < imgs.size(); i++) {
-            if (!imgs.get(i).equals(null)){
-                temp.add(imgs.get(i));
-            }
-        }
-        imgs.clear();
-        for (int i = 0; i < temp.size(); i++) {
-            imgs.add(temp.get(i));
-        }
-    }
-
-    //Makes numbers invisible or visible
-    private void makeNumsVisible(boolean vis) {
-        for (Actor i : nums) {
-            i.setVisible(vis);
-        }
-    }
-
     //Takes the console's most recent entry and tries to interpret it into a command. Lots of try/catches and if's. Could be made into a switch/case.
     private void interpretConsole() {
         String cText = consoleLog.get(consoleLog.size() - 1);
@@ -381,7 +338,6 @@ public class Trashcan implements Screen {
         } else if (cmds[0].equals("remove")) {
             try {
                 imgs.get(Integer.parseInt(cmds[1]) - 1).remove();
-                nums.get(Integer.parseInt(cmds[1]) - 1).remove();
 
             } catch (GdxRuntimeException e) {
                 e.printStackTrace();
@@ -390,18 +346,9 @@ public class Trashcan implements Screen {
             } catch (NumberFormatException e) {
                 if (cmds[1].equals("all")) {
                     imgs.clear();
-                    nums.clear();
                 }
             }
-        } else if (cmds[0].equals("addNumbers")) {
-            for (int i = 0; i < imgs.size(); i++) {
-                makeNumsVisible(true);
-            }
-        } else if (cmds[0].equals("removeNumbers")) {
-            for (int i = 0; i < imgs.size(); i++) {
-                makeNumsVisible(false);
-            }
-        } else if (cmds[0].equals("cursorLoc")) {
+        }else if (cmds[0].equals("cursorLoc")) {
             System.out.println(Gdx.input.getX() + "," + Gdx.input.getY());
         } else if (cmds[0].equals("setSize")) {
             try {
@@ -536,10 +483,6 @@ public class Trashcan implements Screen {
         }
         game.batch.begin();
         text.toFront();
-        for (int i = 0; i < nums.size(); i++) {
-            nums.get(i).setX(imgs.get(i).getX() + .5f * imgs.get(i).getWidth());
-            nums.get(i).setY(imgs.get(i).getY() + .5f * imgs.get(i).getHeight());
-        }
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -621,17 +564,17 @@ public class Trashcan implements Screen {
             imgs.get(i).addListener(new ClickListener() {
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 
-                    if (imgs.get(k).getX() - (imgs.get(k).getWidth() / 2) >= stage.getWidth() - backpackImg.getWidth() && wasTouched) {
+                    if ((imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/ >= (stage.getWidth() - backpackImg.getWidth())) && wasTouched) {
+
                         imgs.get(k).setVisible(false);
                         System.out.println(imgs.get(k).getDrawable().toString());
 
 
-                        if (!imgs.get(k).getDrawable().toString().equals("TextureRegionDrawable"))
+                        if (!imgs.get(k).getDrawable().toString().equals("TextureRegionDrawable")) {
                             backpack.add(imgs.get(k));
-                            nums.remove(k);
-                            imgs.remove(k);
-                            updateNumbers();
-                            updateImages();
+                        }
+                        imgs.remove(k);
+
                         System.out.println("Size: " + backpack.contents.size());
                         for (int i = 0; i < backpack.contents.size(); i++) {
 
@@ -639,12 +582,18 @@ public class Trashcan implements Screen {
                         }
 
                     } else if (wasTouched) {
+
+                        System.out.println(imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/);
+                        System.out.println(stage.getWidth() - backpackImg.getWidth());
+                        /*
                         System.out.println("X:");
                         System.out.println(oldLocMap.get("x" + "null" + "0"));
                         System.out.println(oldLocMap.get("x" + "null" + "9"));
                         System.out.println("Y:");
                         System.out.println(oldLocMap.get("y" + "null" + "0"));
                         System.out.println(oldLocMap.get("y" + "null" + "9"));
+
+                        */
 
                         boolean gotX = false;
                         boolean gotY = false;
@@ -688,7 +637,6 @@ public class Trashcan implements Screen {
                 public void touchDragged(InputEvent event, float x, float y, int pointer) {
                     wasTouched = true;
                     imgs.get(k).toFront();
-                    nums.get(k).toFront();
 
                     if (countFrame == 9) {
                         for (int i = 9; i >= 0; i--) {

@@ -65,6 +65,7 @@ public class UI {
     private ArrayList<Trash> curInv = new ArrayList<Trash>();
     private Label noContent;
     private ArrayList<Label>infoLabels = new ArrayList<Label>();
+    private Image invImgBack;
 
 
     public UI(){
@@ -150,6 +151,13 @@ public class UI {
         noContent.setVisible(false);
         stage.addActor(noContent);
 
+        invImgBack = new Image(new Texture("assets/Screens/TrashBackpackCover1.png"));
+        stage.addActor(invImgBack);
+        invImgBack.setSize(stage.getWidth(), stage.getHeight());
+        invImgBack.setVisible(false);
+        inv.add(invImgBack);
+        invImgBack.setZIndex(4);
+
 
         Label.LabelStyle smallerStyle = new Label.LabelStyle();
         smallerStyle.font = game.makeFont(15);
@@ -169,6 +177,10 @@ public class UI {
         else
             System.out.println("NOT 4:::: "+curInfoList.size());
         upInv();
+
+        if (game.currentScreen.equals("Trashcan"))
+            showInv = false;
+
     }
 
     public void upInv(){

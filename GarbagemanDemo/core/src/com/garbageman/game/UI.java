@@ -130,7 +130,7 @@ public class UI {
         this.screenName = screenName;
         shape = new ShapeRenderer();
 
-        Color barBackgroundGrey = Color.valueOf("#939598");
+        Color barBackgroundGrey = Color.valueOf("#ffd280");
         this.background = makeRect(0, game.window_height-topbarHeight, game.window_width, 100, barBackgroundGrey, true);
         this.barBackground =  makeRect((game.window_width-len)/2, game.window_height-75, len, 50, Color.LIGHT_GRAY, true);
         this.repBar =  makeRect(((game.window_width-len)/2), game.window_height-75, 0, 50, Color.valueOf("#00ff11"), true);
@@ -151,7 +151,7 @@ public class UI {
         noContent.setVisible(false);
         stage.addActor(noContent);
 
-        invImgBack = new Image(new Texture("assets/Screens/TrashBackpackCover1.png"));
+        invImgBack = new Image(new Texture("assets/Screens/TrashBackpackRestaurantCrop.png"));
         stage.addActor(invImgBack);
         invImgBack.setSize(stage.getWidth(), stage.getHeight());
         invImgBack.setVisible(false);
@@ -187,9 +187,9 @@ public class UI {
         int size = 128;
         int startX = 200;
         int yPos = game.window_height-350;
-        int yPlus = size+20;
+        int yPlus = size+15;
         int xPos = startX;
-        int xPlus = size+20;
+        int xPlus = size+30;
         int tot = 0;
         //inv.add(noContent);
         try {

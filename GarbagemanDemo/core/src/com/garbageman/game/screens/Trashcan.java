@@ -13,6 +13,7 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -50,6 +51,7 @@ import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.garbage.Vomit;
 import com.garbageman.game.world.GestureHandler;
 import com.garbageman.game.world.InputHandler;
+import com.garbageman.game.world.SpriteSheetDivider;
 
 import java.util.Random;
 
@@ -91,6 +93,8 @@ public class Trashcan implements Screen {
             boolean wasTouched = false;
             int countFrame = 0;
             float fric = .9f;
+
+
 
         //Array/Arraylist/Map Stuffs
             Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
@@ -254,7 +258,8 @@ public class Trashcan implements Screen {
     public void spawnJunk(int amt){
         for (int i = 0; i < amt; i++) {
             Float[] plocs = generateLocation();
-            Trash junk = GarbageSpriteSheet.randomPiece();
+            SpriteSheetDivider sp = new SpriteSheetDivider();
+            Trash junk = sp.randomPiece();
             junk.setX(plocs[0]);
             junk.setY(plocs[1]);
             System.out.println(plocs[0]+" "+ plocs[1]);
@@ -420,13 +425,14 @@ public class Trashcan implements Screen {
         }
     }
 
+    SpriteSheetDivider sp = new SpriteSheetDivider();
+    public Image test = sp.divideItem("SmallInv", 4);
     //The method that initially draws things.
     @Override
     public void show() {
         Skin skin = new Skin();
         skin.add("hi", new Texture("assets/Buttons/PLAY.png"));
-
-
+        
 
         backpackImg.setDrawable(skin, "hi");
         backpackImg.setSize(backpack.getWidth(), stage.getHeight());
@@ -439,9 +445,9 @@ public class Trashcan implements Screen {
         background.setHeight(stage.getHeight()-100);
 
 
-
         spawnItem(20);
         spawnJunk(40);
+
 
         String screenName = "Trashcan";
         game.currentScreen = screenName;
@@ -471,10 +477,24 @@ public class Trashcan implements Screen {
         }
 
 
+
+        test.setVisible(true);
+
+        test.setSize(200, 200);
+        test.setX(100);
+        test.setY(100);
+        stage.addActor(test);
+
+
     }
 
     @Override
     public void render(float delta) {
+
+
+
+
+
         background.toBack();
         if (Gdx.input.getX() >= stage.getWidth() - backpackImg.getWidth() - backpackOpenProc && wasTouched) {
             backpackImg.setVisible(true);
@@ -565,15 +585,13 @@ public class Trashcan implements Screen {
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 
                     if ((imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/ >= (stage.getWidth() - backpackImg.getWidth())) && wasTouched) {
-
-                        imgs.get(k).setVisible(false);
                         System.out.println(imgs.get(k).getDrawable().toString());
 
 
                         if (!imgs.get(k).getDrawable().toString().equals("TextureRegionDrawable")) {
                             backpack.add(imgs.get(k));
                         }
-                        imgs.remove(k);
+                        imgs.get(k).addAction(Actions.removeActor());
 
                         System.out.println("Size: " + backpack.contents.size());
                         for (int i = 0; i < backpack.contents.size(); i++) {
@@ -586,8 +604,7 @@ public class Trashcan implements Screen {
                         System.out.println(imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/);
                         System.out.println(stage.getWidth() - backpackImg.getWidth());
                         /*
-                        System.out.println("X:");
-                        System.out.println(oldLocMap.get("x" + "null" + "0"));
+                        System.out.println("X:");q                        System.out.println(oldLocMap.get("x" + "null" + "0"));
                         System.out.println(oldLocMap.get("x" + "null" + "9"));
                         System.out.println("Y:");
                         System.out.println(oldLocMap.get("y" + "null" + "0"));
@@ -654,6 +671,8 @@ public class Trashcan implements Screen {
                 }
             });
         }
+
+        test.toFront();
 
         game.ui.update();
 

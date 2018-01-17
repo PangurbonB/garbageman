@@ -1,11 +1,13 @@
 package com.garbageman.game;
 
+import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.garbageman.game.garbage.McdHamburger;
 import com.garbageman.game.garbage.Trash;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by bzonick5979 on 9/27/2017.
@@ -24,6 +26,10 @@ public class Backpack extends Actor{
     public Backpack(){
         this.setWidth(width);
         this.setHeight(height);
+    }
+
+    public Trash getRandom(){
+        return this.contents.get(new Random().nextInt(this.contents.size() + 1 - 0) + 0);
     }
 
     public boolean add(Trash item){

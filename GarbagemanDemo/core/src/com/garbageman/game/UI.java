@@ -65,6 +65,7 @@ public class UI {
     private ArrayList<Trash> curInv = new ArrayList<Trash>();
     private Label noContent;
     private ArrayList<Label>infoLabels = new ArrayList<Label>();
+    private Image invImgBack;
 
 
     public UI(){
@@ -128,8 +129,8 @@ public class UI {
         this.game = game;
         this.screenName = screenName;
         shape = new ShapeRenderer();
-        upInv();
-        Color barBackgroundGrey = Color.valueOf("#939598");
+
+        Color barBackgroundGrey = Color.valueOf("#ffd280");
         this.background = makeRect(0, game.window_height-topbarHeight, game.window_width, 100, barBackgroundGrey, true);
         this.barBackground =  makeRect((game.window_width-len)/2, game.window_height-75, len, 50, Color.LIGHT_GRAY, true);
         this.repBar =  makeRect(((game.window_width-len)/2), game.window_height-75, 0, 50, Color.valueOf("#00ff11"), true);
@@ -149,18 +150,52 @@ public class UI {
         noContent.setBounds((game.window_width-200)/2, game.window_height-250, 200, 50);
         noContent.setVisible(false);
         stage.addActor(noContent);
+
+        invImgBack = new Image(new Texture("assets/Screens/TrashBackpackRestaurantCrop.png"));
+        stage.addActor(invImgBack);
+        invImgBack.setSize(stage.getWidth(), stage.getHeight());
+        invImgBack.setVisible(false);
+        inv.add(invImgBack);
+        invImgBack.setZIndex(4);
+
+
+        Label.LabelStyle smallerStyle = new Label.LabelStyle();
+        smallerStyle.font = game.makeFont(15);
+        if (curInfoList.size()>= 4) {
+            for (int x = 0; x <= curInfoList.size(); x++) {
+                System.out.println("THIS: "+x);
+                Label infoName = new Label("", smallerStyle);
+                infoName.setAlignment(Align.center);
+                infoName.setBounds(0, game.window_height - (100 * x), 250, 75);
+                infoName.setVisible(false);
+                stage.addActor(infoName);
+                inv.add(infoName);
+                infoFrame.add(infoName);
+                infoLabels.add(infoName);
+            }
+        }
+        else
+            System.out.println("NOT 4:::: "+curInfoList.size());
+        upInv();
+
+        if (game.currentScreen.equals("Trashcan"))
+            showInv = false;
+
     }
 
     public void upInv(){
         int size = 128;
         int startX = 200;
         int yPos = game.window_height-350;
-        int yPlus = size+20;
+        int yPlus = size+15;
         int xPos = startX;
-        int xPlus = size+20;
+        int xPlus = size+30;
         int tot = 0;
         //inv.add(noContent);
         try {
+            while (game.backpack.contents.size()== 0)
+                System.out.println("waiting...");
+
             if (game.backpack.contents.size() > 0 && !noContent.equals(null)) {
                 //System.out.println("contents: "+ game.backpack.contents.size());
                 noContent.setVisible(false);
@@ -225,16 +260,6 @@ public class UI {
                     }
                     yPos = yPos - yPlus;
                     xPos = startX;
-                }
-                Label.LabelStyle smallerStyle = new Label.LabelStyle();
-                smallerStyle.font = game.makeFont(15);
-                for (int x = 0; x <= curInfoList.size(); x++) {
-                    Label infoName = new Label("Item Name", smallerStyle);
-                    infoName.setAlignment(Align.center);
-                    infoName.setBounds(0, game.window_height - (200 * x), 250, 75);
-                    infoName.setVisible(false);
-                    stage.addActor(infoName);
-                    infoFrame.add(infoName);
                 }
                 curInv = game.backpack.contents;
                 //System.out.println("DONE");
@@ -363,13 +388,16 @@ public class UI {
                 upInv();
             setInvVis(true, false);
             invButton.getLabel().setText("Close");
+            System.out.println("curInfoList: "+curInfoList.size());
             if (showInfo && curInfoList.size()== 4){
                 setInvVis(true, true);
 
-                System.out.println("INFO_LABELS: "+infoLabels.size());//this returns 0 xd
+                System.out.println("INFO_LABELS: "+infoLabels.size());
                 if (infoLabels.size()> 0) {
-                    for (int x = 0; x <= infoLabels.size(); x++) {
+                    for (int x = 0; x < curInfoList.size(); x++) {
+                        System.out.println("ITEM: "+x+" ;; SIZE: "+infoLabels.size());
                         infoLabels.get(x).setText(curInfoList.get(x));
+                        System.out.println("set text to '"+curInfoList.get(x)+"'");
                     }
                 }
             }

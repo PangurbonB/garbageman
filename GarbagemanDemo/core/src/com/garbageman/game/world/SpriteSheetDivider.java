@@ -43,13 +43,15 @@ public class SpriteSheetDivider {
     public Image divideItem(String itemName, int place){
         Float[] currInfo = infoMap.get(itemName);
 
-        int x = place%Math.round(currInfo[2]);
-        int y = x*Math.round(currInfo[2])/Math.round(currInfo[3]);
+        int x = place % Math.round(currInfo[2]);
 
+        int y = (int)((place - place%x)/currInfo[2]);
+        x--;
 
         TextureRegion temp = new TextureRegion();
         temp.setTexture(new Texture("assets/Screens/"+itemName+".png"));
-        temp.setRegion(x*32, y*32, (currInfo[0]), (currInfo[1]));
+        temp.setRegion(Math.round((currInfo[0])*x), Math.round((currInfo[1])*y), Math.round((currInfo[0])), Math.round((currInfo[1])));
+        System.out.println((currInfo[0])*x+"+"+(currInfo[1])*y+"+"+(currInfo[0])+"+"+(currInfo[1]));
         TextureRegionDrawable temp1 = new TextureRegionDrawable();
         temp1.setRegion(temp);
         Trash img = new Trash();

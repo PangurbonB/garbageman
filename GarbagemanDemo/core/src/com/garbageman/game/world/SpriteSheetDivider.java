@@ -40,10 +40,10 @@ public class SpriteSheetDivider {
         return x + WIDTH*y;
     }
 
-    public Image divideItem(String itemName, int place){
+    public TextureRegionDrawable divideItem(String itemName, int place){
         Float[] currInfo = infoMap.get(itemName);
 
-        int x = place % Math.round(currInfo[2]);
+        int x = place % Math.round(currInfo[2]) +1;
 
         int y = (int)((place - place%x)/currInfo[2]);
         x--;
@@ -54,9 +54,7 @@ public class SpriteSheetDivider {
         System.out.println((currInfo[0])*x+"+"+(currInfo[1])*y+"+"+(currInfo[0])+"+"+(currInfo[1]));
         TextureRegionDrawable temp1 = new TextureRegionDrawable();
         temp1.setRegion(temp);
-        Trash img = new Trash();
-        img.setDrawable(temp1);
-        return img;
+        return temp1;
     }
 
     public Trash randomPiece(){

@@ -425,8 +425,6 @@ public class Trashcan implements Screen {
         }
     }
 
-    SpriteSheetDivider sp = new SpriteSheetDivider();
-    public Image test = sp.divideItem("SmallInv", 1);
     //The method that initially draws things.
     @Override
     public void show() {
@@ -434,15 +432,6 @@ public class Trashcan implements Screen {
         skin.add("hi", new Texture("assets/Buttons/PLAY.png"));
         
 
-        backpackImg.setDrawable(skin, "hi");
-        backpackImg.setSize(backpack.getWidth(), stage.getHeight());
-        backpackImg.setX(stage.getWidth() - backpackImg.getWidth());
-        stage.addActor(backpackImg);
-        backpackImg.toFront();
-        backpackImg.setVisible(false);
-        stage.addActor(background);
-        background.setWidth(stage.getWidth());
-        background.setHeight(stage.getHeight()-100);
 
 
         spawnItem(20);
@@ -455,6 +444,17 @@ public class Trashcan implements Screen {
         game.ui.makeUI();
         Gdx.input.setInputProcessor(stage);
         text.toFront();
+
+        SpriteSheetDivider sp = new SpriteSheetDivider();
+        backpackImg.setDrawable(sp.divideItem("SmallInv", 0));
+        backpackImg.setSize(backpack.getWidth(), stage.getHeight()-game.ui.topbarHeight);
+        backpackImg.setX(stage.getWidth() - backpackImg.getWidth());
+        stage.addActor(backpackImg);
+        backpackImg.toFront();
+        backpackImg.setVisible(false);
+        stage.addActor(background);
+        background.setWidth(stage.getWidth());
+        background.setHeight(stage.getHeight()-game.ui.topbarHeight);
 
         for (int i = 0; i < imgs.size(); i++) {
             imgs.get(i).setName(Integer.toString(i));
@@ -478,13 +478,7 @@ public class Trashcan implements Screen {
 
 
 
-        test.setVisible(true);
 
-        test.setSize(96, 216);
-        test.setX(100);
-        test.setY(100);
-        test.toFront();
-        stage.addActor(test);
 
     }
 
@@ -671,8 +665,6 @@ public class Trashcan implements Screen {
                 }
             });
         }
-
-        test.toFront();
 
         game.ui.update();
 

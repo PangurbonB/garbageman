@@ -426,7 +426,7 @@ public class Trashcan implements Screen {
     }
 
     SpriteSheetDivider sp = new SpriteSheetDivider();
-    public Image test = sp.divideItem("SmallInv", 4);
+    public Image test = sp.divideItem("SmallInv", 1);
     //The method that initially draws things.
     @Override
     public void show() {
@@ -480,11 +480,11 @@ public class Trashcan implements Screen {
 
         test.setVisible(true);
 
-        test.setSize(200, 200);
+        test.setSize(96, 216);
         test.setX(100);
         test.setY(100);
+        test.toFront();
         stage.addActor(test);
-
 
     }
 

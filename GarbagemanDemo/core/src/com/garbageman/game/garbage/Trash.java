@@ -32,7 +32,6 @@ public class Trash extends Image{
     public final int BOUGHT = 5;
     public final int BEYOND_COMPREHENSION = 6;
 
-
     public String name = "Bug";
     public String baseImgName = "assets/Garbage/";
     public String fileType = ".png";
@@ -46,6 +45,10 @@ public class Trash extends Image{
     //Nastiness is on a scale of 1-100
     //1 is fresh, 100 is foul
     public int nast = 1;
+    public final int MLTHRESH = 34;
+    public final int HMTHRESH = 67;
+    public final int MAXNAST = 100;
+    public final int MINNAST = 1;
 
     public boolean selected = false;
 

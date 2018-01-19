@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.garbageman.game.garbage.CrowWithOddEyeInfection;
 import com.garbageman.game.garbage.Trash;
 
 import java.util.Collections;
@@ -34,6 +36,7 @@ public class SpriteSheetDivider {
         infoMap.put("TitleScreen", new Float[]{384f, 216f, 1f, 1f}); ///
         infoMap.put("Inventory", new Float[]{384f, 216f, 4f, 6f});   ///
         infoMap.put("SmallInv", new Float[]{96f, 216f, 4f, 5f});    ///
+
     }
 
     private int xy(int x, int y){
@@ -55,6 +58,34 @@ public class SpriteSheetDivider {
         TextureRegionDrawable temp1 = new TextureRegionDrawable();
         temp1.setRegion(temp);
         return temp1;
+    }
+
+    public TextureRegionDrawable divideGarbage(Trash item) {
+        TextureRegion temp = new TextureRegion();
+        try {
+            temp.setTexture(new Texture(item.baseImgName + item.img + item.fileType));
+        }
+        catch (GdxRuntimeException e){
+            CrowWithOddEyeInfection c = new CrowWithOddEyeInfection();
+            temp.setTexture(new Texture(c.baseImgName + c.img + c.fileType));
+        }
+        if (temp.getTexture().getTextureData().getWidth() == 96) {
+            if (item.nast >= item.HMTHRESH) {
+                temp.setRegion(64, 0, 32, 32);
+            } else if (item.nast >= item.MLTHRESH) {
+                temp.setRegion(32, 0, 32, 32);
+            } else {
+                temp.setRegion(0, 0, 32, 32);
+            }
+            TextureRegionDrawable temp1 = new TextureRegionDrawable();
+            temp1.setRegion(temp);
+            return temp1;
+        }
+        else{
+            TextureRegionDrawable temp1 = new TextureRegionDrawable();
+            temp1.setRegion(temp);
+            return temp1;
+        }
     }
 
     public Trash randomPiece(){

@@ -70,6 +70,7 @@ public class Trashcan implements Screen {
             Stage stage = new Stage();
             private UI ui;
             BitmapFont font = new BitmapFont();
+            SpriteSheetDivider sp = new SpriteSheetDivider();
 
         //Backpack Stuffs
             Backpack backpack;
@@ -89,9 +90,10 @@ public class Trashcan implements Screen {
             String currBg = "dumpster1";
             Image background = new Image(new Texture("assets/Screens/dumpster1.png"));
 
-    //Interaction Stuffs
+        //Interaction Stuffs
             boolean wasTouched = false;
             boolean touchingBug = false;
+            Trash currentObject = null;
             int countFrame = 0;
             float fric = .9f;
 
@@ -238,9 +240,13 @@ public class Trashcan implements Screen {
 
     public void makeSoftGarbage(Trash trash, int x, int y, int size) {
         try {
+            Random rand = new Random();
+
+
             Skin skin1 = new Skin();
             skin1.add(trash.name, new Texture(trash.baseImgName + trash.img + trash.fileType));
-            trash.setDrawable(skin1, trash.name);
+            trash.nast = rand.nextInt(100)+1;
+            trash.setDrawable(sp.divideGarbage(trash));
             stage.addActor(trash);
             imgs.add(trash);
             imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size() - 1));
@@ -278,10 +284,8 @@ public class Trashcan implements Screen {
             Random rand = new Random();
             int t = rand.nextInt(garbageItems.length-1);
             Trash item = makeRandGarbage(t);
-            Texture tex = new Texture(item.baseImgName+item.img+item.fileType);
-            Skin sk = new Skin();
-            sk.add("t", tex);
-            item.setDrawable(sk.getDrawable("t"));
+            item.nast = rand.nextInt(100)+1;
+            item.setDrawable(sp.divideGarbage(item));
             item.setX(plocs[0]);
             item.setY(plocs[1]);
             System.out.println(plocs[0]+" "+ plocs[1]);
@@ -447,7 +451,7 @@ public class Trashcan implements Screen {
         text.toFront();
 
         SpriteSheetDivider sp = new SpriteSheetDivider();
-        backpackImg.setDrawable(sp.divideItem("SmallInv", 0));
+        backpackImg.setDrawable(sp.divideItem("Inventory", 0));
         backpackImg.setSize(backpack.getWidth(), stage.getHeight()-game.ui.topbarHeight);
         backpackImg.setX(stage.getWidth() - backpackImg.getWidth());
         stage.addActor(backpackImg);
@@ -493,6 +497,16 @@ public class Trashcan implements Screen {
         background.toBack();
         if (Gdx.input.getX() >= stage.getWidth() - backpackImg.getWidth() - backpackOpenProc && wasTouched && !touchingBug) {
             backpackImg.setVisible(true);
+            SpriteSheetDivider sp = new SpriteSheetDivider();
+            try {
+                backpackImg.setDrawable(sp.divideItem("SmallInv", currentObject.rarity));
+            }
+            catch (NullPointerException e){
+                e.printStackTrace();
+                backpackImg.setDrawable(sp.divideItem("SmallInv", 0));
+            }
+
+
         } else {
             backpackImg.setVisible(false);
         }
@@ -643,6 +657,8 @@ public class Trashcan implements Screen {
 
                     wasTouched = false;
                     touchingBug = false;
+                    currentObject = null;
+
 
                 }
 
@@ -652,6 +668,7 @@ public class Trashcan implements Screen {
                         touchingBug = true;
                     }
                     wasTouched = true;
+                    currentObject = imgs.get(k);
                     imgs.get(k).toFront();
 
                     if (countFrame == 9) {

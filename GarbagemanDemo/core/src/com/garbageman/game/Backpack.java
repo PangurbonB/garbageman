@@ -15,21 +15,21 @@ import java.util.Random;
 
 public class Backpack extends Actor{
 
-    public int vertSlots = 5;
-    public int horizSlots = 3;
-    public int totalSlots = vertSlots * horizSlots;
+    private int vertSlots = 5;
+    private int horizSlots = 3;
+    private int totalSlots = vertSlots * horizSlots;
 
     public ArrayList<Trash> contents = new ArrayList<Trash>();
-    public int width = 400;
+    public int width = 300;
     public int height = 400;
 
-    public Backpack(){
+    Backpack(){
         this.setWidth(width);
         this.setHeight(height);
     }
 
     public Trash getRandom(){
-        return this.contents.get(new Random().nextInt(this.contents.size() + 1 - 0) + 0);
+        return this.contents.get(new Random().nextInt(this.contents.size() + 1));
     }
 
     public boolean add(Trash item){
@@ -66,12 +66,15 @@ public class Backpack extends Actor{
     }
 
     public boolean remove(String itemName){
-        boolean success = false;
         int index = getIndex(itemName);
         if (index != 0){
             remove(index);
+            return true;
         }
-        return success;
+        else{
+            return false;
+        }
+
     }
 
 }

@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.MainMenuScreen;
@@ -132,8 +133,8 @@ public class UI {
                     infoLabels.add(infoName);
                     System.out.println("info label " + x + " made");
                 }
-            } else
-                System.out.println("NOT 4:::: " + curInfoList.size());
+            } //else
+                //System.out.println("NOT 4:::: " + curInfoList.size());
         }
     }
 
@@ -191,6 +192,7 @@ public class UI {
         int xPlus = size+30;
         int tot = 0;
         //inv.add(noContent);
+        System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBB"+game.backpack.contents.size());
         try {
             while (game.backpack.contents.size()== 0)
                 System.out.println("waiting...");
@@ -205,20 +207,18 @@ public class UI {
                         //System.out.println("tot: "+tot+"  "+"size: "+game.backpack.contents.size());
                         if (tot < game.backpack.contents.size()) {
                             //System.out.println("here we are");
-                            Skin lbs = new Skin();
                             final Trash item = game.backpack.contents.get(tot);
-                            System.out.println("interval " + tot + ";;;; " + item.name);
-                            Texture img = getTextureFromTrash(item);
-                            lbs.add("default", img);
+                            //System.out.println("interval " + tot + ";;;; " + item.name);
+                            Drawable img = item.getDrawable();
 
                             ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
-                            ibStyle.imageUp = lbs.getDrawable("default");
+                            ibStyle.imageUp = item.getDrawable();
                             ibStyle.imageUp.setMinHeight(size);
                             ibStyle.imageUp.setMinWidth(size);
                             final ImageButton localB = new ImageButton(ibStyle);
                             localB.setBounds(xPos + 25, yPos, size, size);
                             localB.setSize(256, 256);
-                            localB.setSkin(lbs);
+
                             localB.addListener(new InputListener() {
                                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                     //create info

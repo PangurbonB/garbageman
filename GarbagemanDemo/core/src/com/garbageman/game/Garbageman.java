@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.BooleanArray;
 import com.badlogic.gdx.utils.IntFloatMap;
 import com.garbageman.game.game.world.GetInput;
 import com.garbageman.game.garbage.Bean;
+import com.garbageman.game.garbage.CrowWithOddEyeInfection;
 import com.garbageman.game.garbage.McdFries;
 import com.garbageman.game.garbage.McdHamburger;
 import com.garbageman.game.garbage.MysteryEyeball;
@@ -101,6 +102,8 @@ public class Garbageman extends Game {
 		this.setScreen(new MainMenuScreen(this));
 		for (int i = 0; i <= 6; i++) {
 			this.backpack.contents.add(new Pork());
+			if (i == 4)
+				this.backpack.contents.add(new CrowWithOddEyeInfection());
 		}
 		//Gdx.input.setInputProcessor(new GetInput());
 

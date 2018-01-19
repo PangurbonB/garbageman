@@ -124,6 +124,28 @@ public class UI {
         return new Texture("assets/Garbage/"+item.img+".png");
     }
 
+    private void creteLabels(){
+        if (infoLabels.size()== 0) {
+            Label.LabelStyle smallerStyle = new Label.LabelStyle();
+            smallerStyle.font = game.makeFont(15);
+            if (curInfoList.size() >= 4) {
+                for (int x = 0; x <= curInfoList.size(); x++) {
+                    System.out.println("THIS: " + x);
+                    Label infoName = new Label("", smallerStyle);
+                    infoName.setAlignment(Align.center);
+                    infoName.setBounds(0, game.window_height - (100 * x), 250, 75);
+                    infoName.setVisible(false);
+                    stage.addActor(infoName);
+                    //inv.add(infoName);
+                    //infoFrame.add(infoName);
+                    infoLabels.add(infoName);
+                    System.out.println("info label " + x + " made");
+                }
+            } else
+                System.out.println("NOT 4:::: " + curInfoList.size());
+        }
+    }
+
     public void init(Garbageman game, Stage stage, String screenName){
         this.stage = stage;
         this.game = game;
@@ -158,24 +180,7 @@ public class UI {
         inv.add(invImgBack);
         invImgBack.setZIndex(4);
 
-
-        Label.LabelStyle smallerStyle = new Label.LabelStyle();
-        smallerStyle.font = game.makeFont(15);
-        if (curInfoList.size()>= 4) {
-            for (int x = 0; x <= curInfoList.size(); x++) {
-                System.out.println("THIS: "+x);
-                Label infoName = new Label("", smallerStyle);
-                infoName.setAlignment(Align.center);
-                infoName.setBounds(0, game.window_height - (100 * x), 250, 75);
-                infoName.setVisible(false);
-                stage.addActor(infoName);
-                inv.add(infoName);
-                infoFrame.add(infoName);
-                infoLabels.add(infoName);
-            }
-        }
-        else
-            System.out.println("NOT 4:::: "+curInfoList.size());
+        creteLabels();
         upInv();
 
         if (game.currentScreen.equals("Trashcan"))
@@ -226,6 +231,7 @@ public class UI {
                                     //System.out.println("CLIEDK");
                                     //new InfoFrame(game, stage, (int)localB.getX(), (int)localB.getY());
                                     //makeRect((int)localB.getX(), (int)localB.getY(), 100, 100, Color.BLUE);
+                                    System.out.println("current down: "+currentDown);
                                     if (currentDown == null || currentDown != localB) {
                                         showInfo = true;
                                         infoX = (int) localB.getX();
@@ -233,15 +239,18 @@ public class UI {
                                         currentDown = localB;
                                         curInfoList.clear();
                                         curInfoList.add(0, "Item: " + item.name);
-                                        curInfoList.add(1, Integer.toString(item.nast));//rottenness
-                                        curInfoList.add(2, item.getRarity(item.rarity));
-                                        curInfoList.add(3, "This is a test item. For testing, you just click the button and it puts in this description.");
-                                        System.out.println("SIZE:" + curInfoList.size());
+                                        curInfoList.add(1, "Rot:"+Integer.toString(item.nast));//rottenness
+                                        curInfoList.add(2, "RARE:"+item.getRarity(item.rarity));
+                                        curInfoList.add(3, item.desc);
+                                       // System.out.println("Current rarity: "+item.getRarity(item.rarity));
+                                        //System.out.println("SIZE:" + curInfoList.size());
 
                                     } else if (currentDown != null) {
+                                        System.out.println("eq? "+ (currentDown == localB));
                                         if (currentDown == localB) {
                                             currentDown = null;
                                             showInfo = false;
+                                            closeInvInfo();
                                         }
                                     }
                                     return true;
@@ -368,6 +377,16 @@ public class UI {
         }
     }
 
+    private void closeInvInfo(){
+        if (curInfoList.size()>= 4) {
+            showInfo = !showInfo;
+            for (int x = 0; x < infoLabels.size(); x++) {
+                infoLabels.get(x).setVisible(false);
+            }
+            infoLabels.clear();
+        }
+    }
+
     public void update(){
         Color barBackgroundGrey = Color.valueOf("#939598");
 
@@ -384,29 +403,38 @@ public class UI {
         }
 
         if (showInv == true){
+            if (infoLabels.size()== 0){
+                creteLabels();
+            }
             if (!game.backpack.contents.equals(curInv))
                 upInv();
             setInvVis(true, false);
             invButton.getLabel().setText("Close");
-            System.out.println("curInfoList: "+curInfoList.size());
+            //System.out.println("curInfoList: "+curInfoList.size());
             if (showInfo && curInfoList.size()== 4){
                 setInvVis(true, true);
 
-                System.out.println("INFO_LABELS: "+infoLabels.size());
+                //System.out.println("INFO_LABELS: "+infoLabels.size());
                 if (infoLabels.size()> 0) {
                     for (int x = 0; x < curInfoList.size(); x++) {
-                        System.out.println("ITEM: "+x+" ;; SIZE: "+infoLabels.size());
+                        //System.out.println("ITEM: "+x+" ;; SIZE: "+infoLabels.size());
                         infoLabels.get(x).setText(curInfoList.get(x));
-                        System.out.println("set text to '"+curInfoList.get(x)+"'");
+                        infoLabels.get(x).setVisible(true);
+                        //System.out.println("set text to '"+curInfoList.get(x)+"'");
                     }
                 }
             }
+            else if (showInfo && curInfoList.size()== 4 && !showInv){
+                closeInvInfo();
+            }
             else{
                 setInvVis(false, true);
+                closeInvInfo();
             }
         }
         else if (showInv == false){
             setInvVis(false, false);
+            closeInvInfo();
             try{
                 invButton.getLabel().setText("Inventory");
             }

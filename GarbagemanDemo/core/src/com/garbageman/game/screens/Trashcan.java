@@ -91,6 +91,7 @@ public class Trashcan implements Screen {
 
     //Interaction Stuffs
             boolean wasTouched = false;
+            boolean touchingBug = false;
             int countFrame = 0;
             float fric = .9f;
 
@@ -490,7 +491,7 @@ public class Trashcan implements Screen {
 
 
         background.toBack();
-        if (Gdx.input.getX() >= stage.getWidth() - backpackImg.getWidth() - backpackOpenProc && wasTouched) {
+        if (Gdx.input.getX() >= stage.getWidth() - backpackImg.getWidth() - backpackOpenProc && wasTouched && !touchingBug) {
             backpackImg.setVisible(true);
         } else {
             backpackImg.setVisible(false);
@@ -641,11 +642,15 @@ public class Trashcan implements Screen {
                     }
 
                     wasTouched = false;
+                    touchingBug = false;
 
                 }
 
 
                 public void touchDragged(InputEvent event, float x, float y, int pointer) {
+                    if (imgs.get(k).name.toLowerCase().equals("bug")){
+                        touchingBug = true;
+                    }
                     wasTouched = true;
                     imgs.get(k).toFront();
 

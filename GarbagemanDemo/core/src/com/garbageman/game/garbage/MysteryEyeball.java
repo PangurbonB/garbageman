@@ -11,6 +11,7 @@ public class MysteryEyeball extends Trash {
         rarity = VERYRARE;
         name = "Mystery Eyeball";
         img = "eyeball";
+        desc = "THIS IS DESC";
     }
 
 }

@@ -1,32 +1,15 @@
 package com.garbageman.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.maps.Map;
-import com.badlogic.gdx.utils.BooleanArray;
-import com.badlogic.gdx.utils.IntFloatMap;
-import com.garbageman.game.game.world.GetInput;
-import com.garbageman.game.garbage.Bean;
 import com.garbageman.game.garbage.CrowWithOddEyeInfection;
-import com.garbageman.game.garbage.McdFries;
-import com.garbageman.game.garbage.McdHamburger;
-import com.garbageman.game.garbage.MysteryEyeball;
 import com.garbageman.game.garbage.Pork;
-import com.garbageman.game.garbage.Trash;
-import com.garbageman.game.screens.GameScreen;
 import com.garbageman.game.screens.MainMenuScreen;
-import com.garbageman.game.screens.Trashcan;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,6 +21,7 @@ public class Garbageman extends Game {
 	public static final String title = "Garbageman";
 	public String currentScreen = "MainMenuScreen";
 	public AssetManager manager = new AssetManager();
+	public static boolean canResize = false;
 	public int money = 50;
 	public int reputation = 50;
 	public final int repMax = 100;
@@ -49,13 +33,13 @@ public class Garbageman extends Game {
 
 
 	//colors for rarity:
-	public Color common = Color.WHITE;
-	public Color uncommon = Color.valueOf("#08f900");
-	public Color rare = Color.valueOf("#0004f9");
-	public Color veryRare = Color.valueOf("#8d00f9");
-	public Color legendary = Color.valueOf("#00f9f0");
-	public Color questionMark = Color.valueOf("#f9009d");
-	public Color purchased = Color.BLACK;
+	public Color COMMON = Color.WHITE;
+	public Color UNCOMMON = Color.valueOf("#08f900");
+	public Color RARE = Color.valueOf("#0004f9");
+	public Color VERYRARE = Color.valueOf("#8d00f9");
+	public Color LEGENDARY = Color.valueOf("#00f9f0");
+	public Color BEYOND_COMPREHENSION = Color.valueOf("#f9009d");
+	public Color BOUGHT = Color.BLACK;
 
 	public java.util.Map<String, Color> colorMap = Collections.synchronizedMap(new HashMap());
 
@@ -107,13 +91,13 @@ public class Garbageman extends Game {
 		}
 		//Gdx.input.setInputProcessor(new GetInput());
 
-		colorMap.put("common", common);
-		colorMap.put("uncommon", uncommon);
-		colorMap.put("rare", rare);
-		colorMap.put("veryRare", veryRare);
-		colorMap.put("legendary", legendary);
-		colorMap.put("bought", purchased);
-		colorMap.put("???", questionMark);
+		colorMap.put("Common", COMMON);
+		colorMap.put("Uncommon", UNCOMMON);
+		colorMap.put("Rare", RARE);
+		colorMap.put("Very Rare", VERYRARE);
+		colorMap.put("Legendary", LEGENDARY);
+		colorMap.put("Bought", BOUGHT);
+		colorMap.put("???", BEYOND_COMPREHENSION);
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package com.garbageman.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,23 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.garbageman.game.garbage.McdFries;
-import com.garbageman.game.garbage.McdHamburger;
 import com.garbageman.game.garbage.Trash;
-import com.garbageman.game.screens.GameScreen;
 import com.garbageman.game.screens.MainMenuScreen;
-import com.garbageman.game.screens.Trashcan;
-import com.garbageman.game.screens.ViewInventory;
 
 import java.util.ArrayList;
 
@@ -66,6 +56,7 @@ public class UI {
     private Label noContent;
     private ArrayList<Label>infoLabels = new ArrayList<Label>();
     private Image invImgBack;
+    private Actor rotBarBack, rotBarBar;
 
 
     public UI(){
@@ -124,7 +115,7 @@ public class UI {
         return new Texture("assets/Garbage/"+item.img+".png");
     }
 
-    private void creteLabels(){
+    private void createLabels(){
         if (infoLabels.size()== 0) {
             Label.LabelStyle smallerStyle = new Label.LabelStyle();
             smallerStyle.font = game.makeFont(15);
@@ -133,7 +124,7 @@ public class UI {
                     System.out.println("THIS: " + x);
                     Label infoName = new Label("", smallerStyle);
                     infoName.setAlignment(Align.center);
-                    infoName.setBounds(0, game.window_height - (100 * x), 250, 75);
+                    infoName.setBounds(0, (game.window_height-160) - (x*50), 250, 75);
                     infoName.setVisible(false);
                     stage.addActor(infoName);
                     //inv.add(infoName);
@@ -180,7 +171,10 @@ public class UI {
         inv.add(invImgBack);
         invImgBack.setZIndex(4);
 
-        creteLabels();
+        this.rotBarBack = makeRect(0, 0, (int)(double)(invInfo.getWidth()*.8), (int)invInfo.getHeight()/8, barBackgroundGrey, true);
+        stage.addActor(this.rotBarBack);
+
+        createLabels();
         upInv();
 
         if (game.currentScreen.equals("Trashcan"))
@@ -240,7 +234,7 @@ public class UI {
                                         curInfoList.clear();
                                         curInfoList.add(0, "Item: " + item.name);
                                         curInfoList.add(1, "Rot:"+Integer.toString(item.nast));//rottenness
-                                        curInfoList.add(2, "RARE:"+item.getRarity(item.rarity));
+                                        curInfoList.add(2, item.getRarity(item.rarity));
                                         curInfoList.add(3, item.desc);
                                        // System.out.println("Current rarity: "+item.getRarity(item.rarity));
                                         //System.out.println("SIZE:" + curInfoList.size());
@@ -351,6 +345,7 @@ public class UI {
         }
 
 
+
         upInv();
     }
 
@@ -404,7 +399,7 @@ public class UI {
 
         if (showInv == true){
             if (infoLabels.size()== 0){
-                creteLabels();
+                createLabels();
             }
             if (!game.backpack.contents.equals(curInv))
                 upInv();
@@ -419,6 +414,11 @@ public class UI {
                     for (int x = 0; x < curInfoList.size(); x++) {
                         //System.out.println("ITEM: "+x+" ;; SIZE: "+infoLabels.size());
                         infoLabels.get(x).setText(curInfoList.get(x));
+                        if (x == 2) {
+                            System.out.println(infoLabels.get(x).getText());
+                            System.out.println(game.colorMap.get("Rare"));
+                            infoLabels.get(x).setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
+                        }
                         infoLabels.get(x).setVisible(true);
                         //System.out.println("set text to '"+curInfoList.get(x)+"'");
                     }

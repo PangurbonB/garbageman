@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = Garbageman.title;
 		config.foregroundFPS = 60;
-		config.resizable = false;
+		config.resizable = Garbageman.canResize;
 		config.height = Garbageman.window_height;
 		config.width = Garbageman.window_width;
 		config.forceExit = false;

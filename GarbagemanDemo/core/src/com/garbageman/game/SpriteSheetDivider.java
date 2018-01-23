@@ -1,4 +1,4 @@
-package com.garbageman.game.world;
+package com.garbageman.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

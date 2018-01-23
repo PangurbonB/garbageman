@@ -58,6 +58,7 @@ public class UI {
     private ArrayList<Label>infoLabels = new ArrayList<Label>();
     private Image invImgBack;
     private Actor rotBarBack, rotBarBar;
+    private float rotBarY = 10;//by default; gets reset to pos of rotText
 
 
     public UI(){
@@ -128,6 +129,11 @@ public class UI {
                     infoName.setBounds(0, (game.window_height-160) - (x*50), 250, 75);
                     infoName.setVisible(false);
                     stage.addActor(infoName);
+                    //System.out.println("POSITION "+x+": "+infoName.getX()+", "+infoName.getY());
+                    if (x == 1) {
+                        System.out.println("SET ROT BARY: "+infoName.getY());
+                        rotBarY = infoName.getY();
+                    }
                     //inv.add(infoName);
                     //infoFrame.add(infoName);
                     infoLabels.add(infoName);
@@ -172,8 +178,13 @@ public class UI {
         inv.add(invImgBack);
         invImgBack.setZIndex(4);
 
-        this.rotBarBack = makeRect(0, 0, (int)(double)(invInfo.getWidth()*.8), (int)invInfo.getHeight()/8, barBackgroundGrey, true);
+        this.rotBarBack = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(invInfo.getWidth()*.8), (int)invInfo.getHeight()/16, barBackgroundGrey, true);
         stage.addActor(this.rotBarBack);
+        inv.add(rotBarBack);
+        this.rotBarBar = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(rotBarBack.getWidth()*.8), (int)invInfo.getHeight()/16, Color.valueOf("#f49542"), true);
+        stage.addActor(rotBarBar);
+        inv.add(rotBarBar);
+
 
         createLabels();
         upInv();
@@ -419,13 +430,19 @@ public class UI {
                 if (infoLabels.size()> 0) {
                     for (int x = 0; x < curInfoList.size(); x++) {
                         //System.out.println("ITEM: "+x+" ;; SIZE: "+infoLabels.size());
-                        infoLabels.get(x).setText(curInfoList.get(x));
+                        Label local = infoLabels.get(x);
+                        local.setText(curInfoList.get(x));
                         if (x == 2) {
-                            System.out.println(infoLabels.get(x).getText());
-                            System.out.println(game.colorMap.get("Rare"));
-                            infoLabels.get(x).setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
+                            //System.out.println(local.getText());
+                            local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
                         }
-                        infoLabels.get(x).setVisible(true);
+                        else if (x == 1) {
+                            float numy = rotBarY-(float)(rotBarY*-.04);
+                            rotBarBack.setY(numy);
+                            rotBarBar.setY(numy);
+                            //System.out.println("x == 3, "+rotBarY+", "+rotBarBack.getY());
+                        }
+                        local.setVisible(true);
                         //System.out.println("set text to '"+curInfoList.get(x)+"'");
                     }
                 }

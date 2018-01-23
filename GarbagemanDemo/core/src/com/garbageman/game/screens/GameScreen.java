@@ -170,6 +170,9 @@ public class GameScreen implements Screen{
             game.giveMoney(1);
             //System.out.println(game.reputation);
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.Q)){
+            Gdx.app.exit();
+        }
 
         /*if (this.x > game.window_width){
             this.x = 0-img.getWidth();

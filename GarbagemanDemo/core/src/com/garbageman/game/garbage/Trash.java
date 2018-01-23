@@ -1,8 +1,7 @@
 package com.garbageman.game.garbage;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.garbageman.game.world.SpriteSheetDivider;
+import com.garbageman.game.SpriteSheetDivider;
 
 /**
  * Created by bzonick5979 on 9/27/2017.

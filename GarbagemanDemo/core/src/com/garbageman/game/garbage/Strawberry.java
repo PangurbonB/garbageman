@@ -10,5 +10,6 @@ public class Strawberry extends Trash {
         rarity = UNC;
         name = "Strawberry";
         img = "strawberry";
+        desc = "Strawberries are supposed to be rock-hard, right?";
     }
 }

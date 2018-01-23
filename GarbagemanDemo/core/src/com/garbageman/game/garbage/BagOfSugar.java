@@ -11,6 +11,7 @@ public class BagOfSugar extends Trash {
         rarity = BOUGHT;
         name = "Bag of Sugar";
         img = "bagOfSugar";
+        desc = "This store bought bag of sugar was expensive, but people will like it";
     }
 
 }

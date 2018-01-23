@@ -10,5 +10,6 @@ public class CrowWithOddEyeInfection extends Trash {
         rarity = BEYOND_COMPREHENSION;
         name = "Crow With Odd Eye Infection";
         img = "crowwithoddeyeinfection";
+        desc = "The phrase 'patient zero' comes to mind";
     }
 }

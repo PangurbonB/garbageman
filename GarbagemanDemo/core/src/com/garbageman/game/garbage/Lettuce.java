@@ -10,5 +10,6 @@ public class Lettuce extends Trash {
         rarity = UNCOMMON;
         name = "Lettuce";
         img = "lettuce";
+        desc = "";
     }
 }

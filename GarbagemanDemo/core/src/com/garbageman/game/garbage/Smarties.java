@@ -10,5 +10,6 @@ public class Smarties extends Trash {
         rarity = UNCOM;
         name = "Stale Dummy Candy";
         img = "smarties";
+        desc = "The label reads: 'Warning: Contains Human Growth Hormone'";
     }
 }

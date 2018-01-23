@@ -10,5 +10,6 @@ public class AppleCore extends Trash {
         rarity = COMMON;
         name = "AppleCore";
         img = "applecore";
+        desc = "You try not to think about the worms writhing beneath the surface";
     }
 }

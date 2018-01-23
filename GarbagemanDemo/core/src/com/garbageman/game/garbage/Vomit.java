@@ -10,5 +10,6 @@ public class Vomit extends Trash {
         rarity = COM;
         name = "Human Vomit";
         img = "vomit";
+        desc = "You sicko";
     }
 }

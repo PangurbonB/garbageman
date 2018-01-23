@@ -10,6 +10,7 @@ public class Pork extends Trash {
         rarity = BOUGHT;
         name = "Pork";
         img = "pork";
+        desc = "This store bought pork was expensive, but people will like it";
     }
 
 }

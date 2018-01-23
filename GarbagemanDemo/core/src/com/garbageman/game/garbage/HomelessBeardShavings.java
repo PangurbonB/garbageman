@@ -10,5 +10,6 @@ public class HomelessBeardShavings extends Trash {
         rarity = RARE;
         name = "Homeless Beard Shavings";
         img = "homelessBeardShavings";
+        desc = "Why did you pick this up?";
     }
 }

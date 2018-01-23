@@ -10,5 +10,6 @@ public class Ketchup extends Trash {
         rarity = BOUGHT;
         name = "Ketchup";
         img = "ketchup";
+        desc = "This store bought ketchup was expensive, but people will like it";
     }
 }

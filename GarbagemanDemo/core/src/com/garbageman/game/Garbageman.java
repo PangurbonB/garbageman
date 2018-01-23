@@ -7,15 +7,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.garbageman.game.garbage.CrowWithOddEyeInfection;
 import com.garbageman.game.garbage.Leaf;
-import com.garbageman.game.garbage.Lettuce;
 import com.garbageman.game.garbage.McdHamburger;
-import com.garbageman.game.garbage.Pork;
-import com.garbageman.game.garbage.RabbitFoot;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.MainMenuScreen;
-import com.garbageman.game.world.SpriteSheetDivider;
 
 import java.util.Collections;
 import java.util.HashMap;

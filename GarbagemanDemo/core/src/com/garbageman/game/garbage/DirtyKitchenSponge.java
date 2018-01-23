@@ -11,6 +11,7 @@ public class DirtyKitchenSponge extends Trash {
         rarity = UNCOMMON;
         name = "Dirty Kitchen Sponge";
         img = "dirtyKitchenSponge";
+        desc = "You are at a loss trying to picture how many plates have been cleaned with this sponge";
     }
 
 }

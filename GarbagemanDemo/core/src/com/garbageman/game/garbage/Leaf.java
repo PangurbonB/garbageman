@@ -10,5 +10,6 @@ public class Leaf extends Trash {
         rarity = COMMON;
         name = "Old Leaf";
         img = "leaf";
+        desc = "There aren't really any trees nearby...";
     }
 }

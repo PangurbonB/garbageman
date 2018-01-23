@@ -37,7 +37,7 @@ public class Backpack extends Actor{
         if (this.contents.size() < this.totalSlots){
             contents.add(item);
             success = true;
-
+            System.out.println("Worked: "+item.img);
         }
         else{
             System.out.println(this.contents.size()+"     "+this.totalSlots);

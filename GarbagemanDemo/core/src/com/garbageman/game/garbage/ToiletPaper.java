@@ -10,5 +10,6 @@ public class ToiletPaper extends Trash {
         rarity = COM;
         name = "Toilet Paper";
         img = "toiletPaper";
+        desc = "Unused, fortunately";
     }
 }

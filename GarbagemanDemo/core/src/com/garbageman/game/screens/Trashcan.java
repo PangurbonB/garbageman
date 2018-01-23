@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -21,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.garbageman.game.Backpack;
-import com.garbageman.game.GarbageSpriteSheet;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.UI;
 import com.garbageman.game.garbage.AppleCore;
@@ -51,7 +49,7 @@ import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.garbage.Vomit;
 import com.garbageman.game.world.GestureHandler;
 import com.garbageman.game.world.InputHandler;
-import com.garbageman.game.world.SpriteSheetDivider;
+import com.garbageman.game.SpriteSheetDivider;
 
 import java.util.Random;
 
@@ -59,8 +57,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import sun.font.TextLabel;
 
 public class Trashcan implements Screen {
     //All of my initializations:
@@ -491,7 +487,9 @@ public class Trashcan implements Screen {
     public void render(float delta) {
 
 
-
+        for (int i = 0; i < imgs.size(); i++) {
+            imgs.get(i).setName(Integer.toString(i));
+        }
 
 
         background.toBack();
@@ -568,49 +566,46 @@ public class Trashcan implements Screen {
         }
 
         for (int i = 0; i < imgs.size(); i++) {
-            stage.addActor(imgs.get(i));
-            final int k = i;
-            //System.out.println(velMap.get(imgs.get(i).getName() + "x"));
+            if(imgs.get(i) != null) {
+                stage.addActor(imgs.get(i));
+                final int k = i;
+                //System.out.println(velMap.get(imgs.get(i).getName() + "x"));
 
-            imgs.get(k).setX(imgs.get(k).getX() + velMap.get(imgs.get(k).getName() + "x"));
-            imgs.get(k).setY(imgs.get(k).getY() + velMap.get(imgs.get(k).getName() + "y"));
-
-
-            float tx = velMap.get(imgs.get(k).getName() + "x");
-            float ty = velMap.get(imgs.get(k).getName() + "y");
-            float tm = (float) Math.sqrt((tx * tx) + (ty * ty));
+                imgs.get(k).setX(imgs.get(k).getX() + velMap.get(imgs.get(k).getName() + "x"));
+                imgs.get(k).setY(imgs.get(k).getY() + velMap.get(imgs.get(k).getName() + "y"));
 
 
-            if (velMap.get(imgs.get(k).getName() + "x") >= 0)
-                velMap.put(imgs.get(k).getName() + "x", tx * fric/*((tm-.5f)/tm)*/);
-            if (velMap.get(imgs.get(k).getName() + "x") <= 0)
-                velMap.put(imgs.get(k).getName() + "x", tx * fric/*((tm+.5f)/tm)*/);
-            if (velMap.get(imgs.get(k).getName() + "y") >= 0)
-                velMap.put(imgs.get(k).getName() + "y", ty * fric/*((tm-.5f)/tm)*/);
-            if (velMap.get(imgs.get(k).getName() + "y") <= 0)
-                velMap.put(imgs.get(k).getName() + "y", ty * fric/*((tm+.5f)/tm)*/);
-
-            imgs.get(i).addListener(new ClickListener() {
-                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
-                    if ((imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/ >= (stage.getWidth() - backpackImg.getWidth())) && wasTouched) {
-                        //System.out.println(imgs.get(k).getDrawable().toString());
+                float tx = velMap.get(imgs.get(k).getName() + "x");
+                float ty = velMap.get(imgs.get(k).getName() + "y");
+                float tm = (float) Math.sqrt((tx * tx) + (ty * ty));
 
 
-                        if (!imgs.get(k).getDrawable().toString().equals("TextureRegionDrawable")) {
-                            backpack.add(imgs.get(k));
-                        }
-                        imgs.get(k).addAction(Actions.removeActor());
+                if (velMap.get(imgs.get(k).getName() + "x") >= 0)
+                    velMap.put(imgs.get(k).getName() + "x", tx * fric/*((tm-.5f)/tm)*/);
+                if (velMap.get(imgs.get(k).getName() + "x") <= 0)
+                    velMap.put(imgs.get(k).getName() + "x", tx * fric/*((tm+.5f)/tm)*/);
+                if (velMap.get(imgs.get(k).getName() + "y") >= 0)
+                    velMap.put(imgs.get(k).getName() + "y", ty * fric/*((tm-.5f)/tm)*/);
+                if (velMap.get(imgs.get(k).getName() + "y") <= 0)
+                    velMap.put(imgs.get(k).getName() + "y", ty * fric/*((tm+.5f)/tm)*/);
 
-                        for (int i = 0; i < backpack.contents.size(); i++) {
+                imgs.get(i).addListener(new ClickListener() {
+                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 
-                            //System.out.println("Name " + i + ": " + backpack.contents.get(i).getName());
-                        }
+                        if ((imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/ >= (stage.getWidth() - backpackImg.getWidth())) && wasTouched) {
+                            //System.out.println(imgs.get(k).getDrawable().toString());
 
-                    } else if (wasTouched) {
 
-                        //System.out.println(imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/);
-                        //System.out.println(stage.getWidth() - backpackImg.getWidth());
+                            if (!touchingBug) {
+                                backpack.add(imgs.get(k));
+                                imgs.get(k).remove();
+                                imgs.remove(k);
+                            }
+
+                        } else if (wasTouched) {
+
+                            //System.out.println(imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/);
+                            //System.out.println(stage.getWidth() - backpackImg.getWidth());
                         /*
                         System.out.println("X:");q                        System.out.println(oldLocMap.get("x" + "null" + "0"));
                         System.out.println(oldLocMap.get("x" + "null" + "9"));
@@ -620,71 +615,72 @@ public class Trashcan implements Screen {
 
                         */
 
-                        boolean gotX = false;
-                        boolean gotY = false;
-                        float xVel = 0f;
-                        float yVel = 0f;
-                        for (int i = 9; i > 0; i--) {
+                            boolean gotX = false;
+                            boolean gotY = false;
+                            float xVel = 0f;
+                            float yVel = 0f;
+                            for (int i = 9; i > 0; i--) {
 
-                            if (oldLocMap.get("y" + "null" + "0") - oldLocMap.get("y" + "null" + Integer.toString(i)) != 0f) {
-                                yVel = oldLocMap.get("y" + "null" + "0") - oldLocMap.get("y" + "null" + Integer.toString(i));
-                                gotY = true;
+                                if (oldLocMap.get("y" + "null" + "0") - oldLocMap.get("y" + "null" + Integer.toString(i)) != 0f) {
+                                    yVel = oldLocMap.get("y" + "null" + "0") - oldLocMap.get("y" + "null" + Integer.toString(i));
+                                    gotY = true;
+                                }
+                                if (oldLocMap.get("x" + "null" + "0") - oldLocMap.get("x" + "null" + Integer.toString(i)) != 0f) {
+                                    xVel = oldLocMap.get("x" + "null" + "0") - oldLocMap.get("x" + "null" + Integer.toString(i));
+                                    gotX = true;
+                                }
+
                             }
-                            if (oldLocMap.get("x" + "null" + "0") - oldLocMap.get("x" + "null" + Integer.toString(i)) != 0f) {
-                                xVel = oldLocMap.get("x" + "null" + "0") - oldLocMap.get("x" + "null" + Integer.toString(i));
-                                gotX = true;
+                            if (!gotX) xVel = 0f;
+                            if (!gotY) yVel = 0f;
+
+
+                            //System.out.println("VELOCITIES:");
+                            //System.out.println("xVel:" + xVel);
+                            //System.out.println("yVel:" + yVel);
+
+
+                            velMap.put(imgs.get(k).getName() + "x", xVel);
+                            velMap.put(imgs.get(k).getName() + "y", yVel);
+
+                            for (int i = 0; i < 10; i++) {
+                                oldLocMap.put("y" + "null" + Integer.toString(i), imgs.get(k).getY());
+                                oldLocMap.put("x" + "null" + Integer.toString(i), imgs.get(k).getX());
                             }
-
                         }
-                        if (!gotX) xVel = 0f;
-                        if (!gotY) yVel = 0f;
+
+                        wasTouched = false;
+                        touchingBug = false;
+                        currentObject = null;
 
 
-                        //System.out.println("VELOCITIES:");
-                        //System.out.println("xVel:" + xVel);
-                        //System.out.println("yVel:" + yVel);
-
-
-                        velMap.put(imgs.get(k).getName() + "x", xVel);
-                        velMap.put(imgs.get(k).getName() + "y", yVel);
-
-                        for (int i = 0; i < 10; i++) {
-                            oldLocMap.put("y" + "null" + Integer.toString(i), imgs.get(k).getY());
-                            oldLocMap.put("x" + "null" + Integer.toString(i), imgs.get(k).getX());
-                        }
                     }
 
-                    wasTouched = false;
-                    touchingBug = false;
-                    currentObject = null;
 
-
-                }
-
-
-                public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                    if (imgs.get(k).name.toLowerCase().equals("bug")){
-                        touchingBug = true;
-                    }
-                    wasTouched = true;
-                    currentObject = imgs.get(k);
-                    imgs.get(k).toFront();
-
-                    if (countFrame == 9) {
-                        for (int i = 9; i >= 0; i--) {
-                            oldLocMap.put("y" + "null" + Integer.toString(i + 1), oldLocMap.get("y" + "null" + Integer.toString(i)));
-                            oldLocMap.put("x" + "null" + Integer.toString(i + 1), oldLocMap.get("x" + "null" + Integer.toString(i)));
+                    public void touchDragged(InputEvent event, float x, float y, int pointer) {
+                        if (imgs.get(k).name.toLowerCase().equals("bug")) {
+                            touchingBug = true;
                         }
-                        countFrame = 0;
+                        wasTouched = true;
+                        currentObject = imgs.get(k);
+                        imgs.get(k).toFront();
+
+                        if (countFrame == 9) {
+                            for (int i = 9; i >= 0; i--) {
+                                oldLocMap.put("y" + "null" + Integer.toString(i + 1), oldLocMap.get("y" + "null" + Integer.toString(i)));
+                                oldLocMap.put("x" + "null" + Integer.toString(i + 1), oldLocMap.get("x" + "null" + Integer.toString(i)));
+                            }
+                            countFrame = 0;
+                        }
+                        oldLocMap.put("x" + "null" + "0", imgs.get(k).getX());
+                        oldLocMap.put("y" + "null" + "0", imgs.get(k).getY());
+
+                        countFrame++;
+                        imgs.get(k).moveBy(x - imgs.get(k).getWidth() / 2, y - imgs.get(k).getHeight() / 2);
+
                     }
-                    oldLocMap.put("x" + "null" + "0", imgs.get(k).getX());
-                    oldLocMap.put("y" + "null" + "0", imgs.get(k).getY());
-
-                    countFrame++;
-                    imgs.get(k).moveBy(x - imgs.get(k).getWidth() / 2, y - imgs.get(k).getHeight() / 2);
-
-                }
-            });
+                });
+            }
         }
 
         game.ui.update();

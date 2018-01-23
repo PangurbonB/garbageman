@@ -10,5 +10,6 @@ public class BananaPeel extends Trash {
         rarity = UNCOMMON;
         name = "Banana Peel";
         img = "bananapeel";
+        desc = "Great for a wrap, or for setting traps";
     }
 }

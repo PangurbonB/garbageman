@@ -10,5 +10,6 @@ public class Feces extends Trash {
         rarity = VERYRARE;
         name = "Human Feces";
         img = "Feces";
+        desc = "Why would you even bother to cheat this in? That's just gross";
     }
 }

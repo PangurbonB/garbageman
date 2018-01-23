@@ -10,5 +10,6 @@ public class OldNewspaper extends Trash {
         rarity = COM;
         name = "Old Newspaper";
         img = "oldNewspaper";
+        desc = "It's dated 'January 23 1974.' Wow, they're really slacking on trash pickup around here";
     }
 }

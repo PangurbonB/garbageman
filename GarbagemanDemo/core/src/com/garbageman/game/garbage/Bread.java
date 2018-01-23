@@ -10,5 +10,6 @@ public class Bread extends Trash {
         rarity = BOUGHT;
         name = "Bread";
         img = "bread";
+        desc = "This store bought slice of bread was expensive, but people will like it";
     }
 }

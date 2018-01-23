@@ -2,6 +2,7 @@ package com.garbageman.game.garbage;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.garbageman.game.world.SpriteSheetDivider;
 
 /**
  * Created by bzonick5979 on 9/27/2017.
@@ -51,6 +52,16 @@ public class Trash extends Image{
     public final int MINNAST = 1;
 
     public boolean selected = false;
+
+    public void setImg(){
+        SpriteSheetDivider sp = new SpriteSheetDivider();
+        this.setDrawable(sp.divideGarbage(this));
+    }
+
+    public void setNast(int newNast){
+        nast = newNast;
+        setImg();
+    }
 
     public String getRarity(int in){
         String str = "";

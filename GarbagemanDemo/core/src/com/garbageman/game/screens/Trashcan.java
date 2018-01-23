@@ -157,13 +157,13 @@ public class Trashcan implements Screen {
 
         Float[] currLocs = bglocs.get(currBg);
         Random rand = new Random();
-        System.out.println(currLocs[3]);
+        //System.out.println(currLocs[3]);
         for (int i = 0; i < 30; i++) {
-            System.out.println(stage.getHeight());
+            //System.out.println(stage.getHeight());
             int currX = (rand.nextInt(currLocs[2].intValue() - currLocs[0].intValue()) + currLocs[0].intValue());
             int currY = (int) stage.getHeight() - (rand.nextInt(currLocs[3].intValue() - currLocs[1].intValue()) + currLocs[1].intValue());
-            System.out.println("currX: " + currX);
-            System.out.println("currY: " + currY + "\n");
+            //System.out.println("currX: " + currX);
+            //System.out.println("currY: " + currY + "\n");
         }
 
         //Stuff to make this work with two inputprocessors
@@ -213,7 +213,7 @@ public class Trashcan implements Screen {
         try {
             for (Class garbageItem : garbageItems) {
                 if (garbageItem.getSimpleName().toLowerCase().equals(string.toLowerCase())) {
-                    System.out.println(garbageItem.getSimpleName());
+                    //System.out.println(garbageItem.getSimpleName());
 
                     Trash object = (Trash) Class.forName(garbageItem.getName()).newInstance();
                     makeSoftGarbage(object);
@@ -269,7 +269,7 @@ public class Trashcan implements Screen {
             Trash junk = sp.randomPiece();
             junk.setX(plocs[0]);
             junk.setY(plocs[1]);
-            System.out.println(plocs[0]+" "+ plocs[1]);
+            //System.out.println(plocs[0]+" "+ plocs[1]);
             stage.addActor(junk);
             junk.setVisible(true);
             junk.setSize(200, 200);
@@ -288,7 +288,7 @@ public class Trashcan implements Screen {
             item.setDrawable(sp.divideGarbage(item));
             item.setX(plocs[0]);
             item.setY(plocs[1]);
-            System.out.println(plocs[0]+" "+ plocs[1]);
+            //System.out.println(plocs[0]+" "+ plocs[1]);
             stage.addActor(item);
             item.setVisible(true);
             item.setSize(128, 128);
@@ -520,7 +520,7 @@ public class Trashcan implements Screen {
             Gdx.app.exit();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.P )) {
-            System.out.println("Current X,Y:"+Gdx.input.getX()+", "+Gdx.input.getY());
+            //System.out.println("Current X,Y:"+Gdx.input.getX()+", "+Gdx.input.getY());
         }
 
         /*Console controls*/
@@ -555,7 +555,7 @@ public class Trashcan implements Screen {
                             consoleIndex = consoleLog.size();
                             textField.setCursorPosition(textField.getText().length());
                             interpretConsole();
-                            System.out.println(consoleLog.get(consoleLog.size() - 1));
+                            //System.out.println(consoleLog.get(consoleLog.size() - 1));
                         }
 
                     }
@@ -594,7 +594,7 @@ public class Trashcan implements Screen {
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 
                     if ((imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/ >= (stage.getWidth() - backpackImg.getWidth())) && wasTouched) {
-                        System.out.println(imgs.get(k).getDrawable().toString());
+                        //System.out.println(imgs.get(k).getDrawable().toString());
 
 
                         if (!imgs.get(k).getDrawable().toString().equals("TextureRegionDrawable")) {
@@ -602,16 +602,15 @@ public class Trashcan implements Screen {
                         }
                         imgs.get(k).addAction(Actions.removeActor());
 
-                        System.out.println("Size: " + backpack.contents.size());
                         for (int i = 0; i < backpack.contents.size(); i++) {
 
-                            System.out.println("Name " + i + ": " + backpack.contents.get(i).getName());
+                            //System.out.println("Name " + i + ": " + backpack.contents.get(i).getName());
                         }
 
                     } else if (wasTouched) {
 
-                        System.out.println(imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/);
-                        System.out.println(stage.getWidth() - backpackImg.getWidth());
+                        //System.out.println(imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/);
+                        //System.out.println(stage.getWidth() - backpackImg.getWidth());
                         /*
                         System.out.println("X:");q                        System.out.println(oldLocMap.get("x" + "null" + "0"));
                         System.out.println(oldLocMap.get("x" + "null" + "9"));
@@ -641,9 +640,9 @@ public class Trashcan implements Screen {
                         if (!gotY) yVel = 0f;
 
 
-                        System.out.println("VELOCITIES:");
-                        System.out.println("xVel:" + xVel);
-                        System.out.println("yVel:" + yVel);
+                        //System.out.println("VELOCITIES:");
+                        //System.out.println("xVel:" + xVel);
+                        //System.out.println("yVel:" + yVel);
 
 
                         velMap.put(imgs.get(k).getName() + "x", xVel);

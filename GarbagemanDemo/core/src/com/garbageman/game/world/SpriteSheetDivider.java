@@ -54,7 +54,7 @@ public class SpriteSheetDivider {
         TextureRegion temp = new TextureRegion();
         temp.setTexture(new Texture("assets/Screens/"+itemName+".png"));
         temp.setRegion(Math.round((currInfo[0])*x), Math.round((currInfo[1])*y), Math.round((currInfo[0])), Math.round((currInfo[1])));
-        System.out.println((currInfo[0])*x+"+"+(currInfo[1])*y+"+"+(currInfo[0])+"+"+(currInfo[1]));
+        //System.out.println((currInfo[0])*x+"+"+(currInfo[1])*y+"+"+(currInfo[0])+"+"+(currInfo[1]));
         TextureRegionDrawable temp1 = new TextureRegionDrawable();
         temp1.setRegion(temp);
         return temp1;

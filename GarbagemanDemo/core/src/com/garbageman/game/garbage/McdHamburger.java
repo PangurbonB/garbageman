@@ -8,7 +8,7 @@ public class McdHamburger extends Trash {
     {
         type = MEAT;
         rarity = COMMON;
-        name = "Mac Dougall's Hamburger";
+        name = "MacDougall's Hamburger";
         img = "mcdHamburger";
     }
 }

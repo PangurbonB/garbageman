@@ -192,7 +192,9 @@ public class UI {
         int xPlus = size+30;
         int tot = 0;
         //inv.add(noContent);
-        System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBB"+game.backpack.contents.size());
+        //System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBB"+game.backpack.contents.size());
+        for (int u = 0; u < game.backpack.contents.size(); u++)
+            //System.out.println(u+": "+game.backpack.contents.get(u).name);
         try {
             while (game.backpack.contents.size()== 0)
                 System.out.println("waiting...");
@@ -213,11 +215,15 @@ public class UI {
 
                             ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
                             ibStyle.imageUp = item.getDrawable();
+
                             ibStyle.imageUp.setMinHeight(size);
                             ibStyle.imageUp.setMinWidth(size);
                             final ImageButton localB = new ImageButton(ibStyle);
                             localB.setBounds(xPos + 25, yPos, size, size);
                             localB.setSize(256, 256);
+
+                            System.out.println("INFO: "+item.name+", "+item.rarity);
+
 
                             localB.addListener(new InputListener() {
                                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

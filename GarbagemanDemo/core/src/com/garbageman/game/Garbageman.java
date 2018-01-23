@@ -8,11 +8,18 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.garbageman.game.garbage.CrowWithOddEyeInfection;
+import com.garbageman.game.garbage.Leaf;
+import com.garbageman.game.garbage.Lettuce;
+import com.garbageman.game.garbage.McdHamburger;
 import com.garbageman.game.garbage.Pork;
+import com.garbageman.game.garbage.RabbitFoot;
+import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.MainMenuScreen;
+import com.garbageman.game.world.SpriteSheetDivider;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Garbageman extends Game {
 	public SpriteBatch batch;
@@ -85,9 +92,14 @@ public class Garbageman extends Game {
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
 		for (int i = 0; i <= 6; i++) {
-			this.backpack.contents.add(new Pork());
-			if (i == 4)
-				this.backpack.contents.add(new CrowWithOddEyeInfection());
+			Trash let = new Leaf();
+			let.setNast(new Random().nextInt(100));
+			this.backpack.contents.add(let);
+			if (i == 4){
+				McdHamburger burger = new McdHamburger();
+				burger.setNast(10);
+				this.backpack.contents.add(burger);
+			}
 		}
 		//Gdx.input.setInputProcessor(new GetInput());
 

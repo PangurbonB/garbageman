@@ -478,7 +478,9 @@ public class Trashcan implements Screen {
         }
 
 
-
+        for (int i = 0; i < imgs.size(); i++) {
+            System.out.println(imgs.get(i).img+" "+imgs.get(i).getName()+" "+imgs.get(i).name);
+        }
 
 
     }
@@ -590,7 +592,9 @@ public class Trashcan implements Screen {
                     velMap.put(imgs.get(k).getName() + "y", ty * fric/*((tm+.5f)/tm)*/);
 
                 imgs.get(i).addListener(new ClickListener() {
+
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+
 
                         if ((imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/ >= (stage.getWidth() - backpackImg.getWidth())) && wasTouched) {
                             //System.out.println(imgs.get(k).getDrawable().toString());
@@ -598,7 +602,7 @@ public class Trashcan implements Screen {
 
                             if (!touchingBug) {
                                 backpack.add(imgs.get(k));
-                                imgs.get(k).remove();
+                                imgs.get(k).setVisible(false);
                                 imgs.remove(k);
                             }
 
@@ -682,6 +686,8 @@ public class Trashcan implements Screen {
                 });
             }
         }
+
+        //System.out.println(imgs.size());
 
         game.ui.update();
 

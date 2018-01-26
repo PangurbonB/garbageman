@@ -250,7 +250,7 @@ public class UI {
                                         currentDown = localB;
                                         curInfoList.clear();
                                         curInfoList.add(0, "Item: " + item.name);
-                                        curInfoList.add(1, "Rot:"+Integer.toString(item.nast));//rottenness
+                                        curInfoList.add(1, Integer.toString(item.nast));//rottenness
                                         curInfoList.add(2, item.getRarity(item.rarity));
                                         curInfoList.add(3, item.desc);
                                        // System.out.println("Current rarity: "+item.getRarity(item.rarity));
@@ -440,6 +440,10 @@ public class UI {
                             float numy = rotBarY-(float)(rotBarY*-.04);
                             rotBarBack.setY(numy);
                             rotBarBar.setY(numy);
+                            local.setText("Rot: "+curInfoList.get(x));
+                            Float width = ((rotBarBack.getWidth()*(Float.parseFloat(curInfoList.get(x))/100 )));
+                            System.out.println("FLOAT ME BB: "+width);
+                            rotBarBar.setSize(width, rotBarBar.getHeight());
                             //System.out.println("x == 3, "+rotBarY+", "+rotBarBack.getY());
                         }
                         local.setVisible(true);

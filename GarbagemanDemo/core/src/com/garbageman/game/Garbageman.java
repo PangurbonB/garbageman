@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.garbageman.game.garbage.Leaf;
 import com.garbageman.game.garbage.McdHamburger;
+import com.garbageman.game.garbage.MysteryEyeball;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.MainMenuScreen;
 
@@ -87,9 +88,10 @@ public class Garbageman extends Game {
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
 		for (int i = 0; i <= 6; i++) {
-			Trash let = new Leaf();
+			Trash let = new MysteryEyeball();
 			let.setNast(new Random().nextInt(100));
 			this.backpack.contents.add(let);
+			//eyeball, banana, crow
 			if (i == 4){
 				McdHamburger burger = new McdHamburger();
 				burger.setNast(10);

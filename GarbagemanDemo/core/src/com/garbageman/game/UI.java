@@ -123,7 +123,7 @@ public class UI {
             smallerStyle.font = game.makeFont(15);
             if (curInfoList.size() >= 4) {
                 for (int x = 0; x <= curInfoList.size(); x++) {
-                    System.out.println("THIS: " + x);
+                    //System.out.println("THIS: " + x);
                     Label infoName = new Label("", smallerStyle);
                     infoName.setAlignment(Align.center);
                     infoName.setBounds(0, (game.window_height-160) - (x*50), 250, 75);
@@ -131,13 +131,14 @@ public class UI {
                     stage.addActor(infoName);
                     //System.out.println("POSITION "+x+": "+infoName.getX()+", "+infoName.getY());
                     if (x == 1) {
-                        System.out.println("SET ROT BARY: "+infoName.getY());
+                        //System.out.println("SET ROT BARY: "+infoName.getY());
                         rotBarY = infoName.getY();
                     }
                     //inv.add(infoName);
                     //infoFrame.add(infoName);
                     infoLabels.add(infoName);
-                    System.out.println("info label " + x + " made");
+                    infoName.setVisible(false);
+                    //System.out.println("info label " + x + " made");
                 }
             } //else
                 //System.out.println("NOT 4:::: " + curInfoList.size());
@@ -178,15 +179,15 @@ public class UI {
         inv.add(invImgBack);
         invImgBack.setZIndex(4);
 
-        this.rotBarBack = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(invInfo.getWidth()*.8), (int)invInfo.getHeight()/16, barBackgroundGrey, true);
+        this.rotBarBack = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(invInfo.getWidth()*.8), (int)invInfo.getHeight()/16, barBackgroundGrey, false);
         stage.addActor(this.rotBarBack);
         inv.add(rotBarBack);
-        this.rotBarBar = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(rotBarBack.getWidth()*.8), (int)invInfo.getHeight()/16, Color.valueOf("#f49542"), true);
+        this.rotBarBar = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(rotBarBack.getWidth()*.8), (int)invInfo.getHeight()/16, Color.valueOf("#f49542"), false);
         stage.addActor(rotBarBar);
         inv.add(rotBarBar);
 
 
-        createLabels();
+       //createLabels();
         upInv();
 
         if (game.currentScreen.equals("Trashcan"))
@@ -233,7 +234,7 @@ public class UI {
                             localB.setBounds(xPos + 25, yPos, size, size);
                             localB.setSize(256, 256);
 
-                            System.out.println("INFO: "+item.name+", "+item.rarity);
+                            //System.out.println("INFO: "+item.name+", "+item.rarity);
 
 
                             localB.addListener(new InputListener() {
@@ -242,7 +243,13 @@ public class UI {
                                     //System.out.println("CLIEDK");
                                     //new InfoFrame(game, stage, (int)localB.getX(), (int)localB.getY());
                                     //makeRect((int)localB.getX(), (int)localB.getY(), 100, 100, Color.BLUE);
+                                    System.out.println("________________________");
                                     System.out.println("current down: "+currentDown);
+                                    /*if (currentDown == null){
+                                        //System.out.println("THIS SHOULD CLOSE THE INFO SCREEN");
+                                        showInfo = false;
+                                        closeInvInfo();
+                                    }
                                     if (currentDown == null || currentDown != localB) {
                                         showInfo = true;
                                         infoX = (int) localB.getX();
@@ -263,7 +270,29 @@ public class UI {
                                             showInfo = false;
                                             closeInvInfo();
                                         }
+                                    }*/
+
+                                    if (currentDown == localB){
+                                        currentDown = null;
+                                        showInfo = false;
+
+                                        for (int g = 0; g < curInfoList.size(); g++){
+                                                curInfoList.get(g);
+                                        }
+                                        curInfoList.clear();
                                     }
+                                    else if (currentDown == null || currentDown != localB){
+                                        showInfo = true;
+                                        infoX = (int) localB.getX();
+                                        infoY = (int) localB.getY();
+                                        currentDown = localB;
+                                        curInfoList.clear();
+                                        curInfoList.add(0, "Item: " + item.name);
+                                        curInfoList.add(1, Integer.toString(item.nast));//rottenness
+                                        curInfoList.add(2, item.getRarity(item.rarity));
+                                        curInfoList.add(3, item.desc);
+                                    }
+
                                     return true;
                                 }
 
@@ -352,7 +381,7 @@ public class UI {
         TextButton.TextButtonStyle topStyle = new TextButton.TextButtonStyle();
         topStyle.font = topFont;
         int topSize = (int) Math.ceil(game.window_width/game.sections.length);
-        System.out.println("len: "+topSize+",     num: "+(topSize*game.sections.length)+",    width: "+game.window_width);
+        //System.out.println("len: "+topSize+",     num: "+(topSize*game.sections.length)+",    width: "+game.window_width);
         for (int i = 0; i < game.sections.length; i++){
             TextButton button = new TextButton(game.sections[i], topStyle);
             //button.setBounds();
@@ -415,7 +444,7 @@ public class UI {
         }
 
         if (showInv == true){
-            if (infoLabels.size()== 0){
+            if (infoLabels.size()== 0 && showInfo){
                 createLabels();
             }
             if (!game.backpack.contents.equals(curInv))
@@ -426,7 +455,7 @@ public class UI {
             if (showInfo && curInfoList.size()== 4){
                 setInvVis(true, true);
 
-                //System.out.println("INFO_LABELS: "+infoLabels.size());
+                System.out.println("INFO_LABELS: "+infoLabels.size());
                 if (infoLabels.size()> 0) {
                     for (int x = 0; x < curInfoList.size(); x++) {
                         //System.out.println("ITEM: "+x+" ;; SIZE: "+infoLabels.size());
@@ -436,16 +465,20 @@ public class UI {
                             //System.out.println(local.getText());
                             local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
                         }
+                        else if (x == 3){
+
+                        }
                         else if (x == 1) {
                             float numy = rotBarY-(float)(rotBarY*-.04);
                             rotBarBack.setY(numy);
                             rotBarBar.setY(numy);
                             local.setText("Rot: "+curInfoList.get(x));
                             Float width = ((rotBarBack.getWidth()*(Float.parseFloat(curInfoList.get(x))/100 )));
-                            System.out.println("FLOAT ME BB: "+width);
+                            //System.out.println("FLOAT ME BB: "+width);
                             rotBarBar.setSize(width, rotBarBar.getHeight());
                             //System.out.println("x == 3, "+rotBarY+", "+rotBarBack.getY());
                         }
+                        //local.setText("!!! "+curInfoList.get(x));
                         local.setVisible(true);
                         //System.out.println("set text to '"+curInfoList.get(x)+"'");
                     }

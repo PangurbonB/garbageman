@@ -5,19 +5,23 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.garbageman.game.Backpack;
 import com.garbageman.game.Garbageman;
@@ -92,6 +96,8 @@ public class Trashcan implements Screen {
             Trash currentObject = null;
             int countFrame = 0;
             float fric = .9f;
+            float xDiff = 0;
+            float yDiff = 0;
 
 
 
@@ -431,7 +437,8 @@ public class Trashcan implements Screen {
     public void show() {
         Skin skin = new Skin();
         skin.add("hi", new Texture("assets/Buttons/PLAY.png"));
-        
+
+
 
 
 
@@ -591,10 +598,49 @@ public class Trashcan implements Screen {
                 if (velMap.get(imgs.get(k).getName() + "y") <= 0)
                     velMap.put(imgs.get(k).getName() + "y", ty * fric/*((tm+.5f)/tm)*/);
 
+
+
                 imgs.get(i).addListener(new ClickListener() {
+
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+
+                        xDiff = imgs.get(k).getX() - Gdx.input.getX();
+                        yDiff = imgs.get(k).getY() - stage.getHeight() + Gdx.input.getY();
+                        wasTouched = true;
+                        //System.out.println("called TouchDown");
+
+                        Texture referenceTexture = new Texture(imgs.get(k).baseImgName + imgs.get(k).img + imgs.get(k).fileType);
+
+                        Sprite sprite = new Sprite();
+                        sprite.setRegion(referenceTexture);
+                        Rectangle spriteBounds = sprite.getBoundingRectangle();
+                        Color color = new Color();
+                        if (spriteBounds.contains(xDiff, yDiff)) {
+                            Texture texture = sprite.getTexture();
+
+                            int spriteLocalX = (int) (xDiff);
+                            // we need to "invert" Y, because the screen coordinate origin is top-left
+                            int spriteLocalY = (int) (yDiff);
+
+                            System.out.println(xDiff + " " + yDiff);
+
+                            int textureLocalX = sprite.getRegionX() + spriteLocalX;
+                            int textureLocalY = sprite.getRegionY() + spriteLocalY;
+
+                            if (!texture.getTextureData().isPrepared()) {
+                                texture.getTextureData().prepare();
+                            }
+                            Pixmap pixmap = texture.getTextureData().consumePixmap();
+                            color = new Color(pixmap.getPixel(textureLocalX, textureLocalY));
+                        }
+                        //System.out.println(color.toString());
+
+                        return true;
+                    }
 
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 
+                        //System.out.println("called touchUp");
 
                         if ((imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/ >= (stage.getWidth() - backpackImg.getWidth())) && wasTouched) {
                             //System.out.println(imgs.get(k).getDrawable().toString());
@@ -680,9 +726,11 @@ public class Trashcan implements Screen {
                         oldLocMap.put("y" + "null" + "0", imgs.get(k).getY());
 
                         countFrame++;
-                        imgs.get(k).moveBy(x - imgs.get(k).getWidth() / 2, y - imgs.get(k).getHeight() / 2);
+                        imgs.get(k).setPosition(Gdx.input.getX() + xDiff, stage.getHeight()-(Gdx.input.getY()) + yDiff);
+                        //System.out.println(xDiff+" "+yDiff);
 
                     }
+
                 });
             }
         }

@@ -181,13 +181,15 @@ public class UI {
         }
     }
 
-    private void closeInvInfo(){//closed the infoFrame and sets its contents to be invisible
+    private void closeInvInfo(){//closes the infoFrame and sets its contents to be invisible
         if (curInfoList.size()>= 4) {
             showInfo = !showInfo;
             for (int x = 0; x < infoLabels.size(); x++) {
                 infoLabels.get(x).setVisible(false);
             }
             infoLabels.clear();
+            rotBarBack.setVisible(false);
+            rotBarBar.setVisible(false);
         }
     }
 
@@ -230,10 +232,10 @@ public class UI {
 
         this.rotBarBack = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(invInfo.getWidth()*.8), (int)invInfo.getHeight()/16, barBackgroundGrey, false);
         stage.addActor(this.rotBarBack);
-        inv.add(rotBarBack);
+        //inv.add(rotBarBack);
         this.rotBarBar = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(rotBarBack.getWidth()*.8), (int)invInfo.getHeight()/16, Color.valueOf("#f49542"), false);
         stage.addActor(rotBarBar);
-        inv.add(rotBarBar);
+        //inv.add(rotBarBar);
 
         this.rotBarBack.setVisible(false);
         this.rotBarBar.setVisible(false);
@@ -255,7 +257,7 @@ public class UI {
         int xPos = startX;
         int xPlus = size+30;
         int tot = 0;
-        //inv.add(noContent);
+        inv.add(noContent);
         //System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBB"+game.backpack.contents.size());
         for (int u = 0; u < game.backpack.contents.size(); u++)
             //System.out.println(u+": "+game.backpack.contents.get(u).name);
@@ -438,7 +440,7 @@ public class UI {
             TextButton button = new TextButton(game.sections[i], topStyle);
             //button.setBounds();
             button.setVisible(false);
-            inv.add(button);
+            //inv.add(button);//THESE ARE THE WEIRD THINGS IN LOWER LEFT CORNER!!!!!! GKPOW$JOPWJOHGWNOHG{
             stage.addActor(button);
         }
 
@@ -450,7 +452,7 @@ public class UI {
     public void update(){//call this in the render method of your screen to update the UI info on render
         Color barBackgroundGrey = Color.valueOf("#939598");
 
-        System.out.println("ROT BAR VIS:"+rotBarBack.isVisible());
+        //System.out.println("ROT BAR VIS:"+rotBarBack.isVisible());
         updateRep(len, (double)game.reputation/100);
         if (repText != null){
             repText.setText("Reputation: " + game.reputation + "/100");
@@ -467,6 +469,8 @@ public class UI {
             if (infoLabels.size()== 0 && showInfo){
                 createLabels();
                 System.out.println("LABELS MADE!!!!");
+                rotBarBack.setVisible(true);
+                rotBarBar.setVisible(true);
             }
             else if (infoLabels.size()> 0 && showInfo){
                 for (int z = 0; z < infoLabels.size(); z++){
@@ -528,6 +532,16 @@ public class UI {
             else{
                 setInvVis(false, true);
                 closeInvInfo();
+            }
+
+            noContent.setVisible(false);
+            if (game.backpack.contents.size()== 0 && showInv){
+                noContent.setVisible(true);
+                //System.out.println("SET NO CONTENT BIS");
+            }
+            else if (game.backpack.contents.size()> 0){
+                noContent.setVisible(false);
+                //System.out.println("IT'S not vis");
             }
         }
         else if (showInv == false){

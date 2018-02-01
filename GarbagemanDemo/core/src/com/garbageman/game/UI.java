@@ -27,6 +27,8 @@ import java.util.ArrayList;
  */
 
 public class UI {
+    //variables:
+
     Stage stage;
     Garbageman game;
     Backpack backpack;
@@ -49,8 +51,6 @@ public class UI {
     private String trashcanScreenName = "Trashcan";
     public int topbarHeight = 100;
     public ArrayList<Image> jumpToTop = new ArrayList<Image>();
-
-    //inv stuff
     private Actor repBar, background, barBackground, invBackground, invInfo;
     private int len = 500;
     private ArrayList<Trash> curInv = new ArrayList<Trash>();
@@ -61,15 +61,28 @@ public class UI {
     private float rotBarY = 10;//by default; gets reset to pos of rotText
 
 
-    public UI(){
+    /*
+    organization:
 
+    variables and unused methods
+
+    private methods
+
+    public methods
+     */
+
+
+    public UI(){
+        //this is unused now
     }
+
+    //private methods:
 
     private boolean checkCurrentScreen(){
         return game.currentScreen.equals(screenName);
-    }
+    }//check if current screen is the same in game class
 
-    private BitmapFont makeFont(int size){
+    private BitmapFont makeFont(int size){//get a new font with size "size"
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/PressStart2P.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;
@@ -78,7 +91,7 @@ public class UI {
         return press2P;
     }
 
-    private Actor makeRect(int posX, int posY, int width, int height, Color bb, boolean vis){
+    private Actor makeRect(int posX, int posY, int width, int height, Color bb, boolean vis){//makes a new shape, replacing using ShapeRenderers
         /*shape.setAutoShapeType(true);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.rect(posX, posY, width, height, bb, bb, bb, bb);
@@ -91,7 +104,7 @@ public class UI {
         return item;//*/
     }
 
-    private void updateRep(int len, double rep){
+    private void updateRep(int len, double rep){//update the reputation bar
         //rep = 50;//for now, out of 100
         int num = (int)(len*rep);
         Color color = Color.valueOf("#00ff11");
@@ -113,11 +126,11 @@ public class UI {
         this.repBar.setColor(color);
     }
 
-    private Texture getTextureFromTrash(Trash item){
+    private Texture getTextureFromTrash(Trash item){//unused, get the texture of a trash item
         return new Texture("assets/Garbage/"+item.img+".png");
     }
 
-    private void createLabels(){
+    private void createLabels(){//makes the info labels for clicking an item, like nastiness, name, and description
         if (infoLabels.size()== 0) {
             Label.LabelStyle smallerStyle = new Label.LabelStyle();
             smallerStyle.font = game.makeFont(15);
@@ -145,7 +158,43 @@ public class UI {
         }
     }
 
-    public void init(Garbageman game, Stage stage, String screenName){
+    private void setInvVis(boolean val, boolean getInfoFrame){//set the items in the inventory gui to show or not show; can also be used to set visibility of infoFrame
+        ArrayList<Actor> check = null;
+        if (getInfoFrame == false){
+            check = inv;
+            invInfo.setVisible(false);
+        }
+        else if (getInfoFrame == true){
+            check = infoFrame;
+        }
+        if (showInfo){
+            invInfo.setVisible(true);
+        }
+        else if (!showInfo){
+            invInfo.setVisible(false);
+        }
+        if (check != null) {
+            for (int i = 0; i < check.size(); i++) {
+                Actor b = check.get(i);
+                b.setVisible(val);
+            }
+        }
+    }
+
+    private void closeInvInfo(){//closed the infoFrame and sets its contents to be invisible
+        if (curInfoList.size()>= 4) {
+            showInfo = !showInfo;
+            for (int x = 0; x < infoLabels.size(); x++) {
+                infoLabels.get(x).setVisible(false);
+            }
+            infoLabels.clear();
+        }
+    }
+
+
+    //public methods:
+
+    public void init(Garbageman game, Stage stage, String screenName){//init UI/sync to global, call this when opening a screen
         this.stage = stage;
         this.game = game;
         this.screenName = screenName;
@@ -186,6 +235,9 @@ public class UI {
         stage.addActor(rotBarBar);
         inv.add(rotBarBar);
 
+        this.rotBarBack.setVisible(false);
+        this.rotBarBar.setVisible(false);
+
 
        //createLabels();
         upInv();
@@ -195,7 +247,7 @@ public class UI {
 
     }
 
-    public void upInv(){
+    public void upInv(){//update the inventory display when an item is changed
         int size = 128;
         int startX = 200;
         int yPos = game.window_height-350;
@@ -323,7 +375,7 @@ public class UI {
         }
     }
 
-    public void makeUI(){
+    public void makeUI(){//call this to make the UI in a new screen after initing it
         Label.LabelStyle repStyle = new Label.LabelStyle();
         repStyle.font = makeFont(25);
         repText = new Label("Reputation", repStyle);
@@ -395,42 +447,10 @@ public class UI {
         upInv();
     }
 
-    private void setInvVis(boolean val, boolean getInfoFrame){
-        ArrayList<Actor> check = null;
-        if (getInfoFrame == false){
-            check = inv;
-            invInfo.setVisible(false);
-        }
-        else if (getInfoFrame == true){
-            check = infoFrame;
-        }
-        if (showInfo){
-           invInfo.setVisible(true);
-        }
-        else if (!showInfo){
-            invInfo.setVisible(false);
-        }
-        if (check != null) {
-            for (int i = 0; i < check.size(); i++) {
-                Actor b = check.get(i);
-                b.setVisible(val);
-            }
-        }
-    }
-
-    private void closeInvInfo(){
-        if (curInfoList.size()>= 4) {
-            showInfo = !showInfo;
-            for (int x = 0; x < infoLabels.size(); x++) {
-                infoLabels.get(x).setVisible(false);
-            }
-            infoLabels.clear();
-        }
-    }
-
-    public void update(){
+    public void update(){//call this in the render method of your screen to update the UI info on render
         Color barBackgroundGrey = Color.valueOf("#939598");
 
+        System.out.println("ROT BAR VIS:"+rotBarBack.isVisible());
         updateRep(len, (double)game.reputation/100);
         if (repText != null){
             repText.setText("Reputation: " + game.reputation + "/100");
@@ -446,6 +466,24 @@ public class UI {
         if (showInv == true){
             if (infoLabels.size()== 0 && showInfo){
                 createLabels();
+                System.out.println("LABELS MADE!!!!");
+            }
+            else if (infoLabels.size()> 0 && showInfo){
+                for (int z = 0; z < infoLabels.size(); z++){
+                    infoLabels.get(z).setVisible(true);
+                    stage.addActor(infoLabels.get(z));
+                }
+            }
+            else if (!showInfo){
+                if (infoLabels.size()> 0) {
+                    System.out.println("take awy them thangs0");
+                    for (int z = 0; z < infoLabels.size(); z++) {
+                        infoLabels.get(z).setVisible(false);
+                    }
+                    infoLabels.clear();
+                    rotBarBack.setVisible(false);
+                    rotBarBar.setVisible(false);
+                }
             }
             if (!game.backpack.contents.equals(curInv))
                 upInv();
@@ -455,7 +493,7 @@ public class UI {
             if (showInfo && curInfoList.size()== 4){
                 setInvVis(true, true);
 
-                System.out.println("INFO_LABELS: "+infoLabels.size());
+                //System.out.println("INFO_LABELS: "+infoLabels.size());
                 if (infoLabels.size()> 0) {
                     for (int x = 0; x < curInfoList.size(); x++) {
                         //System.out.println("ITEM: "+x+" ;; SIZE: "+infoLabels.size());

@@ -503,6 +503,7 @@ public class UI {
                         //System.out.println("ITEM: "+x+" ;; SIZE: "+infoLabels.size());
                         Label local = infoLabels.get(x);
                         local.setText(curInfoList.get(x));
+                        local.setWrap(true);
                         if (x == 2) {
                             //System.out.println(local.getText());
                             local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));

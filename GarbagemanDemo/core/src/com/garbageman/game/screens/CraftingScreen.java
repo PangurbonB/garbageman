@@ -19,7 +19,7 @@ public class CraftingScreen implements Screen{
 
     Image background = new Image(new Texture("assets/Screens/craftingScreen.png"));
     Stage stage = new Stage();
-    int[][] craftingLocsX;
+    int[][] craftingLocsX = new int[8][2];
     int centerX = 641;
     int centerY = 359;
 

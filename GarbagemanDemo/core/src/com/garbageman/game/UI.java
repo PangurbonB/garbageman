@@ -535,10 +535,18 @@ public class UI {
                             local.setSize(rotBarBack.getWidth(), rotBarBack.getHeight());
                             local.setPosition(rotBarBack.getX(), rotBarBack.getY());
                             local.setText("Nastiness: "+curInfoList.get(x));
-                            int nast = Integer.parseInt(curInfoList.get(x));
+                            int nast = infoItem.nast;
                             local.setWrap(true);
                             //backpack.contents.get(c)
-                            //if (nast <= )
+                            if (nast <= infoItem.MLTHRESH){
+                                rotBarBar.setColor(game.colorMap.get("Green"));
+                            }
+                            else if (nast > infoItem.MLTHRESH && nast <= infoItem.HMTHRESH){
+                                rotBarBar.setColor(game.colorMap.get("Yellow"));
+                            }
+                            else if (nast > infoItem.HMTHRESH){
+                                rotBarBar.setColor(game.colorMap.get("Red"));
+                            }
                             Float width = ((rotBarBack.getWidth()*(Float.parseFloat(curInfoList.get(x))/100 )));
                             //System.out.println("FLOAT ME BB: "+width);
                             rotBarBar.setSize(width, rotBarBar.getHeight());

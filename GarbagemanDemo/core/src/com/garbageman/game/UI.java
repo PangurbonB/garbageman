@@ -1,6 +1,7 @@
 package com.garbageman.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.MainMenuScreen;
+import com.garbageman.game.screens.Trashcan;
 
 import java.util.ArrayList;
 
@@ -48,9 +50,11 @@ public class UI {
     //private Label infoName;
     private Label rotten;
     private Label desc;
-    private String trashcanScreenName = "Trashcan";
+    public String trashcanScreenName = "Trashcan";
     public int topbarHeight = 100;
     public ArrayList<Image> jumpToTop = new ArrayList<Image>();
+
+    //inv stuff
     private Actor repBar, background, barBackground, invBackground, invInfo;
     private int len = 500;
     private ArrayList<Trash> curInv = new ArrayList<Trash>();
@@ -59,6 +63,7 @@ public class UI {
     private Image invImgBack;
     private Actor rotBarBack, rotBarBar;
     private float rotBarY = 10;//by default; gets reset to pos of rotText
+    private Trash infoItem;
 
 
     /*
@@ -328,6 +333,7 @@ public class UI {
 
                                     if (currentDown == localB){
                                         currentDown = null;
+                                        infoItem = null;
                                         showInfo = false;
 
                                         for (int g = 0; g < curInfoList.size(); g++){
@@ -345,6 +351,8 @@ public class UI {
                                         curInfoList.add(1, Integer.toString(item.nast));//rottenness
                                         curInfoList.add(2, item.getRarity(item.rarity));
                                         curInfoList.add(3, item.desc);
+
+                                        infoItem = item;
                                     }
 
                                     return true;
@@ -449,6 +457,14 @@ public class UI {
         upInv();
     }
 
+    public void updateSlidescreen(Stage lstage, Image slider, String curScreen){
+        if (curScreen.equals(trashcanScreenName)){
+
+        }
+        else
+            System.out.println("Slider only works on "+trashcanScreenName);
+    }
+
     public void update(){//call this in the render method of your screen to update the UI info on render
         Color barBackgroundGrey = Color.valueOf("#939598");
 
@@ -504,6 +520,7 @@ public class UI {
                         Label local = infoLabels.get(x);
                         local.setText(curInfoList.get(x));
                         local.setWrap(true);
+                        System.out.println(infoItem);
                         if (x == 2) {
                             //System.out.println(local.getText());
                             local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
@@ -515,7 +532,13 @@ public class UI {
                             float numy = rotBarY-(float)(rotBarY*-.04);
                             rotBarBack.setY(numy);
                             rotBarBar.setY(numy);
-                            local.setText("Rot: "+curInfoList.get(x));
+                            local.setSize(rotBarBack.getWidth(), rotBarBack.getHeight());
+                            local.setPosition(rotBarBack.getX(), rotBarBack.getY());
+                            local.setText("Nastiness: "+curInfoList.get(x));
+                            int nast = Integer.parseInt(curInfoList.get(x));
+                            local.setWrap(true);
+                            //backpack.contents.get(c)
+                            //if (nast <= )
                             Float width = ((rotBarBack.getWidth()*(Float.parseFloat(curInfoList.get(x))/100 )));
                             //System.out.println("FLOAT ME BB: "+width);
                             rotBarBar.setSize(width, rotBarBar.getHeight());

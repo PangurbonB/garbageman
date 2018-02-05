@@ -71,6 +71,7 @@ public class Trashcan implements Screen {
             SpriteBatch batch;
             Stage stage = new Stage();
             private UI ui;
+            private String screenName = "Trashcan";//this is for the UI <3 Dana
             BitmapFont font = new BitmapFont();
             SpriteSheetDivider sp = new SpriteSheetDivider();
 
@@ -448,7 +449,6 @@ public class Trashcan implements Screen {
         spawnJunk(40);
 
 
-        String screenName = "Trashcan";
         game.currentScreen = screenName;
         game.ui.init(game, stage, screenName);
         game.ui.makeUI();
@@ -744,6 +744,9 @@ public class Trashcan implements Screen {
         //System.out.println(imgs.size());
 
         game.ui.update();
+        if (this.screenName.equals(game.ui.trashcanScreenName)){
+            game.ui.updateSlidescreen(this.stage, this.backpackImg, this.screenName);
+        }
 
         stage.draw();
         

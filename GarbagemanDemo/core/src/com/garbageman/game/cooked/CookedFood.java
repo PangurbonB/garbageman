@@ -10,9 +10,11 @@ import java.util.ArrayList;
 
 public class CookedFood {
 
+    protected Trash t = new Trash();
     public String name = "default";
     public ArrayList<Trash> ingredients = new ArrayList<Trash>();
     public int quality = 0;
     public String desc = "No description yet";
+    public int[] reqTypes = {-1, -1, -1, -1, -1, -1, -1, -1};
 
 }

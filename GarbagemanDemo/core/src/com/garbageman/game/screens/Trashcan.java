@@ -55,6 +55,8 @@ import com.garbageman.game.world.GestureHandler;
 import com.garbageman.game.world.InputHandler;
 import com.garbageman.game.SpriteSheetDivider;
 
+import org.lwjgl.opengl.XRandR;
+
 import java.util.Random;
 
 import java.util.ArrayList;
@@ -528,6 +530,10 @@ public class Trashcan implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.P )) {
             //System.out.println("Current X,Y:"+Gdx.input.getX()+", "+Gdx.input.getY());
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.O )) {
+            game.setScreen(new CraftingScreen());
         }
 
         /*Console controls*/

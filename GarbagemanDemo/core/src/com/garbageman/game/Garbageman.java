@@ -121,16 +121,16 @@ public class Garbageman extends Game {
 		colorMap.put("Orange", this.ORANGE);
 		colorMap.put("Yellow", this.YELLOW);
 		colorMap.put("Green", this.GREEN);
-
-		if (Gdx.input.isKeyPressed(Input.Keys.Q)){
-			Gdx.app.exit();
-		}
 	}
 
 	@Override
 	public void render () {
        // this.render();
+		if (Gdx.input.isKeyPressed(Input.Keys.Q)){
+			Gdx.app.exit();
+		}
 		super.render();
+
 		//System.out.println(this.currentScreen);
 		//System.out.println(this.currentScreen);
 	}

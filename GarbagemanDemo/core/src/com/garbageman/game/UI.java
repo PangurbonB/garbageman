@@ -520,7 +520,7 @@ public class UI {
                         Label local = infoLabels.get(x);
                         local.setText(curInfoList.get(x));
                         local.setWrap(true);
-                        System.out.println(infoItem);
+                        System.out.println("BAS EIMG "+infoItem.baseImgName);
                         if (x == 2) {
                             //System.out.println(local.getText());
                             local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));

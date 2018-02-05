@@ -63,6 +63,7 @@ public class UI {
     private Image invImgBack;
     private Actor rotBarBack, rotBarBar;
     private float rotBarY = 10;//by default; gets reset to pos of rotText
+    private Trash infoItem;
 
 
     /*
@@ -332,6 +333,7 @@ public class UI {
 
                                     if (currentDown == localB){
                                         currentDown = null;
+                                        infoItem = null;
                                         showInfo = false;
 
                                         for (int g = 0; g < curInfoList.size(); g++){
@@ -349,6 +351,8 @@ public class UI {
                                         curInfoList.add(1, Integer.toString(item.nast));//rottenness
                                         curInfoList.add(2, item.getRarity(item.rarity));
                                         curInfoList.add(3, item.desc);
+
+                                        infoItem = item;
                                     }
 
                                     return true;
@@ -516,6 +520,7 @@ public class UI {
                         Label local = infoLabels.get(x);
                         local.setText(curInfoList.get(x));
                         local.setWrap(true);
+                        System.out.println(infoItem);
                         if (x == 2) {
                             //System.out.println(local.getText());
                             local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
@@ -530,7 +535,10 @@ public class UI {
                             local.setSize(rotBarBack.getWidth(), rotBarBack.getHeight());
                             local.setPosition(rotBarBack.getX(), rotBarBack.getY());
                             local.setText("Nastiness: "+curInfoList.get(x));
+                            int nast = Integer.parseInt(curInfoList.get(x));
                             local.setWrap(true);
+                            //backpack.contents.get(c)
+                            //if (nast <= )
                             Float width = ((rotBarBack.getWidth()*(Float.parseFloat(curInfoList.get(x))/100 )));
                             //System.out.println("FLOAT ME BB: "+width);
                             rotBarBar.setSize(width, rotBarBar.getHeight());

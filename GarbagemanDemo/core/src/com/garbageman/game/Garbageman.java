@@ -2,6 +2,7 @@ package com.garbageman.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,6 +16,7 @@ import com.garbageman.game.screens.MainMenuScreen;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class Garbageman extends Game {
@@ -43,6 +45,12 @@ public class Garbageman extends Game {
 	public Color LEGENDARY = Color.valueOf("#00f9f0");
 	public Color BEYOND_COMPREHENSION = Color.valueOf("#f9009d");
 	public Color BOUGHT = Color.BLACK;
+
+	//nast bar colors:
+	public Color RED = Color.valueOf("#ff0000");
+	public Color ORANGE = Color.valueOf("#ff6a00");
+	public Color YELLOW = Color.valueOf("#ffe100");
+	public Color GREEN = Color.valueOf("#59ff00");
 
 	public java.util.Map<String, Color> colorMap = Collections.synchronizedMap(new HashMap());
 
@@ -107,6 +115,16 @@ public class Garbageman extends Game {
 		colorMap.put("Legendary", LEGENDARY);
 		colorMap.put("Bought", BOUGHT);
 		colorMap.put("???", BEYOND_COMPREHENSION);
+
+		//nast bar:
+		colorMap.put("Red", this.RED);
+		colorMap.put("Orange", this.ORANGE);
+		colorMap.put("Yellow", this.YELLOW);
+		colorMap.put("Green", this.GREEN);
+
+		if (Gdx.input.isKeyPressed(Input.Keys.Q)){
+			Gdx.app.exit();
+		}
 	}
 
 	@Override

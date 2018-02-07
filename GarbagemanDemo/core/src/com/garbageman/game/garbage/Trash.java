@@ -18,6 +18,8 @@ public class Trash extends Image{
     public final int FILLER = 4;
     public final int SWEETENER = 5;
     public final int SAUCE = 6;
+    public final int ANYTHING = 7;
+    public final int NONE = -1;
 
     //Rarity values
     public final int COMMON = 0;

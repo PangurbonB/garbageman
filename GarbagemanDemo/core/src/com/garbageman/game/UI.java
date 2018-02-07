@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
+import com.garbageman.game.garbage.Pork;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.MainMenuScreen;
 import com.garbageman.game.screens.Trashcan;
@@ -67,6 +68,7 @@ public class UI {
     private int numTopButtons = 6;
     private float topButtonsStartX, topButtonsStartY ;
     private ArrayList<Label> topButtons = new ArrayList<Label>();
+    private Integer currentSort;
 
 
     /*
@@ -209,6 +211,8 @@ public class UI {
         this.game = game;
         this.screenName = screenName;
         shape = new ShapeRenderer();
+        Trash tempItem = new Pork();
+        this.currentSort = tempItem.VEGGIE;
 
         Color barBackgroundGrey = Color.valueOf("#ffd280");
         this.background = makeRect(0, game.window_height-topbarHeight, game.window_width, 100, barBackgroundGrey, true);
@@ -267,11 +271,16 @@ public class UI {
             local.setWrap(true);
             local.setAlignment(Align.center);
             local.toFront();
+            final Integer newSort = game.typeMap.get(local.getText().toString());
+            //System.out.println("NEW SORT: "+local.getText()+" "+newSort);
             local.addListener(new InputListener(){
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
                     img.setX(local.getX());
+                    //System.out.println(lgame.typeMap.get("Veggies"));
+                    currentSort = newSort;
+                    System.out.println("NEW SORT: "+newSort);
+                    upInv();
                     return true;
                 }
             });
@@ -306,99 +315,108 @@ public class UI {
                 //System.out.println("contents: "+ game.backpack.contents.size());
                 noContent.setVisible(false);
                 // System.out.println("set vis false: "+noContent.isVisible());
+                System.out.println("______________________");
                 for (int y = 0; y <= 3; y++) {
                     //System.out.println("looped");
                     for (int x = 0; x < 5; x++) {
                         //System.out.println("tot: "+tot+"  "+"size: "+game.backpack.contents.size());
                         if (tot < game.backpack.contents.size()) {
-                            //System.out.println("here we are");
                             final Trash item = game.backpack.contents.get(tot);
-                            //System.out.println("interval " + tot + ";;;; " + item.name);
-                            Drawable img = item.getDrawable();
+                           // System.out.println(item.type + ", " + currentSort + (item.type == currentSort));
+                            if (item.type == currentSort)
+                                System.out.println(item.name+" matches!!");
+                            if (item.type == currentSort) {
+                                //System.out.println("here we are");
 
-                            ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
-                            ibStyle.imageUp = item.getDrawable();
+                                //System.out.println("interval " + tot + ";;;; " + item.name);
+                                Drawable img = item.getDrawable();
 
-                            ibStyle.imageUp.setMinHeight(size);
-                            ibStyle.imageUp.setMinWidth(size);
-                            final ImageButton localB = new ImageButton(ibStyle);
-                            localB.setBounds(xPos + 25, yPos, size, size);
-                            localB.setSize(256/2, 256/2);
+                                ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
+                                ibStyle.imageUp = item.getDrawable();
 
-                            //System.out.println("INFO: "+item.name+", "+item.rarity);
+                                ibStyle.imageUp.setMinHeight(size);
+                                ibStyle.imageUp.setMinWidth(size);
+                                final ImageButton localB = new ImageButton(ibStyle);
+                                localB.setBounds(xPos + 25, yPos, size, size);
+                                localB.setSize(256 / 2, 256 / 2);
+
+                                //System.out.println("INFO: "+item.name+", "+item.rarity);
 
 
-                            localB.addListener(new InputListener() {
-                                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                    //create info
-                                    //System.out.println("CLIEDK");
-                                    //new InfoFrame(game, stage, (int)localB.getX(), (int)localB.getY());
-                                    //makeRect((int)localB.getX(), (int)localB.getY(), 100, 100, Color.BLUE);
-                                    System.out.println("________________________");
-                                    System.out.println("current down: "+currentDown);
-                                    /*if (currentDown == null){
-                                        //System.out.println("THIS SHOULD CLOSE THE INFO SCREEN");
-                                        showInfo = false;
-                                        closeInvInfo();
-                                    }
-                                    if (currentDown == null || currentDown != localB) {
-                                        showInfo = true;
-                                        infoX = (int) localB.getX();
-                                        infoY = (int) localB.getY();
-                                        currentDown = localB;
-                                        curInfoList.clear();
-                                        curInfoList.add(0, "Item: " + item.name);
-                                        curInfoList.add(1, Integer.toString(item.nast));//rottenness
-                                        curInfoList.add(2, item.getRarity(item.rarity));
-                                        curInfoList.add(3, item.desc);
-                                       // System.out.println("Current rarity: "+item.getRarity(item.rarity));
-                                        //System.out.println("SIZE:" + curInfoList.size());
-
-                                    } else if (currentDown != null) {
-                                        System.out.println("eq? "+ (currentDown == localB));
-                                        if (currentDown == localB) {
-                                            currentDown = null;
+                                localB.addListener(new InputListener() {
+                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                        //create info
+                                        //System.out.println("CLIEDK");
+                                        //new InfoFrame(game, stage, (int)localB.getX(), (int)localB.getY());
+                                        //makeRect((int)localB.getX(), (int)localB.getY(), 100, 100, Color.BLUE);
+                                        System.out.println("________________________");
+                                        System.out.println("current down: " + currentDown);
+                                        /*if (currentDown == null){
+                                            //System.out.println("THIS SHOULD CLOSE THE INFO SCREEN");
                                             showInfo = false;
                                             closeInvInfo();
                                         }
-                                    }*/
+                                        if (currentDown == null || currentDown != localB) {
+                                            showInfo = true;
+                                            infoX = (int) localB.getX();
+                                            infoY = (int) localB.getY();
+                                            currentDown = localB;
+                                            curInfoList.clear();
+                                            curInfoList.add(0, "Item: " + item.name);
+                                            curInfoList.add(1, Integer.toString(item.nast));//rottenness
+                                            curInfoList.add(2, item.getRarity(item.rarity));
+                                            curInfoList.add(3, item.desc);
+                                           // System.out.println("Current rarity: "+item.getRarity(item.rarity));
+                                            //System.out.println("SIZE:" + curInfoList.size());
 
-                                    if (currentDown == localB){
-                                        currentDown = null;
-                                        infoItem = null;
-                                        showInfo = false;
+                                        } else if (currentDown != null) {
+                                            System.out.println("eq? "+ (currentDown == localB));
+                                            if (currentDown == localB) {
+                                                currentDown = null;
+                                                showInfo = false;
+                                                closeInvInfo();
+                                            }
+                                        }*/
 
-                                        for (int g = 0; g < curInfoList.size(); g++){
+                                        if (currentDown == localB) {
+                                            currentDown = null;
+                                            infoItem = null;
+                                            showInfo = false;
+
+                                            for (int g = 0; g < curInfoList.size(); g++) {
                                                 curInfoList.get(g);
+                                            }
+                                            curInfoList.clear();
+                                        } else if (currentDown == null || currentDown != localB) {
+                                            showInfo = true;
+                                            infoX = (int) localB.getX();
+                                            infoY = (int) localB.getY();
+                                            currentDown = localB;
+                                            curInfoList.clear();
+                                            curInfoList.add(0, "Item: " + item.name);
+                                            curInfoList.add(1, Integer.toString(item.nast));//rottenness
+                                            curInfoList.add(2, item.getRarity(item.rarity));
+                                            curInfoList.add(3, item.desc);
+
+                                            infoItem = item;
                                         }
-                                        curInfoList.clear();
-                                    }
-                                    else if (currentDown == null || currentDown != localB){
-                                        showInfo = true;
-                                        infoX = (int) localB.getX();
-                                        infoY = (int) localB.getY();
-                                        currentDown = localB;
-                                        curInfoList.clear();
-                                        curInfoList.add(0, "Item: " + item.name);
-                                        curInfoList.add(1, Integer.toString(item.nast));//rottenness
-                                        curInfoList.add(2, item.getRarity(item.rarity));
-                                        curInfoList.add(3, item.desc);
 
-                                        infoItem = item;
+                                        return true;
                                     }
 
-                                    return true;
-                                }
+                                    ;
+                                });
+                                inv.add(localB);
+                                localB.setVisible(false);
+                                stage.addActor(localB);
+                                xPos = xPos + xPlus;
+                                //System.out.println(x);
+                                tot++;
+                                //System.out.println(x + " "+(x <= 6));
+                            }
+                            else if (item.type != currentSort){
 
-                                ;
-                            });
-                            inv.add(localB);
-                            localB.setVisible(false);
-                            stage.addActor(localB);
-                            xPos = xPos + xPlus;
-                            //System.out.println(x);
-                            tot++;
-                            //System.out.println(x + " "+(x <= 6));
+                            }
                         }
                     }
                     yPos = yPos - yPlus;

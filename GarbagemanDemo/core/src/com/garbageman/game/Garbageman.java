@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.garbage.Leaf;
 import com.garbageman.game.garbage.McdHamburger;
 import com.garbageman.game.garbage.MysteryEyeball;
@@ -54,6 +55,8 @@ public class Garbageman extends Game {
 
 	public java.util.Map<String, Color> colorMap = Collections.synchronizedMap(new HashMap());
 
+	public java.util.Map<String, Integer> typeMap = Collections.synchronizedMap(new HashMap());
+	public Trash objTemp = new McdHamburger();
 
 	public void print(final String msg){
 		System.out.println(msg);
@@ -121,6 +124,18 @@ public class Garbageman extends Game {
 		colorMap.put("Orange", this.ORANGE);
 		colorMap.put("Yellow", this.YELLOW);
 		colorMap.put("Green", this.GREEN);
+
+		//type filler
+		//"Veggies", "Meats", "Wraps", "Fillers", "Sweeteners", "Sauces"
+		typeMap.put("Veggies", objTemp.VEGGIE);
+		typeMap.put("Meats", objTemp.MEAT);
+		typeMap.put("Wraps", objTemp.WRAP);
+		System.out.println("FILLER: "+objTemp.FILLER);
+		typeMap.put("Fillers", objTemp.FILLER);
+		System.out.println("NEW FILLER: "+typeMap.get("Fillers"));
+		typeMap.put("Sweeteners", objTemp.SWEETENER);
+		typeMap.put("Sauces", objTemp.SAUCE);
+		//typeMap.put("Completed Meals", new CookedFood().)//make this show cooked food later -Dana
 	}
 
 	@Override

@@ -64,6 +64,9 @@ public class UI {
     private Actor rotBarBack, rotBarBar;
     private float rotBarY = 10;//by default; gets reset to pos of rotText
     private Trash infoItem;
+    private int numTopButtons = 6;
+    private float topButtonsStartX, topButtonsStartY ;
+    private ArrayList<Label> topButtons = new ArrayList<Label>();
 
 
     /*
@@ -240,11 +243,40 @@ public class UI {
         //inv.add(rotBarBack);
         this.rotBarBar = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(rotBarBack.getWidth()*.8), (int)invInfo.getHeight()/16, Color.valueOf("#f49542"), false);
         stage.addActor(rotBarBar);
+        this.rotBarBar.toFront();
+        this.rotBarBack.toFront();
         //inv.add(rotBarBar);
 
         this.rotBarBack.setVisible(false);
         this.rotBarBar.setVisible(false);
 
+        //make topbuttons
+        topButtonsStartX = 310;//for now
+        topButtonsStartY = stage.getHeight()-137;
+        final Actor img = makeRect((int)topButtonsStartX, (int)topButtonsStartY, 130, 37, Color.valueOf("#c33101"), true);
+        Label.LabelStyle smallTopSize = new Label.LabelStyle();
+        smallTopSize.font = game.makeFont(17);
+        float curPos = img.getX();
+        for (int i = 0; i < numTopButtons; i++){
+            topButtons.add(i, new Label(game.sectionsForMainInv[i], smallTopSize));
+            final Label local = topButtons.get(i);
+            stage.addActor(local);
+            local.setVisible(true);
+            local.setBounds(curPos, img.getY(), img.getWidth(), img.getHeight());
+            curPos = curPos + img.getWidth();
+            local.setWrap(true);
+            local.setAlignment(Align.center);
+            local.toFront();
+            local.addListener(new InputListener(){
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                    img.setX(local.getX());
+                    return true;
+                }
+            });
+
+        }
 
        //createLabels();
         upInv();
@@ -256,8 +288,8 @@ public class UI {
 
     public void upInv(){//update the inventory display when an item is changed
         int size = 128;
-        int startX = 200;
-        int yPos = game.window_height-350;
+        int startX = 260;
+        int yPos = game.window_height-290;
         int yPlus = size+15;
         int xPos = startX;
         int xPlus = size+30;
@@ -291,7 +323,7 @@ public class UI {
                             ibStyle.imageUp.setMinWidth(size);
                             final ImageButton localB = new ImageButton(ibStyle);
                             localB.setBounds(xPos + 25, yPos, size, size);
-                            localB.setSize(256, 256);
+                            localB.setSize(256/2, 256/2);
 
                             //System.out.println("INFO: "+item.name+", "+item.rarity);
 
@@ -520,7 +552,7 @@ public class UI {
                         Label local = infoLabels.get(x);
                         local.setText(curInfoList.get(x));
                         local.setWrap(true);
-                        System.out.println("BAS EIMG "+infoItem.baseImgName);
+                        //System.out.println("BAS EIMG "+infoItem.baseImgName);
                         if (x == 2) {
                             //System.out.println(local.getText());
                             local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));

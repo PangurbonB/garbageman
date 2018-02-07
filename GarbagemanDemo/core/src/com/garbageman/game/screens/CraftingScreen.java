@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.SpriteSheetDivider;
+import com.garbageman.game.cooked.Cake;
 import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.garbage.CrowWithOddEyeInfection;
 import com.garbageman.game.garbage.Leaf;
@@ -33,6 +34,8 @@ public class CraftingScreen implements Screen{
     int centerX = 641;
     int centerY = 359;
 
+    CookedFood input = new Cake();
+
     Garbageman game;
 
     public CraftingScreen(Garbageman game){
@@ -41,6 +44,13 @@ public class CraftingScreen implements Screen{
 
     @Override
     public void show() {
+        input.setX(stage.getWidth()/2);
+        input.setY(stage.getHeight()/2);
+        input.setVisible(true);
+        //input.setDrawable();
+        input.setSize(96, 96);
+        input.toFront();
+        stage.addActor(input);
 
         background.toBack();
         background.setVisible(true);
@@ -56,6 +66,7 @@ public class CraftingScreen implements Screen{
         craftingLocs[5] = new int[]{451, 599};
         craftingLocs[6] = new int[]{252, 534};
         craftingLocs[7] = new int[]{193, 349};
+
 
         ArrayList<Trash> trashes = new ArrayList<Trash>();
 
@@ -81,7 +92,7 @@ public class CraftingScreen implements Screen{
 
     }
 
-    public CookedFood cook(CookedFood input, Trash[] trashes){
+    /*public CookedFood cook(CookedFood input, Trash[] trashes){
         try{
 
         }
@@ -91,7 +102,7 @@ public class CraftingScreen implements Screen{
 
 
         return input;
-    }
+    }*/
 
     @Override
     public void render(float delta) {

@@ -325,6 +325,8 @@ public class UI {
                            // System.out.println(item.type + ", " + currentSort + (item.type == currentSort));
                             if (item.type == currentSort)
                                 System.out.println(item.name+" matches!!");
+                            else
+                                System.out.println(item.name+" no matchy: "+item.type+";; "+currentSort);
                             if (item.type == currentSort) {
                                 //System.out.println("here we are");
 
@@ -415,7 +417,7 @@ public class UI {
                                 //System.out.println(x + " "+(x <= 6));
                             }
                             else if (item.type != currentSort){
-
+                                System.out.println("NOT PUT NOTHING");
                             }
                         }
                     }
@@ -635,6 +637,10 @@ public class UI {
             catch(java.lang.NullPointerException e){
                 //e.printStackTrace();
             }
+        }
+
+        for (Actor a: stage.getActors()) {
+            a.toFront();
         }
     }
 }

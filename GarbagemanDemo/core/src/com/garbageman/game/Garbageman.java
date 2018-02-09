@@ -98,7 +98,7 @@ public class Garbageman extends Game {
         //this.create();
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
-		for (int i = 0; i <= 6; i++) {
+		/*for (int i = 0; i <= 6; i++) {
 			Trash let = new MysteryEyeball();
 			let.setNast(new Random().nextInt(100));
 			this.backpack.contents.add(let);

@@ -435,6 +435,10 @@ public class UI {
         catch (java.lang.NullPointerException j){
             //lol this always errors System.out.println("figgle");
         }
+
+        /*for (Actor a: stage.getActors()) {
+            a.toFront();
+        }*/
     }
 
     public void makeUI(){//call this to make the UI in a new screen after initing it
@@ -637,10 +641,6 @@ public class UI {
             catch(java.lang.NullPointerException e){
                 //e.printStackTrace();
             }
-        }
-
-        for (Actor a: stage.getActors()) {
-            a.toFront();
         }
     }
 }

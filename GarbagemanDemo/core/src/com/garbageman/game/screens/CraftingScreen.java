@@ -38,9 +38,15 @@ public class CraftingScreen implements Screen{
 
     CookedFood input = new Cake();
 
+
+
     Trash bird = new CrowWithOddEyeInfection();
 
     Garbageman game;
+
+    String screenName = "Crafting";
+
+
 
     public CraftingScreen(Garbageman game){
         this.game = game;
@@ -48,6 +54,9 @@ public class CraftingScreen implements Screen{
 
     @Override
     public void show() {
+
+        game.ui.init(game, stage, screenName);
+        game.ui.makeUI();
 
         input.setSize(96, 96);
         input.setX(stage.getWidth()/2 - input.getWidth() + 40);
@@ -97,7 +106,7 @@ public class CraftingScreen implements Screen{
             trashes.get(i).setX(craftingLocs[i][0] - 50);
             trashes.get(i).setY(stage.getHeight() - craftingLocs[i][1] - 65);
         }
-
+        input.toFront();
 
     }
 
@@ -115,12 +124,15 @@ public class CraftingScreen implements Screen{
 
     @Override
     public void render(float delta) {
-        input.toFront();
+
+        
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.M))
             System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
 
+        game.ui.update();
         stage.draw();
+
 
     }
 

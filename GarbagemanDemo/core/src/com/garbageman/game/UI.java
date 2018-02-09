@@ -606,6 +606,7 @@ public class UI {
                             Float width = ((rotBarBack.getWidth()*(Float.parseFloat(curInfoList.get(x))/100 )));
                             //System.out.println("FLOAT ME BB: "+width);
                             rotBarBar.setSize(width, rotBarBar.getHeight());
+                            //rotBarBar.;
                             //System.out.println("x == 3, "+rotBarY+", "+rotBarBack.getY());
                         }
                         //local.setText("!!! "+curInfoList.get(x));

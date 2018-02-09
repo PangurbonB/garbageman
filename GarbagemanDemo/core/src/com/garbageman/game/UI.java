@@ -257,20 +257,23 @@ public class UI {
         //make topbuttons
         topButtonsStartX = 310;//for now
         topButtonsStartY = stage.getHeight()-137;
-        final Actor img = makeRect((int)topButtonsStartX, (int)topButtonsStartY, 130, 37, Color.valueOf("#c33101"), true);
+        final Actor img = makeRect((int)topButtonsStartX, (int)topButtonsStartY, 130, 37, Color.valueOf("#c33101"), false);
+        inv.add(img);
         Label.LabelStyle smallTopSize = new Label.LabelStyle();
         smallTopSize.font = game.makeFont(17);
+        
         float curPos = img.getX();
         for (int i = 0; i < numTopButtons; i++){
             topButtons.add(i, new Label(game.sectionsForMainInv[i], smallTopSize));
             final Label local = topButtons.get(i);
             stage.addActor(local);
-            local.setVisible(true);
+            local.setVisible(false);
             local.setBounds(curPos, img.getY(), img.getWidth(), img.getHeight());
             curPos = curPos + img.getWidth();
             local.setWrap(true);
             local.setAlignment(Align.center);
             local.toFront();
+            inv.add(local);
             final Integer newSort = game.typeMap.get(local.getText().toString());
             //System.out.println("NEW SORT: "+local.getText()+" "+newSort);
             local.addListener(new InputListener(){
@@ -606,6 +609,10 @@ public class UI {
                             Float width = ((rotBarBack.getWidth()*(Float.parseFloat(curInfoList.get(x))/100 )));
                             //System.out.println("FLOAT ME BB: "+width);
                             rotBarBar.setSize(width, rotBarBar.getHeight());
+
+                            this.rotBarBack.toFront();
+                            this.rotBarBar.toFront();
+                            local.toFront();
                             //rotBarBar.;
                             //System.out.println("x == 3, "+rotBarY+", "+rotBarBack.getY());
                         }

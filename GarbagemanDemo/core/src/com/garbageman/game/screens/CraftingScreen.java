@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -33,8 +34,11 @@ public class CraftingScreen implements Screen{
     int[][] craftingLocs = new int[8][2];
     int centerX = 641;
     int centerY = 359;
+    SpriteSheetDivider sp = new SpriteSheetDivider();
 
     CookedFood input = new Cake();
+
+    Trash bird = new CrowWithOddEyeInfection();
 
     Garbageman game;
 
@@ -44,12 +48,17 @@ public class CraftingScreen implements Screen{
 
     @Override
     public void show() {
-        input.setX(stage.getWidth()/2);
-        input.setY(stage.getHeight()/2);
-        input.setVisible(true);
-        //input.setDrawable();
+
         input.setSize(96, 96);
-        input.toFront();
+        input.setX(stage.getWidth()/2 - input.getWidth() + 40);
+        input.setY(stage.getHeight()/2 - input.getHeight() + 35);
+        input.setVisible(true);
+        Skin sk = new Skin();
+        sk.add("name", new Texture("assets/Food/Cake.png"));
+
+        input.setDrawable(sk, "name");
+
+
         stage.addActor(input);
 
         background.toBack();
@@ -106,6 +115,7 @@ public class CraftingScreen implements Screen{
 
     @Override
     public void render(float delta) {
+        input.toFront();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.M))
             System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());

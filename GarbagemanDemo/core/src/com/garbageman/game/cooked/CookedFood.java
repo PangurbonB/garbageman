@@ -17,5 +17,5 @@ public class CookedFood extends Image{
     public int quality = 0;
     public String desc = "No description yet";
     public int[] reqTypes = {-1, -1, -1};
-    public int[] optionalTypes = {-1, -1, -1, -1};
+    public int[] optionalTypes = {-1, -1, -1, -1, -1};
 }

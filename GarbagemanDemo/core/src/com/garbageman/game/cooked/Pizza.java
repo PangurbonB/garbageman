@@ -10,7 +10,7 @@ public class Pizza extends CookedFood{
         name = "Pizza";
         desc = "Can you truly put anything on pizza?";
         reqTypes = new int[] {t.WRAP, t.FILLER, t.SAUCE};
-        optionalTypes = new int[] {t.FILLER, t.MEAT, t.VEGGIE, t.ANYTHING};
+        optionalTypes = new int[] {t.FILLER, t.MEAT, t.VEGGIE, t.ANYTHING, t.NONE};
     }
 
 }

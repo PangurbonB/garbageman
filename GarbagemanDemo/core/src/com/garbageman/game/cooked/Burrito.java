@@ -12,7 +12,7 @@ public class Burrito extends CookedFood{
         name = "Burrito";
         desc = "Nobody knows what's in these anyway, right?";
         reqTypes = new int[]{t.WRAP, t.MEAT, t.VEGGIE};
-        optionalTypes = new int[]{t.SAUCE, t.MEAT, t.VEGGIE, t.NONE};
+        optionalTypes = new int[]{t.SAUCE, t.MEAT, t.VEGGIE, t.NONE,t.NONE};
 
     }
 }

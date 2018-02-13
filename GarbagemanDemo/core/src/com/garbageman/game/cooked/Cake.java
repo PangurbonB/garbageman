@@ -10,7 +10,7 @@ public class Cake extends CookedFood{
         name = "Cake";
         desc = "The frosting is... hard";
         reqTypes = new int[] {t.FILLER, t.SWEETENER, t.SAUCE};
-        optionalTypes = new int[] {t.SWEETENER, t.SWEETENER, t.FILLER, t.NONE};
+        optionalTypes = new int[] {t.SWEETENER, t.SWEETENER, t.FILLER, t.NONE, t.NONE};
     }
 
 }

@@ -10,7 +10,7 @@ public class Sandwich extends CookedFood{
         name = "Sandwich";
         desc  = "Can it be a sandwich if it doesn't use bread?";
         reqTypes = new int[] {t.MEAT, t.WRAP, t.FILLER};
-        optionalTypes = new int[] {t.SAUCE, t.VEGGIE, t.NONE, t.NONE};
+        optionalTypes = new int[] {t.SAUCE, t.VEGGIE, t.NONE, t.NONE, t.NONE};
     }
 
 }

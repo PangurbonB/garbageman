@@ -10,7 +10,7 @@ public class Hotdog extends CookedFood{
         name = "Hotdog";
         desc = "You're pretty sure that there's no actual dog in this. Right?";
         reqTypes = new int[] {t.MEAT, t.WRAP, t.SAUCE};
-        optionalTypes = new int[] {t.MEAT, t.SAUCE, t.NONE, t.NONE};
+        optionalTypes = new int[] {t.MEAT, t.SAUCE, t.NONE, t.NONE, t.NONE};
     }
 
 }

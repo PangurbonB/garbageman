@@ -69,6 +69,7 @@ public class UI {
     private float topButtonsStartX, topButtonsStartY ;
     private ArrayList<Label> topButtons = new ArrayList<Label>();
     private Integer currentSort;
+    private ArrayList<Actor>sectionShow = new ArrayList<Actor>();
 
 
     /*
@@ -314,74 +315,62 @@ public class UI {
             while (game.backpack.contents.size()== 0)
                 System.out.println("waiting...");
 
+            System.out.println("SIE: "+game.backpack.contents.size());
             if (game.backpack.contents.size() > 0 && !noContent.equals(null)) {
                 //System.out.println("contents: "+ game.backpack.contents.size());
                 noContent.setVisible(false);
+                ArrayList<Trash>localcontents = new ArrayList<Trash>();
+                for (Trash t: game.backpack.contents) {
+                    //System.out.println(t.type + " |||| "+currentSort);
+                    if (t.type == currentSort){
+                        localcontents.add(t);
+                        System.out.println("Add "+t.name+"; type: "+currentSort);
+                    }
+                }
                 // System.out.println("set vis false: "+noContent.isVisible());
-                System.out.println("______________________");
+                System.out.println("______________________"+sectionShow.size());
+                System.out.println("HELO");
+                /*if (inv.size()> 0){
+                    for (int i = 0; i < inv.size(); i++) {
+                        Actor rid = inv.get(i);
+                        System.out.println(rid.getName());
+                        if (rid.getName().substring(0, "REMOVE ME".length()).equals("REMOVE ME")) {
+                            if (!rid.getName().equals("REMOVE ME "+currentSort))
+                                System.out.println("set "+rid.getName());
+                                //rid.setVisible(false);
+                        }
+                    }
+                    sectionShow.clear();
+                }*/
+                System.out.println("LOCAL CON: "+localcontents.size());
                 for (int y = 0; y <= 3; y++) {
-                    //System.out.println("looped");
+                    System.out.println("looped");
                     for (int x = 0; x < 5; x++) {
-                        //System.out.println("tot: "+tot+"  "+"size: "+game.backpack.contents.size());
-                        if (tot < game.backpack.contents.size()) {
-                            final Trash item = game.backpack.contents.get(tot);
+                        System.out.println("tot: "+tot+"  "+"size: "+game.backpack.contents.size());
+                        System.out.println("CHECK LOCAL "+ tot +"  "+localcontents.size());
+                        if (tot < localcontents.size()) {
+                            final Trash item = localcontents.get(tot);
+                            System.out.println("!!!"+item.name);
                            // System.out.println(item.type + ", " + currentSort + (item.type == currentSort));
-                            if (item.type == currentSort)
-                                System.out.println(item.name+" matches!!");
-                            else
-                                System.out.println(item.name+" no matchy: "+item.type+";; "+currentSort);
                             if (item.type == currentSort) {
-                                //System.out.println("here we are");
-
-                                //System.out.println("interval " + tot + ";;;; " + item.name);
                                 Drawable img = item.getDrawable();
-
                                 ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
                                 ibStyle.imageUp = item.getDrawable();
-
                                 ibStyle.imageUp.setMinHeight(size);
                                 ibStyle.imageUp.setMinWidth(size);
                                 final ImageButton localB = new ImageButton(ibStyle);
                                 localB.setBounds(xPos + 25, yPos, size, size);
+                                for (int check = 0; check < inv.size(); check++){
+                                    Actor see = inv.get(check);
+                                    if (see.getX()== localB.getX() && see.getY()== localB.getY() && !localB.equals(see)){
+                                        see.setVisible(false);
+                                    }
+                                }
                                 localB.setSize(256 / 2, 256 / 2);
-
-                                //System.out.println("INFO: "+item.name+", "+item.rarity);
-
 
                                 localB.addListener(new InputListener() {
                                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                        //create info
-                                        //System.out.println("CLIEDK");
-                                        //new InfoFrame(game, stage, (int)localB.getX(), (int)localB.getY());
-                                        //makeRect((int)localB.getX(), (int)localB.getY(), 100, 100, Color.BLUE);
                                         System.out.println("________________________");
-                                        System.out.println("current down: " + currentDown);
-                                        /*if (currentDown == null){
-                                            //System.out.println("THIS SHOULD CLOSE THE INFO SCREEN");
-                                            showInfo = false;
-                                            closeInvInfo();
-                                        }
-                                        if (currentDown == null || currentDown != localB) {
-                                            showInfo = true;
-                                            infoX = (int) localB.getX();
-                                            infoY = (int) localB.getY();
-                                            currentDown = localB;
-                                            curInfoList.clear();
-                                            curInfoList.add(0, "Item: " + item.name);
-                                            curInfoList.add(1, Integer.toString(item.nast));//rottenness
-                                            curInfoList.add(2, item.getRarity(item.rarity));
-                                            curInfoList.add(3, item.desc);
-                                           // System.out.println("Current rarity: "+item.getRarity(item.rarity));
-                                            //System.out.println("SIZE:" + curInfoList.size());
-
-                                        } else if (currentDown != null) {
-                                            System.out.println("eq? "+ (currentDown == localB));
-                                            if (currentDown == localB) {
-                                                currentDown = null;
-                                                showInfo = false;
-                                                closeInvInfo();
-                                            }
-                                        }*/
 
                                         if (currentDown == localB) {
                                             currentDown = null;
@@ -414,10 +403,10 @@ public class UI {
                                 inv.add(localB);
                                 localB.setVisible(false);
                                 stage.addActor(localB);
+                                localB.setName("REMOVE ME "+currentSort);
                                 xPos = xPos + xPlus;
-                                //System.out.println(x);
                                 tot++;
-                                //System.out.println(x + " "+(x <= 6));
+                                System.out.println("TOT PLUS");
                             }
                             else if (item.type != currentSort){
                                 System.out.println("NOT PUT NOTHING");

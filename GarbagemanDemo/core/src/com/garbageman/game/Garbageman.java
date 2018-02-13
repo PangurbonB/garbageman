@@ -12,6 +12,7 @@ import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.garbage.Leaf;
 import com.garbageman.game.garbage.McdHamburger;
 import com.garbageman.game.garbage.MysteryEyeball;
+import com.garbageman.game.garbage.Smarties;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.MainMenuScreen;
 
@@ -104,7 +105,7 @@ public class Garbageman extends Game {
 			this.backpack.contents.add(let);
 			//eyeball, banana, crow
 			if (i == 4){
-				McdHamburger burger = new McdHamburger();
+				Trash burger = new Smarties();
 				burger.setNast(100);
 				this.backpack.contents.add(burger);
 			}

@@ -70,6 +70,7 @@ public class UI {
     private ArrayList<Label> topButtons = new ArrayList<Label>();
     private Integer currentSort;
     private ArrayList<Actor>sectionShow = new ArrayList<Actor>();
+    private int squareSize = 256 / 2;
 
 
     /*
@@ -342,16 +343,46 @@ public class UI {
                     }
                     sectionShow.clear();
                 }*/
+                /*if (sectionShow.size()> 0) {
+                    System.out.println("CALLED CHECK");
+                    for (int i = 0; i < sectionShow.size(); i++) {
+                        Actor local = sectionShow.get(i);
+                        //local.setVisible(false);
+                        System.out.println("LOOPED ME");
+                        for (int check = 0; check < inv.size(); check++){
+                            Actor remove = inv.get(check);
+
+                            System.out.println(check+" EQUALS: " + remove.getWidth() + ", " + squareSize +  (remove.getWidth() == squareSize));
+                            if (remove.getWidth() == squareSize && remove.getHeight() == squareSize){
+                                inv.remove(check);
+                                remove.setVisible(false);
+                            }
+                        }
+
+                        local.setVisible(false);
+                    }
+                    sectionShow.clear();
+                }//*/
+                /*for (int check = 0; check < inv.size(); check++){
+                    Actor remove = inv.get(check);
+
+                    System.out.println(check+" EQUALS: " + remove.getName() + "::  " + remove.getWidth() + ", " + squareSize +  (remove.getWidth() == squareSize));
+                    if (remove.getWidth() == squareSize && remove.getHeight() == squareSize){
+                        inv.remove(check);
+                        remove.setVisible(false);
+                    }
+                }//*/
                 System.out.println("LOCAL CON: "+localcontents.size());
                 for (int y = 0; y <= 3; y++) {
                     System.out.println("looped");
                     for (int x = 0; x < 5; x++) {
-                        System.out.println("tot: "+tot+"  "+"size: "+game.backpack.contents.size());
-                        System.out.println("CHECK LOCAL "+ tot +"  "+localcontents.size());
+                        //System.out.println("tot: "+tot+"  "+"size: "+game.backpack.contents.size());
+                        //System.out.println("CHECK LOCAL "+ tot +"  "+localcontents.size());
                         if (tot < localcontents.size()) {
                             final Trash item = localcontents.get(tot);
                             System.out.println("!!!"+item.name);
                            // System.out.println(item.type + ", " + currentSort + (item.type == currentSort));
+                            System.out.println("item "+ item.name +" type: "+ item.type + ";; current sort: "+ currentSort+" == ? "+(item.type == currentSort));
                             if (item.type == currentSort) {
                                 Drawable img = item.getDrawable();
                                 ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
@@ -366,7 +397,7 @@ public class UI {
                                         see.setVisible(false);
                                     }
                                 }
-                                localB.setSize(256 / 2, 256 / 2);
+                                localB.setSize(squareSize, squareSize);
 
                                 localB.addListener(new InputListener() {
                                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -401,6 +432,7 @@ public class UI {
                                     ;
                                 });
                                 inv.add(localB);
+                                sectionShow.add(localB);
                                 localB.setVisible(false);
                                 stage.addActor(localB);
                                 localB.setName("REMOVE ME "+currentSort);

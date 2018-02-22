@@ -42,7 +42,7 @@ public class Trash extends Image{
     public int x,y = 0;
     public int width,height = 32;
     public int type = UNUSABLE;
-    public static int rarity = COMMON;
+    public int rarity = COMMON;
     //Nastiness is on a scale of 1-100
     //1 is fresh, 100 is foul
     public int nast = 1;

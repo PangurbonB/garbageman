@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
-import com.garbageman.game.garbage.Pork;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.MainMenuScreen;
 import com.garbageman.game.screens.Trashcan;
@@ -65,12 +64,7 @@ public class UI {
     private Actor rotBarBack, rotBarBar;
     private float rotBarY = 10;//by default; gets reset to pos of rotText
     private Trash infoItem;
-    private int numTopButtons = 6;
-    private float topButtonsStartX, topButtonsStartY ;
-    private ArrayList<Label> topButtons = new ArrayList<Label>();
-    private Integer currentSort;
-    private ArrayList<Actor>sectionShow = new ArrayList<Actor>();
-    private int squareSize = 256 / 2;
+    private int squareSize = 256/2;
 
 
     /*
@@ -133,7 +127,7 @@ public class UI {
         else if (repcal < 25){
             color = Color.valueOf("#f45541");
         }
-       //SIZE BAR HERE
+        //SIZE BAR HERE
         this.repBar.setWidth(num);
         this.repBar.setColor(color);
     }
@@ -166,7 +160,7 @@ public class UI {
                     //System.out.println("info label " + x + " made");
                 }
             } //else
-                //System.out.println("NOT 4:::: " + curInfoList.size());
+            //System.out.println("NOT 4:::: " + curInfoList.size());
         }
     }
 
@@ -213,8 +207,6 @@ public class UI {
         this.game = game;
         this.screenName = screenName;
         shape = new ShapeRenderer();
-        Trash tempItem = new Pork();
-        this.currentSort = tempItem.VEGGIE;
 
         Color barBackgroundGrey = Color.valueOf("#ffd280");
         this.background = makeRect(0, game.window_height-topbarHeight, game.window_width, 100, barBackgroundGrey, true);
@@ -249,50 +241,13 @@ public class UI {
         //inv.add(rotBarBack);
         this.rotBarBar = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(rotBarBack.getWidth()*.8), (int)invInfo.getHeight()/16, Color.valueOf("#f49542"), false);
         stage.addActor(rotBarBar);
-        this.rotBarBar.toFront();
-        this.rotBarBack.toFront();
         //inv.add(rotBarBar);
 
         this.rotBarBack.setVisible(false);
         this.rotBarBar.setVisible(false);
 
-        //make topbuttons
-        topButtonsStartX = 310;//for now
-        topButtonsStartY = stage.getHeight()-137;
-        final Actor img = makeRect((int)topButtonsStartX, (int)topButtonsStartY, 130, 37, Color.valueOf("#c33101"), false);
-        inv.add(img);
-        Label.LabelStyle smallTopSize = new Label.LabelStyle();
-        smallTopSize.font = game.makeFont(17);
-        
-        float curPos = img.getX();
-        for (int i = 0; i < numTopButtons; i++){
-            topButtons.add(i, new Label(game.sectionsForMainInv[i], smallTopSize));
-            final Label local = topButtons.get(i);
-            stage.addActor(local);
-            local.setVisible(false);
-            local.setBounds(curPos, img.getY(), img.getWidth(), img.getHeight());
-            curPos = curPos + img.getWidth();
-            local.setWrap(true);
-            local.setAlignment(Align.center);
-            local.toFront();
-            inv.add(local);
-            final Integer newSort = game.typeMap.get(local.getText().toString());
-            //System.out.println("NEW SORT: "+local.getText()+" "+newSort);
-            local.addListener(new InputListener(){
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    img.setX(local.getX());
-                    //System.out.println(lgame.typeMap.get("Veggies"));
-                    currentSort = newSort;
-                    System.out.println("NEW SORT: "+newSort);
-                    upInv();
-                    return true;
-                }
-            });
 
-        }
-
-       //createLabels();
+        //createLabels();
         upInv();
 
         if (game.currentScreen.equals("Trashcan"))
@@ -312,107 +267,82 @@ public class UI {
         //System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBB"+game.backpack.contents.size());
         for (int u = 0; u < game.backpack.contents.size(); u++)
             //System.out.println(u+": "+game.backpack.contents.get(u).name);
-        try {
-            while (game.backpack.contents.size()== 0)
-                System.out.println("waiting...");
+            try {
+                while (game.backpack.contents.size()== 0)
+                    System.out.println("waiting...");
 
-            System.out.println("SIE: "+game.backpack.contents.size());
-            if (game.backpack.contents.size() > 0 && !noContent.equals(null)) {
-                //System.out.println("contents: "+ game.backpack.contents.size());
-                noContent.setVisible(false);
-                ArrayList<Trash>localcontents = new ArrayList<Trash>();
-                for (Trash t: game.backpack.contents) {
-                    //System.out.println(t.type + " |||| "+currentSort);
-                    if (t.type == currentSort){
-                        localcontents.add(t);
-                        System.out.println("Add "+t.name+"; type: "+currentSort);
-                    }
-                }
-                // System.out.println("set vis false: "+noContent.isVisible());
-                System.out.println("______________________"+sectionShow.size());
-                System.out.println("HELO");
-                /*if (inv.size()> 0){
-                    for (int i = 0; i < inv.size(); i++) {
-                        Actor rid = inv.get(i);
-                        System.out.println(rid.getName());
-                        if (rid.getName().substring(0, "REMOVE ME".length()).equals("REMOVE ME")) {
-                            if (!rid.getName().equals("REMOVE ME "+currentSort))
-                                System.out.println("set "+rid.getName());
-                                //rid.setVisible(false);
-                        }
-                    }
-                    sectionShow.clear();
-                }*/
-                /*if (sectionShow.size()> 0) {
-                    System.out.println("CALLED CHECK");
-                    for (int i = 0; i < sectionShow.size(); i++) {
-                        Actor local = sectionShow.get(i);
-                        //local.setVisible(false);
-                        System.out.println("LOOPED ME");
-                        for (int check = 0; check < inv.size(); check++){
-                            Actor remove = inv.get(check);
-
-                            System.out.println(check+" EQUALS: " + remove.getWidth() + ", " + squareSize +  (remove.getWidth() == squareSize));
-                            if (remove.getWidth() == squareSize && remove.getHeight() == squareSize){
-                                inv.remove(check);
-                                remove.setVisible(false);
-                            }
-                        }
-
-                        local.setVisible(false);
-                    }
-                    sectionShow.clear();
-                }//*/
-                /*for (int check = 0; check < inv.size(); check++){
-                    Actor remove = inv.get(check);
-
-                    System.out.println(check+" EQUALS: " + remove.getName() + "::  " + remove.getWidth() + ", " + squareSize +  (remove.getWidth() == squareSize));
-                    if (remove.getWidth() == squareSize && remove.getHeight() == squareSize){
-                        inv.remove(check);
-                        remove.setVisible(false);
-                    }
-                }//*/
-                System.out.println("LOCAL CON: "+localcontents.size());
-                for (int y = 0; y <= 3; y++) {
-                    System.out.println("looped");
-                    for (int x = 0; x < 5; x++) {
-                        //System.out.println("tot: "+tot+"  "+"size: "+game.backpack.contents.size());
-                        //System.out.println("CHECK LOCAL "+ tot +"  "+localcontents.size());
-                        if (tot < localcontents.size()) {
-                            final Trash item = localcontents.get(tot);
-                            System.out.println("!!!"+item.name);
-                           // System.out.println(item.type + ", " + currentSort + (item.type == currentSort));
-                            System.out.println("item "+ item.name +" type: "+ item.type + ";; current sort: "+ currentSort+" == ? "+(item.type == currentSort));
-                            if (item.type == currentSort) {
+                if (game.backpack.contents.size() > 0 && !noContent.equals(null)) {
+                    //System.out.println("contents: "+ game.backpack.contents.size());
+                    noContent.setVisible(false);
+                    // System.out.println("set vis false: "+noContent.isVisible());
+                    for (int y = 0; y <= 3; y++) {
+                        //System.out.println("looped");
+                        for (int x = 0; x < 5; x++) {
+                            //System.out.println("tot: "+tot+"  "+"size: "+game.backpack.contents.size());
+                            if (tot < game.backpack.contents.size()) {
+                                //System.out.println("here we are");
+                                final Trash item = game.backpack.contents.get(tot);
+                                //System.out.println("interval " + tot + ";;;; " + item.name);
                                 Drawable img = item.getDrawable();
+
                                 ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
                                 ibStyle.imageUp = item.getDrawable();
+
                                 ibStyle.imageUp.setMinHeight(size);
                                 ibStyle.imageUp.setMinWidth(size);
                                 final ImageButton localB = new ImageButton(ibStyle);
                                 localB.setBounds(xPos + 25, yPos, size, size);
-                                for (int check = 0; check < inv.size(); check++){
-                                    Actor see = inv.get(check);
-                                    if (see.getX()== localB.getX() && see.getY()== localB.getY() && !localB.equals(see)){
-                                        see.setVisible(false);
-                                    }
-                                }
                                 localB.setSize(squareSize, squareSize);
+
+                                //System.out.println("INFO: "+item.name+", "+item.rarity);
+
 
                                 localB.addListener(new InputListener() {
                                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                        //create info
+                                        //System.out.println("CLIEDK");
+                                        //new InfoFrame(game, stage, (int)localB.getX(), (int)localB.getY());
+                                        //makeRect((int)localB.getX(), (int)localB.getY(), 100, 100, Color.BLUE);
                                         System.out.println("________________________");
+                                        System.out.println("current down: "+currentDown);
+                                    /*if (currentDown == null){
+                                        //System.out.println("THIS SHOULD CLOSE THE INFO SCREEN");
+                                        showInfo = false;
+                                        closeInvInfo();
+                                    }
+                                    if (currentDown == null || currentDown != localB) {
+                                        showInfo = true;
+                                        infoX = (int) localB.getX();
+                                        infoY = (int) localB.getY();
+                                        currentDown = localB;
+                                        curInfoList.clear();
+                                        curInfoList.add(0, "Item: " + item.name);
+                                        curInfoList.add(1, Integer.toString(item.nast));//rottenness
+                                        curInfoList.add(2, item.getRarity(item.rarity));
+                                        curInfoList.add(3, item.desc);
+                                       // System.out.println("Current rarity: "+item.getRarity(item.rarity));
+                                        //System.out.println("SIZE:" + curInfoList.size());
 
+                                    } else if (currentDown != null) {
+                                        System.out.println("eq? "+ (currentDown == localB));
                                         if (currentDown == localB) {
+                                            currentDown = null;
+                                            showInfo = false;
+                                            closeInvInfo();
+                                        }
+                                    }*/
+
+                                        if (currentDown == localB){
                                             currentDown = null;
                                             infoItem = null;
                                             showInfo = false;
 
-                                            for (int g = 0; g < curInfoList.size(); g++) {
+                                            for (int g = 0; g < curInfoList.size(); g++){
                                                 curInfoList.get(g);
                                             }
                                             curInfoList.clear();
-                                        } else if (currentDown == null || currentDown != localB) {
+                                        }
+                                        else if (currentDown == null || currentDown != localB){
                                             showInfo = true;
                                             infoX = (int) localB.getX();
                                             infoY = (int) localB.getY();
@@ -432,37 +362,28 @@ public class UI {
                                     ;
                                 });
                                 inv.add(localB);
-                                sectionShow.add(localB);
                                 localB.setVisible(false);
                                 stage.addActor(localB);
-                                localB.setName("REMOVE ME "+currentSort);
                                 xPos = xPos + xPlus;
+                                //System.out.println(x);
                                 tot++;
-                                System.out.println("TOT PLUS");
-                            }
-                            else if (item.type != currentSort){
-                                System.out.println("NOT PUT NOTHING");
+                                //System.out.println(x + " "+(x <= 6));
                             }
                         }
+                        yPos = yPos - yPlus;
+                        xPos = startX;
                     }
-                    yPos = yPos - yPlus;
-                    xPos = startX;
+                    curInv = game.backpack.contents;
+                    //System.out.println("DONE");
+                } else if (game.backpack.contents.size() == 0) {
+                    System.out.println("THERE IS NO INV STUFF");
+                    noContent.setVisible(true);
+                    //game.backpack.add(new McdHamburger());
                 }
-                curInv = game.backpack.contents;
-                //System.out.println("DONE");
-            } else if (game.backpack.contents.size() == 0) {
-                System.out.println("THERE IS NO INV STUFF");
-                noContent.setVisible(true);
-                //game.backpack.add(new McdHamburger());
             }
-        }
-        catch (java.lang.NullPointerException j){
-            //lol this always errors System.out.println("figgle");
-        }
-
-        /*for (Actor a: stage.getActors()) {
-            a.toFront();
-        }*/
+            catch (java.lang.NullPointerException j){
+                //lol this always errors System.out.println("figgle");
+            }
     }
 
     public void makeUI(){//call this to make the UI in a new screen after initing it
@@ -603,6 +524,7 @@ public class UI {
                         //System.out.println("BAS EIMG "+infoItem.baseImgName);
                         if (x == 2) {
                             //System.out.println(local.getText());
+                            local.setText(infoItem.getRarity(infoItem.rarity));
                             local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
                         }
                         else if (x == 3){
@@ -639,7 +561,8 @@ public class UI {
                         }
                         //local.setText("!!! "+curInfoList.get(x));
                         local.setVisible(true);
-                        //System.out.println("set text to '"+curInfoList.get(x)+"'");
+                        System.out.println(x+":: set text to '"+curInfoList.get(x)+"'");
+
                     }
                 }
             }

@@ -251,7 +251,7 @@ public class Trashcan implements Screen {
             Skin skin1 = new Skin();
             skin1.add(trash.name, new Texture(trash.baseImgName + trash.img + trash.fileType));
             trash.nast = rand.nextInt(100)+1;
-            trash.setDrawable(sp.divideGarbage(trash));
+            trash.setImg();
             stage.addActor(trash);
             imgs.add(trash);
             imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size() - 1));
@@ -290,7 +290,7 @@ public class Trashcan implements Screen {
             int t = rand.nextInt(garbageItems.length-1);
             Trash item = makeRandGarbage(t);
             item.nast = rand.nextInt(100)+1;
-            item.setDrawable(sp.divideGarbage(item));
+            item.setImg();
             item.setX(plocs[0]);
             item.setY(plocs[1]);
             //System.out.println(plocs[0]+" "+ plocs[1]);

@@ -55,7 +55,12 @@ public class Trash extends Image{
 
     public void setImg(){
         SpriteSheetDivider sp = new SpriteSheetDivider();
-        this.setDrawable(sp.divideGarbage(this));
+        this.setDrawable(sp.divideGarbage(this, this.img));
+    }
+
+    public void setImg(String name){
+        SpriteSheetDivider sp = new SpriteSheetDivider();
+        this.setDrawable(sp.divideGarbage(this, name));
     }
 
     public void setNast(int newNast){

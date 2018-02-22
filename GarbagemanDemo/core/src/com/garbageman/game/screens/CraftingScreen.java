@@ -153,7 +153,7 @@ public class CraftingScreen implements Screen{
             crow.setName(Integer.toString(i));
             trashes.add(crow);
             stage.addActor(trashes.get(i));
-            trashes.get(i).setImg();
+            //trashes.get(i).setImg();
             trashes.get(i).setVisible(true);
             trashes.get(i).setSize(96, 96);
             trashes.get(i).toFront();
@@ -194,27 +194,40 @@ public class CraftingScreen implements Screen{
                     break;
                 case Trash.MEAT:
                     newT = new Pork();
+                    newT.setImg("PorkGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.VEGGIE:
                     newT = new Salad();
+                    newT.setImg("SaladGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.WRAP:
                     newT = new Bread();
+                    newT.setImg("BreadGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.FILLER:
                     newT = new Bean();
+                    newT.setImg("beanGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.SWEETENER:
                     newT = new BagOfSugar();
+                    newT.setImg("bagOfSugarGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.SAUCE:
                     newT = new Ketchup();
+                    newT.setImg("KetchupGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.ANYTHING:
                     newT = new CrowWithOddEyeInfection();
                     break;
+
             }
-            newT.setColor(Color.LIGHT_GRAY);
+            //newT.setColor(Color.LIGHT_GRAY);
             list[i] = newT;
         }
         for (int i = f.reqTypes.length; i < f.reqTypes.length+f.optionalTypes.length; i++) {

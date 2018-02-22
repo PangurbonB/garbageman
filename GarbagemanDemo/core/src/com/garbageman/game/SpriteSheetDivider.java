@@ -60,14 +60,15 @@ public class SpriteSheetDivider {
         return temp1;
     }
 
-    public TextureRegionDrawable divideGarbage(Trash item) {
+    public TextureRegionDrawable divideGarbage(Trash item, String name) {
         TextureRegion temp = new TextureRegion();
         try {
-            temp.setTexture(new Texture(item.baseImgName + item.img + item.fileType));
+            temp.setTexture(new Texture(item.baseImgName + name + item.fileType));
         }
         catch (GdxRuntimeException e){
+            e.printStackTrace();
             CrowWithOddEyeInfection c = new CrowWithOddEyeInfection();
-            temp.setTexture(new Texture(c.baseImgName + c.img + c.fileType));
+            temp.setTexture(new Texture(c.baseImgName + "CrowWithOddEyeInfection" + c.fileType));
         }
         if (temp.getTexture().getTextureData().getWidth() == 96) {
             if (item.nast >= item.HMTHRESH) {

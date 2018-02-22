@@ -41,7 +41,7 @@ public class Trash extends Image{
     public String desc = "Item is missing description";
     public int x,y = 0;
     public int width,height = 32;
-    public static int type = UNUSABLE;
+    public int type = UNUSABLE;
     public static int rarity = COMMON;
     //Nastiness is on a scale of 1-100
     //1 is fresh, 100 is foul

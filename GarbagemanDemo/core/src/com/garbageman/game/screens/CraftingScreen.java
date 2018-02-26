@@ -13,9 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.SpriteSheetDivider;
+import com.garbageman.game.cooked.Burrito;
 import com.garbageman.game.cooked.Cake;
 import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.cooked.Hotdog;
+import com.garbageman.game.cooked.Pizza;
+import com.garbageman.game.cooked.Sandwich;
+import com.garbageman.game.cooked.Soup;
+import com.garbageman.game.cooked.Sushi;
 import com.garbageman.game.garbage.AppleCore;
 import com.garbageman.game.garbage.BagOfSugar;
 import com.garbageman.game.garbage.BananaPeel;
@@ -59,31 +64,14 @@ public class CraftingScreen implements Screen{
     SpriteSheetDivider sp = new SpriteSheetDivider();
 
 
-    Class[] garbageItems = {
-            AppleCore.class,
-            BagOfSugar.class,
-            BananaPeel.class,
-            Bean.class,
-            Bread.class,
-            CrowWithOddEyeInfection.class,
-            DirtyKitchenSponge.class,
-            Feces.class,
-            HandfulOfAnts.class,
-            HomelessBeardShavings.class,
-            Ketchup.class,
-            Leaf.class,
-            Lettuce.class,
-            McdFries.class,
-            McdHamburger.class,
-            MysteryEyeball.class,
-            OldNewspaper.class,
-            Pork.class,
-            RabbitFoot.class,
-            Salad.class,
-            Smarties.class,
-            Strawberry.class,
-            ToiletPaper.class,
-            Vomit.class
+    Class[] foodItems = {
+            Burrito.class,
+            Cake.class,
+            Hotdog.class,
+            Pizza.class,
+            Sandwich.class,
+            Soup.class,
+            Sushi.class,
     };
 
     CookedFood input = new Hotdog();
@@ -235,30 +223,44 @@ public class CraftingScreen implements Screen{
             switch (f.optionalTypes[i-f.reqTypes.length]){
                 default:
                     newT = new MysteryEyeball();
+                    newT.setImg();
                     break;
                 case Trash.MEAT:
                     newT = new Pork();
+                    newT.setImg("PorkGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.VEGGIE:
                     newT = new Salad();
+                    newT.setImg("SaladGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.WRAP:
                     newT = new Bread();
+                    newT.setImg("BreadGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.FILLER:
                     newT = new Bean();
+                    newT.setImg("beanGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.SWEETENER:
                     newT = new BagOfSugar();
+                    newT.setImg("bagOfSugarGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.SAUCE:
                     newT = new Ketchup();
+                    newT.setImg("KetchupGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.ANYTHING:
                     newT = new CrowWithOddEyeInfection();
+                    newT.setImg();
                     break;
             }
-            newT.setColor(Color.LIGHT_GRAY);
+            //newT.setColor(Color.LIGHT_GRAY);
             list[i] = newT;
         }
         f.setColor(Color.LIGHT_GRAY);

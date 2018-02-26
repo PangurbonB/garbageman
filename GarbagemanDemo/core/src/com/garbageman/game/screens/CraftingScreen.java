@@ -7,9 +7,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.SpriteSheetDivider;
@@ -69,20 +72,18 @@ public class CraftingScreen implements Screen{
 
     Garbageman game;
 
-    Class[] foodItems;// = game.foodItems;
+    Class[] foodItems;
 
     String screenName = "Crafting";
+    Skin sk = new Skin();
+    CookedFood input;
+
 
 
 
     public CraftingScreen(Garbageman game){
         this.game = game;
         foodItems = game.foodItems;
-    }
-
-    @Override
-    public void show() {
-        CookedFood input;
         Random rand = new Random();
         try {
             input = (CookedFood) Class.forName(foodItems[rand.nextInt(foodItems.length)].getName()).newInstance();
@@ -96,6 +97,15 @@ public class CraftingScreen implements Screen{
             input = new Hotdog();
             e.printStackTrace();
         }
+        sk.add("name", new Texture("assets/Food/" + input.name.toLowerCase() + ".png"));
+        sk.add("ghost", new Texture("assets/Food/"+ input.name.toLowerCase()+ "Ghost.png"));
+    }
+
+    @Override
+    public void show() {
+
+        Random rand = new Random();
+
 
         game.ui.init(game, stage, screenName);
         game.ui.makeUI();
@@ -104,12 +114,12 @@ public class CraftingScreen implements Screen{
         input.setX(stage.getWidth()/2 - input.getWidth() + 40);
         input.setY(stage.getHeight()/2 - input.getHeight() + 35);
         input.setVisible(true);
-        Skin sk = new Skin();
-        sk.add("name", new Texture("assets/Food/" + input.name.toLowerCase() + ".png"));
+
+
+
+
 
         input.setDrawable(sk, "name");
-
-
         stage.addActor(input);
 
         background.toBack();
@@ -128,7 +138,7 @@ public class CraftingScreen implements Screen{
         craftingLocs[7] = new int[]{193, 349};
 
 
-        ArrayList<Trash> trashes = new ArrayList<Trash>();
+        final ArrayList<Trash> trashes = new ArrayList<Trash>();
 
         for (int i = 0; i < craftingLocs.length; i++) {
             Trashcan tr = new Trashcan(game);
@@ -143,10 +153,18 @@ public class CraftingScreen implements Screen{
             crow.setName(Integer.toString(i));
             trashes.add(crow);
             stage.addActor(trashes.get(i));
-            //trashes.get(i).setImg();
             trashes.get(i).setVisible(true);
             trashes.get(i).setSize(96, 96);
             trashes.get(i).toFront();
+            final int k = i;
+            trashes.get(i).addListener(new InputListener(){
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    trashes.get(k).setDrawable(sk, "name");
+                    System.out.println("fugg");
+                    return super.touchDown(event, x, y, pointer, button);
+                }
+            });
             if (i!=7) {
                 trashes.get(i).setX(craftingLocs[i + 1][0] - 50);
                 trashes.get(i).setY(stage.getHeight() - craftingLocs[i + 1][1] - 65);
@@ -172,7 +190,7 @@ public class CraftingScreen implements Screen{
         return input;
     }*/
 
-    public Actor[] makeGhosts(CookedFood f){
+    public Actor[] makeGhosts(final CookedFood f){
 
         Actor[] list = new Actor[9];
 
@@ -265,7 +283,12 @@ public class CraftingScreen implements Screen{
             //newT.setColor(Color.LIGHT_GRAY);
             list[i] = newT;
         }
-        f.setColor(Color.LIGHT_GRAY);
+        //f.setColor(Color.LIGHT_GRAY);
+        System.out.println(f.name.toLowerCase());
+
+        f.setDrawable(sk, "ghost");
+
+
         list[8] = f;
         return list;
     }
@@ -279,6 +302,8 @@ public class CraftingScreen implements Screen{
 
         game.ui.update();
         stage.draw();
+
+
 
 
     }

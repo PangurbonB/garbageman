@@ -63,13 +63,13 @@ public class CraftingScreen implements Screen{
     int centerY = 359;
     SpriteSheetDivider sp = new SpriteSheetDivider();
 
-    CookedFood input = new Hotdog();
-
 
 
     Trash bird = new CrowWithOddEyeInfection();
 
     Garbageman game;
+
+    Class[] foodItems;// = game.foodItems;
 
     String screenName = "Crafting";
 
@@ -77,10 +77,25 @@ public class CraftingScreen implements Screen{
 
     public CraftingScreen(Garbageman game){
         this.game = game;
+        foodItems = game.foodItems;
     }
 
     @Override
     public void show() {
+        CookedFood input;
+        Random rand = new Random();
+        try {
+            input = (CookedFood) Class.forName(foodItems[rand.nextInt(foodItems.length)].getName()).newInstance();
+        } catch (InstantiationException e) {
+            input = new Hotdog();
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            input = new Hotdog();
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            input = new Hotdog();
+            e.printStackTrace();
+        }
 
         game.ui.init(game, stage, screenName);
         game.ui.makeUI();
@@ -117,10 +132,8 @@ public class CraftingScreen implements Screen{
 
         for (int i = 0; i < craftingLocs.length; i++) {
             Trashcan tr = new Trashcan(game);
-
-
-            Random rand = new Random();
             int x = rand.nextInt(game.garbageItems.length-1);
+
             Actor[] list = makeGhosts(input);
             System.out.println(i);
             System.out.println(list.length);

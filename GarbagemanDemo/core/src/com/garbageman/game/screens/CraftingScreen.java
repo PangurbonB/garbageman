@@ -56,7 +56,7 @@ import java.util.Random;
 
 public class CraftingScreen implements Screen{
 
-    Image background = new Image(new Texture("assets/Screens/craftingScreen.png"));
+    Image background = new Image(new Texture("assets/Screens/craftingScreen2.png"));
     Stage stage = new Stage();
     int[][] craftingLocs = new int[8][2];
     int centerX = 641;
@@ -83,6 +83,8 @@ public class CraftingScreen implements Screen{
     @Override
     public void show() {
         CookedFood input;
+
+        game.currentScreen = this.screenName;
         Random rand = new Random();
         try {
             input = (CookedFood) Class.forName(foodItems[rand.nextInt(foodItems.length)].getName()).newInstance();
@@ -279,6 +281,7 @@ public class CraftingScreen implements Screen{
 
         game.ui.update();
         stage.draw();
+
 
 
     }

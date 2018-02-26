@@ -97,7 +97,7 @@ public class UI {
         return press2P;
     }
 
-    private Actor makeRect(int posX, int posY, int width, int height, Color bb, boolean vis){//makes a new shape, replacing using ShapeRenderers
+    public Actor makeRect(int posX, int posY, int width, int height, Color bb, boolean vis){//makes a new shape, replacing using ShapeRenderers
         /*shape.setAutoShapeType(true);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.rect(posX, posY, width, height, bb, bb, bb, bb);
@@ -407,6 +407,7 @@ public class UI {
         menuButton.getLabel().setAlignment(Align.center);
         menuButton.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("CHECK ME: "+ checkCurrentScreen());
                 if (checkCurrentScreen()){
                     game.setScreen(new MainMenuScreen(game));
                 }
@@ -470,6 +471,7 @@ public class UI {
         Color barBackgroundGrey = Color.valueOf("#939598");
 
         //System.out.println("ROT BAR VIS:"+rotBarBack.isVisible());
+        System.out.println("CHECK SCREEN: "+checkCurrentScreen());
         updateRep(len, (double)game.reputation/100);
         if (repText != null){
             repText.setText("Reputation: " + game.reputation + "/100");

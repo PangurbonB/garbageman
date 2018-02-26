@@ -143,7 +143,7 @@ public class CraftingScreen implements Screen{
 
 
             Random rand = new Random();
-            int x = rand.nextInt(tr.garbageItems.length-1);
+            int x = rand.nextInt(game.garbageItems.length-1);
             Actor[] list = makeGhosts(input);
             System.out.println(i);
             System.out.println(list.length);

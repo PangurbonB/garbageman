@@ -528,7 +528,10 @@ public class UI {
                             local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
                         }
                         else if (x == 3){
-
+                            //System.out.println("LENY: "+local.getText().length);
+                            if (local.getText().length > 30) {
+                                local.setY(local.getHeight()*(float)4.75);
+                            }
                         }
                         else if (x == 1) {
                             float numy = rotBarY-(float)(rotBarY*-.04);

@@ -8,7 +8,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.garbageman.game.cooked.Burrito;
+import com.garbageman.game.cooked.Cake;
 import com.garbageman.game.cooked.CookedFood;
+import com.garbageman.game.cooked.Hotdog;
+import com.garbageman.game.cooked.Pizza;
+import com.garbageman.game.cooked.Sandwich;
+import com.garbageman.game.cooked.Soup;
+import com.garbageman.game.cooked.Sushi;
 import com.garbageman.game.garbage.AppleCore;
 import com.garbageman.game.garbage.BagOfSugar;
 import com.garbageman.game.garbage.BananaPeel;
@@ -104,6 +111,16 @@ public class Garbageman extends Game {
 			Strawberry.class,
 			ToiletPaper.class,
 			Vomit.class
+	};
+
+	public Class[] foodItems = {
+			Burrito.class,
+			Cake.class,
+			Hotdog.class,
+			Pizza.class,
+			Sandwich.class,
+			Soup.class,
+			Sushi.class,
 	};
 
 	public void print(final String msg){

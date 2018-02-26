@@ -63,17 +63,6 @@ public class CraftingScreen implements Screen{
     int centerY = 359;
     SpriteSheetDivider sp = new SpriteSheetDivider();
 
-
-    Class[] foodItems = {
-            Burrito.class,
-            Cake.class,
-            Hotdog.class,
-            Pizza.class,
-            Sandwich.class,
-            Soup.class,
-            Sushi.class,
-    };
-
     CookedFood input = new Hotdog();
 
 

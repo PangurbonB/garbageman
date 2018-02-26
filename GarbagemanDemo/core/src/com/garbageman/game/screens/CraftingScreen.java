@@ -142,8 +142,8 @@ public class CraftingScreen implements Screen{
 
         for (int i = 0; i < craftingLocs.length; i++) {
             Trashcan tr = new Trashcan(game);
-            
-            int x = rand.nextInt(tr.garbageItems.length-1);
+            int x = rand.nextInt(game.garbageItems.length-1);
+
             Actor[] list = makeGhosts(input);
             System.out.println(i);
             System.out.println(list.length);

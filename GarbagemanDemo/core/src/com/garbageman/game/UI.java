@@ -539,6 +539,7 @@ public class UI {
                             local.setText("Nastiness: "+curInfoList.get(x));
                             int nast = infoItem.nast;
                             local.setWrap(true);
+
                             //backpack.contents.get(c)
                             if (nast <= infoItem.MLTHRESH){
                                 rotBarBar.setColor(game.colorMap.get("Green"));

@@ -131,14 +131,14 @@ public class CraftingScreen implements Screen{
         background.setWidth(stage.getWidth());
         stage.addActor(background);
 
-        craftingLocs[0] = new int[]{377, 222};
-        craftingLocs[1] = new int[]{904, 221};
-        craftingLocs[2] = new int[]{1081, 348};
-        craftingLocs[3] = new int[]{1014, 544};
-        craftingLocs[4] = new int[]{819, 596};
-        craftingLocs[5] = new int[]{451, 599};
-        craftingLocs[6] = new int[]{252, 534};
-        craftingLocs[7] = new int[]{193, 349};
+        craftingLocs[0] = new int[]{377, 223};
+        craftingLocs[1] = new int[]{907, 223};
+        craftingLocs[2] = new int[]{1083, 350};
+        craftingLocs[3] = new int[]{1020, 540};
+        craftingLocs[4] = new int[]{823, 603};
+        craftingLocs[5] = new int[]{457, 603};
+        craftingLocs[6] = new int[]{260, 540};
+        craftingLocs[7] = new int[]{197, 350};
 
 
         final ArrayList<Trash> trashes = new ArrayList<Trash>();
@@ -169,12 +169,15 @@ public class CraftingScreen implements Screen{
                 }
             });
             if (i!=7) {
-                trashes.get(i).setX(craftingLocs[i + 1][0] - 50);
+                trashes.get(i).setX(craftingLocs[i + 1][0] - 65);
                 trashes.get(i).setY(stage.getHeight() - craftingLocs[i + 1][1] - 65);
+                //game.ui.makeRect((int)craftingLocs[i+1][0] - 50, (int)stage.getHeight()-craftingLocs[i+1][1] - 50, 100, 100, Color.BLUE, true);
             }
             else{
-                trashes.get(i).setX(craftingLocs[0][0] - 50);
+                trashes.get(i).setX(craftingLocs[0][0] - 65);
                 trashes.get(i).setY(stage.getHeight() - craftingLocs[0][1] - 65);
+                //game.ui.makeRect((int)craftingLocs[0][0] - 50, (int)stage.getHeight()-craftingLocs[0][1] - 50, 100, 100, Color.BLUE, true);
+
             }
         }
         input.toFront();

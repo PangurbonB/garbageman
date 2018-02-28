@@ -128,32 +128,7 @@ public class Trashcan implements Screen {
                     "help                                   -- Displays this command"
             };
 
-            Class[] garbageItems = {
-                    AppleCore.class,
-                    BagOfSugar.class,
-                    BananaPeel.class,
-                    Bean.class,
-                    Bread.class,
-                    CrowWithOddEyeInfection.class,
-                    DirtyKitchenSponge.class,
-                    Feces.class,
-                    HandfulOfAnts.class,
-                    HomelessBeardShavings.class,
-                    Ketchup.class,
-                    Leaf.class,
-                    Lettuce.class,
-                    McdFries.class,
-                    McdHamburger.class,
-                    MysteryEyeball.class,
-                    OldNewspaper.class,
-                    Pork.class,
-                    RabbitFoot.class,
-                    Salad.class,
-                    Smarties.class,
-                    Strawberry.class,
-                    ToiletPaper.class,
-                    Vomit.class
-            };
+            
 
 
     public Trashcan(Garbageman game) {
@@ -202,7 +177,7 @@ public class Trashcan implements Screen {
 
     public Trash makeRandGarbage(int x){
         try {
-            return (Trash) Class.forName(garbageItems[x].getName()).newInstance();
+            return (Trash) Class.forName(game.garbageItems[x].getName()).newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -216,7 +191,7 @@ public class Trashcan implements Screen {
     //Makes a new piece of garbage, but does most of the work for you.
     public void makeSoftGarbage(String string) {
         try {
-            for (Class garbageItem : garbageItems) {
+            for (Class garbageItem : game.garbageItems) {
                 if (garbageItem.getSimpleName().toLowerCase().equals(string.toLowerCase())) {
                     //System.out.println(garbageItem.getSimpleName());
 
@@ -251,7 +226,7 @@ public class Trashcan implements Screen {
             Skin skin1 = new Skin();
             skin1.add(trash.name, new Texture(trash.baseImgName + trash.img + trash.fileType));
             trash.nast = rand.nextInt(100)+1;
-            trash.setDrawable(sp.divideGarbage(trash));
+            trash.setImg();
             stage.addActor(trash);
             imgs.add(trash);
             imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size() - 1));
@@ -287,10 +262,10 @@ public class Trashcan implements Screen {
         for (int i = 0; i < amt; i++) {
             Float[] plocs = generateLocation();
             Random rand = new Random();
-            int t = rand.nextInt(garbageItems.length-1);
+            int t = rand.nextInt(game.garbageItems.length-1);
             Trash item = makeRandGarbage(t);
             item.nast = rand.nextInt(100)+1;
-            item.setDrawable(sp.divideGarbage(item));
+            item.setImg();
             item.setX(plocs[0]);
             item.setY(plocs[1]);
             //System.out.println(plocs[0]+" "+ plocs[1]);

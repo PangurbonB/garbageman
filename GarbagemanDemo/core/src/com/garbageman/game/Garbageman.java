@@ -8,12 +8,39 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.garbageman.game.cooked.Burrito;
+import com.garbageman.game.cooked.Cake;
 import com.garbageman.game.cooked.CookedFood;
+import com.garbageman.game.cooked.Hotdog;
+import com.garbageman.game.cooked.Pizza;
+import com.garbageman.game.cooked.Sandwich;
+import com.garbageman.game.cooked.Soup;
+import com.garbageman.game.cooked.Sushi;
+import com.garbageman.game.garbage.AppleCore;
+import com.garbageman.game.garbage.BagOfSugar;
+import com.garbageman.game.garbage.BananaPeel;
+import com.garbageman.game.garbage.Bean;
+import com.garbageman.game.garbage.Bread;
+import com.garbageman.game.garbage.CrowWithOddEyeInfection;
+import com.garbageman.game.garbage.DirtyKitchenSponge;
+import com.garbageman.game.garbage.Feces;
+import com.garbageman.game.garbage.HandfulOfAnts;
+import com.garbageman.game.garbage.HomelessBeardShavings;
+import com.garbageman.game.garbage.Ketchup;
 import com.garbageman.game.garbage.Leaf;
+import com.garbageman.game.garbage.Lettuce;
+import com.garbageman.game.garbage.McdFries;
 import com.garbageman.game.garbage.McdHamburger;
 import com.garbageman.game.garbage.MysteryEyeball;
+import com.garbageman.game.garbage.OldNewspaper;
+import com.garbageman.game.garbage.Pork;
+import com.garbageman.game.garbage.RabbitFoot;
+import com.garbageman.game.garbage.Salad;
 import com.garbageman.game.garbage.Smarties;
+import com.garbageman.game.garbage.Strawberry;
+import com.garbageman.game.garbage.ToiletPaper;
 import com.garbageman.game.garbage.Trash;
+import com.garbageman.game.garbage.Vomit;
 import com.garbageman.game.screens.MainMenuScreen;
 
 import java.util.Collections;
@@ -58,6 +85,43 @@ public class Garbageman extends Game {
 
 	public java.util.Map<String, Integer> typeMap = Collections.synchronizedMap(new HashMap());
 	public Trash objTemp = new McdHamburger();
+
+	public Class[] garbageItems = {
+			AppleCore.class,
+			BagOfSugar.class,
+			BananaPeel.class,
+			Bean.class,
+			Bread.class,
+			CrowWithOddEyeInfection.class,
+			DirtyKitchenSponge.class,
+			Feces.class,
+			HandfulOfAnts.class,
+			HomelessBeardShavings.class,
+			Ketchup.class,
+			Leaf.class,
+			Lettuce.class,
+			McdFries.class,
+			McdHamburger.class,
+			MysteryEyeball.class,
+			OldNewspaper.class,
+			Pork.class,
+			RabbitFoot.class,
+			Salad.class,
+			Smarties.class,
+			Strawberry.class,
+			ToiletPaper.class,
+			Vomit.class
+	};
+
+	public Class[] foodItems = {
+			Burrito.class,
+			Cake.class,
+			Hotdog.class,
+			Pizza.class,
+			Sandwich.class,
+			Soup.class,
+			Sushi.class,
+	};
 
 	public void print(final String msg){
 		System.out.println(msg);

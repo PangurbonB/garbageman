@@ -10,6 +10,6 @@ public class HandfulOfAnts extends Trash {
         rarity = COMMON;
         name = "Handful Of Ants";
         img = "handfulOfAnts";
-        desc = "";
+        desc = "They taste how they smell...";
     }
 }

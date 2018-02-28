@@ -7,15 +7,23 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.SpriteSheetDivider;
+import com.garbageman.game.cooked.Burrito;
 import com.garbageman.game.cooked.Cake;
 import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.cooked.Hotdog;
+import com.garbageman.game.cooked.Pizza;
+import com.garbageman.game.cooked.Sandwich;
+import com.garbageman.game.cooked.Soup;
+import com.garbageman.game.cooked.Sushi;
 import com.garbageman.game.garbage.AppleCore;
 import com.garbageman.game.garbage.BagOfSugar;
 import com.garbageman.game.garbage.BananaPeel;
@@ -51,7 +59,7 @@ import java.util.Random;
 
 public class CraftingScreen implements Screen{
 
-    Image background = new Image(new Texture("assets/Screens/craftingScreen.png"));
+    Image background = new Image(new Texture("assets/Screens/craftingScreen2.png"));
     Stage stage = new Stage();
     int[][] craftingLocs = new int[8][2];
     int centerX = 641;
@@ -59,51 +67,47 @@ public class CraftingScreen implements Screen{
     SpriteSheetDivider sp = new SpriteSheetDivider();
 
 
-    Class[] garbageItems = {
-            AppleCore.class,
-            BagOfSugar.class,
-            BananaPeel.class,
-            Bean.class,
-            Bread.class,
-            CrowWithOddEyeInfection.class,
-            DirtyKitchenSponge.class,
-            Feces.class,
-            HandfulOfAnts.class,
-            HomelessBeardShavings.class,
-            Ketchup.class,
-            Leaf.class,
-            Lettuce.class,
-            McdFries.class,
-            McdHamburger.class,
-            MysteryEyeball.class,
-            OldNewspaper.class,
-            Pork.class,
-            RabbitFoot.class,
-            Salad.class,
-            Smarties.class,
-            Strawberry.class,
-            ToiletPaper.class,
-            Vomit.class
-    };
-
-    CookedFood input = new Hotdog();
-
-
 
     Trash bird = new CrowWithOddEyeInfection();
 
     Garbageman game;
 
+    Class[] foodItems;
+
     String screenName = "Crafting";
+    Skin sk = new Skin();
+    CookedFood input;
+
 
 
 
     public CraftingScreen(Garbageman game){
         this.game = game;
+        foodItems = game.foodItems;
     }
 
     @Override
     public void show() {
+
+        CookedFood input;
+
+        game.currentScreen = this.screenName;
+        Random rand = new Random();
+        try {
+            input = (CookedFood) Class.forName(foodItems[rand.nextInt(foodItems.length)].getName()).newInstance();
+        } catch (InstantiationException e) {
+            input = new Hotdog();
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            input = new Hotdog();
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            input = new Hotdog();
+            e.printStackTrace();
+        }
+        sk.add("name", new Texture("assets/Food/" + input.name.toLowerCase() + ".png"));
+        sk.add("ghost", new Texture("assets/Food/"+ input.name.toLowerCase()+ "Ghost.png"));
+
 
         game.ui.init(game, stage, screenName);
         game.ui.makeUI();
@@ -112,12 +116,12 @@ public class CraftingScreen implements Screen{
         input.setX(stage.getWidth()/2 - input.getWidth() + 40);
         input.setY(stage.getHeight()/2 - input.getHeight() + 35);
         input.setVisible(true);
-        Skin sk = new Skin();
-        sk.add("name", new Texture("assets/Food/" + input.name.toLowerCase() + ".png"));
+
+
+
+
 
         input.setDrawable(sk, "name");
-
-
         stage.addActor(input);
 
         background.toBack();
@@ -136,14 +140,12 @@ public class CraftingScreen implements Screen{
         craftingLocs[7] = new int[]{193, 349};
 
 
-        ArrayList<Trash> trashes = new ArrayList<Trash>();
+        final ArrayList<Trash> trashes = new ArrayList<Trash>();
 
         for (int i = 0; i < craftingLocs.length; i++) {
             Trashcan tr = new Trashcan(game);
+            int x = rand.nextInt(game.garbageItems.length-1);
 
-
-            Random rand = new Random();
-            int x = rand.nextInt(tr.garbageItems.length-1);
             Actor[] list = makeGhosts(input);
             System.out.println(i);
             System.out.println(list.length);
@@ -153,10 +155,18 @@ public class CraftingScreen implements Screen{
             crow.setName(Integer.toString(i));
             trashes.add(crow);
             stage.addActor(trashes.get(i));
-            trashes.get(i).setImg();
             trashes.get(i).setVisible(true);
             trashes.get(i).setSize(96, 96);
             trashes.get(i).toFront();
+            final int k = i;
+            trashes.get(i).addListener(new InputListener(){
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    trashes.get(k).setDrawable(sk, "name");
+                    System.out.println("fugg");
+                    return super.touchDown(event, x, y, pointer, button);
+                }
+            });
             if (i!=7) {
                 trashes.get(i).setX(craftingLocs[i + 1][0] - 50);
                 trashes.get(i).setY(stage.getHeight() - craftingLocs[i + 1][1] - 65);
@@ -182,7 +192,7 @@ public class CraftingScreen implements Screen{
         return input;
     }*/
 
-    public Actor[] makeGhosts(CookedFood f){
+    public Actor[] makeGhosts(final CookedFood f){
 
         Actor[] list = new Actor[9];
 
@@ -194,27 +204,40 @@ public class CraftingScreen implements Screen{
                     break;
                 case Trash.MEAT:
                     newT = new Pork();
+                    newT.setImg("PorkGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.VEGGIE:
                     newT = new Salad();
+                    newT.setImg("SaladGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.WRAP:
                     newT = new Bread();
+                    newT.setImg("BreadGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.FILLER:
                     newT = new Bean();
+                    newT.setImg("beanGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.SWEETENER:
                     newT = new BagOfSugar();
+                    newT.setImg("bagOfSugarGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.SAUCE:
                     newT = new Ketchup();
+                    newT.setImg("KetchupGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.ANYTHING:
                     newT = new CrowWithOddEyeInfection();
                     break;
+
             }
-            newT.setColor(Color.LIGHT_GRAY);
+            //newT.setColor(Color.LIGHT_GRAY);
             list[i] = newT;
         }
         for (int i = f.reqTypes.length; i < f.reqTypes.length+f.optionalTypes.length; i++) {
@@ -222,33 +245,52 @@ public class CraftingScreen implements Screen{
             switch (f.optionalTypes[i-f.reqTypes.length]){
                 default:
                     newT = new MysteryEyeball();
+                    newT.setImg();
                     break;
                 case Trash.MEAT:
                     newT = new Pork();
+                    newT.setImg("PorkGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.VEGGIE:
                     newT = new Salad();
+                    newT.setImg("SaladGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.WRAP:
                     newT = new Bread();
+                    newT.setImg("BreadGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.FILLER:
                     newT = new Bean();
+                    newT.setImg("beanGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.SWEETENER:
                     newT = new BagOfSugar();
+                    newT.setImg("bagOfSugarGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.SAUCE:
                     newT = new Ketchup();
+                    newT.setImg("KetchupGhost");
+                    System.out.println(newT.name);
                     break;
                 case Trash.ANYTHING:
                     newT = new CrowWithOddEyeInfection();
+                    newT.setImg();
                     break;
             }
-            newT.setColor(Color.LIGHT_GRAY);
+            //newT.setColor(Color.LIGHT_GRAY);
             list[i] = newT;
         }
-        f.setColor(Color.LIGHT_GRAY);
+        //f.setColor(Color.LIGHT_GRAY);
+        System.out.println(f.name.toLowerCase());
+
+        f.setDrawable(sk, "ghost");
+
+
         list[8] = f;
         return list;
     }
@@ -262,8 +304,6 @@ public class CraftingScreen implements Screen{
 
         game.ui.update();
         stage.draw();
-
-
     }
 
     @Override

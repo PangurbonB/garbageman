@@ -93,6 +93,7 @@ public class CraftingScreen implements Screen{
 
         game.currentScreen = this.screenName;
         Random rand = new Random();
+        Gdx.input.setInputProcessor(stage);
         try {
             input = (CookedFood) Class.forName(foodItems[rand.nextInt(foodItems.length)].getName()).newInstance();
         } catch (InstantiationException e) {
@@ -299,8 +300,14 @@ public class CraftingScreen implements Screen{
     public void render(float delta) {
 
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.M))
+        if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
+            System.out.println("INPUT PROCESS: "+Gdx.input.getInputProcessor());
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.F)){
+            game.setScreen(new MainMenuScreen(this.game));
+        }
+        Gdx.input.setInputProcessor(stage);
 
         game.ui.update();
         stage.draw();

@@ -207,6 +207,7 @@ public class UI {
         this.game = game;
         this.screenName = screenName;
         shape = new ShapeRenderer();
+        Gdx.input.setInputProcessor(this.stage);
 
         Color barBackgroundGrey = Color.valueOf("#ffd280");
         this.background = makeRect(0, game.window_height-topbarHeight, game.window_width, 100, barBackgroundGrey, true);
@@ -406,6 +407,10 @@ public class UI {
         menuButton.getLabel().setColor(Color.BLACK);
         menuButton.getLabel().setAlignment(Align.center);
         menuButton.addListener(new InputListener(){
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+                System.out.println("IT MOVED OMG");
+                return super.mouseMoved(event, x, y);
+            }
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("CHECK ME: "+ checkCurrentScreen());
                 if (checkCurrentScreen()){
@@ -471,7 +476,7 @@ public class UI {
         Color barBackgroundGrey = Color.valueOf("#939598");
 
         //System.out.println("ROT BAR VIS:"+rotBarBack.isVisible());
-        System.out.println("CHECK SCREEN: "+checkCurrentScreen());
+        //System.out.println("CHECK SCREEN: "+checkCurrentScreen());
         updateRep(len, (double)game.reputation/100);
         if (repText != null){
             repText.setText("Reputation: " + game.reputation + "/100");

@@ -8,7 +8,7 @@ public class AppleCore extends Trash {
     {
         type = VEGGIE;
         rarity = COMMON;
-        name = "AppleCore";
+        name = "Apple Core";
         img = "applecore";
         desc = "You try not to think about the worms writhing beneath the surface";
     }

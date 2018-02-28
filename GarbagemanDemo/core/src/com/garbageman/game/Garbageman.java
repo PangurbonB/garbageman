@@ -94,7 +94,6 @@ public class Garbageman extends Game {
 			Bread.class,
 			CrowWithOddEyeInfection.class,
 			DirtyKitchenSponge.class,
-			Feces.class,
 			HandfulOfAnts.class,
 			HomelessBeardShavings.class,
 			Ketchup.class,
@@ -110,7 +109,6 @@ public class Garbageman extends Game {
 			Smarties.class,
 			Strawberry.class,
 			ToiletPaper.class,
-			Vomit.class
 	};
 
 	public Class[] foodItems = {

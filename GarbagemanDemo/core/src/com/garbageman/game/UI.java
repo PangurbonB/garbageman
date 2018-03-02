@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class UI {
     //variables:
 
-    Stage stage;
+    public Stage stage;
     Garbageman game;
     Backpack backpack;
     String screenName;

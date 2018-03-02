@@ -110,7 +110,7 @@ public class CraftingScreen implements Screen{
         sk.add("ghost", new Texture("assets/Food/"+ input.name.toLowerCase()+ "Ghost.png"));
 
 
-        game.ui.init(game, stage, screenName);
+        game.ui.init(this.game, this.stage, this.screenName);
         game.ui.makeUI();
 
         input.setSize(96, 96);
@@ -311,7 +311,7 @@ public class CraftingScreen implements Screen{
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
-            System.out.println("INPUT PROCESS: "+Gdx.input.getInputProcessor());
+            System.out.println("INPUT PROCESS: "+Gdx.input.getInputProcessor().equals(game.ui.stage));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.F)){
             game.setScreen(new MainMenuScreen(this.game));

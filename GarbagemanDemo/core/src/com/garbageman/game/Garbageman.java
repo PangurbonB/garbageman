@@ -22,6 +22,7 @@ import com.garbageman.game.garbage.BananaPeel;
 import com.garbageman.game.garbage.Bean;
 import com.garbageman.game.garbage.Bread;
 import com.garbageman.game.garbage.CrowWithOddEyeInfection;
+import com.garbageman.game.garbage.DeadRat;
 import com.garbageman.game.garbage.DirtyKitchenSponge;
 import com.garbageman.game.garbage.Feces;
 import com.garbageman.game.garbage.HandfulOfAnts;
@@ -109,6 +110,7 @@ public class Garbageman extends Game {
 			Smarties.class,
 			Strawberry.class,
 			ToiletPaper.class,
+			DeadRat.class,
 	};
 
 	public Class[] foodItems = {

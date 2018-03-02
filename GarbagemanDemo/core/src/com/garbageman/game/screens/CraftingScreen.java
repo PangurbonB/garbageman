@@ -93,7 +93,6 @@ public class CraftingScreen implements Screen{
 
         game.currentScreen = this.screenName;
         Random rand = new Random();
-        Gdx.input.setInputProcessor(stage);
         try {
             input = (CookedFood) Class.forName(foodItems[rand.nextInt(foodItems.length)].getName()).newInstance();
         } catch (InstantiationException e) {
@@ -183,10 +182,11 @@ public class CraftingScreen implements Screen{
                 game.ui.makeRect((int) craftingLocs[0][0] - 50, (int) stage.getHeight() - craftingLocs[0][1] - 50, 100, 100, Color.valueOf("#85c2ce"), true); //Always a blue, always optional
                 trashes.get(i).setX(craftingLocs[0][0] - 65);
                 trashes.get(i).setY(stage.getHeight() - craftingLocs[0][1] - 65);
-                trashes.get( i).toFront();
+                trashes.get(i).toFront();
             }
         }
         input.toFront();
+
 
     }
 
@@ -308,6 +308,7 @@ public class CraftingScreen implements Screen{
     @Override
     public void render(float delta) {
 
+        Gdx.input.setInputProcessor(stage);
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
@@ -316,7 +317,6 @@ public class CraftingScreen implements Screen{
         else if(Gdx.input.isKeyPressed(Input.Keys.F)){
             game.setScreen(new MainMenuScreen(this.game));
         }
-        Gdx.input.setInputProcessor(stage);
 
         game.ui.update();
         stage.draw();

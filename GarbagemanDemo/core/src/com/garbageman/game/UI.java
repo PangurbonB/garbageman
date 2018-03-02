@@ -66,6 +66,8 @@ public class UI {
     private Trash infoItem;
     private int squareSize = 256/2;
 
+    private Actor BLUE_SQUARE;
+
 
     /*
     organization:
@@ -108,6 +110,11 @@ public class UI {
         stage.addActor(item);
         item.setVisible(vis);
         return item;//*/
+    }
+
+    public void openTestThingy(boolean onOff){
+        BLUE_SQUARE.setVisible(onOff);
+        System.out.println("IT CHANGED: "+onOff);
     }
 
     private void updateRep(int len, double rep){//update the reputation bar
@@ -217,6 +224,8 @@ public class UI {
         this.invInfo =  makeRect(0, 0, 250, game.window_height-75 , Color.BLUE, false);
         inv.add(this.invBackground);
         inv.add(this.invInfo);
+
+        BLUE_SQUARE = makeRect(50, 50, 100, 100, Color.BLUE, false);
 
         BitmapFont labFont = game.makeFont(25);
         TextButton.TextButtonStyle invbbs = new TextButton.TextButtonStyle();

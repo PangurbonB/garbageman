@@ -165,6 +165,8 @@ public class CraftingScreen implements Screen{
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     trashes.get(k).setDrawable(sk, "name");
                     System.out.println("fugg");
+
+                    game.ui.openTestThingy(true);
                     return super.touchDown(event, x, y, pointer, button);
                 }
             });

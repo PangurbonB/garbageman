@@ -163,21 +163,27 @@ public class CraftingScreen implements Screen{
             trashes.get(i).addListener(new InputListener(){
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    trashes.get(k).setDrawable(sk, "name");
-                    System.out.println("fugg");
+                    trashes.get(k).setImg();
                     return super.touchDown(event, x, y, pointer, button);
                 }
             });
             if (i!=7) {
                 trashes.get(i).setX(craftingLocs[i + 1][0] - 65);
                 trashes.get(i).setY(stage.getHeight() - craftingLocs[i + 1][1] - 65);
-                //game.ui.makeRect((int)craftingLocs[i+1][0] - 50, (int)stage.getHeight()-craftingLocs[i+1][1] - 50, 100, 100, Color.BLUE, true);
+                if (i>=input.reqTypes.length) {
+                    game.ui.makeRect((int) craftingLocs[i + 1][0] - 50, (int) stage.getHeight() - craftingLocs[i + 1][1] - 50, 100, 100, Color.valueOf("#85c2ce"), true); //Light Blue rects
+                }
+                else {
+                    game.ui.makeRect((int) craftingLocs[i + 1][0] - 50, (int) stage.getHeight() - craftingLocs[i + 1][1] - 50, 100, 100, Color.valueOf("#61c398"), true); //Light Green rects
+                }
+                trashes.get(i).toFront();
             }
             else{
+
+                game.ui.makeRect((int) craftingLocs[0][0] - 50, (int) stage.getHeight() - craftingLocs[0][1] - 50, 100, 100, Color.valueOf("#85c2ce"), true); //Always a blue, always optional
                 trashes.get(i).setX(craftingLocs[0][0] - 65);
                 trashes.get(i).setY(stage.getHeight() - craftingLocs[0][1] - 65);
-                //game.ui.makeRect((int)craftingLocs[0][0] - 50, (int)stage.getHeight()-craftingLocs[0][1] - 50, 100, 100, Color.BLUE, true);
-
+                trashes.get( i).toFront();
             }
         }
         input.toFront();

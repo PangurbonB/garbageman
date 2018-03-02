@@ -20,6 +20,7 @@ public class RestaurantMain implements Screen {
 
     @Override
     public void show() {
+        game.currentScreen = this.screenName;
         game.ui.init(game, stage, screenName);
         game.ui.makeUI();
         Gdx.input.setInputProcessor(stage);

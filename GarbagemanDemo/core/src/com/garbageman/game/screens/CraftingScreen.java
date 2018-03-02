@@ -162,6 +162,10 @@ public class CraftingScreen implements Screen{
             trashes.get(i).addListener(new InputListener(){
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    trashes.get(k).setDrawable(sk, "name");
+                    System.out.println("fugg");
+
+                    game.ui.showInv = !game.ui.showInv;
                     trashes.get(k).setImg();
                     return super.touchDown(event, x, y, pointer, button);
                 }
@@ -317,6 +321,8 @@ public class CraftingScreen implements Screen{
         else if(Gdx.input.isKeyPressed(Input.Keys.F)){
             game.setScreen(new MainMenuScreen(this.game));
         }
+
+       Gdx.input.setInputProcessor(stage);
 
         game.ui.update();
         stage.draw();

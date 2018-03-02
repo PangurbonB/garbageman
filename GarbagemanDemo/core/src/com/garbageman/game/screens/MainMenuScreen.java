@@ -177,7 +177,7 @@ public class MainMenuScreen implements Screen {
         toTest.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //toTest.getLabel().setText("ME LLAMO:TYRONE");
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new RestaurantMain(game));
                 return true;
             }
         });

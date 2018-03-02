@@ -79,7 +79,7 @@ public class GameScreen implements Screen{
     @Override
     public void show() {
         game.currentScreen = screenName;
-        Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(stage);
 
         game.ui.init(game, stage, screenName);
         game.ui.makeUI();
@@ -198,7 +198,7 @@ public class GameScreen implements Screen{
         img.setColor(Color.BLUE);
         stage.addActor(img);*/
 
-
+        Gdx.input.setInputProcessor(stage);
         game.batch.begin();
         //game.batch.draw(img, x, y);
         game.batch.end();

@@ -40,7 +40,7 @@ public class UI {
     private TextButton menuButton;
     private TextButton invButton;
     private ShapeRenderer shape;
-    private boolean showInv = false;
+    public boolean showInv = false;
     private ArrayList<Actor> inv = new ArrayList<Actor>();
     private ArrayList<Actor> infoFrame = new ArrayList<Actor>();
     private Actor currentDown;

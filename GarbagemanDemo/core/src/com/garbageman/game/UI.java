@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.garbage.Trash;
+import com.garbageman.game.screens.CraftingScreen;
 import com.garbageman.game.screens.MainMenuScreen;
 import com.garbageman.game.screens.Trashcan;
 
@@ -37,7 +38,7 @@ public class UI {
     String screenName;
     private Label repText;
     private Label moneyText;
-    private TextButton menuButton;
+    public TextButton menuButton;
     private TextButton invButton;
     private ShapeRenderer shape;
     public boolean showInv = false;
@@ -50,7 +51,7 @@ public class UI {
     //private Label infoName;
     private Label rotten;
     private Label desc;
-    public String trashcanScreenName = "Trashcan";
+    public String trashcanScreenName = Trashcan.screenName;
     public int topbarHeight = 100;
     public ArrayList<Image> jumpToTop = new ArrayList<Image>();
 
@@ -260,7 +261,7 @@ public class UI {
         //createLabels();
         upInv();
 
-        if (game.currentScreen.equals("Trashcan"))
+        if (game.currentScreen.equals(Trashcan.screenName) || game.currentScreen.equals(CraftingScreen.screenName))
             showInv = false;
 
     }
@@ -440,7 +441,7 @@ public class UI {
             invButton.getLabel().setColor(Color.BLACK);
             invButton.addListener(new InputListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    //System.out.println("CLIEKED + " + checkCurrentScreen());
+                    System.out.println("CLIEKED + " + checkCurrentScreen());
                     if (!screenName.equals(trashcanScreenName)) {
                         showInv = !showInv;
                     }

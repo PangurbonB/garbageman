@@ -76,6 +76,7 @@ public class CraftingScreen implements Screen{
 
     String screenName = "Crafting";
     Skin sk = new Skin();
+    Skin s = new Skin();
 
 
 
@@ -83,6 +84,18 @@ public class CraftingScreen implements Screen{
     public CraftingScreen(Garbageman game){
         this.game = game;
         foodItems = game.foodItems;
+        for (int i = 0; i < foodItems.length; i++) {
+            try {
+                CookedFood test = (CookedFood) Class.forName(foodItems[i].getName()).newInstance();
+                s.add(test.name, "assets/Food/"+test.name+".png");
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -318,9 +331,12 @@ public class CraftingScreen implements Screen{
         if (input.name.equals("increment")){
 
             int loc = 0;
+            System.out.println("gptthere");
 
             for (int i = 0; i < foodItems.length; i++) {
-                if (foodItems[i].equals(input)){
+                if (foodItems[i].equals(input.getClass())){
+                    System.out.println("changed");
+
                     if (i != foodItems.length-1){
                         loc = i+1;
                     }
@@ -331,7 +347,18 @@ public class CraftingScreen implements Screen{
             }
 
             try {
+                input.setVisible(false);
                 input = (CookedFood) Class.forName(foodItems[loc].getName()).newInstance();
+                System.out.println(foodItems[loc].getName());
+                System.out.println(input.name);
+                input.setSize(96, 96);
+                input.setX(stage.getWidth()/2 - input.getWidth() + 40);
+                input.setY(stage.getHeight()/2 - input.getHeight() + 35);
+                input.setVisible(true);
+                System.out.println(s.find("Cake"));
+                input.setDrawable(s, input.name);
+                stage.addActor(input);
+                input.toFront();
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {

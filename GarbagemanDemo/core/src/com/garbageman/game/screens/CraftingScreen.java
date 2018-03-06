@@ -74,7 +74,7 @@ public class CraftingScreen implements Screen{
 
     Class[] foodItems;
 
-    String screenName = "Crafting";
+    public static String screenName = "Crafting";
     Skin sk = new Skin();
 
 

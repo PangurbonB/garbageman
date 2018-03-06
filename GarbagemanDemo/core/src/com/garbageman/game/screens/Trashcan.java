@@ -71,7 +71,7 @@ public class Trashcan implements Screen {
             SpriteBatch batch;
             Stage stage = new Stage();
             private UI ui;
-            private String screenName = "Trashcan";//this is for the UI <3 Dana
+            public static String screenName = "Trashcan";//this is for the UI <3 Dana
             BitmapFont font = new BitmapFont();
             SpriteSheetDivider sp = new SpriteSheetDivider();
 

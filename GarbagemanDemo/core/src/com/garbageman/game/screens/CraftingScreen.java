@@ -66,7 +66,7 @@ public class CraftingScreen implements Screen{
     int centerY = 359;
     SpriteSheetDivider sp = new SpriteSheetDivider();
 
-
+    CookedFood input = new CookedFood();
 
     Trash bird = new CrowWithOddEyeInfection();
 
@@ -76,7 +76,6 @@ public class CraftingScreen implements Screen{
 
     String screenName = "Crafting";
     Skin sk = new Skin();
-    CookedFood input;
 
 
 
@@ -88,13 +87,10 @@ public class CraftingScreen implements Screen{
 
     @Override
     public void show() {
-
-        CookedFood input;
-
         game.currentScreen = this.screenName;
         Random rand = new Random();
         try {
-            input = (CookedFood) Class.forName(foodItems[rand.nextInt(foodItems.length)].getName()).newInstance();
+            input = (CookedFood) Class.forName(foodItems[0].getName()).newInstance();
         } catch (InstantiationException e) {
             input = new Hotdog();
             e.printStackTrace();
@@ -116,11 +112,18 @@ public class CraftingScreen implements Screen{
         input.setX(stage.getWidth()/2 - input.getWidth() + 40);
         input.setY(stage.getHeight()/2 - input.getHeight() + 35);
         input.setVisible(true);
+        input.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                input.setDrawable(sk, "name");
+                input.name = "increment";
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
 
 
 
-
-
+        sk.add("name", "assets/food/"+input.name+".png");
         input.setDrawable(sk, "name");
         stage.addActor(input);
 
@@ -311,6 +314,32 @@ public class CraftingScreen implements Screen{
 
     @Override
     public void render(float delta) {
+
+        if (input.name.equals("increment")){
+
+            int loc = 0;
+
+            for (int i = 0; i < foodItems.length; i++) {
+                if (foodItems[i].equals(input)){
+                    if (i != foodItems.length-1){
+                        loc = i+1;
+                    }
+                    else{
+                        loc = 0;
+                    }
+                }
+            }
+
+            try {
+                input = (CookedFood) Class.forName(foodItems[loc].getName()).newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
         Gdx.input.setInputProcessor(stage);
 

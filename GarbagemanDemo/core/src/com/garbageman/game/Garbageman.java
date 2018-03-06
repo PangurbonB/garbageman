@@ -66,6 +66,8 @@ public class Garbageman extends Game {
 	public Backpack backpack = new Backpack();
 	public UI ui = new UI();
 
+    public boolean SAFE_MODE = true;
+
 
 	//colors for rarity:
 	public Color COMMON = Color.WHITE;
@@ -112,6 +114,32 @@ public class Garbageman extends Game {
 			ToiletPaper.class,
 			DeadRat.class,
 	};
+
+    public Class[] safeGarbageItems = {
+            AppleCore.class,
+            BagOfSugar.class,
+            BananaPeel.class,
+            Bean.class,
+            Bread.class,
+            CrowWithOddEyeInfection.class,
+            DirtyKitchenSponge.class,
+            HandfulOfAnts.class,
+            //HomelessBeardShavings.class,
+            Ketchup.class,
+            Leaf.class,
+            Lettuce.class,
+            McdFries.class,
+            McdHamburger.class,
+            //MysteryEyeball.class,
+            OldNewspaper.class,
+            Pork.class,
+            RabbitFoot.class,
+            Salad.class,
+            Smarties.class,
+            Strawberry.class,
+            ToiletPaper.class,
+            //DeadRat.class,
+    };
 
 	public Class[] foodItems = {
 			Burrito.class,
@@ -163,6 +191,10 @@ public class Garbageman extends Game {
         //this.create();
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
+
+        if (SAFE_MODE){
+            this.garbageItems = this.safeGarbageItems;
+        }
 		/*for (int i = 0; i <= 6; i++) {
 			Trash let = new MysteryEyeball();
 			let.setNast(new Random().nextInt(100));

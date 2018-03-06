@@ -2,7 +2,10 @@ package com.garbageman.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.garbageman.game.Garbageman;
 
 /**
@@ -13,9 +16,14 @@ public class RestaurantMain implements Screen {
     Garbageman game;
     String screenName = "RestaurantMain";
     Stage stage = new Stage();
+    Image background;
 
     public RestaurantMain(Garbageman game){
         this.game = game;
+    }
+
+    private void makeCustomer(){
+
     }
 
     @Override
@@ -24,6 +32,10 @@ public class RestaurantMain implements Screen {
         game.ui.init(game, stage, screenName);
         game.ui.makeUI();
         Gdx.input.setInputProcessor(stage);
+
+        background = (Image)game.ui.makeRect(0, 0, (int)stage.getWidth(), (int)stage.getHeight()-game.ui.topbarHeight, Color.WHITE, true);
+        stage.addActor(background);
+        background.toBack();
     }
 
     @Override

@@ -19,7 +19,7 @@ public class Customer extends Image {
     public static int REALLY_PICKY = 85;//85 to 100
     public static int KINDOF_PICKY = 50;//50 to 85
     public static int NOT_PICKY = 20;//20 to 50
-    public static int DOESNT_CARE = LOCAL_MIN;//0 to 20, will actually just eat anything (Justin oh no <3)
+    public static int DOESNT_CARE = LOCAL_MIN+1;//0 to 20, will actually just eat anything (Justin oh no <3)
 
 
 
@@ -31,23 +31,42 @@ public class Customer extends Image {
 
     //randomly generated customer info
     public int picky = 1;
+    protected static int spriteSize = 128;
 
     public void choosePicky(){
         Random rand = new Random();
-        picky = rand.nextInt(LOCAL_MAX-LOCAL_MIN)+LOCAL_MIN;
+        System.out.println("RAND PARMS: "+(LOCAL_MAX-LOCAL_MIN)+";   "+LOCAL_MIN);
+        this.picky = rand.nextInt(LOCAL_MAX-LOCAL_MIN)+LOCAL_MIN;
     }
 
     public void setImg(){
         SpriteSheetDivider sp = new SpriteSheetDivider();
-
-        //this.setDrawable(this);
+        this.setDrawable(sp.divideCustomer(this, this.fileName, 0, 0));
     }
 
-   public Customer randomCustomer(){
+    public void setImg(int indexX, int indexY){
+        SpriteSheetDivider sp = new SpriteSheetDivider();
+        this.setDrawable(sp.divideCustomer(this, this.fileName, indexX, indexY));
+    }
+
+   public static Customer randomCustomer(){
        Random rand = new Random();
-       Class getCust = Garbageman.customers[rand.nextInt(Garbageman.customers.length)+0];
-       
-       return null;
+       Customer cc = null;
+       try {
+           cc = (Customer) Class.forName(Garbageman.customers[rand.nextInt(Garbageman.customers.length)+0].getName()).newInstance();
+       } catch (InstantiationException e) {
+           e.printStackTrace();
+       } catch (IllegalAccessException e) {
+           e.printStackTrace();
+       } catch (ClassNotFoundException e) {
+           e.printStackTrace();
+       }
+        if (!cc.equals(null)){
+            cc.choosePicky();
+            cc.setImg();
+            cc.setSize(spriteSize, spriteSize);
+        }
+       return cc;
    }
 
 

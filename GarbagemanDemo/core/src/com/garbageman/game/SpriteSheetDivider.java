@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.garbageman.game.customers.Customer;
+import com.garbageman.game.customers.Justin;
 import com.garbageman.game.garbage.CrowWithOddEyeInfection;
 import com.garbageman.game.garbage.Trash;
 
@@ -83,6 +85,30 @@ public class SpriteSheetDivider {
             return temp1;
         }
         else{
+            TextureRegionDrawable temp1 = new TextureRegionDrawable();
+            temp1.setRegion(temp);
+            return temp1;
+        }
+    }
+
+    public TextureRegionDrawable divideCustomer(Customer customer, String name, int indexX, int indexY) {
+        TextureRegion temp = new TextureRegion();
+        try {
+            temp.setTexture(new Texture(customer.fileLocation + name + customer.fileType));
+        }
+        catch (GdxRuntimeException e){
+            e.printStackTrace();
+            Justin j = new Justin();
+            temp.setTexture(new Texture(j.fileLocation + "customer0" + j.fileType));
+        }
+        try {
+            temp.setRegion(indexX * 32, indexY * 32, 32, 32);
+            TextureRegionDrawable temp1 = new TextureRegionDrawable();
+            temp1.setRegion(temp);
+            return temp1;
+        }
+        catch (IndexOutOfBoundsException e){
+            e.printStackTrace();
             TextureRegionDrawable temp1 = new TextureRegionDrawable();
             temp1.setRegion(temp);
             return temp1;

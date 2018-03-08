@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.garbageman.game.Garbageman;
+import com.garbageman.game.customers.Customer;
+import com.garbageman.game.customers.Justin;
 
 /**
  * Created by dpearson6225 on 3/2/2018.
@@ -36,6 +38,11 @@ public class RestaurantMain implements Screen {
         background = (Image)game.ui.makeRect(0, 0, (int)stage.getWidth(), (int)stage.getHeight()-game.ui.topbarHeight, Color.WHITE, true);
         stage.addActor(background);
         background.toBack();
+
+
+        Customer test = Customer.randomCustomer();
+        stage.addActor(test);
+        test.setVisible(true);
     }
 
     @Override

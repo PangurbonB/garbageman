@@ -19,6 +19,7 @@ public class RestaurantMain implements Screen {
     String screenName = "RestaurantMain";
     Stage stage = new Stage();
     Image background;
+    Customer test;
 
     public RestaurantMain(Garbageman game){
         this.game = game;
@@ -40,8 +41,9 @@ public class RestaurantMain implements Screen {
         background.toBack();
 
 
-        Customer test = Customer.randomCustomer();
+        test = Customer.randomCustomer();
         stage.addActor(test);
+        stage.addActor(test.overheadName);
         test.setVisible(true);
         System.out.println("New Customer: "+test.customerName);
     }
@@ -50,6 +52,9 @@ public class RestaurantMain implements Screen {
     public void render(float delta) {
         game.ui.update();
         stage.draw();
+
+        test.walkToPoint(500, 500);
+
     }
 
     @Override

@@ -10,7 +10,7 @@ public class Justin extends Customer{
         picky = 7;
         LOCAL_MIN = 0;
         LOCAL_MAX = DOESNT_CARE;
-        fileName = "justin";
+        fileName = "customer0";
     }
 
 }

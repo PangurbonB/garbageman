@@ -16,6 +16,7 @@ import com.garbageman.game.cooked.Pizza;
 import com.garbageman.game.cooked.Sandwich;
 import com.garbageman.game.cooked.Soup;
 import com.garbageman.game.cooked.Sushi;
+import com.garbageman.game.customers.Justin;
 import com.garbageman.game.garbage.AppleCore;
 import com.garbageman.game.garbage.BagOfSugar;
 import com.garbageman.game.garbage.BananaPeel;
@@ -140,6 +141,10 @@ public class Garbageman extends Game {
             ToiletPaper.class,
             //DeadRat.class,
     };
+
+    public static Class[] customers = {
+			Justin.class,
+	};
 
 	public Class[] foodItems = {
 			Burrito.class,

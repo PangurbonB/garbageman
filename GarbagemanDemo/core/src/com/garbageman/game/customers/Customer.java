@@ -1,6 +1,8 @@
 package com.garbageman.game.customers;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.garbageman.game.Garbageman;
+import com.garbageman.game.SpriteSheetDivider;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,7 +26,7 @@ public class Customer extends Image {
 
     //file info
     public String fileType = ".png";
-    public String fileLocation = "assets/Garbage/";
+    public String fileLocation = "assets/Customers/";
     public String fileName = "error";
 
     //randomly generated customer info
@@ -35,10 +37,18 @@ public class Customer extends Image {
         picky = rand.nextInt(LOCAL_MAX-LOCAL_MIN)+LOCAL_MIN;
     }
 
-    public void loadCustomer(){
-        choosePicky();
+    public void setImg(){
+        SpriteSheetDivider sp = new SpriteSheetDivider();
 
+        //this.setDrawable(this);
     }
+
+   public Customer randomCustomer(){
+       Random rand = new Random();
+       Class getCust = Garbageman.customers[rand.nextInt(Garbageman.customers.length)+0];
+       
+       return null;
+   }
 
 
 }

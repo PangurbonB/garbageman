@@ -64,7 +64,7 @@ public class Customer extends Image {
        }
         if (!cc.equals(null)){
             cc.choosePicky();
-            cc.setImg(3, 0);
+            cc.setImg();
             cc.setSize(spriteSize, spriteSize);
         }
         else if (cc.equals(null)){

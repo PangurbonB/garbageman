@@ -109,6 +109,7 @@ public class SpriteSheetDivider {
         }
         catch (IndexOutOfBoundsException e){
             e.printStackTrace();
+            temp.setRegion(0,0,32,32);
             TextureRegionDrawable temp1 = new TextureRegionDrawable();
             temp1.setRegion(temp);
             return temp1;

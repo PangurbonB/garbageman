@@ -43,6 +43,7 @@ public class RestaurantMain implements Screen {
         Customer test = Customer.randomCustomer();
         stage.addActor(test);
         test.setVisible(true);
+        System.out.println("New Customer: "+test.customerName);
     }
 
     @Override

@@ -102,10 +102,18 @@ public class SpriteSheetDivider {
             temp.setTexture(new Texture(j.fileLocation + "customer0" + j.fileType));
         }
         try {
-            temp.setRegion(indexX * 32, indexY * 32, 32, 32);
-            TextureRegionDrawable temp1 = new TextureRegionDrawable();
-            temp1.setRegion(temp);
-            return temp1;
+            if (indexX * 32 > temp.getRegionWidth() || indexY > temp.getRegionHeight()) {
+                temp.setRegion(indexX * 32, indexY * 32, 32, 32);
+                TextureRegionDrawable temp1 = new TextureRegionDrawable();
+                temp1.setRegion(temp);
+                return temp1;
+            }
+            else{
+                temp.setRegion(0,0,32,32);
+                TextureRegionDrawable temp1 = new TextureRegionDrawable();
+                temp1.setRegion(temp);
+                return temp1;
+            }
         }
         catch (IndexOutOfBoundsException e){
             e.printStackTrace();

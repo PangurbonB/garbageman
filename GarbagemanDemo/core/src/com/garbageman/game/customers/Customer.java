@@ -64,8 +64,11 @@ public class Customer extends Image {
        }
         if (!cc.equals(null)){
             cc.choosePicky();
-            cc.setImg();
+            cc.setImg(5, 0);
             cc.setSize(spriteSize, spriteSize);
+        }
+        else if (cc.equals(null)){
+            System.out.println("Unable to make customer");
         }
        return cc;
    }

@@ -32,6 +32,7 @@ public class Customer extends Image {
     //randomly generated customer info
     public int picky = 1;
     protected static int spriteSize = 128;
+    public String customerName = "NAME";
 
     public void choosePicky(){
         Random rand = new Random();

@@ -167,7 +167,7 @@ public class MainMenuScreen implements Screen {
         TextButton.TextButtonStyle bs = new TextButton.TextButtonStyle();
         bs.font = font12;
         bs.fontColor = Color.BLACK;
-        toTest = new TextButton("TEST UI", bs);
+        toTest = new TextButton("Test Restaurant", bs);
         float num = 150;
         toTest.setBounds(num, num, num, num);
         toTest.setColor(Color.BLACK);

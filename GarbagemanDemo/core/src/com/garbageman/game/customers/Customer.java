@@ -64,7 +64,7 @@ public class Customer extends Image {
        }
         if (!cc.equals(null)){
             cc.choosePicky();
-            cc.setImg(5, 0);
+            cc.setImg(3, 0);
             cc.setSize(spriteSize, spriteSize);
         }
         else if (cc.equals(null)){
@@ -73,5 +73,8 @@ public class Customer extends Image {
        return cc;
    }
 
+   public void walkToPoint(float xPos, float yPos){
+       this.setPosition(xPos, yPos);
+   }
 
 }

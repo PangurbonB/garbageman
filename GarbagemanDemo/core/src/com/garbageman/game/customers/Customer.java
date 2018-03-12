@@ -1,6 +1,9 @@
 package com.garbageman.game.customers;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.SpriteSheetDivider;
 
@@ -33,6 +36,7 @@ public class Customer extends Image {
     public int picky = 1;
     protected static int spriteSize = 128;
     public String customerName = "NAME";
+    public Label overheadName;
 
     public void choosePicky(){
         Random rand = new Random();
@@ -48,6 +52,15 @@ public class Customer extends Image {
     public void setImg(int indexX, int indexY){
         SpriteSheetDivider sp = new SpriteSheetDivider();
         this.setDrawable(sp.divideCustomer(this, this.fileName, indexX, indexY));
+    }
+
+    public void setOverheadPos(){
+        if (!this.overheadName.equals(null)){
+            this.overheadName.setSize(this.getWidth(), this.getHeight()/4);
+            this.overheadName.setPosition(0, this.getHeight());
+            this.overheadName.setVisible(true);
+            this.overheadName.setColor(Color.BLACK);
+        }
     }
 
    public static Customer randomCustomer(){
@@ -66,6 +79,12 @@ public class Customer extends Image {
             cc.choosePicky();
             cc.setImg();
             cc.setSize(spriteSize, spriteSize);
+            Label.LabelStyle style = new Label.LabelStyle();
+            style.font = Garbageman.makeFont(15);
+            cc.overheadName = new Label(cc.customerName, style);
+            cc.overheadName.setAlignment(Align.center);
+            cc.overheadName.setWrap(true);
+            cc.setOverheadPos();
         }
         else if (cc.equals(null)){
             System.out.println("Unable to make customer");
@@ -75,6 +94,7 @@ public class Customer extends Image {
 
    public void walkToPoint(float xPos, float yPos){
        this.setPosition(xPos, yPos);
+       this.setOverheadPos();
    }
 
 }

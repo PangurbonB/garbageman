@@ -170,7 +170,7 @@ public class Garbageman extends Game {
 		System.out.println("new rep " + this.reputation);
 	}
 
-	public BitmapFont makeFont(int size){
+	public static BitmapFont makeFont(int size){
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/PressStart2P.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;

@@ -51,6 +51,8 @@ public class Trash extends Image{
     public static final int MAXNAST = 100;
     public static final int MINNAST = 1;
 
+    public static boolean selectedInInv = false;
+
     public boolean selected = false;
 
     public void setImg(){
@@ -61,6 +63,14 @@ public class Trash extends Image{
     public void setImg(String name){
         SpriteSheetDivider sp = new SpriteSheetDivider();
         this.setDrawable(sp.divideGarbage(this, name));
+    }
+
+    public void setSelectedInInv(boolean sel){
+        selectedInInv = sel;
+    }
+
+    public boolean getSelectedInInv(){
+        return selectedInInv;
     }
 
     public void setNast(int newNast){

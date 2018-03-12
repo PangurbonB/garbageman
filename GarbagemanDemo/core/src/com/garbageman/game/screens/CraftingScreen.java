@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.SpriteSheetDivider;
 import com.garbageman.game.cooked.Burrito;
@@ -61,9 +63,11 @@ public class CraftingScreen implements Screen{
 
     Image background = new Image(new Texture("assets/Screens/craftingScreen2.png"));
     Stage stage = new Stage();
+    public static boolean allSelected = false;
     int[][] craftingLocs = new int[8][2];
     int centerX = 641;
     int centerY = 359;
+    boolean changed = false;
     SpriteSheetDivider sp = new SpriteSheetDivider();
 
     CookedFood input = new CookedFood();
@@ -75,6 +79,7 @@ public class CraftingScreen implements Screen{
     Class[] foodItems;
 
     public static String screenName = "Crafting";
+    public static int place = 0;
     Skin sk = new Skin();
     Skin s = new Skin();
 
@@ -87,7 +92,7 @@ public class CraftingScreen implements Screen{
         for (int i = 0; i < foodItems.length; i++) {
             try {
                 CookedFood test = (CookedFood) Class.forName(foodItems[i].getName()).newInstance();
-                s.add(test.name, "assets/Food/"+test.name+".png");
+                s.add(test.name.toLowerCase(), "assets/Food/"+test.name.toLowerCase()+".png");
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -101,7 +106,6 @@ public class CraftingScreen implements Screen{
     @Override
     public void show() {
         game.currentScreen = this.screenName;
-        Random rand = new Random();
         try {
             input = (CookedFood) Class.forName(foodItems[0].getName()).newInstance();
         } catch (InstantiationException e) {
@@ -125,6 +129,7 @@ public class CraftingScreen implements Screen{
         input.setX(stage.getWidth()/2 - input.getWidth() + 40);
         input.setY(stage.getHeight()/2 - input.getHeight() + 35);
         input.setVisible(true);
+        place = 0;
         input.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -155,11 +160,32 @@ public class CraftingScreen implements Screen{
         craftingLocs[6] = new int[]{260, 540};
         craftingLocs[7] = new int[]{197, 350};
 
+        drawNewRecipe(input);
 
+
+
+        input.toFront();
+
+
+    }
+
+    /*public CookedFood cook(CookedFood input, Trash[] trashes){
+        try{
+
+        }
+        catch (){
+
+        }
+
+
+        return input;
+    }*/
+
+    public void drawNewRecipe(final CookedFood f){
         final ArrayList<Trash> trashes = new ArrayList<Trash>();
-
+        Random rand = new Random();
         for (int i = 0; i < craftingLocs.length; i++) {
-            Trashcan tr = new Trashcan(game);
+            final Trashcan tr = new Trashcan(game);
             int x = rand.nextInt(game.garbageItems.length-1);
 
             Actor[] list = makeGhosts(input);
@@ -175,17 +201,22 @@ public class CraftingScreen implements Screen{
             trashes.get(i).setSize(96, 96);
             trashes.get(i).toFront();
             final int k = i;
+
             trashes.get(i).addListener(new InputListener(){
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    trashes.get(k).setDrawable(sk, "name");
                     System.out.println("fugg");
 
                     game.ui.showInv = !game.ui.showInv;
+                    trashes.get(k).setSelectedInInv(true);
+
+                    allSelected = allSelected(trashes);
+                    System.out.println("ALL SELECTED:    "+allSelected);
                     trashes.get(k).setImg();
                     return super.touchDown(event, x, y, pointer, button);
                 }
             });
+            trashes.get(i).setSelectedInInv(false);
             if (i!=7) {
                 trashes.get(i).setX(craftingLocs[i + 1][0] - 65);
                 trashes.get(i).setY(stage.getHeight() - craftingLocs[i + 1][1] - 65);
@@ -205,22 +236,7 @@ public class CraftingScreen implements Screen{
                 trashes.get(i).toFront();
             }
         }
-        input.toFront();
-
-
     }
-
-    /*public CookedFood cook(CookedFood input, Trash[] trashes){
-        try{
-
-        }
-        catch (){
-
-        }
-
-
-        return input;
-    }*/
 
     public Actor[] makeGhosts(final CookedFood f){
 
@@ -318,9 +334,6 @@ public class CraftingScreen implements Screen{
         //f.setColor(Color.LIGHT_GRAY);
         System.out.println(f.name.toLowerCase());
 
-        f.setDrawable(sk, "ghost");
-
-
         list[8] = f;
         return list;
     }
@@ -328,22 +341,24 @@ public class CraftingScreen implements Screen{
     @Override
     public void render(float delta) {
 
+        if (changed){
+            drawNewRecipe(input);
+            changed ^= true;
+        }
+
+
         if (input.name.equals("increment")){
+            changed = true;
+            place++;
+            int loc = place;
+            System.out.println("gotthere");
 
-            int loc = 0;
-            System.out.println("gptthere");
-
+            if (loc >= foodItems.length) {
+                place = 0;
+            }
+            loc = place;
             for (int i = 0; i < foodItems.length; i++) {
-                if (foodItems[i].equals(input.getClass())){
-                    System.out.println("changed");
-
-                    if (i != foodItems.length-1){
-                        loc = i+1;
-                    }
-                    else{
-                        loc = 0;
-                    }
-                }
+                System.out.println(foodItems[i].getName());
             }
 
             try {
@@ -355,10 +370,23 @@ public class CraftingScreen implements Screen{
                 input.setX(stage.getWidth()/2 - input.getWidth() + 40);
                 input.setY(stage.getHeight()/2 - input.getHeight() + 35);
                 input.setVisible(true);
-                System.out.println(s.find("Cake"));
-                input.setDrawable(s, input.name);
+                TextureRegion t = new TextureRegion(new Texture("assets/food/"+input.name+"Ghost.png"));
+                TextureRegionDrawable tt = new TextureRegionDrawable();
+                t.setRegion(0,0,32,32);
+                tt.setRegion(t);
+                input.setDrawable(tt);
                 stage.addActor(input);
                 input.toFront();
+
+                input.addListener(new InputListener(){
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        input.setDrawable(sk, "name");
+                        input.name = "increment";
+                        return super.touchDown(event, x, y, pointer, button);
+                    }
+                });
+
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -366,6 +394,14 @@ public class CraftingScreen implements Screen{
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+        }
+
+        if (allSelected){
+            TextureRegion t = new TextureRegion(new Texture("assets/food/"+input.name+".png"));
+            TextureRegionDrawable tt = new TextureRegionDrawable();
+            t.setRegion(0,0,32,32);
+            tt.setRegion(t);
+            input.setDrawable(tt);
         }
 
         Gdx.input.setInputProcessor(stage);
@@ -382,6 +418,17 @@ public class CraftingScreen implements Screen{
 
         game.ui.update();
         stage.draw();
+    }
+
+    private boolean allSelected(ArrayList ar){
+        System.out.println("Size:   "+ar.size());
+        for (int i = 0; i < ar.size()-1; i++) {
+            System.out.println("STUFF:   " + (((Trash) ar.get(i)).getSelectedInInv()));
+            if (!(((Trash) ar.get(i)).getSelectedInInv())){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

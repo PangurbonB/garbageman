@@ -34,9 +34,10 @@ public class Customer extends Image {
 
     //randomly generated customer info
     public int picky = 1;
-    protected static int spriteSize = 128;
+    protected static int spriteSize = 350;
     public String customerName = "NAME";
     public Label overheadName;
+    protected SpriteSheetDivider SpriteDivide = new SpriteSheetDivider();
 
     public void choosePicky(){
         Random rand = new Random();
@@ -45,19 +46,17 @@ public class Customer extends Image {
     }
 
     public void setImg(){
-        SpriteSheetDivider sp = new SpriteSheetDivider();
-        this.setDrawable(sp.divideCustomer(this, this.fileName, 0, 0));
+        this.setDrawable(SpriteDivide.divideCustomer(this, this.fileName, 0, 0));
     }
 
     public void setImg(int indexX, int indexY){
-        SpriteSheetDivider sp = new SpriteSheetDivider();
-        this.setDrawable(sp.divideCustomer(this, this.fileName, indexX, indexY));
+        this.setDrawable(SpriteDivide.divideCustomer(this, this.fileName, indexX, indexY));
     }
 
     public void setOverheadPos(){
         if (!this.overheadName.equals(null)){
             this.overheadName.setSize(this.getWidth(), this.getHeight()/4);
-            this.overheadName.setPosition(0, this.getHeight());
+            this.overheadName.setPosition(this.getX(), this.getY()+this.getHeight());
             this.overheadName.setVisible(true);
             this.overheadName.setColor(Color.BLACK);
         }

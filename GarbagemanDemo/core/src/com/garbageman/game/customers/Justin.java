@@ -5,13 +5,12 @@ package com.garbageman.game.customers;
  */
 
 public class Justin extends Customer{
-
     {
         picky = 7;
         LOCAL_MIN = 0;
         LOCAL_MAX = DOESNT_CARE;
-        fileName = "customer0";
-        customerName = "Justin";
+        fileName = "Duy";
+        customerName = "Duy";
     }
 
 }

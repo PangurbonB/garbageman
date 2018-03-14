@@ -19,7 +19,7 @@ public class RestaurantMain implements Screen {
     String screenName = "RestaurantMain";
     Stage stage = new Stage();
     Image background;
-    Customer test;
+    Customer test = null, test2 = null;
 
     public RestaurantMain(Garbageman game){
         this.game = game;
@@ -41,20 +41,26 @@ public class RestaurantMain implements Screen {
         background.toBack();
 
 
-        test = Customer.randomCustomer();
+        /*test = Customer.randomCustomer();
         stage.addActor(test);
         stage.addActor(test.overheadName);
         test.setVisible(true);
-        System.out.println("New Customer: "+test.customerName);
+        */
+        test2 = Customer.randomCustomer();
+        test2.fileName = "Brett";
+        test2.setImg(0, 0);
+        test2.customerName = "Brett";
+        test2.overheadName.setText("Brett");
+        stage.addActor(test2);
+        stage.addActor(test2.overheadName);
+        test2.setVisible(true); //*/
     }
 
     @Override
     public void render(float delta) {
         game.ui.update();
         stage.draw();
-
-        test.walkToPoint(500, 500);
-
+        test2.walkToPoint(300, 100);
     }
 
     @Override

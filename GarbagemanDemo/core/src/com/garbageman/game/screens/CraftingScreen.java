@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -81,6 +82,7 @@ public class CraftingScreen implements Screen{
     Class[] foodItems;
 
     public static String screenName = "Crafting";
+    private TextButton fakeMenu, fakeInventory;
     public static int place = 0;
     Skin sk = new Skin();
     Skin s = new Skin();
@@ -108,6 +110,25 @@ public class CraftingScreen implements Screen{
     @Override
     public void show() {
         game.currentScreen = this.screenName;
+
+        //inventory buttons:
+        TextButton.TextButtonStyle topStyle = new TextButton.TextButtonStyle();
+        topStyle.font = game.makeFont(25);
+        fakeMenu = new TextButton("  ", topStyle);
+        stage.addActor(fakeMenu);
+        fakeMenu.setVisible(true);
+        fakeMenu.setPosition(game.ui.menuButton.getX(), game.ui.menuButton.getY());
+        fakeMenu.setSize(game.ui.menuButton.getWidth(), game.ui.menuButton.getHeight());
+        fakeMenu.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new MainMenuScreen(game));
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+        System.out.println("POSITION:: "+fakeMenu.getX());
+
+
         try {
             input = (CookedFood) Class.forName(foodItems[0].getName()).newInstance();
         } catch (InstantiationException e) {
@@ -361,6 +382,8 @@ public class CraftingScreen implements Screen{
 
         //System.out.println("3 is selected:"+trashes.get(2).getSelectedInInv());
         //System.out.println("All Selected:"+allSelected);
+        fakeMenu.toFront();
+        fakeMenu.setVisible(true);
 
         if (changed){
             System.out.println("CHANGED::::::::::::::::::::::");

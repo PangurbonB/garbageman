@@ -582,7 +582,7 @@ public class UI {
                         }
                         //local.setText("!!! "+curInfoList.get(x));
                         local.setVisible(true);
-                        System.out.println(x+":: set text to '"+curInfoList.get(x)+"'");
+                        //System.out.println(x+":: set text to '"+curInfoList.get(x)+"'");
 
                     }
                 }

@@ -51,7 +51,7 @@ public class Trash extends Image{
     public static final int MAXNAST = 100;
     public static final int MINNAST = 1;
 
-    public static boolean selectedInInv = false;
+    public boolean selectedInInv = false;
 
     public boolean selected = false;
 
@@ -66,11 +66,11 @@ public class Trash extends Image{
     }
 
     public void setSelectedInInv(boolean sel){
-        selectedInInv = sel;
+        this.selectedInInv = sel;
     }
 
     public boolean getSelectedInInv(){
-        return selectedInInv;
+        return this.selectedInInv;
     }
 
     public void setNast(int newNast){

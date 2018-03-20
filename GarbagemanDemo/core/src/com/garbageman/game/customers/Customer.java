@@ -1,6 +1,7 @@
 package com.garbageman.game.customers;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
@@ -32,16 +33,23 @@ public class Customer extends Image {
     public String fileLocation = "assets/Customers/";
     public String fileName = "error";
 
+    //list of all currently running customers:
+    public static ArrayList<Customer> listOfCustomers = new ArrayList<Customer>();
+
     //randomly generated customer info
     public int picky = 1;
     protected static int spriteSize = 350;
     public String customerName = "NAME";
     public Label overheadName;
     protected SpriteSheetDivider SpriteDivide = new SpriteSheetDivider();
+    protected float DEFAULT_POS = 0;
+    protected static final float INCREMENT = 1, REPS = 5;
+    public float posX = DEFAULT_POS, posY = DEFAULT_POS;
+
 
     public void choosePicky(){
         Random rand = new Random();
-        System.out.println("RAND PARMS: "+(LOCAL_MAX-LOCAL_MIN)+";   "+LOCAL_MIN);
+        //System.out.println("RAND PARMS: "+(LOCAL_MAX-LOCAL_MIN)+";   "+LOCAL_MIN);
         this.picky = rand.nextInt(LOCAL_MAX-LOCAL_MIN)+LOCAL_MIN;
     }
 
@@ -62,7 +70,32 @@ public class Customer extends Image {
         }
     }
 
-   public static Customer randomCustomer(){
+    public static void updateAllCurrentCustomers(){
+        for (Customer cust : Customer.listOfCustomers) {
+            cust.updateOnRender();
+        }
+    }
+
+    public static boolean findCustomerInList(Customer cc){
+        boolean found = false;
+        for (Customer check:listOfCustomers) {
+            if (check.equals(cc)){
+                found = true;
+                break;
+            }
+        }
+        return found;
+    }
+
+    public static void addCustomerToList(Customer cc){
+        if (findCustomerInList(cc)== false){
+            listOfCustomers.add(cc);
+        }
+        else
+            System.out.println(cc.customerName+" could not be added, it is already in the list");
+    }
+
+   public static Customer randomCustomer(Stage stage){
        Random rand = new Random();
        Customer cc = null;
        try {
@@ -78,12 +111,16 @@ public class Customer extends Image {
             cc.choosePicky();
             cc.setImg();
             cc.setSize(spriteSize, spriteSize);
+            Customer.addCustomerToList(cc);
             Label.LabelStyle style = new Label.LabelStyle();
             style.font = Garbageman.makeFont(15);
             cc.overheadName = new Label(cc.customerName, style);
             cc.overheadName.setAlignment(Align.center);
             cc.overheadName.setWrap(true);
             cc.setOverheadPos();
+            stage.addActor(cc);
+            stage.addActor(cc.overheadName);
+
         }
         else if (cc.equals(null)){
             System.out.println("Unable to make customer");
@@ -92,8 +129,29 @@ public class Customer extends Image {
    }
 
    public void walkToPoint(float xPos, float yPos){
-       this.setPosition(xPos, yPos);
-       this.setOverheadPos();
+       this.posX = xPos;
+       this.posY = yPos;
+       this.updateOnRender();
+   }
+
+   public void updateOnRender(){
+       for (int i = 0; i <= REPS; i++) {
+           if (this.getX() != this.posX) {
+               if (this.posX > this.getX()) {
+                   this.setX(this.getX() + INCREMENT);
+               } else if (this.posX < this.getX()) {
+                   this.setX(this.getX() - INCREMENT);
+               }
+           }
+           if (this.getY() != this.posY) {
+               if (this.posY > this.getY()) {
+                   this.setY(this.getY() + INCREMENT);
+               } else if (this.posY < this.getY()) {
+                   this.setY(this.getY() - INCREMENT);
+               }
+           }
+           this.setOverheadPos();
+       }
    }
 
 }

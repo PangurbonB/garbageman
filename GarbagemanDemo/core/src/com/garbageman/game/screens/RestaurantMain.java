@@ -1,6 +1,7 @@
 package com.garbageman.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -46,8 +47,8 @@ public class RestaurantMain implements Screen {
         stage.addActor(test.overheadName);
         test.setVisible(true);
         */
-        test2 = Customer.randomCustomer();
-        test2.fileName = "Brett";
+        test2 = Customer.randomCustomer(stage);
+        /*test2.fileName = "Brett";
         test2.setImg(0, 0);
         test2.customerName = "Brett";
         test2.overheadName.setText("Brett");
@@ -60,7 +61,11 @@ public class RestaurantMain implements Screen {
     public void render(float delta) {
         game.ui.update();
         stage.draw();
-        test2.walkToPoint(300, 100);
+        Customer.updateAllCurrentCustomers();
+        if (Gdx.input.isKeyPressed(Input.Keys.Y)){
+            test2.walkToPoint(500, 0);
+            System.out.println("moving: ");
+        }
     }
 
     @Override

@@ -11,6 +11,8 @@ public class Justin extends Customer{
         LOCAL_MAX = DOESNT_CARE;
         fileName = "Duy";
         customerName = "Duy";
+        posX = DEFAULT_POS;
+        posY = DEFAULT_POS;
     }
 
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.garbageman.game.Garbageman;
+import com.garbageman.game.garbage.Trash;
 
 /**
  * Created by dpearson6225 on 3/22/2018.
@@ -11,12 +12,13 @@ import com.garbageman.game.Garbageman;
 
 public class FakeInvScreen implements Screen {
     Garbageman game;
+    Trash tr;
     Stage stage = new Stage();
     public static String screenName = "fakeInv";
 
-    public FakeInvScreen(Garbageman game){
+    public FakeInvScreen(Garbageman game, Trash tr){
         this.game = game;
-
+        this.tr = tr;
     }
 
     @Override

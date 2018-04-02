@@ -86,9 +86,9 @@ public class Garbageman extends Game {
 	public static Color YELLOW = Color.valueOf("#ffe100");
 	public static Color GREEN = Color.valueOf("#59ff00");
 
-	public Class[] garbageItems;
-	public Class[] customers;
-	public Class[] foodItems;
+	public static Class[] garbageItems;
+	public static Class[] customers;
+	public static Class[] foodItems;
 
 	public java.util.Map<String, Color> colorMap;
 
@@ -115,6 +115,7 @@ public class Garbageman extends Game {
 
 	public void giveMoney(int amt){
 		//for now
+
 		if (this.money + amt >= 0)
 			this.money = this.money + amt;
 		else
@@ -124,6 +125,8 @@ public class Garbageman extends Game {
 
 	@Override
 	public void create () {
+		int x = 1;
+		System.out.println(x>>1);
 
 		this.garbageItems = ListAccess.garbageItems;
 		this.customers = ListAccess.customers;

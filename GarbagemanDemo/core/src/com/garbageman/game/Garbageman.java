@@ -71,99 +71,28 @@ public class Garbageman extends Game {
 
     public boolean SAFE_MODE = false;
 
-
 	//colors for rarity:
-	public Color COMMON = Color.WHITE;
-	public Color UNCOMMON = Color.valueOf("#08f900");
-	public Color RARE = Color.valueOf("#0004f9");
-	public Color VERYRARE = Color.valueOf("#8d00f9");
-	public Color LEGENDARY = Color.valueOf("#00f9f0");
-	public Color BEYOND_COMPREHENSION = Color.valueOf("#f9009d");
-	public Color BOUGHT = Color.BLACK;
+	public static Color COMMON = Color.WHITE;
+	public static Color UNCOMMON = Color.valueOf("#08f900");
+	public static Color RARE = Color.valueOf("#0004f9");
+	public static Color VERYRARE = Color.valueOf("#8d00f9");
+	public static Color LEGENDARY = Color.valueOf("#00f9f0");
+	public static Color BEYOND_COMPREHENSION = Color.valueOf("#f9009d");
+	public static Color BOUGHT = Color.BLACK;
 
 	//nast bar colors:
-	public Color RED = Color.valueOf("#ff0000");
-	public Color ORANGE = Color.valueOf("#ff6a00");
-	public Color YELLOW = Color.valueOf("#ffe100");
-	public Color GREEN = Color.valueOf("#59ff00");
+	public static Color RED = Color.valueOf("#ff0000");
+	public static Color ORANGE = Color.valueOf("#ff6a00");
+	public static Color YELLOW = Color.valueOf("#ffe100");
+	public static Color GREEN = Color.valueOf("#59ff00");
 
-	public java.util.Map<String, Color> colorMap = Collections.synchronizedMap(new HashMap());
+	public Class[] garbageItems;
+	public Class[] customers;
+	public Class[] foodItems;
 
-	public java.util.Map<String, Integer> typeMap = Collections.synchronizedMap(new HashMap());
-	public Trash objTemp = new McdHamburger();
-	//public int type = -20;
+	public java.util.Map<String, Color> colorMap;
 
-	public Class[] garbageItems = {
-			AppleCore.class,
-			BagOfSugar.class,
-			BananaPeel.class,
-			Bean.class,
-			Bread.class,
-			CrowWithOddEyeInfection.class,
-			DirtyKitchenSponge.class,
-			HandfulOfAnts.class,
-			HomelessBeardShavings.class,
-			Ketchup.class,
-			Leaf.class,
-			Lettuce.class,
-			McdFries.class,
-			McdHamburger.class,
-			MysteryEyeball.class,
-			OldNewspaper.class,
-			Pork.class,
-			RabbitFoot.class,
-			Salad.class,
-			Smarties.class,
-			Strawberry.class,
-			ToiletPaper.class,
-			DeadRat.class,
-			DayOldDonut.class,
-			BagOfFlour.class,
-	};
-
-    public Class[] safeGarbageItems = {
-            AppleCore.class,
-            BagOfSugar.class,
-            BananaPeel.class,
-            Bean.class,
-            Bread.class,
-            CrowWithOddEyeInfection.class,
-            DirtyKitchenSponge.class,
-            HandfulOfAnts.class,
-            //HomelessBeardShavings.class,
-            Ketchup.class,
-            Leaf.class,
-            Lettuce.class,
-            McdFries.class,
-            McdHamburger.class,
-            //MysteryEyeball.class,
-            OldNewspaper.class,
-            Pork.class,
-            RabbitFoot.class,
-            Salad.class,
-            Smarties.class,
-            Strawberry.class,
-            ToiletPaper.class,
-            //DeadRat.class,
-    };
-
-    public static Class[] customers = {
-			Justin.class,
-	};
-
-	public Class[] foodItems = {
-			Burrito.class,
-			Cake.class,
-			Hotdog.class,
-			Pizza.class,
-			Sandwich.class,
-			Soup.class,
-			Sushi.class,
-	};
-
-	public void print(final String msg){
-		System.out.println(msg);
-	}
+	public java.util.Map<String, Integer> typeMap;
 
 	public void giveReputation(int amt){
 		int plus = this.reputation+amt;
@@ -193,76 +122,32 @@ public class Garbageman extends Game {
 
 	}
 
-
-
-
 	@Override
 	public void create () {
-        //this.create();
+
+		this.garbageItems = ListAccess.garbageItems;
+		this.customers = ListAccess.customers;
+		this.foodItems = ListAccess.foodItems;
+
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
 
         if (SAFE_MODE){
-            this.garbageItems = this.safeGarbageItems;
+            this.garbageItems = ListAccess.safeGarbageItems;
         }
-		/*for (int i = 0; i <= 6; i++) {
-			Trash let = new MysteryEyeball();
-			let.setNast(new Random().nextInt(100));
-			this.backpack.contents.add(let);
-			//eyeball, banana, crow
-			if (i == 4){
-				Trash burger = new Smarties();
-				burger.setNast(100);
-				this.backpack.contents.add(burger);
-			}
-		}//*/
-		//Gdx.input.setInputProcessor(new GetInput());
 
-		colorMap.put("Common", COMMON);
-		colorMap.put("Uncommon", UNCOMMON);
-		colorMap.put("Rare", RARE);
-		colorMap.put("Very Rare", VERYRARE);
-		colorMap.put("Legendary", LEGENDARY);
-		colorMap.put("Bought", BOUGHT);
-		colorMap.put("???", BEYOND_COMPREHENSION);
+        ListAccess.updateMaps();
+        this.colorMap = ListAccess.colorMap;
+        this.typeMap = ListAccess.typeMap;
 
-		//nast bar:
-		colorMap.put("Red", this.RED);
-		colorMap.put("Orange", this.ORANGE);
-		colorMap.put("Yellow", this.YELLOW);
-		colorMap.put("Green", this.GREEN);
-
-		//type filler
-		//"Veggies", "Meats", "Wraps", "Fillers", "Sweeteners", "Sauces"
-		typeMap.put("Veggies", objTemp.VEGGIE);
-		typeMap.put("Meats", objTemp.MEAT);
-		typeMap.put("Wraps", objTemp.WRAP);
-		System.out.println("FILLER: "+objTemp.FILLER);
-		typeMap.put("Fillers", objTemp.FILLER);
-		System.out.println("NEW FILLER: "+typeMap.get("Fillers"));
-		typeMap.put("Sweeteners", objTemp.SWEETENER);
-		typeMap.put("Sauces", objTemp.SAUCE);
 		//typeMap.put("Completed Meals", new CookedFood().)//make this show cooked food later -Dana
 	}
 
 	@Override
 	public void render () {
-       // this.render();
 		if (Gdx.input.isKeyPressed(Input.Keys.Q)){
 			Gdx.app.exit();
 		}
 		super.render();
-
-		//System.out.println(this.currentScreen);
-		//System.out.println(this.currentScreen);
 	}
-	
-	/*@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
-	}
-	*/
-
-
 }

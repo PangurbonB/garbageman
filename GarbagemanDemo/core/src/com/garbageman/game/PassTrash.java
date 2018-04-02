@@ -15,9 +15,11 @@ public class PassTrash {
     public static void addTrash(){
 
     }
+
     public static boolean findTrash(){
         return true;
     }
+
     public static void removeTrash(){
 
     }

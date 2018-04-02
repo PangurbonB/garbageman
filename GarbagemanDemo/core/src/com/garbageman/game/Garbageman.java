@@ -126,7 +126,7 @@ public class Garbageman extends Game {
 	@Override
 	public void create () {
 		int x = 1;
-		System.out.println(x>>1);
+		System.out.println(x<<3);
 
 		this.garbageItems = ListAccess.garbageItems;
 		this.customers = ListAccess.customers;

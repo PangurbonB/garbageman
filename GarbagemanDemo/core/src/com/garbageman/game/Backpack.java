@@ -68,7 +68,7 @@ public class Backpack extends Actor{
         boolean success = false;
         if (contents.size()<= index) {
             contents.remove(index);
-            backupContents.remove(index)
+            backupContents.remove(index);
             success = true;
         }
         return success;

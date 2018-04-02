@@ -262,7 +262,7 @@ public class Trashcan implements Screen {
         for (int i = 0; i < amt; i++) {
             Float[] plocs = generateLocation();
             Random rand = new Random();
-            int t = rand.nextInt(game.garbageItems.length-1);
+            int t = rand.nextInt(game.garbageItems.length);
             Trash item = makeRandGarbage(t);
             item.nast = rand.nextInt(100)+1;
             item.setImg();

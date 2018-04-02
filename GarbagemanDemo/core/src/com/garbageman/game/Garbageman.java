@@ -18,11 +18,13 @@ import com.garbageman.game.cooked.Soup;
 import com.garbageman.game.cooked.Sushi;
 import com.garbageman.game.customers.Justin;
 import com.garbageman.game.garbage.AppleCore;
+import com.garbageman.game.garbage.BagOfFlour;
 import com.garbageman.game.garbage.BagOfSugar;
 import com.garbageman.game.garbage.BananaPeel;
 import com.garbageman.game.garbage.Bean;
 import com.garbageman.game.garbage.Bread;
 import com.garbageman.game.garbage.CrowWithOddEyeInfection;
+import com.garbageman.game.garbage.DayOldDonut;
 import com.garbageman.game.garbage.DeadRat;
 import com.garbageman.game.garbage.DirtyKitchenSponge;
 import com.garbageman.game.garbage.Feces;
@@ -67,7 +69,7 @@ public class Garbageman extends Game {
 	public Backpack backpack = new Backpack();
 	public UI ui = new UI();
 
-    public boolean SAFE_MODE = true;
+    public boolean SAFE_MODE = false;
 
 
 	//colors for rarity:
@@ -114,6 +116,8 @@ public class Garbageman extends Game {
 			Strawberry.class,
 			ToiletPaper.class,
 			DeadRat.class,
+			DayOldDonut.class,
+			BagOfFlour.class,
 	};
 
     public Class[] safeGarbageItems = {

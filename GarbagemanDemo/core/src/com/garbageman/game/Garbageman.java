@@ -91,7 +91,7 @@ public class Garbageman extends Game {
 
 	public java.util.Map<String, Integer> typeMap = Collections.synchronizedMap(new HashMap());
 	public Trash objTemp = new McdHamburger();
-	public int type = -20;
+	//public int type = -20;
 
 	public Class[] garbageItems = {
 			AppleCore.class,

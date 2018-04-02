@@ -67,9 +67,9 @@ public class RestaurantMain implements Screen {
             test2.walkToPoint(500, 0);
             System.out.println("moving: ");
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.H)){
+        /*if (Gdx.input.isKeyPressed(Input.Keys.H)){
             game.setScreen(new FakeInvScreen(game));
-        }
+        }*/
     }
 
     @Override

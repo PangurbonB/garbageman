@@ -23,6 +23,7 @@ public class FakeInvScreen implements Screen {
 
     @Override
     public void show() {
+        game.ui.currentType = this.tr.type;
         game.currentScreen = screenName;
         Gdx.input.setInputProcessor(this.stage);
         game.ui.init(game, stage, screenName);

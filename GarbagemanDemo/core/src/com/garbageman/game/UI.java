@@ -55,6 +55,7 @@ public class UI {
     public String trashcanScreenName = Trashcan.screenName;
     public int topbarHeight = 100;
     public ArrayList<Image> jumpToTop = new ArrayList<Image>();
+    public int currentType = -20;
 
     //inv stuff
     private Actor repBar, background, barBackground, invBackground, invInfo;
@@ -365,7 +366,7 @@ public class UI {
                                             curInfoList.add(2, item.getRarity(item.rarity));
                                             curInfoList.add(3, item.desc);
                                             if (game.currentScreen.equals(FakeInvScreen.screenName)){
-                                                if (item.type == game.type){
+                                                if (item.type == currentType){
                                                     curInfoList.add(4, "Add Item");
                                                     System.out.println("OK ADD 4TH");
                                                 }
@@ -511,28 +512,28 @@ public class UI {
             moneyText.setColor(Color.BLACK);
         }
 
-        if (showInv == true){
-            if (infoLabels.size()== 0 && showInfo){
-                createLabels();
-                System.out.println("LABELS MADE!!!!");
-                rotBarBack.setVisible(true);
-                rotBarBar.setVisible(true);
-            }
-            else if (infoLabels.size()> 0 && showInfo){
-                for (int z = 0; z < infoLabels.size(); z++){
-                    infoLabels.get(z).setVisible(true);
-                    stage.addActor(infoLabels.get(z));
-                }
-            }
-            else if (!showInfo){
-                if (infoLabels.size()> 0) {
-                    System.out.println("take awy them thangs0");
+        if (showInv == true && !game.currentScreen.equals(CraftingScreen.screenName)){
+            if (!game.currentScreen.equals(CraftingScreen.screenName)) {
+                if (infoLabels.size() == 0 && showInfo) {
+                    createLabels();
+                    System.out.println("LABELS MADE!!!!");
+                    rotBarBack.setVisible(true);
+                    rotBarBar.setVisible(true);
+                } else if (infoLabels.size() > 0 && showInfo) {
                     for (int z = 0; z < infoLabels.size(); z++) {
-                        infoLabels.get(z).setVisible(false);
+                        infoLabels.get(z).setVisible(true);
+                        stage.addActor(infoLabels.get(z));
                     }
-                    infoLabels.clear();
-                    rotBarBack.setVisible(false);
-                    rotBarBar.setVisible(false);
+                } else if (!showInfo) {
+                    if (infoLabels.size() > 0) {
+                        System.out.println("take awy them thangs0");
+                        for (int z = 0; z < infoLabels.size(); z++) {
+                            infoLabels.get(z).setVisible(false);
+                        }
+                        infoLabels.clear();
+                        rotBarBack.setVisible(false);
+                        rotBarBar.setVisible(false);
+                    }
                 }
             }
             if (!game.backpack.contents.equals(curInv))

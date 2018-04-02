@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.garbageman.game.Garbageman;
+import com.garbageman.game.PassTrash;
 import com.garbageman.game.SpriteSheetDivider;
 import com.garbageman.game.cooked.Burrito;
 import com.garbageman.game.cooked.Cake;
@@ -254,7 +255,6 @@ public class CraftingScreen implements Screen{
                     System.out.println();
                     System.out.println("fugg");
 
-                    game.type = trashes.get(k).type;
                     game.setScreen(new FakeInvScreen(game, trashes.get(k)));
                     trashes.get(k).setSelectedInInv(true);
 

@@ -20,12 +20,19 @@ public class Backpack extends Actor{
     private int totalSlots = vertSlots * horizSlots;
 
     public ArrayList<Trash> contents = new ArrayList<Trash>();
+    protected ArrayList<Trash> backupContents = new ArrayList<Trash>();
     public int width = 300;
     public int height = 400;
 
     Backpack(){
         this.setWidth(width);
         this.setHeight(height);
+    }
+
+    public boolean finalizeCooking(ArrayList<Trash>toCook, Trash thingToCook, ArrayList<Trash>currentInv){//true means it worked, false means there was a problem and it reverted
+        boolean didItWork = false;
+
+        return didItWork;
     }
 
     public Trash getRandom(){
@@ -36,6 +43,7 @@ public class Backpack extends Actor{
         boolean success = false;
         if (this.contents.size() < this.totalSlots){
             contents.add(item);
+            backupContents.add(item);
             success = true;
             System.out.println("Worked: "+item.img);
         }
@@ -60,6 +68,7 @@ public class Backpack extends Actor{
         boolean success = false;
         if (contents.size()<= index) {
             contents.remove(index);
+            backupContents.remove(index)
             success = true;
         }
         return success;

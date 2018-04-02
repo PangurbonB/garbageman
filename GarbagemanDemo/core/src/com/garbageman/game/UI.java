@@ -465,7 +465,7 @@ public class UI {
             });
             //System.out.println("MADE LISTNER FOR INVBUTTON");
             stage.addActor(invButton);
-            invButton.setVisible(false);
+            //invButton.setVisible(false);
         }
 
         //this is the top section buttons for later:

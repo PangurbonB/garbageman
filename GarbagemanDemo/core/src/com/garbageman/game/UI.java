@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.CraftingScreen;
+import com.garbageman.game.screens.FakeInvScreen;
 import com.garbageman.game.screens.MainMenuScreen;
 import com.garbageman.game.screens.Trashcan;
 
@@ -363,6 +364,12 @@ public class UI {
                                             curInfoList.add(1, Integer.toString(item.nast));//rottenness
                                             curInfoList.add(2, item.getRarity(item.rarity));
                                             curInfoList.add(3, item.desc);
+                                            if (game.currentScreen.equals(FakeInvScreen.screenName)){
+                                                if (item.type == game.type){
+                                                    curInfoList.add(4, "Add Item");
+                                                    System.out.println("OK ADD 4TH");
+                                                }
+                                            }
 
                                             infoItem = item;
                                         }
@@ -442,6 +449,10 @@ public class UI {
             invButton.addListener(new InputListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     System.out.println("CLIEKED + " + checkCurrentScreen());
+                     if (screenName.equals(FakeInvScreen.screenName)){
+                        game.setScreen(new CraftingScreen(game));
+                         showInv = false;
+                    }
                     if (!screenName.equals(trashcanScreenName)) {
                         showInv = !showInv;
                     }
@@ -453,6 +464,7 @@ public class UI {
             });
             //System.out.println("MADE LISTNER FOR INVBUTTON");
             stage.addActor(invButton);
+            invButton.setVisible(false);
         }
 
         //this is the top section buttons for later:
@@ -526,7 +538,13 @@ public class UI {
             if (!game.backpack.contents.equals(curInv))
                 upInv();
             setInvVis(true, false);
+            if (game.currentScreen.equals(CraftingScreen.screenName))
+                invButton.setVisible(false);
+            else
+                invButton.setVisible(true);
             invButton.getLabel().setText("Close");
+            if (game.currentScreen.equals(FakeInvScreen.screenName))
+                invButton.getLabel().setText("Cancel");
             //System.out.println("curInfoList: "+curInfoList.size());
             if (showInfo && curInfoList.size()== 4){
                 setInvVis(true, true);
@@ -582,7 +600,7 @@ public class UI {
                         }
                         //local.setText("!!! "+curInfoList.get(x));
                         local.setVisible(true);
-                        System.out.println(x+":: set text to '"+curInfoList.get(x)+"'");
+                        //System.out.println(x+":: set text to '"+curInfoList.get(x)+"'");
 
                     }
                 }

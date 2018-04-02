@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.customers.Customer;
 import com.garbageman.game.customers.Justin;
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap;
 
 /**
  * Created by dpearson6225 on 3/2/2018.
@@ -65,6 +66,9 @@ public class RestaurantMain implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.Y)){
             test2.walkToPoint(500, 0);
             System.out.println("moving: ");
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.H)){
+            game.setScreen(new FakeInvScreen(game));
         }
     }
 

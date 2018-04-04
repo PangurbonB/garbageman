@@ -32,8 +32,11 @@ import com.garbageman.game.garbage.McdFries;
 import com.garbageman.game.garbage.McdHamburger;
 import com.garbageman.game.garbage.McdSoda;
 import com.garbageman.game.garbage.Milkshake;
+import com.garbageman.game.garbage.MotorOil;
 import com.garbageman.game.garbage.MysteryEyeball;
+import com.garbageman.game.garbage.MysteryMeat;
 import com.garbageman.game.garbage.OldNewspaper;
+import com.garbageman.game.garbage.PitaBread;
 import com.garbageman.game.garbage.Pork;
 import com.garbageman.game.garbage.RabbitFoot;
 import com.garbageman.game.garbage.Salad;
@@ -112,7 +115,10 @@ public final class ListAccess {
             GhostPepper.class,
             IceCream.class,
             McdSoda.class,
-            Milkshake.class
+            Milkshake.class,
+            MotorOil.class,
+            MysteryMeat.class,
+            PitaBread.class
     ));
 
     /*public static ArrayList<Class> safeGarbageItems = new ArrayList<Class>(Arrays.asList(

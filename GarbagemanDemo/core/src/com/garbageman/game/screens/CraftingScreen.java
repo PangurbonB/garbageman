@@ -254,7 +254,7 @@ public class CraftingScreen implements Screen{
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     System.out.println();
                     System.out.println("fugg");
-
+                    PassTrash.currentTypeToAdd = trashes.get(k).type;
                     game.setScreen(new FakeInvScreen(game, trashes.get(k)));
                     trashes.get(k).setSelectedInInv(true);
 

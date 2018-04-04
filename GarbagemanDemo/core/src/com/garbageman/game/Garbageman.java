@@ -74,7 +74,7 @@ public class Garbageman extends Game {
 	//colors for rarity:
 	public static Color COMMON = Color.WHITE;
 	public static Color UNCOMMON = Color.valueOf("#08f900");
-	public static Color RARE = Color.valueOf("#0004f9");
+	public static Color RARE = Color.valueOf("#00bef9");
 	public static Color VERYRARE = Color.valueOf("#8d00f9");
 	public static Color LEGENDARY = Color.valueOf("#00f9f0");
 	public static Color BEYOND_COMPREHENSION = Color.valueOf("#f9009d");

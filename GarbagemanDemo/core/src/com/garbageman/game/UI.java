@@ -68,6 +68,7 @@ public class UI {
     private float rotBarY = 10;//by default; gets reset to pos of rotText
     private Trash infoItem;
     private int squareSize = 256/2;
+    private TextButton addToCook;
 
     private Actor BLUE_SQUARE;
 
@@ -242,6 +243,12 @@ public class UI {
         noContent.setVisible(false);
         stage.addActor(noContent);
 
+        addToCook = new TextButton("Cook This", invbbs);
+        addToCook.setSize((invInfo.getWidth()/8)*6, 50);
+        addToCook.setPosition((invInfo.getWidth()/8)*1, (stage.getHeight()/10)*3);
+        addToCook.setVisible(false);
+        stage.addActor(addToCook);
+
         invImgBack = new Image(new Texture("assets/Screens/TrashBackpackRestaurantCrop.png"));
         stage.addActor(invImgBack);
         invImgBack.setSize(stage.getWidth(), stage.getHeight());
@@ -365,12 +372,12 @@ public class UI {
                                             curInfoList.add(1, Integer.toString(item.nast));//rottenness
                                             curInfoList.add(2, item.getRarity(item.rarity));
                                             curInfoList.add(3, item.desc);
-                                            if (game.currentScreen.equals(FakeInvScreen.screenName)){
+                                            /*if (game.currentScreen.equals(FakeInvScreen.screenName)){
                                                 if (item.type == currentType){
                                                     curInfoList.add(4, "Add Item");
                                                     System.out.println("OK ADD 4TH");
                                                 }
-                                            }
+                                            }*/
 
                                             infoItem = item;
                                         }
@@ -449,13 +456,16 @@ public class UI {
             invButton.getLabel().setColor(Color.BLACK);
             invButton.addListener(new InputListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    System.out.println("CLIEKED + " + checkCurrentScreen());
+                    //System.out.println("CLIEKED + " + checkCurrentScreen());
                      if (screenName.equals(FakeInvScreen.screenName)){
-                        game.setScreen(new CraftingScreen(game));
+                         game.setScreen(new CraftingScreen(game));
                          showInv = false;
+                         showInfo = false;
                     }
                     if (!screenName.equals(trashcanScreenName)) {
                         showInv = !showInv;
+                        if (!showInv)
+                            showInfo = false;
                     }
                     else if (screenName.equals(trashcanScreenName)){
                         //BRETT THIS IS WHERE YOU CAN DO INV STUFF IN THE DUMPSTER SCREEN
@@ -465,7 +475,7 @@ public class UI {
             });
             //System.out.println("MADE LISTNER FOR INVBUTTON");
             stage.addActor(invButton);
-            //invButton.setVisible(false);
+            //invButton.setVisible(false); ///LAST CHANGE!!!
         }
 
         //this is the top section buttons for later:
@@ -603,6 +613,15 @@ public class UI {
                         local.setVisible(true);
                         //System.out.println(x+":: set text to '"+curInfoList.get(x)+"'");
 
+                    }
+                    //System.out.println("current type: "+infoItem.type+" : "+PassTrash.currentTypeToAdd);
+                    if (game.currentScreen.equals(FakeInvScreen.screenName)&& infoItem.type == PassTrash.currentTypeToAdd){
+                        addToCook.setVisible(true);
+                        //System.out.println("they can cook this!");
+                    }
+                    else{
+                        addToCook.setVisible(false);
+                       //System.out.println("they can't cook this!");
                     }
                 }
             }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class PassTrash {
     public static ArrayList<Trash> currentCooking = new ArrayList<Trash>();
     public static Trash currentFoodCooking;
+    public static int currentTypeToAdd = -20;
 
     public static void addTrash(){
 

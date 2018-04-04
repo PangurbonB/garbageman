@@ -7,11 +7,11 @@ package com.garbageman.game.garbage;
 public class GarbageJuice extends Trash {
 
     {
-        type = MEAT;
-        rarity = RARE;
-        name = "Dead Rat";
-        img = "deadRat";
-        desc = "You know from experience that this will pass for chicken";
+        type = SAUCE;
+        rarity = COM;
+        name = "Garbage Juice";
+        img = "garbageJuice";
+        desc = "This murky substance is hardly even a fluid. Your mouth waters.";
     }
 
 }

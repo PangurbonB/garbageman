@@ -20,13 +20,18 @@ import com.garbageman.game.garbage.DayOldDonut;
 import com.garbageman.game.garbage.DeadRat;
 import com.garbageman.game.garbage.DirtyKitchenSponge;
 import com.garbageman.game.garbage.GarbageBag;
+import com.garbageman.game.garbage.GarbageJuice;
+import com.garbageman.game.garbage.GhostPepper;
 import com.garbageman.game.garbage.HandfulOfAnts;
 import com.garbageman.game.garbage.HomelessBeardShavings;
+import com.garbageman.game.garbage.IceCream;
 import com.garbageman.game.garbage.Ketchup;
 import com.garbageman.game.garbage.Leaf;
 import com.garbageman.game.garbage.Lettuce;
 import com.garbageman.game.garbage.McdFries;
 import com.garbageman.game.garbage.McdHamburger;
+import com.garbageman.game.garbage.McdSoda;
+import com.garbageman.game.garbage.Milkshake;
 import com.garbageman.game.garbage.MysteryEyeball;
 import com.garbageman.game.garbage.OldNewspaper;
 import com.garbageman.game.garbage.Pork;
@@ -102,7 +107,12 @@ public final class ListAccess {
             DeadRat.class,
             DayOldDonut.class,
             BagOfFlour.class,
-            GarbageBag.class
+            GarbageBag.class,
+            GarbageJuice.class,
+            GhostPepper.class,
+            IceCream.class,
+            McdSoda.class,
+            Milkshake.class
     ));
 
     /*public static ArrayList<Class> safeGarbageItems = new ArrayList<Class>(Arrays.asList(

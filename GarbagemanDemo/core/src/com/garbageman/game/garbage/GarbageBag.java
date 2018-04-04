@@ -11,7 +11,7 @@ public class GarbageBag extends Trash {
         rarity = COM;
         name = "Garbage Bag";
         img = "garbageBag";
-        desc = "This isn't garbage, it just holds it. Therefore, it is food.";
+        desc = "This isn't garbage, it just holds it. Therefore, this is food.";
     }
 
 }

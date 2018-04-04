@@ -99,7 +99,7 @@ public class Customer extends Image {
        Random rand = new Random();
        Customer cc = null;
        try {
-           cc = (Customer) Class.forName(Garbageman.customers[rand.nextInt(Garbageman.customers.length)+0].getName()).newInstance();
+           cc = (Customer) Class.forName(Garbageman.customers.get(rand.nextInt(Garbageman.customers.size())+0).getName()).newInstance();
        } catch (InstantiationException e) {
            e.printStackTrace();
        } catch (IllegalAccessException e) {

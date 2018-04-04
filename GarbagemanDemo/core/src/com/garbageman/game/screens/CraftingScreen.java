@@ -80,7 +80,7 @@ public class CraftingScreen implements Screen{
 
     Garbageman game;
 
-    Class[] foodItems;
+    ArrayList<Class> foodItems;
 
     public static String screenName = "Crafting";
     private TextButton fakeMenu, fakeInventory;
@@ -94,9 +94,9 @@ public class CraftingScreen implements Screen{
     public CraftingScreen(Garbageman game){
         this.game = game;
         foodItems = game.foodItems;
-        for (int i = 0; i < foodItems.length; i++) {
+        for (int i = 0; i < foodItems.size(); i++) {
             try {
-                CookedFood test = (CookedFood) Class.forName(foodItems[i].getName()).newInstance();
+                CookedFood test = (CookedFood) Class.forName(foodItems.get(i).getName()).newInstance();
                 s.add(test.name.toLowerCase(), "assets/Food/"+test.name.toLowerCase()+".png");
             } catch (InstantiationException e) {
                 e.printStackTrace();
@@ -131,7 +131,7 @@ public class CraftingScreen implements Screen{
 
 
         try {
-            input = (CookedFood) Class.forName(foodItems[0].getName()).newInstance();
+            input = (CookedFood) Class.forName(foodItems.get(0).getName()).newInstance();
         } catch (InstantiationException e) {
             input = new Hotdog();
             e.printStackTrace();
@@ -212,7 +212,7 @@ public class CraftingScreen implements Screen{
         Random rand = new Random();
         for (int i = 0; i < craftingLocs.length; i++) {
             final Trashcan tr = new Trashcan(game);
-            int x = rand.nextInt(game.garbageItems.length);
+            int x = rand.nextInt(game.garbageItems.size());
 
             Actor[] list = makeGhosts(f);
             System.out.println(i);
@@ -399,18 +399,18 @@ public class CraftingScreen implements Screen{
             int loc = place;
             System.out.println("gotthere");
 
-            if (loc >= foodItems.length) {
+            if (loc >= foodItems.size()) {
                 place = 0;
             }
             loc = place;
-            for (int i = 0; i < foodItems.length; i++) {
-                System.out.println(foodItems[i].getName());
+            for (int i = 0; i < foodItems.size(); i++) {
+                System.out.println(foodItems.get(i).getName());
             }
 
             try {
                 input.setVisible(false);
-                input = (CookedFood) Class.forName(foodItems[loc].getName()).newInstance();
-                System.out.println(foodItems[loc].getName());
+                input = (CookedFood) Class.forName(foodItems.get(loc).getName()).newInstance();
+                System.out.println(foodItems.get(loc).getName());
                 System.out.println(input.name);
                 input.setSize(96, 96);
                 input.setX(stage.getWidth()/2 - input.getWidth() + 40);

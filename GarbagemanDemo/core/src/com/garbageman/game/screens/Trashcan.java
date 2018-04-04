@@ -177,7 +177,7 @@ public class Trashcan implements Screen {
 
     public Trash makeRandGarbage(int x){
         try {
-            return (Trash) Class.forName(game.garbageItems[x].getName()).newInstance();
+            return (Trash) Class.forName(game.garbageItems.get(x).getName()).newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -260,7 +260,7 @@ public class Trashcan implements Screen {
         for (int i = 0; i < amt; i++) {
             Float[] plocs = generateLocation();
             Random rand = new Random();
-            int t = rand.nextInt(game.garbageItems.length);
+            int t = rand.nextInt(game.garbageItems.size());
             Trash item = makeRandGarbage(t);
             item.nast = rand.nextInt(100)+1;
             item.setImg();

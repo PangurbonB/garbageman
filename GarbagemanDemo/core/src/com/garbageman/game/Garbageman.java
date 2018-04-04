@@ -47,6 +47,9 @@ import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.garbage.Vomit;
 import com.garbageman.game.screens.MainMenuScreen;
 
+import org.lwjgl.opencl.CL;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -86,9 +89,10 @@ public class Garbageman extends Game {
 	public static Color YELLOW = Color.valueOf("#ffe100");
 	public static Color GREEN = Color.valueOf("#59ff00");
 
-	public static Class[] garbageItems;
-	public static Class[] customers;
-	public static Class[] foodItems;
+	public static ArrayList<Class> garbageItems;
+	public static ArrayList<Class> safeModeExclusions;
+	public static ArrayList<Class> customers;
+	public static ArrayList<Class> foodItems;
 
 	public java.util.Map<String, Color> colorMap;
 
@@ -129,15 +133,25 @@ public class Garbageman extends Game {
 		System.out.println(x<<3);
 
 		this.garbageItems = ListAccess.garbageItems;
+		this.safeModeExclusions = ListAccess.safeModeExclusions;
 		this.customers = ListAccess.customers;
 		this.foodItems = ListAccess.foodItems;
 
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
-
+		ArrayList<Class> deleteList = new ArrayList<Class>();
         if (SAFE_MODE){
-            this.garbageItems = ListAccess.safeGarbageItems;
-        }
+			for (Class i : garbageItems) {
+				for (Class j : safeModeExclusions) {
+					if (i.equals(j)){
+						deleteList.add(i);
+					}
+				}
+			}
+			for (Class i : deleteList) {
+				garbageItems.remove(i);
+			}
+		}
 
         ListAccess.updateMaps();
         this.colorMap = ListAccess.colorMap;

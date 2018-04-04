@@ -19,6 +19,7 @@ import com.garbageman.game.garbage.CrowWithOddEyeInfection;
 import com.garbageman.game.garbage.DayOldDonut;
 import com.garbageman.game.garbage.DeadRat;
 import com.garbageman.game.garbage.DirtyKitchenSponge;
+import com.garbageman.game.garbage.GarbageBag;
 import com.garbageman.game.garbage.HandfulOfAnts;
 import com.garbageman.game.garbage.HomelessBeardShavings;
 import com.garbageman.game.garbage.Ketchup;
@@ -36,6 +37,8 @@ import com.garbageman.game.garbage.Strawberry;
 import com.garbageman.game.garbage.ToiletPaper;
 import com.garbageman.game.garbage.Trash;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -73,7 +76,7 @@ public final class ListAccess {
         typeMap.put("Sauces", objTemp.SAUCE);
     }
 
-    public static Class[] garbageItems = {
+    public static ArrayList<Class> garbageItems = new ArrayList<Class>(Arrays.asList(
             AppleCore.class,
             BagOfSugar.class,
             BananaPeel.class,
@@ -99,9 +102,10 @@ public final class ListAccess {
             DeadRat.class,
             DayOldDonut.class,
             BagOfFlour.class,
-    };
+            GarbageBag.class
+    ));
 
-    public static Class[] safeGarbageItems = {
+    /*public static ArrayList<Class> safeGarbageItems = new ArrayList<Class>(Arrays.asList(
             AppleCore.class,
             BagOfSugar.class,
             BananaPeel.class,
@@ -125,21 +129,28 @@ public final class ListAccess {
             Strawberry.class,
             ToiletPaper.class,
             //DeadRat.class,
-    };
+            GarbageBag.class
+    ));*/
 
-    public static Class[] customers = {
-            Justin.class,
-    };
+    public static ArrayList<Class> safeModeExclusions = new ArrayList<Class>(Arrays.asList(
+            HomelessBeardShavings.class,
+            MysteryEyeball.class,
+            DeadRat.class
+    ));
 
-    public static Class[] foodItems = {
+    public static ArrayList<Class> customers = new ArrayList<Class>(Arrays.asList(
+            Justin.class
+    ));
+
+    public static ArrayList<Class> foodItems = new ArrayList<Class>(Arrays.asList(
             Burrito.class,
             Cake.class,
             Hotdog.class,
             Pizza.class,
             Sandwich.class,
             Soup.class,
-            Sushi.class,
-    };
+            Sushi.class
+    ));
 
     public static java.util.Map<String, Color> colorMap = Collections.synchronizedMap(new HashMap());
     public static java.util.Map<String, Integer> typeMap = Collections.synchronizedMap(new HashMap());

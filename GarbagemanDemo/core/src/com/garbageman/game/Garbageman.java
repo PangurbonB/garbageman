@@ -46,6 +46,8 @@ import com.garbageman.game.garbage.ToiletPaper;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.garbage.Vomit;
 import com.garbageman.game.screens.MainMenuScreen;
+import com.garbageman.game.screens.Trashcan;
+import com.garbageman.game.screens.ViewInventory;
 
 import org.lwjgl.opencl.CL;
 
@@ -73,6 +75,7 @@ public class Garbageman extends Game {
 	public UI ui = new UI();
 
     public boolean SAFE_MODE = false;
+	public boolean autoGenInvItems = true;
 
 	//colors for rarity:
 	public static Color COMMON = Color.WHITE;
@@ -129,9 +132,6 @@ public class Garbageman extends Game {
 
 	@Override
 	public void create () {
-		int x = 1;
-		System.out.println(x<<3);
-
 		this.garbageItems = ListAccess.garbageItems;
 		this.safeModeExclusions = ListAccess.safeModeExclusions;
 		this.customers = ListAccess.customers;
@@ -152,6 +152,21 @@ public class Garbageman extends Game {
 				garbageItems.remove(i);
 			}
 		}
+
+		if (autoGenInvItems){
+			//Trashcan trashcan = new Trashcan(this);
+			for (int x = 0; x <= 10; x++){
+				int num = new Random().nextInt(this.garbageItems.size());
+				Trash item = Trashcan.makeRandGarbage(num);
+				item.setVisible(true);
+				item.setSize(UI.squareSize, UI.squareSize);
+				item.toFront();
+				item.setImg();
+				backpack.add(item);
+				System.out.println("added an item "+item.name);
+			}
+		}
+		this.setScreen(new MainMenuScreen(this));
 
         ListAccess.updateMaps();
         this.colorMap = ListAccess.colorMap;

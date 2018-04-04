@@ -67,7 +67,7 @@ import java.util.Map;
 public class Trashcan implements Screen {
     //All of my initializations:
         //Basic Stuffs
-            Garbageman game;
+            static Garbageman game;
             SpriteBatch batch;
             Stage stage = new Stage();
             private UI ui;
@@ -175,7 +175,7 @@ public class Trashcan implements Screen {
         return new Float[] {(float) nx, (float) ny};
     }
 
-    public Trash makeRandGarbage(int x){
+    public static Trash makeRandGarbage(int x){
         try {
             return (Trash) Class.forName(game.garbageItems.get(x).getName()).newInstance();
         } catch (InstantiationException e) {

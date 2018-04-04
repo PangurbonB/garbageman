@@ -67,7 +67,7 @@ public class UI {
     private Actor rotBarBack, rotBarBar;
     private float rotBarY = 10;//by default; gets reset to pos of rotText
     private Trash infoItem;
-    private int squareSize = 256/2;
+    public static int squareSize = 256/2;
     private TextButton addToCook;
 
     private Actor BLUE_SQUARE;
@@ -621,8 +621,14 @@ public class UI {
                     }
                     else{
                         addToCook.setVisible(false);
-                       //System.out.println("they can't cook this!");
+                        //System.out.println("they can't cook this!");
                     }
+                    if (game.currentScreen.equals(FakeInvScreen.screenName)&& PassTrash.currentTypeToAdd == PassTrash.allFoodTypes) {
+                        //Brett add the question mark catch here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        //uh I may have already added it right here
+                        addToCook.setVisible(true);
+                    }
+
                 }
             }
             else if (showInfo && curInfoList.size()== 4 && !showInv){

@@ -1,6 +1,7 @@
 package com.garbageman.game.garbage;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.garbageman.game.PassTrash;
 import com.garbageman.game.SpriteSheetDivider;
 
 /**
@@ -20,6 +21,7 @@ public class Trash extends Image{
     public static final int SAUCE = 6;
     public static final int ANYTHING = 7;
     public static final int NONE = -1;
+    public static final int ALLFOODTYPES = PassTrash.allFoodTypes;
 
     //Rarity values
     public static final int COMMON = 0;

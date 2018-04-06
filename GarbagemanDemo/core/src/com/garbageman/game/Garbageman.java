@@ -74,8 +74,9 @@ public class Garbageman extends Game {
 	public Backpack backpack = new Backpack();
 	public UI ui = new UI();
 
-    public boolean SAFE_MODE = false;
-	public boolean autoGenInvItems = true;
+    private boolean SAFE_MODE = false;
+	private boolean autoGenInvItems = false;
+	private int numOfGenItems = 11;
 
 	//colors for rarity:
 	public static Color COMMON = Color.WHITE;
@@ -155,7 +156,7 @@ public class Garbageman extends Game {
 
 		if (autoGenInvItems){
 			//Trashcan trashcan = new Trashcan(this);
-			for (int x = 0; x <= 10; x++){
+			for (int x = 0; x <= numOfGenItems; x++){
 				int num = new Random().nextInt(this.garbageItems.size());
 				Trash item = Trashcan.makeRandGarbage(num);
 				item.setVisible(true);

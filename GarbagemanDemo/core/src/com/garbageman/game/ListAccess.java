@@ -53,6 +53,9 @@ import com.garbageman.game.garbage.TornUpPamphlet;
 import com.garbageman.game.garbage.Tortilla;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.garbage.TyroneBible;
+import com.garbageman.game.garbage.VelveetaCheeseBall;
+import com.garbageman.game.garbage.WetCracker;
+import com.garbageman.game.garbage.WodnerBread;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -136,7 +139,10 @@ public final class ListAccess {
             TornUpPamphlet.class,
             AllTheBadHalloweenCandy.class,
             Tortilla.class,
-            TyroneBible.class
+            TyroneBible.class,
+            VelveetaCheeseBall.class,
+            WetCracker.class,
+            WodnerBread.class
     ));
 
     /*public static ArrayList<Class> safeGarbageItems = new ArrayList<Class>(Arrays.asList(

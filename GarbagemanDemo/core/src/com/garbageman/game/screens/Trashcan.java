@@ -480,7 +480,7 @@ public class Trashcan implements Screen {
             backpackImg.setVisible(true);
             SpriteSheetDivider sp = new SpriteSheetDivider();
             try {
-                backpackImg.setDrawable(sp.divideItem("SmallInv", currentObject.rarity));
+                backpackImg.setDrawable(sp.divideItem("SmallInv", 0));
             }
             catch (NullPointerException e){
                 e.printStackTrace();
@@ -619,7 +619,6 @@ public class Trashcan implements Screen {
                             if (!touchingBug) {
                                 backpack.add(imgs.get(k));
                                 imgs.get(k).setVisible(false);
-                                imgs.remove(k);
                             }
 
                         } else if (wasTouched) {

@@ -55,6 +55,16 @@ public class Trash extends Image{
     public static final int MAXNAST = 100;
     public static final int MINNAST = 1;
 
+    //Ingredient value multipliers
+    public static final double COM_MULTIPLIER = 1;
+    public static final double UNCOM_MULTIPLIER = 1.5;
+    public static final double RARE_MULTIPLIER = 2;
+    public static final double VRARE_MULTIPLIER = 2.5;
+    public static final double LEGENDARY_MULTIPLIER = 3;
+    public static final double BOUGHT_MULTIPLIER = 1.5;
+    public static final double BEYOND_COMPREHENSION_MULTIPLIER = 5;
+
+
     public boolean selectedInInv = false;
 
     public boolean selected = false;
@@ -108,6 +118,62 @@ public class Trash extends Image{
                 break;
         }
         return str;
+    }
+
+    public String getRarity(){
+        String str = "";
+        switch (rarity){
+            case 1:
+                str = "Uncommon";
+                break;
+            case 2:
+                str = "Rare";
+                break;
+            case 3:
+                str = "Very Rare";
+                break;
+            case 4:
+                str = "Legendary";
+                break;
+            case 5:
+                str = "Bought";
+                break;
+            case 6:
+                str = "???";
+                break;
+            default:
+                str = "Common";
+                break;
+        }
+        return str;
+    }
+
+    public double getMultiplier(){
+        double i = 0;
+        switch (rarity){
+            case 1:
+                i = UNCOM_MULTIPLIER;
+                break;
+            case 2:
+                i = RARE_MULTIPLIER;
+                break;
+            case 3:
+                i = VRARE_MULTIPLIER;
+                break;
+            case 4:
+                i = LEGENDARY_MULTIPLIER;
+                break;
+            case 5:
+                i = BOUGHT_MULTIPLIER;
+                break;
+            case 6:
+                i = BEYOND_COMPREHENSION_MULTIPLIER;
+                break;
+            default:
+                i = COM_MULTIPLIER;
+                break;
+        }
+        return i;
     }
 
 }

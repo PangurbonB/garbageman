@@ -585,7 +585,7 @@ public class Trashcan implements Screen {
                         wasTouched = true;
                         //System.out.println("called TouchDown");
 
-                        Texture referenceTexture = new Texture(imgs.get(k).baseImgName + imgs.get(k).img + imgs.get(k).fileType);
+                       /* Texture referenceTexture = new Texture(imgs.get(k).baseImgName + imgs.get(k).img + imgs.get(k).fileType);
 
                         Sprite sprite = new Sprite();
                         sprite.setRegion(referenceTexture);
@@ -608,7 +608,7 @@ public class Trashcan implements Screen {
                             }
                             Pixmap pixmap = texture.getTextureData().consumePixmap();
                         }
-
+*/
                         return true;
                     }
 

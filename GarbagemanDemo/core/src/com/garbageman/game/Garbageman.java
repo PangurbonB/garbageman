@@ -75,7 +75,7 @@ public class Garbageman extends Game {
 	public UI ui = new UI();
 
     public boolean SAFE_MODE = false;
-	public boolean autoGenInvItems = true;
+	public boolean autoGenInvItems = false;
 
 	//colors for rarity:
 	public static Color COMMON = Color.WHITE;

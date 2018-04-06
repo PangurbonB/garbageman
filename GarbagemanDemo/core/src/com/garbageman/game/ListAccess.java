@@ -9,6 +9,7 @@ import com.garbageman.game.cooked.Sandwich;
 import com.garbageman.game.cooked.Soup;
 import com.garbageman.game.cooked.Sushi;
 import com.garbageman.game.customers.Justin;
+import com.garbageman.game.garbage.AllTheBadHalloweenCandy;
 import com.garbageman.game.garbage.AppleCore;
 import com.garbageman.game.garbage.BagOfFlour;
 import com.garbageman.game.garbage.BagOfSugar;
@@ -39,11 +40,19 @@ import com.garbageman.game.garbage.OldNewspaper;
 import com.garbageman.game.garbage.PitaBread;
 import com.garbageman.game.garbage.Pork;
 import com.garbageman.game.garbage.RabbitFoot;
+import com.garbageman.game.garbage.RazorBladeApple;
 import com.garbageman.game.garbage.Salad;
+import com.garbageman.game.garbage.Seaweed;
 import com.garbageman.game.garbage.Smarties;
+import com.garbageman.game.garbage.SquirrelTail;
 import com.garbageman.game.garbage.Strawberry;
+import com.garbageman.game.garbage.SugarCube;
+import com.garbageman.game.garbage.SzechuanSauce;
 import com.garbageman.game.garbage.ToiletPaper;
+import com.garbageman.game.garbage.TornUpPamphlet;
+import com.garbageman.game.garbage.Tortilla;
 import com.garbageman.game.garbage.Trash;
+import com.garbageman.game.garbage.TyroneBible;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -118,7 +127,16 @@ public final class ListAccess {
             Milkshake.class,
             MotorOil.class,
             MysteryMeat.class,
-            PitaBread.class
+            PitaBread.class,
+            RazorBladeApple.class,
+            Seaweed.class,
+            SquirrelTail.class,
+            SugarCube.class,
+            SzechuanSauce.class,
+            TornUpPamphlet.class,
+            AllTheBadHalloweenCandy.class,
+            Tortilla.class,
+            TyroneBible.class
     ));
 
     /*public static ArrayList<Class> safeGarbageItems = new ArrayList<Class>(Arrays.asList(
@@ -151,7 +169,9 @@ public final class ListAccess {
     public static ArrayList<Class> safeModeExclusions = new ArrayList<Class>(Arrays.asList(
             HomelessBeardShavings.class,
             MysteryEyeball.class,
-            DeadRat.class
+            DeadRat.class,
+            RazorBladeApple.class,
+            TornUpPamphlet.class
     ));
 
     public static ArrayList<Class> customers = new ArrayList<Class>(Arrays.asList(

@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.garbage.Trash;
@@ -77,6 +78,7 @@ public class UI {
     organization:
 
     variables and unused methods
+
 
     private methods
 
@@ -247,6 +249,13 @@ public class UI {
         addToCook.setSize((invInfo.getWidth()/8)*6, 50);
         addToCook.setPosition((invInfo.getWidth()/8)*1, (stage.getHeight()/10)*3);
         addToCook.setVisible(false);
+        addToCook.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                PassTrash.currentTrashCooking = infoItem;
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
         stage.addActor(addToCook);
 
         invImgBack = new Image(new Texture("assets/Screens/TrashBackpackRestaurantCrop.png"));

@@ -103,7 +103,6 @@ public class SpriteSheetDivider {
         }
         try {
             if (!(indexX * 32 >= temp.getTexture().getTextureData().getWidth()) && !(indexY*32 >= temp.getTexture().getTextureData().getHeight())) {
-                System.out.println("gotit");
                 temp.setRegion(indexX * 128, indexY * 128, 128, 128);
                 TextureRegionDrawable temp1 = new TextureRegionDrawable();
                 temp1.setRegion(temp);

@@ -226,9 +226,6 @@ public class MainMenuScreen implements Screen {
            }
         });
         exitButton.setVisible(true);
-
-
-        System.out.println("called");
     }
 
     @Override

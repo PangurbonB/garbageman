@@ -159,7 +159,6 @@ public class CraftingScreen implements Screen{
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 input.setDrawable(sk, "name");
                 input.name = "increment";
-                System.out.println("Gotit");
                 return super.touchDown(event, x, y, pointer, button);
         }
         });
@@ -429,7 +428,6 @@ public class CraftingScreen implements Screen{
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         input.setDrawable(sk, "name");
                         input.name = "increment";
-                        System.out.println("Gotit");
                         return super.touchDown(event, x, y, pointer, button);
                     }
                 });

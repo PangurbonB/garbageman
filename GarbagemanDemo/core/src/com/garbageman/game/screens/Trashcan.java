@@ -5,15 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -21,41 +17,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.garbageman.game.Backpack;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.UI;
-import com.garbageman.game.garbage.AppleCore;
-import com.garbageman.game.garbage.BagOfSugar;
-import com.garbageman.game.garbage.BananaPeel;
-import com.garbageman.game.garbage.Bean;
-import com.garbageman.game.garbage.Bread;
-import com.garbageman.game.garbage.CrowWithOddEyeInfection;
-import com.garbageman.game.garbage.DirtyKitchenSponge;
-import com.garbageman.game.garbage.Feces;
-import com.garbageman.game.garbage.HandfulOfAnts;
-import com.garbageman.game.garbage.HomelessBeardShavings;
-import com.garbageman.game.garbage.Ketchup;
-import com.garbageman.game.garbage.Leaf;
-import com.garbageman.game.garbage.Lettuce;
-import com.garbageman.game.garbage.McdFries;
-import com.garbageman.game.garbage.McdHamburger;
-import com.garbageman.game.garbage.MysteryEyeball;
-import com.garbageman.game.garbage.OldNewspaper;
-import com.garbageman.game.garbage.Pork;
-import com.garbageman.game.garbage.RabbitFoot;
-import com.garbageman.game.garbage.Salad;
-import com.garbageman.game.garbage.Smarties;
-import com.garbageman.game.garbage.Strawberry;
-import com.garbageman.game.garbage.ToiletPaper;
 import com.garbageman.game.garbage.Trash;
-import com.garbageman.game.garbage.Vomit;
 import com.garbageman.game.world.GestureHandler;
 import com.garbageman.game.world.InputHandler;
 import com.garbageman.game.SpriteSheetDivider;
-
-import org.lwjgl.opengl.XRandR;
 
 import java.util.Random;
 
@@ -307,7 +276,6 @@ public class Trashcan implements Screen {
             imgs.get(imgs.size() - 1).setX(tx);
             imgs.get(imgs.size() - 1).setY(ty);
             for (int i = 0; i < Integer.parseInt(cmds[4])-1; i++) {
-                //makeSoftGarbage(cmds[1]);
                 tx = Integer.parseInt(cmds[2]);
                 ty = Integer.parseInt(cmds[3]);
                 imgs.get(imgs.size() - 1).setX(tx);
@@ -429,14 +397,14 @@ public class Trashcan implements Screen {
 
         SpriteSheetDivider sp = new SpriteSheetDivider();
         backpackImg.setDrawable(sp.divideItem("Inventory", 0));
-        backpackImg.setSize(backpack.getWidth(), stage.getHeight()-game.ui.topbarHeight);
+        backpackImg.setSize(backpack.getWidth(), stage.getHeight()-game.ui.topBarHeight);
         backpackImg.setX(stage.getWidth() - backpackImg.getWidth());
         stage.addActor(backpackImg);
         backpackImg.toFront();
         backpackImg.setVisible(false);
         stage.addActor(background);
         background.setWidth(stage.getWidth());
-        background.setHeight(stage.getHeight()-game.ui.topbarHeight);
+        background.setHeight(stage.getHeight()-game.ui.topBarHeight);
 
         for (int i = 0; i < imgs.size(); i++) {
             imgs.get(i).setName(Integer.toString(i));
@@ -504,7 +472,7 @@ public class Trashcan implements Screen {
 
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.O )) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.O) && !consoleOpen) {
             game.setScreen(new CraftingScreen(game));
         }
 

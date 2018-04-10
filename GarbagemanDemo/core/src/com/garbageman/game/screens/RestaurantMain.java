@@ -4,13 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.customers.Customer;
-import com.garbageman.game.customers.Justin;
-import com.sun.corba.se.impl.oa.poa.ActiveObjectMap;
 
 /**
  * Created by dpearson6225 on 3/2/2018.
@@ -38,7 +35,7 @@ public class RestaurantMain implements Screen {
         game.ui.makeUI();
         Gdx.input.setInputProcessor(stage);
 
-        background = (Image)game.ui.makeRect(0, 0, (int)stage.getWidth(), (int)stage.getHeight()-game.ui.topbarHeight, Color.WHITE, true);
+        background = (Image)game.ui.makeRect(0, 0, (int)stage.getWidth(), (int)stage.getHeight()-game.ui.topBarHeight, Color.WHITE, true);
         stage.addActor(background);
         background.toBack();
 

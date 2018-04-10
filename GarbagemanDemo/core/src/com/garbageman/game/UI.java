@@ -1,7 +1,6 @@
 package com.garbageman.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,9 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.garbage.Trash;
@@ -54,7 +51,7 @@ public class UI {
     private Label rotten;
     private Label desc;
     public String trashcanScreenName = Trashcan.screenName;
-    public int topbarHeight = 100;
+    public int topBarHeight = 100;
     public ArrayList<Image> jumpToTop = new ArrayList<Image>();
     public int currentType = -20;
 
@@ -163,7 +160,7 @@ public class UI {
                     stage.addActor(infoName);
                     //System.out.println("POSITION "+x+": "+infoName.getX()+", "+infoName.getY());
                     if (x == 1) {
-                        //System.out.println("SET ROT BARY: "+infoName.getY());
+                        //System.out.println("SET ROT BAR Y: "+infoName.getY());
                         rotBarY = infoName.getY();
                     }
                     //inv.add(infoName);
@@ -223,7 +220,7 @@ public class UI {
         Gdx.input.setInputProcessor(this.stage);
 
         Color barBackgroundGrey = Color.valueOf("#ffd280");
-        this.background = makeRect(0, game.window_height-topbarHeight, game.window_width, 100, barBackgroundGrey, true);
+        this.background = makeRect(0, game.window_height- topBarHeight, game.window_width, 100, barBackgroundGrey, true);
         this.barBackground =  makeRect((game.window_width-len)/2, game.window_height-75, len, 50, Color.LIGHT_GRAY, true);
         this.repBar =  makeRect(((game.window_width-len)/2), game.window_height-75, 0, 50, Color.valueOf("#00ff11"), true);
         this.invBackground =  makeRect(0, 0, game.window_width, game.window_height-75, barBackgroundGrey, false);
@@ -380,7 +377,15 @@ public class UI {
                                             curInfoList.add(0, "Item: " + item.name);
                                             curInfoList.add(1, Integer.toString(item.nast));//rottenness
                                             curInfoList.add(2, item.getRarity(item.rarity));
-                                            curInfoList.add(3, item.desc);
+                                            if (item.nast >= item.HMTHRESH && item.desc3 != ""){
+                                                curInfoList.add(3, item.desc3);
+                                            }
+                                            else if (item.nast >= item.MLTHRESH && item.desc2 != ""){
+                                                curInfoList.add(3, item.desc2);
+                                            }
+                                            else{
+                                                curInfoList.add(3, item.desc);
+                                            }
                                             /*if (game.currentScreen.equals(FakeInvScreen.screenName)){
                                                 if (item.type == currentType){
                                                     curInfoList.add(4, "Add Item");
@@ -442,7 +447,6 @@ public class UI {
         menuButton.getLabel().setAlignment(Align.center);
         menuButton.addListener(new InputListener(){
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                System.out.println("IT MOVED OMG");
                 return super.mouseMoved(event, x, y);
             }
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

@@ -77,6 +77,8 @@ public class Garbageman extends Game {
 	private boolean autoGenInvItems = false;
 	private int numOfGenItems = 11;
 
+	public PassTrash passTrash = new PassTrash(this);
+
 	//colors for rarity:
 	public static Color COMMON = Color.WHITE;
 	public static Color UNCOMMON = Color.valueOf("#08f900");

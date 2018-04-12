@@ -67,6 +67,7 @@ public class UI {
     private Trash infoItem;
     public static int squareSize = 256/2;
     private TextButton addToCook;
+    private int infoItemIndex = -20;
 
     private Actor BLUE_SQUARE;
 
@@ -212,7 +213,7 @@ public class UI {
 
     //public methods:
 
-    public void init(Garbageman game, Stage stage, String screenName){//init UI/sync to global, call this when opening a screen
+    public void init(final Garbageman game, Stage stage, String screenName){//init UI/sync to global, call this when opening a screen
         this.stage = stage;
         this.game = game;
         this.screenName = screenName;
@@ -249,7 +250,12 @@ public class UI {
         addToCook.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                PassTrash.currentTrashCooking = infoItem;
+                //PassTrash.currentTrashCooking = infoItem;
+                //add item!
+                game.passTrash.addTrash(infoItemIndex);
+                infoItem = null;
+                infoItemIndex = -2;
+                game.setScreen(new CraftingScreen(game));
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -323,6 +329,7 @@ public class UI {
                                 //System.out.println("INFO: "+item.name+", "+item.rarity);
 
 
+                                final int finalTot = tot;
                                 localB.addListener(new InputListener() {
                                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                         //create info
@@ -394,6 +401,7 @@ public class UI {
                                             }*/
 
                                             infoItem = item;
+                                            infoItemIndex = finalTot;
                                         }
 
                                         return true;
@@ -628,7 +636,7 @@ public class UI {
 
                     }
                     //System.out.println("current type: "+infoItem.type+" : "+PassTrash.currentTypeToAdd);
-                    if (game.currentScreen.equals(FakeInvScreen.screenName)&& infoItem.type == PassTrash.currentTypeToAdd){
+                    if (game.currentScreen.equals(FakeInvScreen.screenName)&& infoItem.type == game.passTrash.currentTypeToAdd){
                         addToCook.setVisible(true);
                         //System.out.println("they can cook this!");
                     }
@@ -636,7 +644,7 @@ public class UI {
                         addToCook.setVisible(false);
                         //System.out.println("they can't cook this!");
                     }
-                    if (game.currentScreen.equals(FakeInvScreen.screenName)&& PassTrash.currentTypeToAdd == PassTrash.allFoodTypes) {
+                    if (game.currentScreen.equals(FakeInvScreen.screenName)&& game.passTrash.currentTypeToAdd == game.passTrash.allFoodTypes) {
                         //Brett add the question mark catch here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         //uh I may have already added it right here
                         addToCook.setVisible(true);

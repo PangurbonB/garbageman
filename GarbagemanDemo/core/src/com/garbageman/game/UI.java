@@ -644,7 +644,7 @@ public class UI {
                         addToCook.setVisible(false);
                         //System.out.println("they can't cook this!");
                     }
-                    if (game.currentScreen.equals(FakeInvScreen.screenName)&& game.passTrash.currentTypeToAdd == game.passTrash.allFoodTypes) {
+                    if (game.currentScreen.equals(FakeInvScreen.screenName)&& game.passTrash.currentTypeToAdd == game.passTrash.ALLFOODTYPES) {
                         //Brett add the question mark catch here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         //uh I may have already added it right here
                         addToCook.setVisible(true);

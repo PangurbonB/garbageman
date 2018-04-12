@@ -9,21 +9,25 @@ import java.util.ArrayList;
  */
 
 public class PassTrash {
-    public ArrayList<Trash> currentCooking = new ArrayList<Trash>();
+    public Trash[] currentCooking = new Trash[8];
     public Trash currentTrashCooking;
     public int currentTypeToAdd = -20;
-    public static int allFoodTypes = 1200;
+    public final static int ALLFOODTYPES = 1200;
+    public int selectedIndex = -1;
     Garbageman game;
 
     public PassTrash(Garbageman game){
         this.game = game;
     }
 
-    public void addTrash(int index){
-        if (game.backpack.contents.size()< index) {
-            Trash item = game.backpack.contents.get(index);
-            currentCooking.add(item);
-            game.backpack.remove(index);
+    public void addTrash(int indexBackpack){
+        if (game.backpack.contents.size()< indexBackpack) {
+            Trash item = game.backpack.contents.get(indexBackpack);
+            currentCooking[selectedIndex] = item;
+            game.backpack.remove(indexBackpack);
+        }
+        for (int i = 0; i < currentCooking.length; i++) {
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + currentCooking[i]);
         }
     }
 
@@ -31,11 +35,11 @@ public class PassTrash {
         return true;
     }
 
-    public void removeTrash(int index){
-        if (currentCooking.size()< index) {
-            Trash item = currentCooking.get(index);
+    public void removeTrash(int indexToAdd){
+        if (currentCooking.length < indexToAdd) {
+            Trash item = currentCooking[indexToAdd];
             game.backpack.add(item);
-            currentCooking.remove(index);
+            currentCooking[indexToAdd] = null;
         }
     }
 }

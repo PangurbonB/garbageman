@@ -254,6 +254,7 @@ public class CraftingScreen implements Screen{
                     System.out.println();
                     System.out.println("fugg");
                     game.passTrash.currentTypeToAdd = trashes.get(k).type;
+                    game.passTrash.selectedIndex = k;
                     game.setScreen(new FakeInvScreen(game, trashes.get(k)));
                     trashes.get(k).setSelectedInInv(true);
 

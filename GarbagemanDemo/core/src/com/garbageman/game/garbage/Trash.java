@@ -21,7 +21,7 @@ public class Trash extends Image{
     public static final int SAUCE = 6;
     public static final int ANYTHING = 7;
     public static final int NONE = -1;
-    public static int ALLFOODTYPES = PassTrash.allFoodTypes;
+    public static int ALLFOODTYPES = PassTrash.ALLFOODTYPES;
 
     //Rarity values
     public static final int COMMON = 0;

@@ -41,8 +41,8 @@ public class Trash extends Image{
     public String fileType = ".png";
     public String img = "error";
     public String desc = "Item is missing description";
-    public String desc2 = "2";
-    public String desc3 = "3";
+    public String desc2 = "";
+    public String desc3 = "";
     public int x,y = 0;
     public int width,height = 32;
     public int type = UNUSABLE;

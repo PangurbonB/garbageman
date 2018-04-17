@@ -470,7 +470,7 @@ public class Trashcan implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.O) && !consoleOpen) {
 
-            game.setScreen(new CraftingScreen(game));
+            game.setScreen(new CookingScreen(game));
         }
 
         /*Console controls*/

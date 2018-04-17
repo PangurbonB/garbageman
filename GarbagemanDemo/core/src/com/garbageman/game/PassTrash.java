@@ -21,13 +21,21 @@ public class PassTrash {
     }
 
     public void addTrash(int indexBackpack){
-        if (game.backpack.contents.size()< indexBackpack) {
+        System.out.println("INDEX BACK " +indexBackpack);
+        if (game.backpack.contents.size() > indexBackpack) {
             Trash item = game.backpack.contents.get(indexBackpack);
             currentCooking[selectedIndex] = item;
             game.backpack.remove(indexBackpack);
+            System.out.println("!!!!!!!CHECK: "+indexBackpack+" ;; "+ item.name);
         }
+
         for (int i = 0; i < currentCooking.length; i++) {
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + currentCooking[i]);
+            try {
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + currentCooking[i].name);
+            }
+            catch (NullPointerException e){
+
+            }
         }
     }
 

@@ -61,7 +61,7 @@ import java.util.Random;
  * Created by bzonick5979 on 2/5/2018.
  */
 
-public class CraftingScreen implements Screen{
+public class CookingScreen implements Screen{
 
     Image background = new Image(new Texture("assets/Screens/craftingScreen2.png"));
     Stage stage = new Stage();
@@ -91,7 +91,7 @@ public class CraftingScreen implements Screen{
 
 
 
-    public CraftingScreen(Garbageman game){
+    public CookingScreen(Garbageman game){
         this.game = game;
         foodItems = game.foodItems;
         for (int i = 0; i < foodItems.size(); i++) {

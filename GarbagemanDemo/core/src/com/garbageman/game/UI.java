@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.garbage.Trash;
-import com.garbageman.game.screens.CraftingScreen;
+import com.garbageman.game.screens.CookingScreen;
 import com.garbageman.game.screens.FakeInvScreen;
 import com.garbageman.game.screens.MainMenuScreen;
 import com.garbageman.game.screens.Trashcan;
@@ -177,7 +177,7 @@ public class UI {
 
     private void setInvVis(boolean val, boolean getInfoFrame){//set the items in the inventory gui to show or not show; can also be used to set visibility of infoFrame
         ArrayList<Actor> check = null;
-        if (getInfoFrame == false){
+        if (!getInfoFrame){
             check = inv;
             invInfo.setVisible(false);
         }
@@ -255,7 +255,10 @@ public class UI {
                 game.passTrash.addTrash(infoItemIndex);
                 infoItem = null;
                 infoItemIndex = -2;
-                game.setScreen(new CraftingScreen(game));
+                game.setScreen(new CookingScreen(game));
+                showInfo = false;
+                infoItem = null;
+                currentDown = null;
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -282,12 +285,14 @@ public class UI {
         //createLabels();
         upInv();
 
-        if (game.currentScreen.equals(Trashcan.screenName) || game.currentScreen.equals(CraftingScreen.screenName))
+        if (game.currentScreen.equals(Trashcan.screenName) || game.currentScreen.equals(CookingScreen.screenName))
             showInv = false;
 
     }
 
     public void upInv(){//update the inventory display when an item is changed
+        showInfo = false;
+        infoItem = null;
         int size = 128;
         int startX = 260;
         int yPos = game.window_height-290;
@@ -479,9 +484,10 @@ public class UI {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     //System.out.println("CLIEKED + " + checkCurrentScreen());
                      if (screenName.equals(FakeInvScreen.screenName)){
-                         game.setScreen(new CraftingScreen(game));
+                         game.setScreen(new CookingScreen(game));
                          showInv = false;
                          showInfo = false;
+                         infoItem = null;
                     }
                     if (!screenName.equals(trashcanScreenName)) {
                         showInv = !showInv;
@@ -543,8 +549,8 @@ public class UI {
             moneyText.setColor(Color.BLACK);
         }
 
-        if (showInv == true && !game.currentScreen.equals(CraftingScreen.screenName)){
-            if (!game.currentScreen.equals(CraftingScreen.screenName)) {
+        if (showInv == true && !game.currentScreen.equals(CookingScreen.screenName)){
+            if (!game.currentScreen.equals(CookingScreen.screenName)) {
                 if (infoLabels.size() == 0 && showInfo) {
                     createLabels();
                     System.out.println("LABELS MADE!!!!");
@@ -570,7 +576,7 @@ public class UI {
             if (!game.backpack.contents.equals(curInv))
                 upInv();
             setInvVis(true, false);
-            if (game.currentScreen.equals(CraftingScreen.screenName))
+            if (game.currentScreen.equals(CookingScreen.screenName))
                 invButton.setVisible(false);
             else
                 invButton.setVisible(true);
@@ -578,7 +584,7 @@ public class UI {
             if (game.currentScreen.equals(FakeInvScreen.screenName))
                 invButton.getLabel().setText("Cancel");
             //System.out.println("curInfoList: "+curInfoList.size());
-            if (showInfo && curInfoList.size()== 4){
+            if (showInfo && curInfoList.size()== 4 && infoItem != null){
                 setInvVis(true, true);
 
                 //System.out.println("INFO_LABELS: "+infoLabels.size());

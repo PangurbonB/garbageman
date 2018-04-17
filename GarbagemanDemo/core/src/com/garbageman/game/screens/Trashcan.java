@@ -106,13 +106,9 @@ public class Trashcan implements Screen {
 
         Float[] currLocs = bglocs.get(currBg);
         Random rand = new Random();
-        //System.out.println(currLocs[3]);
         for (int i = 0; i < 30; i++) {
-            //System.out.println(stage.getHeight());
             int currX = (rand.nextInt(currLocs[2].intValue() - currLocs[0].intValue()) + currLocs[0].intValue());
             int currY = (int) stage.getHeight() - (rand.nextInt(currLocs[3].intValue() - currLocs[1].intValue()) + currLocs[1].intValue());
-            //System.out.println("currX: " + currX);
-            //System.out.println("currY: " + currY + "\n");
         }
 
         //Stuff to make this work with two inputprocessors
@@ -248,7 +244,7 @@ public class Trashcan implements Screen {
     public void add(String[] cmds) {
         try {
             makeSoftGarbage(cmds[1]);
-            System.out.println("gotthere");
+            //System.out.println("gotthere");
         }
         catch (GdxRuntimeException e){
             System.out.println("Missing item name for spawn");

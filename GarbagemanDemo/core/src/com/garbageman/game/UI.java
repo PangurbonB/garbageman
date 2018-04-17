@@ -118,7 +118,7 @@ public class UI {
 
     public void openTestThingy(boolean onOff){
         BLUE_SQUARE.setVisible(onOff);
-        System.out.println("IT CHANGED: "+onOff);
+        //System.out.println("IT CHANGED: "+onOff);
     }
 
     private void updateRep(int len, double rep){//update the reputation bar

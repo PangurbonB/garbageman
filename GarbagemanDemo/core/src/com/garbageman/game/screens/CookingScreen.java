@@ -256,9 +256,11 @@ public class CookingScreen implements Screen{
                 trashes.get(i).setY(stage.getHeight() - craftingLocs[0][1] - 65);
                 trashes.get(i).toFront();
             }
+            System.out.println(trashes.get(i).selected);
         }
         //out.println("TSIZE:  "+trashes.size());
         for (int i = 0; i < trashes.size(); i++) {
+            allSelected = allSelected(trashes);
             final int k = i;
             trashes.get(i).addListener(new InputListener(){
                 @Override
@@ -267,7 +269,7 @@ public class CookingScreen implements Screen{
                     game.passTrash.selectedIndex = k;
                     game.setScreen(new FakeInvScreen(game, trashes.get(k)));
                     trashes.get(k).setSelectedInInv(true);
-                    allSelected = allSelected(trashes);
+
                     trashes.get(k).setImg();
                     return super.touchDown(event, x, y, pointer, button);
                 }
@@ -437,8 +439,8 @@ public class CookingScreen implements Screen{
             TextureRegionDrawable tt = new TextureRegionDrawable();
             t.setRegion(0,0,32,32);
             tt.setRegion(t);
-            System.out.println("?????????????????????????????????????????????????????????????????????????????????????????????");
             input.setDrawable(tt);
+            allSelected = false;
         }
 
         Gdx.input.setInputProcessor(stage);
@@ -459,7 +461,7 @@ public class CookingScreen implements Screen{
 
     private boolean allSelected(ArrayList ar){
         for (int i = 0; i < 3; i++) {
-            if (!(((Trash) ar.get(i)).getSelectedInInv())){
+            if (!(((Trash) ar.get(i)).selected)){
                 return false;
             }
         }

@@ -7,7 +7,7 @@ package com.garbageman.game.garbage;
 public class RazorBladeApple extends Trash {
 
     {
-        type = SAUCE;
+        type = VEGGIE;
         rarity = VRARE;
         name = "Razor Blade Apple";
         img = "razorBladeApple";

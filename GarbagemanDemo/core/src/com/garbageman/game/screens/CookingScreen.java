@@ -217,6 +217,7 @@ public class CookingScreen implements Screen{
             try{
                 crow = PassTrash.currentCooking[i];
                 crow.setName(Integer.toString(i));
+                crow.selected = true;
             }
             catch (NullPointerException e){
                 System.out.println("Nully Boy");
@@ -265,7 +266,6 @@ public class CookingScreen implements Screen{
                     game.passTrash.selectedIndex = k;
                     game.setScreen(new FakeInvScreen(game, trashes.get(k)));
                     trashes.get(k).setSelectedInInv(true);
-
                     allSelected = allSelected(trashes);
                     trashes.get(k).setImg();
                     return super.touchDown(event, x, y, pointer, button);
@@ -436,8 +436,8 @@ public class CookingScreen implements Screen{
             TextureRegionDrawable tt = new TextureRegionDrawable();
             t.setRegion(0,0,32,32);
             tt.setRegion(t);
+            System.out.println("?????????????????????????????????????????????????????????????????????????????????????????????");
             input.setDrawable(tt);
-            allSelected = false;
         }
 
         Gdx.input.setInputProcessor(stage);

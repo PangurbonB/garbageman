@@ -123,6 +123,7 @@ public class CookingScreen implements Screen{
         fakeMenu.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.passTrash.dumpTrash();
                 game.setScreen(new MainMenuScreen(game));
                 return super.touchDown(event, x, y, pointer, button);
             }

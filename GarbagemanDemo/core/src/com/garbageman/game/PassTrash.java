@@ -58,6 +58,17 @@ public class PassTrash {
         return found;
     }
 
+    public void dumpTrash(){
+        for (int x = 0; x < currentCooking.length; x++){
+            try{
+                currentCooking[x]= null;
+            }
+            catch (NullPointerException e){
+
+            }
+        }
+    }
+
     public void removeTrash(int indexToAdd){
         if (currentCooking.length < indexToAdd) {
             Trash item = currentCooking[indexToAdd];

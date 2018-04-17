@@ -1,5 +1,6 @@
 package com.garbageman.game;
 
+import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.garbage.Trash;
 
 import java.util.ArrayList;
@@ -9,8 +10,9 @@ import java.util.ArrayList;
  */
 
 public class PassTrash {
-    public Trash[] currentCooking = new Trash[8];
+    public static Trash[] currentCooking = new Trash[8];
     public Trash currentTrashCooking;
+    public static int place = 0;
     public int currentTypeToAdd = -20;
     public final static int ALLFOODTYPES = 1200;
     public int selectedIndex = -1;

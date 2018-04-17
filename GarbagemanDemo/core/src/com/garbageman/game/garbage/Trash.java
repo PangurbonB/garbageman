@@ -64,6 +64,7 @@ public class Trash extends Image{
     public static final double BOUGHT_MULTIPLIER = 1.5;
     public static final double BEYOND_COMPREHENSION_MULTIPLIER = 5;
 
+    public static boolean IS_TYPE_NONE = false;
 
     public boolean selectedInInv = false;
 
@@ -146,6 +147,10 @@ public class Trash extends Image{
                 break;
         }
         return str;
+    }
+
+    public void setStateNone(){
+        this.type = NONE;
     }
 
     public double getMultiplier(){

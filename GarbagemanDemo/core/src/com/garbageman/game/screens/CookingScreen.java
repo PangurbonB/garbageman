@@ -84,9 +84,9 @@ public class CookingScreen implements Screen{
 
     public static String screenName = "Crafting";
     private TextButton fakeMenu, fakeInventory;
-    public static int place = 0;
     Skin sk = new Skin();
     Skin s = new Skin();
+
 
 
 
@@ -131,17 +131,18 @@ public class CookingScreen implements Screen{
 
 
         try {
-            input = (CookedFood) Class.forName(foodItems.get(0).getName()).newInstance();
+            input = (CookedFood) Class.forName(foodItems.get(PassTrash.place).getName()).newInstance();
         } catch (InstantiationException e) {
-            input = new Hotdog();
+            input = new Burrito();
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-            input = new Hotdog();
+            input = new Burrito();
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            input = new Hotdog();
+            input = new Burrito();
             e.printStackTrace();
         }
+
         sk.add("name", new Texture("assets/Food/" + input.name.toLowerCase() + ".png"));
         sk.add("ghost", new Texture("assets/Food/"+ input.name.toLowerCase()+ "Ghost.png"));
 
@@ -153,7 +154,6 @@ public class CookingScreen implements Screen{
         input.setX(stage.getWidth()/2 - input.getWidth() + 40);
         input.setY(stage.getHeight()/2 - input.getHeight() + 35);
         input.setVisible(true);
-        place = 0;
         input.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -183,8 +183,7 @@ public class CookingScreen implements Screen{
         craftingLocs[5] = new int[]{457, 603};
         craftingLocs[6] = new int[]{260, 540};
         craftingLocs[7] = new int[]{197, 350};
-
-        drawNewRecipe(input);
+        changed = true;
 
 
 
@@ -209,17 +208,30 @@ public class CookingScreen implements Screen{
         trashes.clear();
 
         Random rand = new Random();
+
         for (int i = 0; i < craftingLocs.length; i++) {
             final Trashcan tr = new Trashcan(game);
             int x = rand.nextInt(game.garbageItems.size());
-
             Actor[] list = makeGhosts(f);
-            Trash crow = (Trash) list[i];
-
+            Trash crow;
+            try{
+                crow = PassTrash.currentCooking[i];
+                crow.setName(Integer.toString(i));
+            }
+            catch (NullPointerException e){
+                System.out.println("Nully Boy");
+                crow = (Trash) list[i];
+            }
             crow.setName(Integer.toString(i));
+
             trashes.add(crow);
             stage.addActor(trashes.get(i));
-            //trashes.get(i).setVisible(true);
+            if(trashes.get(i).type != Trash.NONE) {
+                trashes.get(i).setVisible(true);
+            }
+            else {
+                trashes.get(i).setVisible(false);
+            }
             trashes.get(i).setSize(96, 96);
             trashes.get(i).toFront();
             final int k = i;
@@ -313,6 +325,7 @@ public class CookingScreen implements Screen{
                     newT = new MysteryEyeball();
                     newT.setImg("CLEAR");
                     newT.setVisible(false);
+                    newT.setStateNone();
                     newT.toBack();
                     break;
                 case Trash.MEAT:
@@ -365,19 +378,22 @@ public class CookingScreen implements Screen{
 
         if (changed){
             drawNewRecipe(input);
+
+
+
             changed ^= true;
         }
 
 
         if (input.name.equals("increment")){
             changed = true;
-            place++;
-            int loc = place;
+            PassTrash.place++;
+            int loc = PassTrash.place;
 
             if (loc >= foodItems.size()) {
-                place = 0;
+                PassTrash.place = 0;
             }
-            loc = place;
+            loc = PassTrash.place;
             for (int i = 0; i < foodItems.size(); i++) {
                 System.out.println(foodItems.get(i).getName());
             }

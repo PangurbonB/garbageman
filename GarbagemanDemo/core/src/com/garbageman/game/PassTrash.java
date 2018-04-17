@@ -39,8 +39,23 @@ public class PassTrash {
         }
     }
 
-    public boolean findTrash(){
-        return true;
+    public boolean findTrash(Trash item){
+        boolean found = false;
+        System.out.println("Which item to find? "+item.name);
+        for (int x = 0; x < currentCooking.length; x++) {
+            try {
+                Trash check = currentCooking[x];
+                if (check.equals(item)) {
+                    found = true;
+                    break;
+                }
+            }
+            catch (NullPointerException e){
+
+            }
+        }
+        System.out.println("FIND TRASH2: "+found);
+        return found;
     }
 
     public void removeTrash(int indexToAdd){

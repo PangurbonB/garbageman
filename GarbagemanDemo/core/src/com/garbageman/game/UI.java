@@ -256,6 +256,9 @@ public class UI {
                 infoItem = null;
                 infoItemIndex = -2;
                 game.setScreen(new CraftingScreen(game));
+                showInfo = false;
+                infoItem = null;
+                currentDown = null;
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -288,6 +291,8 @@ public class UI {
     }
 
     public void upInv(){//update the inventory display when an item is changed
+        showInfo = false;
+        infoItem = null;
         int size = 128;
         int startX = 260;
         int yPos = game.window_height-290;
@@ -482,6 +487,7 @@ public class UI {
                          game.setScreen(new CraftingScreen(game));
                          showInv = false;
                          showInfo = false;
+                         infoItem = null;
                     }
                     if (!screenName.equals(trashcanScreenName)) {
                         showInv = !showInv;
@@ -578,7 +584,7 @@ public class UI {
             if (game.currentScreen.equals(FakeInvScreen.screenName))
                 invButton.getLabel().setText("Cancel");
             //System.out.println("curInfoList: "+curInfoList.size());
-            if (showInfo && curInfoList.size()== 4){
+            if (showInfo && curInfoList.size()== 4 && infoItem != null){
                 setInvVis(true, true);
 
                 //System.out.println("INFO_LABELS: "+infoLabels.size());

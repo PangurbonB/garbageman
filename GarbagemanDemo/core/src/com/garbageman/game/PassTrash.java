@@ -41,7 +41,6 @@ public class PassTrash {
 
     public boolean findTrash(Trash item){
         boolean found = false;
-        System.out.println("Which item to find? "+item.name);
         for (int x = 0; x < currentCooking.length; x++) {
             try {
                 Trash check = currentCooking[x];
@@ -54,7 +53,6 @@ public class PassTrash {
 
             }
         }
-        System.out.println("FIND TRASH2: "+found);
         return found;
     }
 

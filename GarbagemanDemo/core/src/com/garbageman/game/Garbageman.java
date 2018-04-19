@@ -32,7 +32,7 @@ public class Garbageman extends Game {
 	public Backpack backpack = new Backpack();
 	public UI ui = new UI();
     private boolean SAFE_MODE = false;
-	private boolean autoGenInvItems = true;
+	private boolean autoGenInvItems = false;
 	private int numOfGenItems = 11;
 
 	public PassTrash passTrash = new PassTrash(this);

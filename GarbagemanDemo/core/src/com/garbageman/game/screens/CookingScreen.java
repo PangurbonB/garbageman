@@ -59,6 +59,8 @@ public class CookingScreen implements Screen{
 
     public static String screenName = "Crafting";
     private TextButton fakeMenu, fakeInventory;
+    private TextButton cookButton;
+    private Actor cookBackground;
     Skin sk = new Skin();
     Skin s = new Skin();
 
@@ -106,6 +108,27 @@ public class CookingScreen implements Screen{
         //System.out.println("POSITION:: "+fakeMenu.getX());
 
 
+
+        TextButton.TextButtonStyle cookStyle = new TextButton.TextButtonStyle();
+        cookStyle.font = Garbageman.makeFont(20);
+        cookStyle.fontColor = Color.BLACK;
+        cookButton = new TextButton("Cook Burrito", cookStyle);
+        cookButton.getLabel().setWrap(true);
+        cookButton.setSize(200, 75);
+        cookButton.setPosition((stage.getWidth()-cookButton.getWidth())/2, 50);
+        cookBackground = game.ui.makeRect((int)cookButton.getX(), (int)cookButton.getY(), (int)cookButton.getWidth(), (int)cookButton.getHeight(), Color.LIME, false);
+        cookBackground.toFront();
+        cookButton.toFront();
+        stage.addActor(cookBackground);
+        stage.addActor(cookButton);
+        cookButton.setVisible(false);
+        cookButton.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.passTrash.cookFood();
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
         try {
             input = (CookedFood) Class.forName(foodItems.get(PassTrash.place).getName()).newInstance();
         } catch (InstantiationException e) {
@@ -135,6 +158,7 @@ public class CookingScreen implements Screen{
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 input.setDrawable(sk, "name");
                 input.name = "increment";
+                game.passTrash.dumpTrash();
                 return super.touchDown(event, x, y, pointer, button);
         }
         });
@@ -365,6 +389,7 @@ public class CookingScreen implements Screen{
 
 
         if (input.name.equals("increment")){
+            allSelected = false;
             changed = true;
             PassTrash.place++;
             int loc = PassTrash.place;
@@ -397,6 +422,7 @@ public class CookingScreen implements Screen{
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         input.setDrawable(sk, "name");
                         input.name = "increment";
+                        game.passTrash.dumpTrash();
                         return super.touchDown(event, x, y, pointer, button);
                     }
                 });
@@ -416,7 +442,13 @@ public class CookingScreen implements Screen{
             t.setRegion(0,0,32,32);
             tt.setRegion(t);
             input.setDrawable(tt);
-            allSelected = false;
+
+            cookBackground.setVisible(true);
+            cookButton.setVisible(true);
+        }
+        else {
+            cookBackground.setVisible(false);
+            cookButton.setVisible(false);
         }
 
         Gdx.input.setInputProcessor(stage);
@@ -430,6 +462,11 @@ public class CookingScreen implements Screen{
         }
 
        Gdx.input.setInputProcessor(stage);
+
+        cookBackground.toFront();
+        cookButton.toFront();
+
+
 
         game.ui.update();
         stage.draw();

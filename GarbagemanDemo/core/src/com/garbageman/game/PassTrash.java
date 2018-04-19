@@ -61,6 +61,7 @@ public class PassTrash {
     public void dumpTrash(){
         for (int x = 0; x < currentCooking.length; x++){
             try{
+                currentCooking[x].setVisible(false);
                 currentCooking[x]= null;
             }
             catch (NullPointerException e){
@@ -75,5 +76,10 @@ public class PassTrash {
             game.backpack.add(item);
             currentCooking[indexToAdd] = null;
         }
+    }
+
+    public void cookFood(){
+        System.out.println("IT GOT COOKED");
+        dumpTrash();
     }
 }

@@ -2,12 +2,11 @@ package com.garbageman.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.garbageman.game.customers.Customer;
-import com.garbageman.game.customers.Justin;
+import com.garbageman.game.customers.Duy;
 import com.garbageman.game.garbage.CrowWithOddEyeInfection;
 import com.garbageman.game.garbage.Trash;
 
@@ -98,7 +97,7 @@ public class SpriteSheetDivider {
         }
         catch (GdxRuntimeException e){
             e.printStackTrace();
-            Justin j = new Justin();
+            Duy j = new Duy();
             temp.setTexture(new Texture(j.fileLocation + "customer0" + j.fileType));
         }
         try {

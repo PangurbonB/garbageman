@@ -8,7 +8,7 @@ import com.garbageman.game.cooked.Pizza;
 import com.garbageman.game.cooked.Sandwich;
 import com.garbageman.game.cooked.Soup;
 import com.garbageman.game.cooked.Sushi;
-import com.garbageman.game.customers.Justin;
+import com.garbageman.game.customers.Duy;
 import com.garbageman.game.garbage.AllTheBadHalloweenCandy;
 import com.garbageman.game.garbage.AppleCore;
 import com.garbageman.game.garbage.BagOfFlour;
@@ -181,7 +181,7 @@ public final class ListAccess {
     ));
 
     public static ArrayList<Class> customers = new ArrayList<Class>(Arrays.asList(
-            Justin.class
+            Duy.class
     ));
 
     public static ArrayList<Class> foodItems = new ArrayList<Class>(Arrays.asList(

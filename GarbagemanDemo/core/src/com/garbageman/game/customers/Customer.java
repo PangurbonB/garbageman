@@ -23,7 +23,7 @@ public class Customer extends Image {
     public static int REALLY_PICKY = 85;//85 to 100
     public static int KINDOF_PICKY = 50;//50 to 85
     public static int NOT_PICKY = 20;//20 to 50
-    public static int DOESNT_CARE = LOCAL_MIN+1;//0 to 20, will actually just eat anything (Justin oh no <3)
+    public static int DOESNT_CARE = LOCAL_MIN+1;//0 to 20, will actually just eat anything (Duy oh no <3)
 
 
 
@@ -46,6 +46,11 @@ public class Customer extends Image {
     protected static final float INCREMENT = 1, REPS = 5;
     public float posX = DEFAULT_POS, posY = DEFAULT_POS;
 
+    int currentCycleStage = 0;
+    int totalCycleStages = 60;
+    int secondImgThresh = totalCycleStages/4;
+    int thirdImgThresh = totalCycleStages/2;
+    int finalImgThresh = secondImgThresh*3;
 
     public void choosePicky(){
         Random rand = new Random();
@@ -61,7 +66,7 @@ public class Customer extends Image {
         this.setDrawable(SpriteDivide.divideCustomer(this, this.fileName, indexX, indexY));
     }
 
-    public void setOverheadPos(){
+    protected void setOverheadPos(){
         if (!this.overheadName.equals(null)){
             this.overheadName.setSize(this.getWidth(), this.getHeight()/4);
             this.overheadName.setPosition(this.getX(), this.getY()+this.getHeight());
@@ -99,7 +104,7 @@ public class Customer extends Image {
        Random rand = new Random();
        Customer cc = null;
        try {
-           cc = (Customer) Class.forName(Garbageman.customers.get(rand.nextInt(Garbageman.customers.size())+0).getName()).newInstance();
+           cc = (Customer) Class.forName(Garbageman.customers.get(rand.nextInt(Garbageman.customers.size())).getName()).newInstance();
        } catch (InstantiationException e) {
            e.printStackTrace();
        } catch (IllegalAccessException e) {
@@ -107,7 +112,7 @@ public class Customer extends Image {
        } catch (ClassNotFoundException e) {
            e.printStackTrace();
        }
-        if (!cc.equals(null)){
+        if (cc != null){
             cc.choosePicky();
             cc.setImg();
             cc.setSize(spriteSize, spriteSize);
@@ -122,7 +127,7 @@ public class Customer extends Image {
             stage.addActor(cc.overheadName);
 
         }
-        else if (cc.equals(null)){
+        else if (cc != null){
             System.out.println("Unable to make customer");
         }
        return cc;
@@ -131,10 +136,9 @@ public class Customer extends Image {
    public void walkToPoint(float xPos, float yPos){
        this.posX = xPos;
        this.posY = yPos;
-       this.updateOnRender();
    }
 
-   public void updateOnRender(){
+   protected void updateOnRender(){
        for (int i = 0; i <= REPS; i++) {
            if (this.getX() != this.posX) {
                if (this.posX > this.getX()) {
@@ -151,6 +155,20 @@ public class Customer extends Image {
                }
            }
            this.setOverheadPos();
+       }
+       this.currentCycleStage += 1;
+       if(this.currentCycleStage > 15 && this.currentCycleStage <= 30){
+           this.setImg(1,0);
+       }
+       else if(this.currentCycleStage > 30 && this.currentCycleStage <= 45){
+           this.setImg(2,0);
+       }
+       else if(this.currentCycleStage > 45 && this.currentCycleStage <= 60){
+           this.setImg(3,0);
+       }
+       if (this.currentCycleStage > 60){
+           this.currentCycleStage = 0;
+           this.setImg(0,0);
        }
    }
 

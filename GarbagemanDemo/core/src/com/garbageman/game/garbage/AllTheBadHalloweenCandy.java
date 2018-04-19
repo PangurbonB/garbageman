@@ -11,7 +11,7 @@ public class AllTheBadHalloweenCandy extends Trash {
         rarity = UNC;
         name = "All The Bad Halloween Candy";
         img = "theBadHalloweenCandy";
-        desc = "Apples, rock hard gummies, toothpaste, you name it.";
+        desc = "Definitely a filler, since none of this is sweet";
     }
 
 }

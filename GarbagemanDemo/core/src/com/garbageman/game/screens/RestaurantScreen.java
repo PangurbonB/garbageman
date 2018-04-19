@@ -13,14 +13,16 @@ import com.garbageman.game.customers.Customer;
  * Created by dpearson6225 on 3/2/2018.
  */
 
-public class RestaurantMain implements Screen {
+public class RestaurantScreen implements Screen {
     Garbageman game;
-    String screenName = "RestaurantMain";
+    String screenName = "RestaurantScreen";
     Stage stage = new Stage();
     Image background;
     Customer test = null, test2 = null;
 
-    public RestaurantMain(Garbageman game){
+
+
+    public RestaurantScreen(Garbageman game){
         this.game = game;
     }
 

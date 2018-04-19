@@ -38,7 +38,7 @@ public class Trashcan implements Screen {
         //Basic Stuffs
             static Garbageman game;
             SpriteBatch batch;
-            Stage stage = new Stage();
+            private Stage stage = new Stage();
             private UI ui;
             public static String screenName = "Trashcan";//this is for the UI <3 Dana
             BitmapFont font = new BitmapFont();
@@ -47,41 +47,41 @@ public class Trashcan implements Screen {
         //Backpack Stuffs
             Backpack backpack;
             //Distance from backpack to open it (in pixels)
-            final int backpackOpenProc = 200;
-            Image backpackImg = new Image();
+            private final int backpackOpenProc = 200;
+            private Image backpackImg = new Image();
 
         //Console Stuffs
-            boolean consoleOpen = false;
+            private boolean consoleOpen = false;
             Label Ltext;
             Label.LabelStyle textStyle;
-            int consoleIndex = 0;
-            Skin txtSkin = new Skin(Gdx.files.internal("uiskin.json"));
-            TextField text = new TextField("", txtSkin);
+            private int consoleIndex = 0;
+            private Skin txtSkin = new Skin(Gdx.files.internal("uiskin.json"));
+            private TextField text = new TextField("", txtSkin);
 
         //Background/Screen Stuffs
-            String currBg = "dumpster1";
-            Image background = new Image(new Texture("assets/Screens/dumpster1.png"));
+            private String currBg = "dumpster1";
+            private Image background = new Image(new Texture("assets/Screens/dumpster1.png"));
 
         //Interaction Stuffs
-            boolean wasTouched = false;
-            boolean touchingBug = false;
-            Trash currentObject = null;
-            int countFrame = 0;
-            float fric = .9f;
-            float xDiff = 0;
-            float yDiff = 0;
+            private boolean wasTouched = false;
+            private boolean touchingBug = false;
+            private Trash currentObject = null;
+            private int countFrame = 0;
+            private float fric = .9f;
+            private float xDiff = 0;
+            private float yDiff = 0;
 
 
 
         //Array/Arraylist/Map Stuffs
-            Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
-            Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
-            Map<String, Float[]> bglocs = Collections.synchronizedMap(new HashMap());
+            private Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
+            private Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
+            private Map<String, Float[]> bglocs = Collections.synchronizedMap(new HashMap());
             ArrayList<Trash> imgs = new ArrayList();
-            ArrayList<String> consoleLog = new ArrayList<String>();
+            private ArrayList<String> consoleLog = new ArrayList<String>();
 
         //Filled Array Stuffs
-            String[] helpList = {
+            private String[] helpList = {
                     "Commands (items in parentheses are optional)",
                     "",
                     "add [itemname] ([x] [y])               -- Adds a new item of trash to the game",

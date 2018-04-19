@@ -7,7 +7,7 @@ package com.garbageman.game.garbage;
 public class WodnerBread extends Trash {
 
     {
-        type = WRAP;
+        type = FILLER;
         rarity = RARE;
         name = "Wodner Bread";
         img = "wodnerBread";

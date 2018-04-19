@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by bzonick5979 on 2/5/2018.
  */
 
-public class CookedFood extends Image{
+public class CookedFood extends Trash{
 
     protected Trash t = new Trash();
     public String name = "default";
@@ -18,4 +18,9 @@ public class CookedFood extends Image{
     public String desc = "No description yet";
     public int[] reqTypes = {-1, -1, -1};
     public int[] optionalTypes = {-1, -1, -1, -1, -1};
+
+    public final int baseSellPrice = 5;
+
+    public int sellValue = baseSellPrice;
+
 }

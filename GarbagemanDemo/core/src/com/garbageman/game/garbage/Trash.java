@@ -10,6 +10,7 @@ import com.garbageman.game.SpriteSheetDivider;
 
 public class Trash extends Image{
 
+    public boolean isGhost = false;
 
     //Ingredient types
     public static final int UNUSABLE = 0;
@@ -64,6 +65,9 @@ public class Trash extends Image{
     public static final double BOUGHT_MULTIPLIER = 1.5;
     public static final double BEYOND_COMPREHENSION_MULTIPLIER = 5;
 
+    public final double baseSellPrice = 1;
+    public double sellPrice = 1;
+
     public static boolean IS_TYPE_NONE = false;
 
     public boolean selectedInInv = false;
@@ -78,6 +82,14 @@ public class Trash extends Image{
     public void setImg(String name){
         SpriteSheetDivider sp = new SpriteSheetDivider();
         this.setDrawable(sp.divideGarbage(this, name));
+    }
+
+    public void setIsGhost(boolean ghost){
+        isGhost = ghost;
+    }
+
+    public boolean getIsGhost(){
+        return isGhost;
     }
 
     public void setSelectedInInv(boolean sel){
@@ -153,7 +165,7 @@ public class Trash extends Image{
         this.type = NONE;
     }
 
-    public double getMultiplier(){
+    public double getRarityMultiplier(){
         double i = 0;
         switch (rarity){
             case 1:
@@ -179,6 +191,16 @@ public class Trash extends Image{
                 break;
         }
         return i;
+    }
+
+    public double getNastMultiplier(){
+        double base = .8;
+        double i = base + (1-base)*((MAXNAST-nast + 1)/MAXNAST);
+        return i;
+    }
+
+    public void setPrice(){
+        sellPrice = baseSellPrice * getRarityMultiplier() * getNastMultiplier();
     }
 
 }

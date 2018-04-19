@@ -1,6 +1,5 @@
 package com.garbageman.game.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -14,45 +13,21 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.PassTrash;
 import com.garbageman.game.SpriteSheetDivider;
 import com.garbageman.game.cooked.Burrito;
-import com.garbageman.game.cooked.Cake;
 import com.garbageman.game.cooked.CookedFood;
-import com.garbageman.game.cooked.Hotdog;
-import com.garbageman.game.cooked.Pizza;
-import com.garbageman.game.cooked.Sandwich;
-import com.garbageman.game.cooked.Soup;
-import com.garbageman.game.cooked.Sushi;
-import com.garbageman.game.garbage.AppleCore;
 import com.garbageman.game.garbage.BagOfSugar;
-import com.garbageman.game.garbage.BananaPeel;
 import com.garbageman.game.garbage.Bean;
 import com.garbageman.game.garbage.Bread;
 import com.garbageman.game.garbage.CrowWithOddEyeInfection;
-import com.garbageman.game.garbage.DirtyKitchenSponge;
-import com.garbageman.game.garbage.Feces;
-import com.garbageman.game.garbage.HandfulOfAnts;
-import com.garbageman.game.garbage.HomelessBeardShavings;
 import com.garbageman.game.garbage.Ketchup;
-import com.garbageman.game.garbage.Leaf;
-import com.garbageman.game.garbage.Lettuce;
-import com.garbageman.game.garbage.McdFries;
-import com.garbageman.game.garbage.McdHamburger;
 import com.garbageman.game.garbage.MysteryEyeball;
-import com.garbageman.game.garbage.OldNewspaper;
 import com.garbageman.game.garbage.Pork;
-import com.garbageman.game.garbage.RabbitFoot;
 import com.garbageman.game.garbage.Salad;
-import com.garbageman.game.garbage.Smarties;
-import com.garbageman.game.garbage.Strawberry;
-import com.garbageman.game.garbage.ToiletPaper;
 import com.garbageman.game.garbage.Trash;
-import com.garbageman.game.garbage.Vomit;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -367,6 +342,7 @@ public class CookingScreen implements Screen{
                     newT.setVisible(true);
                     break;
             }
+            newT.setIsGhost(true);
             list[i] = newT;
         }
 
@@ -466,6 +442,22 @@ public class CookingScreen implements Screen{
             }
         }
         return true;
+    }
+
+    private CookedFood assembleFood(CookedFood emptyFood, Trash[] trashes){
+
+        int generatedNast;
+        int raritySum = 0;
+        int valueAvg;
+
+        for (Trash i : trashes) {
+            if (!i.isGhost){
+                raritySum += i.getRarityMultiplier();
+            }
+        }
+
+
+        return emptyFood;
     }
 
     @Override

@@ -112,7 +112,8 @@ public class CookingScreen implements Screen{
         TextButton.TextButtonStyle cookStyle = new TextButton.TextButtonStyle();
         cookStyle.font = Garbageman.makeFont(20);
         cookStyle.fontColor = Color.BLACK;
-        cookButton = new TextButton("Cook Burrito", cookStyle);
+        cookButton = new TextButton("Cook " +input.name, cookStyle);
+
         cookButton.getLabel().setWrap(true);
         cookButton.setSize(200, 75);
         cookButton.setPosition((stage.getWidth()-cookButton.getWidth())/2, 50);
@@ -124,7 +125,8 @@ public class CookingScreen implements Screen{
         cookButton.setVisible(false);
         cookButton.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.passTrash.cookFood();
+                game.backpack.add(game.passTrash.cookFood(input, trashes));
+                drawNewRecipe(input);
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -157,7 +159,7 @@ public class CookingScreen implements Screen{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 input.setDrawable(sk, "name");
-                input.name = "increment";
+                input.increment = true;
                 game.passTrash.dumpTrash();
                 return super.touchDown(event, x, y, pointer, button);
         }
@@ -220,7 +222,7 @@ public class CookingScreen implements Screen{
                 crow.selected = true;
             }
             catch (NullPointerException e){
-                System.out.println("Nully Boy");
+                //System.out.println("Nully Boy");
                 crow = (Trash) list[i];
             }
             crow.setName(Integer.toString(i));
@@ -255,7 +257,7 @@ public class CookingScreen implements Screen{
                 trashes.get(i).setY(stage.getHeight() - craftingLocs[0][1] - 65);
                 trashes.get(i).toFront();
             }
-            System.out.println(trashes.get(i).selected);
+            //System.out.println(trashes.get(i).selected);
         }
         //out.println("TSIZE:  "+trashes.size());
         for (int i = 0; i < trashes.size(); i++) {
@@ -388,7 +390,8 @@ public class CookingScreen implements Screen{
         }
 
 
-        if (input.name.equals("increment")){
+        if (input.increment == true){
+            input.increment = false;
             allSelected = false;
             changed = true;
             PassTrash.place++;
@@ -399,12 +402,13 @@ public class CookingScreen implements Screen{
             }
             loc = PassTrash.place;
             for (int i = 0; i < foodItems.size(); i++) {
-                System.out.println(foodItems.get(i).getName());
+                //System.out.println(foodItems.get(i).getName());
             }
 
             try {
                 input.setVisible(false);
                 input = (CookedFood) Class.forName(foodItems.get(loc).getName()).newInstance();
+                cookButton.setText(input.name);
                 input.setSize(96, 96);
                 input.setX(stage.getWidth()/2 - input.getWidth() + 40);
                 input.setY(stage.getHeight()/2 - input.getHeight() + 35);
@@ -421,7 +425,7 @@ public class CookingScreen implements Screen{
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         input.setDrawable(sk, "name");
-                        input.name = "increment";
+                        input.increment = true;
                         game.passTrash.dumpTrash();
                         return super.touchDown(event, x, y, pointer, button);
                     }

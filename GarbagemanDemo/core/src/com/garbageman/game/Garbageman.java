@@ -32,7 +32,7 @@ public class Garbageman extends Game {
 	public Backpack backpack = new Backpack();
 	public UI ui = new UI();
     private boolean SAFE_MODE = false;
-	private boolean autoGenInvItems = false;
+	private boolean autoGenInvItems = true;
 	private int numOfGenItems = 11;
 
 	public PassTrash passTrash = new PassTrash(this);
@@ -68,7 +68,7 @@ public class Garbageman extends Game {
 		}
 		else
 			System.out.println("error: " + amt + " rep tried to give");
-		System.out.println("new rep " + this.reputation);
+		//System.out.println("new rep " + this.reputation);
 	}
 
 	public static BitmapFont makeFont(int size){

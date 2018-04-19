@@ -45,7 +45,7 @@ public class Backpack extends Actor{
             contents.add(item);
             backupContents.add(item);
             success = true;
-            System.out.println("Worked: "+item.img);
+            //System.out.println("Worked: "+item.img);
         }
         else{
             System.out.println(this.contents.size()+"     "+this.totalSlots);

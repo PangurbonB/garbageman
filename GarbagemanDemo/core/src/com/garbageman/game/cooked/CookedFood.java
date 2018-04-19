@@ -11,16 +11,23 @@ import java.util.ArrayList;
 
 public class CookedFood extends Trash{
 
+    {
+        name = "default";
+        desc = "A Burrito";
+    }
+
     protected Trash t = new Trash();
-    public String name = "default";
     public ArrayList<Trash> ingredients = new ArrayList<Trash>();
     public int quality = 0;
-    public String desc = "No description yet";
     public int[] reqTypes = {-1, -1, -1};
     public int[] optionalTypes = {-1, -1, -1, -1, -1};
+
+    public boolean increment = false;
 
     public final int baseSellPrice = 5;
 
     public int sellValue = baseSellPrice;
+
+    public boolean containsCrowWithOddEyeInfection = false;
 
 }

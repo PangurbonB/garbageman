@@ -344,8 +344,8 @@ public class UI {
                                             //System.out.println("CLIEDK");
                                             //new InfoFrame(game, stage, (int)localB.getX(), (int)localB.getY());
                                             //makeRect((int)localB.getX(), (int)localB.getY(), 100, 100, Color.BLUE);
-                                            System.out.println("________________________");
-                                            System.out.println("current down: " + currentDown);
+                                            //System.out.println("________________________");
+                                            //System.out.println("current down: " + currentDown);
                                         /*if (currentDown == null){
                                             //System.out.println("THIS SHOULD CLOSE THE INFO SCREEN");
                                             showInfo = false;
@@ -557,7 +557,7 @@ public class UI {
             if (!game.currentScreen.equals(CookingScreen.screenName)) {
                 if (infoLabels.size() == 0 && showInfo) {
                     createLabels();
-                    System.out.println("LABELS MADE!!!!");
+                    //System.out.println("LABELS MADE!!!!");
                     rotBarBack.setVisible(true);
                     rotBarBar.setVisible(true);
                 } else if (infoLabels.size() > 0 && showInfo) {
@@ -567,7 +567,7 @@ public class UI {
                     }
                 } else if (!showInfo) {
                     if (infoLabels.size() > 0) {
-                        System.out.println("take awy them thangs0");
+                        //System.out.println("take awy them thangs0");
                         for (int z = 0; z < infoLabels.size(); z++) {
                             infoLabels.get(z).setVisible(false);
                         }

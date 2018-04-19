@@ -1,6 +1,7 @@
 package com.garbageman.game;
 
 import com.garbageman.game.cooked.CookedFood;
+import com.garbageman.game.garbage.CrowWithOddEyeInfection;
 import com.garbageman.game.garbage.Trash;
 
 import java.util.ArrayList;
@@ -78,22 +79,33 @@ public class PassTrash {
         }
     }
 
-    public void cookFood(){
+    public CookedFood cookFood(CookedFood emptyFood, ArrayList<Trash> trashes){
         System.out.println("IT GOT COOKED");
         dumpTrash();
-    }
 
-    private CookedFood assembleFood(CookedFood emptyFood, Trash[] trashes){
+        int totalPrice = 0;
+        int nastSum = 0;
+        int totalVals = 0;
 
-        int generatedNast;
-        int raritySum = 0;
-        int valueAvg;
+        emptyFood.containsCrowWithOddEyeInfection = false;
 
         for (Trash i : trashes) {
             if (!i.isGhost){
-                raritySum += i.getRarityMultiplier();
+                i.setPrice();
+                totalPrice += i.sellPrice;
+                nastSum += i.nast;
+                totalVals++;
+
+                if (i instanceof CrowWithOddEyeInfection){
+                    emptyFood.containsCrowWithOddEyeInfection = true;
+                }
             }
         }
+
+        int nastAvg = nastSum/totalVals;
+
+        emptyFood.nast = nastAvg;
+        emptyFood.sellValue = totalPrice;
 
 
         return emptyFood;

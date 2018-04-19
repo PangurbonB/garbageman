@@ -423,11 +423,6 @@ public class Trashcan implements Screen {
         }
 
 
-        for (int i = 0; i < imgs.size(); i++) {
-            System.out.println(imgs.get(i).img+" "+imgs.get(i).getName()+" "+imgs.get(i).name);
-        }
-
-
     }
 
     @Override

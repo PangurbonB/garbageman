@@ -481,21 +481,7 @@ public class CookingScreen implements Screen{
         return true;
     }
 
-    private CookedFood assembleFood(CookedFood emptyFood, Trash[] trashes){
 
-        int generatedNast;
-        int raritySum = 0;
-        int valueAvg;
-
-        for (Trash i : trashes) {
-            if (!i.isGhost){
-                raritySum += i.getRarityMultiplier();
-            }
-        }
-
-
-        return emptyFood;
-    }
 
     @Override
     public void resize(int width, int height) {

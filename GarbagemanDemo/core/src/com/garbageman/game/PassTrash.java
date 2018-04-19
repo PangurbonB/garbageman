@@ -82,4 +82,20 @@ public class PassTrash {
         System.out.println("IT GOT COOKED");
         dumpTrash();
     }
+
+    private CookedFood assembleFood(CookedFood emptyFood, Trash[] trashes){
+
+        int generatedNast;
+        int raritySum = 0;
+        int valueAvg;
+
+        for (Trash i : trashes) {
+            if (!i.isGhost){
+                raritySum += i.getRarityMultiplier();
+            }
+        }
+
+
+        return emptyFood;
+    }
 }

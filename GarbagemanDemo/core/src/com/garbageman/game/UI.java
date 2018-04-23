@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
+import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.CookingScreen;
 import com.garbageman.game.screens.FakeInvScreen;
@@ -390,7 +391,13 @@ public class UI {
                                                 curInfoList.clear();
                                                 curInfoList.add(0, "Item: " + item.name);
                                                 curInfoList.add(1, Integer.toString(item.nast));//rottenness
-                                                curInfoList.add(2, item.getRarity(item.rarity));
+                                                if (!(item instanceof CookedFood)) {
+                                                    curInfoList.add(2, item.getRarity(item.rarity));
+                                                }
+                                                else {
+                                                    curInfoList.add(2, "Sell Price: $"+((CookedFood) item).sellValue);
+                                                }
+                                                System.out.println(item.name + ":  "+(item instanceof CookedFood));
                                                 if (item.nast >= item.HMTHRESH && item.desc3 != "") {
                                                     curInfoList.add(3, item.desc3);
                                                 } else if (item.nast >= item.MLTHRESH && item.desc2 != "") {
@@ -601,8 +608,14 @@ public class UI {
                         //System.out.println("BAS EIMG "+infoItem.baseImgName);
                         if (x == 2) {
                             //System.out.println(local.getText());
-                            local.setText(infoItem.getRarity(infoItem.rarity));
-                            local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
+                            if (!(infoItem instanceof CookedFood)) {
+                                local.setText(infoItem.getRarity(infoItem.rarity));
+                                local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
+                            }
+                            else{
+                                local.setText("Sell Price: $"+((CookedFood) infoItem).sellValue);
+                                local.setColor(Color.WHITE);
+                            }
                         }
                         else if (x == 3){
                             //System.out.println("LENY: "+local.getText().length);

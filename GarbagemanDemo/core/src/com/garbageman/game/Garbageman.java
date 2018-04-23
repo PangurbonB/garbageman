@@ -123,7 +123,7 @@ public class Garbageman extends Game {
 				item.toFront();
 				item.setImg();
 				backpack.add(item);
-				System.out.println("added an item "+item.name);
+				//System.out.println("added an item "+item.name);
 			}
 		}
 		this.setScreen(new MainMenuScreen(this));

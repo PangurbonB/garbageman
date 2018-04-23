@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -36,6 +37,7 @@ import java.util.Map;
 public class Trashcan implements Screen {
     //All of my initializations:
         //Basic Stuffs
+            ArrayList<Skin> skins = new ArrayList<com.badlogic.gdx.scenes.scene2d.ui.Skin>();
             static Garbageman game;
             SpriteBatch batch;
             private Stage stage = new Stage();
@@ -56,6 +58,7 @@ public class Trashcan implements Screen {
             Label.LabelStyle textStyle;
             private int consoleIndex = 0;
             private Skin txtSkin = new Skin(Gdx.files.internal("uiskin.json"));
+
             private TextField text = new TextField("", txtSkin);
 
         //Background/Screen Stuffs
@@ -101,6 +104,9 @@ public class Trashcan implements Screen {
 
 
     public Trashcan(Garbageman game) {
+
+        skins.add(txtSkin);
+
         Float[] xys = {230f, 50f, 930f, 410f};
         bglocs.put(currBg, xys);
 
@@ -188,6 +194,7 @@ public class Trashcan implements Screen {
 
 
             Skin skin1 = new Skin();
+
             skin1.add(trash.name, new Texture(trash.baseImgName + trash.img + trash.fileType));
             trash.nast = rand.nextInt(100)+1;
             trash.setImg();
@@ -438,6 +445,7 @@ public class Trashcan implements Screen {
         if (Gdx.input.getX() >= stage.getWidth() - backpackImg.getWidth() - backpackOpenProc && wasTouched && !touchingBug) {
             backpackImg.setVisible(true);
             SpriteSheetDivider sp = new SpriteSheetDivider();
+
             try {
                 backpackImg.setDrawable(sp.divideItem("SmallInv", 0));
             }
@@ -466,6 +474,10 @@ public class Trashcan implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.O) && !consoleOpen) {
 
             game.setScreen(new CookingScreen(game));
+            game.dispose();
+            this.dispose();
+            //stage.dispose();
+            background.remove();
         }
 
         /*Console controls*/
@@ -677,6 +689,13 @@ public class Trashcan implements Screen {
 
     @Override
     public void dispose() {
-
+        background.remove();
+        game.dispose();
+        for (Actor i : stage.getActors()) {
+            i.clear();
+        }
+        for (Skin i: skins) {
+            i.dispose();
+        }
     }
 }

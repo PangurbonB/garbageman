@@ -29,12 +29,12 @@ public class PassTrash {
             Trash item = game.backpack.contents.get(indexBackpack);
             currentCooking[selectedIndex] = item;
             game.backpack.remove(indexBackpack);
-            System.out.println("!!!!!!!CHECK: "+indexBackpack+" ;; "+ item.name);
+            //System.out.println("!!!!!!!CHECK: "+indexBackpack+" ;; "+ item.name);
         }
 
         for (int i = 0; i < currentCooking.length; i++) {
             try {
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + currentCooking[i].name);
+                //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + currentCooking[i].name);
             }
             catch (NullPointerException e){
 
@@ -81,7 +81,7 @@ public class PassTrash {
 
     public CookedFood cookFood(CookedFood emptyFood, ArrayList<Trash> trashes){
         System.out.println("IT GOT COOKED");
-        dumpTrash();
+        //dumpTrash();
 
         int totalPrice = 0;
         int nastSum = 0;
@@ -103,6 +103,8 @@ public class PassTrash {
         }
 
         int nastAvg = nastSum/totalVals;
+
+        System.out.println("NAST VALUE OF "+emptyFood.name+":  "+nastAvg);
 
         emptyFood.nast = nastAvg;
         emptyFood.sellValue = totalPrice;

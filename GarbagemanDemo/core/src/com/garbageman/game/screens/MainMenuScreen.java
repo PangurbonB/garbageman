@@ -104,19 +104,19 @@ public class MainMenuScreen implements Screen {
         -----------11/1 ^^^
 
        /* font = new BitmapFont(Gdx.files.internal("assets/font1.fnt"));
-        skin = new Skin();
+        skins = new Skin();
 
         stage = new Stage(new ScreenViewport());
-        playButton = new TextButton("PLAY", skin);*/
+        playButton = new TextButton("PLAY", skins);*/
 
 
-       // skin = new Skin();
-       // skin.add("test", new Texture("assets/playButton.png"));
-       //bbstyle = skin.get("playButton", TextButton.TextButtonStyle.class);
-      // playButton = new TextButton("Play", skin)
-       /* skin = new Skin();
-        skin.add("test", new Texture("assets/playButton.png"));
-        TEST = new Image(skin, "test");*/
+       // skins = new Skin();
+       // skins.add("test", new Texture("assets/playButton.png"));
+       //bbstyle = skins.get("playButton", TextButton.TextButtonStyle.class);
+      // playButton = new TextButton("Play", skins)
+       /* skins = new Skin();
+        skins.add("test", new Texture("assets/playButton.png"));
+        TEST = new Image(skins, "test");*/
 
         /* manager.load("assets/PressStart2P.ttf", BitmapFont.class);
         FileHandleResolver resolver = new InternalFileHandleResolver();
@@ -128,9 +128,9 @@ public class MainMenuScreen implements Screen {
         manager.load("PressStart2P.ttf", BitmapFont.class, loadFont);
         BitmapFont mainFont = manager.get("PressStart2P.ttf", BitmapFont.class);
 
-        skin = new Skin();
-        //skin.add("test", new Texture("assets/playButton.png"));
-       // bbstyle = skin.get("playButton", TextButton.TextButtonStyle.class);
+        skins = new Skin();
+        //skins.add("test", new Texture("assets/playButton.png"));
+       // bbstyle = skins.get("playButton", TextButton.TextButtonStyle.class);
         TextButton testButton = new TextButton("Helo ther", bbstyle); // */
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/PressStart2P.ttf"));
@@ -163,6 +163,8 @@ public class MainMenuScreen implements Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //toTest.getLabel().setText("ME LLAMO:TYRONE");
                 game.setScreen(new RestaurantScreen(game));
+                game.dispose();
+                stage.dispose();
                 return true;
             }
         });
@@ -190,6 +192,8 @@ public class MainMenuScreen implements Screen {
                 //System.out.println(game.getScreen() + "   " + this.getClass());
                 if (checkCurrentScreen()){
                     game.setScreen(new Trashcan(game));
+                    game.dispose();
+                    stage.dispose();
                 }
                 return true;
             }
@@ -258,6 +262,8 @@ public class MainMenuScreen implements Screen {
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.F)){
             game.setScreen(new GameScreen(game));
+            game.dispose();
+            stage.dispose();
         }
 
         stage.draw();

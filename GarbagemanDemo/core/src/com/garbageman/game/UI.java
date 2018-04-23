@@ -214,7 +214,7 @@ public class UI {
 
     //public methods:
 
-    public void init(final Garbageman game, Stage stage, String screenName){//init UI/sync to global, call this when opening a screen
+    public void init(final Garbageman game, final Stage stage, String screenName){//init UI/sync to global, call this when opening a screen
         this.stage = stage;
         this.game = game;
         this.screenName = screenName;
@@ -260,6 +260,8 @@ public class UI {
                 showInfo = false;
                 infoItem = null;
                 currentDown = null;
+                game.getScreen().dispose();
+                stage.dispose();
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -321,7 +323,6 @@ public class UI {
                                 //System.out.println("here we are");
                                 final Trash item = game.backpack.contents.get(tot);
                                 boolean canAdd = game.passTrash.findTrash(item);
-                                System.out.println(item.name+" FOUND "+x+" ??? "+ canAdd);
                                 if (!canAdd) {
                                     //System.out.println("interval " + tot + ";;;; " + item.name);
                                     Drawable img = item.getDrawable();
@@ -397,7 +398,7 @@ public class UI {
                                                 else {
                                                     curInfoList.add(2, "Sell Price: $"+((CookedFood) item).sellValue);
                                                 }
-                                                System.out.println(item.name + ":  "+(item instanceof CookedFood));
+                                                //System.out.println(item.name + ":  "+(item instanceof CookedFood));
                                                 if (item.nast >= item.HMTHRESH && item.desc3 != "") {
                                                     curInfoList.add(3, item.desc3);
                                                 } else if (item.nast >= item.MLTHRESH && item.desc2 != "") {
@@ -477,6 +478,8 @@ public class UI {
                 System.out.println("CHECK ME: "+ checkCurrentScreen());
                 if (checkCurrentScreen()){
                     game.setScreen(new MainMenuScreen(game));
+                    game.getScreen().dispose();
+                    stage.dispose();
                 }
                 return true;
             }
@@ -499,6 +502,8 @@ public class UI {
                          showInv = false;
                          showInfo = false;
                          infoItem = null;
+                         game.getScreen().dispose();
+                         stage.dispose();
                     }
                     if (!screenName.equals(trashcanScreenName)) {
                         showInv = !showInv;

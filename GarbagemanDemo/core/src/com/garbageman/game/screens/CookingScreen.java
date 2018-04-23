@@ -102,6 +102,8 @@ public class CookingScreen implements Screen{
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.passTrash.dumpTrash();
                 game.setScreen(new MainMenuScreen(game));
+                game.dispose();
+                stage.dispose();
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -272,6 +274,8 @@ public class CookingScreen implements Screen{
                     trashes.get(k).setSelectedInInv(true);
 
                     trashes.get(k).setImg();
+                    game.dispose();
+                    stage.dispose();
                     return super.touchDown(event, x, y, pointer, button);
                 }
             });
@@ -463,6 +467,8 @@ public class CookingScreen implements Screen{
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.F)){
             game.setScreen(new MainMenuScreen(this.game));
+            game.dispose();
+            stage.dispose();
         }
 
        Gdx.input.setInputProcessor(stage);

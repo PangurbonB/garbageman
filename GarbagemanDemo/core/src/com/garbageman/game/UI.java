@@ -500,15 +500,11 @@ public class UI {
                      if (screenName.equals(FakeInvScreen.screenName)){
                          game.setScreen(new CookingScreen(game));
                          showInv = false;
-<<<<<<< HEAD
+
                          showInfo = false;
                          infoItem = null;
                          game.getScreen().dispose();
                          stage.dispose();
-=======
-                         //showInfo = false;
-                         //infoItem = null;
->>>>>>> ba92a7bb61788ef9863e9dfe8f52b0755a6f1d67
                     }
                     if (!screenName.equals(trashcanScreenName)) {
                         showInv = !showInv;

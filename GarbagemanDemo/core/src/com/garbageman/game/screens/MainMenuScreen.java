@@ -49,7 +49,7 @@ public class MainMenuScreen implements Screen {
     private String screenName = "MainMenuScreen";
     private BitmapFont FONT;
     private Label lab;
-    private TextButton toTest;
+    private TextButton toTest, openShop;
     private Image backing;
 
     private boolean checkCurrentScreen(){
@@ -167,6 +167,19 @@ public class MainMenuScreen implements Screen {
             }
         });
         stage.addActor(toTest);
+
+        openShop = new TextButton("Shop", bs);
+        openShop.setBounds(0, 300, 250, 75);
+        openShop.setColor(Color.BLACK);
+        openShop.setVisible(true);
+        stage.addActor(openShop);
+        openShop.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new ShopScreen(game));
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
 
 
 

@@ -180,13 +180,13 @@ public class UI {
         ArrayList<Actor> check = null;
         if (!getInfoFrame){
             check = inv;
-            invInfo.setVisible(false);
+            //invInfo.setVisible(false);
         }
         else if (getInfoFrame == true){
             check = infoFrame;
         }
         if (showInfo){
-            invInfo.setVisible(true);
+            //invInfo.setVisible(true);
         }
         else if (!showInfo){
             invInfo.setVisible(false);
@@ -497,13 +497,14 @@ public class UI {
                      if (screenName.equals(FakeInvScreen.screenName)){
                          game.setScreen(new CookingScreen(game));
                          showInv = false;
-                         showInfo = false;
-                         infoItem = null;
+                         //showInfo = false;
+                         //infoItem = null;
                     }
                     if (!screenName.equals(trashcanScreenName)) {
                         showInv = !showInv;
-                        if (!showInv)
-                            showInfo = false;
+                        if (!showInv) {
+                            //showInfo = false;
+                        }
                     }
                     else if (screenName.equals(trashcanScreenName)){
                         //BRETT THIS IS WHERE YOU CAN DO INV STUFF IN THE DUMPSTER SCREEN
@@ -596,7 +597,7 @@ public class UI {
                 invButton.getLabel().setText("Cancel");
             //System.out.println("curInfoList: "+curInfoList.size());
             if (showInfo && curInfoList.size()== 4 && infoItem != null){
-                setInvVis(true, true);
+                setInvVis(true, true);//HERE
 
                 //System.out.println("INFO_LABELS: "+infoLabels.size());
                 if (infoLabels.size()> 0) {
@@ -679,7 +680,7 @@ public class UI {
                 closeInvInfo();
             }
             else{
-                setInvVis(false, true);
+                setInvVis(false, true);//HERE
                 closeInvInfo();
             }
 

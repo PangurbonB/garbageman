@@ -94,6 +94,13 @@ public final class ListAccess {
         typeMap.put("Fillers", objTemp.FILLER);
         typeMap.put("Sweeteners", objTemp.SWEETENER);
         typeMap.put("Sauces", objTemp.SAUCE);
+
+        shopMap.put(0, new Pork());
+        shopMap.put(1, new Salad());
+        shopMap.put(2, new Bread());
+        shopMap.put(3, new Bean());
+        shopMap.put(4, new BagOfSugar());
+        shopMap.put(5, new Ketchup());
     }
 
     public static ArrayList<Class> garbageItems = new ArrayList<Class>(Arrays.asList(
@@ -196,5 +203,7 @@ public final class ListAccess {
 
     public static java.util.Map<String, Color> colorMap = Collections.synchronizedMap(new HashMap());
     public static java.util.Map<String, Integer> typeMap = Collections.synchronizedMap(new HashMap());
+
+    public static java.util.Map<Integer, Trash> shopMap = Collections.synchronizedMap(new HashMap<Integer, Trash>());
 
 }

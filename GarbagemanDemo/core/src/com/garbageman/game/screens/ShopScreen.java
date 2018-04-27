@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.garbageman.game.Assets;
 import com.garbageman.game.Garbageman;
 
 /**
@@ -25,7 +26,7 @@ public class ShopScreen implements Screen {
         game.currentScreen = screenName;
         game.ui.init(game, stage, screenName);
         game.ui.makeUI();
-        background = new Image(new Texture("assets/Screens/shopScreenCrop.png"));
+        background = new Image(Assets.newTexture("assets/Screens/shopScreenCrop.png"));
         background.setSize(stage.getWidth(), stage.getHeight()-game.ui.topBarHeight);
         background.setPosition(0, 0);
         background.toBack();

@@ -61,6 +61,8 @@ public class Garbageman extends Game {
 
 	public java.util.Map<String, Integer> typeMap;
 
+	public Assets assets;
+
 	public void giveReputation(int amt){
 		int plus = this.reputation+amt;
 		if (plus >= 0 && plus <= this.repMax){
@@ -96,6 +98,7 @@ public class Garbageman extends Game {
 		this.safeModeExclusions = ListAccess.safeModeExclusions;
 		this.customers = ListAccess.customers;
 		this.foodItems = ListAccess.foodItems;
+		this.assets = new Assets(this);
 
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
@@ -141,5 +144,10 @@ public class Garbageman extends Game {
 			Gdx.app.exit();
 		}
 		super.render();
+	}
+
+	public void dispose(){
+		Assets.dispose();
+		super.dispose();
 	}
 }

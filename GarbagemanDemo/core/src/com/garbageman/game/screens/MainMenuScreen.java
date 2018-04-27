@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.garbageman.game.Assets;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.game.world.GestureHandler;
 import com.garbageman.game.game.world.GetInput;
@@ -37,7 +38,6 @@ public class MainMenuScreen implements Screen {
     Texture playButtonInactive;
 
     private Stage stage = new Stage();
-    //private TextureAtlas atlas;
     private Skin skin;
     //private Table table;
     //private BitmapFont font;
@@ -65,8 +65,8 @@ public class MainMenuScreen implements Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);
         this.game = game;
         this.manager = game.manager;
-        playButtonActive = new Texture("assets/playButton.png");
-        playButtonInactive = new Texture("assets/playButtonActive.png");
+        playButtonActive = Assets.newTexture("assets/playButton.png");
+        playButtonInactive = Assets.newTexture("assets/playButtonActive.png");
     }
 
     public void setLabColor(){
@@ -163,8 +163,7 @@ public class MainMenuScreen implements Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //toTest.getLabel().setText("ME LLAMO:TYRONE");
                 game.setScreen(new RestaurantScreen(game));
-                game.dispose();
-                stage.dispose();
+                //game.getScreen().dispose();
                 return true;
             }
         });
@@ -186,9 +185,9 @@ public class MainMenuScreen implements Screen {
 
 
 
-        Skin playButtonSkin = new Skin();
-        playButtonSkin.add("play", new Texture("assets/playButton.png"));
-        playButtonSkin.add("exit", new Texture("assets/exitButton.png"));
+        Skin playButtonSkin = Assets.newSkin();
+        playButtonSkin.add("play", Assets.newTexture("assets/playButton.png"));
+        playButtonSkin.add("exit", Assets.newTexture("assets/exitButton.png"));
        // playButtonSkin.add("playDown", new Texture("assets/playButtonActive.png"));
 
         ImageButton.ImageButtonStyle playImgStyle = new ImageButton.ImageButtonStyle();
@@ -205,8 +204,7 @@ public class MainMenuScreen implements Screen {
                 //System.out.println(game.getScreen() + "   " + this.getClass());
                 if (checkCurrentScreen()){
                     game.setScreen(new Trashcan(game));
-                    game.dispose();
-                    stage.dispose();
+                    //game.getScreen().dispose();
                 }
                 return true;
             }
@@ -275,8 +273,7 @@ public class MainMenuScreen implements Screen {
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.F)){
             game.setScreen(new GameScreen(game));
-            game.dispose();
-            stage.dispose();
+            //game.getScreen().dispose();
         }
 
         stage.draw();

@@ -109,7 +109,7 @@ public class UI {
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.rect(posX, posY, width, height, bb, bb, bb, bb);
         shape.end();//*/
-        Image item = new Image(Assets.newTexture("assets/Buttons/whiteBlank.png"));
+        Image item = new Image(Assets.findTexture("whiteBlank"));
         item.setBounds(posX, posY, width, height);
         item.setColor(bb);
         stage.addActor(item);
@@ -145,7 +145,7 @@ public class UI {
     }
 
     private Texture getTextureFromTrash(Trash item){//unused, get the texture of a trash item
-        return Assets.newTexture("assets/Garbage/"+item.img+".png");
+        return Assets.findTexture(item.name);
     }
 
     private void createLabels(){//makes the info labels for clicking an item, like nastiness, name, and description
@@ -267,7 +267,7 @@ public class UI {
         });
         stage.addActor(addToCook);
 
-        invImgBack = new Image(Assets.newTexture("assets/Screens/TrashBackpackRestaurantCrop.png"));
+        invImgBack = new Image(Assets.findTexture("backpackRestaurant"));
         stage.addActor(invImgBack);
         invImgBack.setSize(stage.getWidth(), stage.getHeight());
         invImgBack.setVisible(false);
@@ -477,7 +477,7 @@ public class UI {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("CHECK ME: "+ checkCurrentScreen());
                 if (checkCurrentScreen()){
-                    System.out.println(game.getScreen());
+                    System.out.println("Disposing: "+game.getScreen());
                     game.getScreen().dispose();
                     game.setScreen(new MainMenuScreen(game));
                 }

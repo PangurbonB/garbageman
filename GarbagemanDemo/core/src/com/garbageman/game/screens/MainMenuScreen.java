@@ -65,8 +65,8 @@ public class MainMenuScreen implements Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);
         this.game = game;
         this.manager = game.manager;
-        playButtonActive = Assets.newTexture("assets/playButton.png");
-        playButtonInactive = Assets.newTexture("assets/playButtonActive.png");
+        playButtonActive = Assets.findTexture("playButtonMenu");
+        playButtonInactive = Assets.findTexture("playButtonMenuActive");
     }
 
     public void setLabColor(){
@@ -186,8 +186,8 @@ public class MainMenuScreen implements Screen {
 
 
         Skin playButtonSkin = Assets.newSkin();
-        playButtonSkin.add("play", Assets.newTexture("assets/playButton.png"));
-        playButtonSkin.add("exit", Assets.newTexture("assets/exitButton.png"));
+        playButtonSkin.add("play", Assets.findTexture("playButtonMenu"));
+        playButtonSkin.add("exit", Assets.findTexture("exitButtonMenu"));
        // playButtonSkin.add("playDown", new Texture("assets/playButtonActive.png"));
 
         ImageButton.ImageButtonStyle playImgStyle = new ImageButton.ImageButtonStyle();

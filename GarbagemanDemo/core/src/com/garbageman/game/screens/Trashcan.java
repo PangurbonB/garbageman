@@ -6,15 +6,11 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -388,7 +384,7 @@ public class Trashcan implements Screen {
         text.toFront();
 
         SpriteSheetDivider sp = new SpriteSheetDivider();
-        backpackImg.setDrawable(sp.divideItem("Inventory", 0));
+        backpackImg.setDrawable(sp.divideScreen("inventory", 0));
         backpackImg.setSize(backpack.getWidth(), stage.getHeight()-game.ui.topBarHeight);
         backpackImg.setX(stage.getWidth() - backpackImg.getWidth());
         stage.addActor(backpackImg);
@@ -436,11 +432,11 @@ public class Trashcan implements Screen {
             SpriteSheetDivider sp = new SpriteSheetDivider();
 
             try {
-                backpackImg.setDrawable(sp.divideItem("SmallInv", 0));
+                backpackImg.setDrawable(sp.divideScreen("smallInv", 0));
             }
             catch (NullPointerException e){
                 e.printStackTrace();
-                backpackImg.setDrawable(sp.divideItem("SmallInv", 0));
+                backpackImg.setDrawable(sp.divideScreen("smallInv", 0));
             }
 
 
@@ -461,11 +457,10 @@ public class Trashcan implements Screen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.O) && !consoleOpen) {
-
-            game.setScreen(new CookingScreen(game));
             this.dispose();
+            game.setScreen(new CookingScreen(game));
             //stage.dispose();
-            background.remove();
+            //background.remove();
         }
 
         /*Console controls*/
@@ -678,6 +673,7 @@ public class Trashcan implements Screen {
     @Override
     public void dispose() {
         game.dispose();
+        System.out.println("CRASHY");
         stage.dispose();
     }
 }

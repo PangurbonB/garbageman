@@ -39,7 +39,7 @@ import java.util.Random;
 
 public class CookingScreen implements Screen{
 
-    Image background = new Image(Assets.newTexture("assets/Screens/craftingScreen2.png"));
+    Image background = new Image(Assets.findTexture("cookingScreen"));
     Stage stage = new Stage();
     public static boolean allSelected = false;
     int[][] craftingLocs = new int[8][2];
@@ -145,8 +145,8 @@ public class CookingScreen implements Screen{
             e.printStackTrace();
         }
 
-        sk.add("name", Assets.newTexture("assets/Food/" + input.name.toLowerCase() + ".png"));
-        sk.add("ghost", Assets.newTexture("assets/Food/"+ input.name.toLowerCase()+ "Ghost.png"));
+        sk.add("name", Assets.findTexture(input.name));
+        sk.add("ghost", Assets.findTexture(input.name+"Ghost"));
 
 
         game.ui.init(this.game, this.stage, this.screenName);
@@ -414,7 +414,7 @@ public class CookingScreen implements Screen{
                 input.setX(stage.getWidth()/2 - input.getWidth() + 40);
                 input.setY(stage.getHeight()/2 - input.getHeight() + 35);
                 input.setVisible(true);
-                TextureRegion t = new TextureRegion(Assets.newTexture("assets/food/"+input.name+"Ghost.png"));
+                TextureRegion t = new TextureRegion(Assets.findTexture(input.name+"Ghost"));
                 TextureRegionDrawable tt = new TextureRegionDrawable();
                 t.setRegion(0,0,32,32);
                 tt.setRegion(t);
@@ -442,7 +442,7 @@ public class CookingScreen implements Screen{
         }
 
         if (allSelected){
-            TextureRegion t = new TextureRegion(Assets.newTexture("assets/food/"+input.name+".png"));
+            TextureRegion t = new TextureRegion(Assets.findTexture(input.name+"Ghost"));
             TextureRegionDrawable tt = new TextureRegionDrawable();
             t.setRegion(0,0,32,32);
             tt.setRegion(t);

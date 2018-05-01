@@ -4,10 +4,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.customers.Customer;
 import com.garbageman.game.garbage.Trash;
-
-import org.lwjgl.opencl.CL;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,39 +28,20 @@ public class Assets {
 
     public Assets(Garbageman game){
         this.game = game;
-        initializeGarbage();
+        initTextures();
     }
 
-    private static void initializeGarbage(){
-        for (Class i : Garbageman.garbageItems) {
-            try {
-                Trash item = (Trash) Class.forName(i.getName()).newInstance();
-                newTexture(item.name, item.getSpawnName());
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-        for (Class i : Garbageman.customers) {
-            try {
-                Customer item = (Customer) Class.forName(i.getName()).newInstance();
-                newTexture(item.customerName, item.fileLocation+ item.fileName + item.fileType);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+    private void initTextures(){
 
+        initGarbage();
+        initCustomers();
+        initFood();
+        initScreens();
+        initButtons();
 
-        newTexture("background", "assets/Screens/dumpster1.png");
+        //Initialization for generic clutter/junk items. Did not see a point to making a method for this.
+        newTexture("genericGarbage", "assets/Garbage/genericGarbage.png");
     }
-
 
     public static void newTexture(String storageName, String tex){
         Texture texture = new Texture(tex);
@@ -106,6 +86,74 @@ public class Assets {
         for (Skin i : skins){
             i.dispose();
         }
+    }
+
+
+
+    //Initialization statements for Buttons, Customers, Cooked Food items, Trash items, and backgrounds
+
+
+
+    private void initButtons(){
+        newTexture("whiteBlank", "assets/Buttons/whiteBlank.png");
+        newTexture("playButtonMenu", "assets/playButton.png");
+        newTexture("playButtonActiveMenu", "assets/playButtonActive.png");
+        newTexture("exitButtonMenu", "assets/exitButton.png");
+    }
+
+    private void initCustomers(){
+        for (Class i : Garbageman.customers) {
+            try {
+                Customer item = (Customer) Class.forName(i.getName()).newInstance();
+                newTexture(item.customerName, item.fileLocation+ item.fileName + item.fileType);
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void initFood(){
+        for (Class i : Garbageman.foodItems) {
+            try {
+                CookedFood item = (CookedFood) Class.forName(i.getName()).newInstance();
+                newTexture(item.name, item.getSpawnName());
+                newTexture(item.name+"Ghost", "assets/Food/"+item.name+"Ghost"+item.fileType);
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void initGarbage(){
+        for (Class i : Garbageman.garbageItems) {
+            try {
+                Trash item = (Trash) Class.forName(i.getName()).newInstance();
+                newTexture(item.name, item.getSpawnName());
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void initScreens(){
+        newTexture("background", "assets/Screens/dumpster1.png");
+        newTexture("backpackRestaurant", "assets/Screens/TrashBackpackRestaurantCrop.png");
+        newTexture("cookingScreen", "assets/Screens/craftingScreen2.png");
+        newTexture("smallInv", "assets/Screens/smallInv.png");
+        newTexture("inventory", "assets/Screens/Inventory.png");
+        newTexture("shopScreenCrop", "assets/Screens/shopScreenCrop.png");
     }
 
 }

@@ -26,7 +26,7 @@ public class ShopScreen implements Screen {
         game.currentScreen = screenName;
         game.ui.init(game, stage, screenName);
         game.ui.makeUI();
-        background = new Image(Assets.newTexture("assets/Screens/shopScreenCrop.png"));
+        background = new Image(Assets.findTexture("shopScreenCrop"));
         background.setSize(stage.getWidth(), stage.getHeight()-game.ui.topBarHeight);
         background.setPosition(0, 0);
         background.toBack();

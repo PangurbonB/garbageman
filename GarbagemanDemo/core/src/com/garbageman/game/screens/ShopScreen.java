@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.ListAccess;
+import com.garbageman.game.UI;
 import com.garbageman.game.garbage.Trash;
 
 import java.util.ArrayList;
@@ -64,8 +65,11 @@ public class ShopScreen implements Screen {
                         xPos = (x*(yInBetween+ySize))+ySize-15;
                     }
                     Trash localItem = ListAccess.shopMap.get(itemNum); // = game.ui.makeRect(xPos, setHeight, ySize, ySize, Color.GREEN, true);
+                    localItem.setImg();
                     stage.addActor(localItem);
                     localItem.setVisible(true);
+                    localItem.setSize(UI.squareSize, UI.squareSize);
+                    localItem.setPosition(xPos, setHeight);
                     itemNum++;
                 }
             }

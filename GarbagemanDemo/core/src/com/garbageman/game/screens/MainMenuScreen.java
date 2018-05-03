@@ -78,76 +78,7 @@ public class MainMenuScreen implements Screen {
         game.currentScreen = screenName;
         Gdx.input.setInputProcessor(stage);
 
-        /*backing = new Image(new Texture("assets/Screens/mainTitle_single.png"));
-        backing.setBounds(0, 0, game.window_width, game.window_height); //*/
-
-        /*FileHandleResolver resolver = new InternalFileHandleResolver();
-        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
-        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
-        FreetypeFontLoader.FreeTypeFontLoaderParameter size1Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        size1Params.fontFileName = "assets/PressStart2P.ttf";
-        size1Params.fontParameters.size = 10;
-        manager.load("size10.ttf", BitmapFont.class, size1Params);
-        System.out.println("LOADED " + manager.isLoaded("size10.ttf"));
-        //manager.load("font1.fnt", BitmapFont.class);
-
-        /*FileHandleResolver resolver = new InternalFileHandleResolver();
-        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
-        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
-        FreetypeFontLoader.FreeTypeFontLoaderParameter loadFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        loadFont.fontFileName = "PressStart2P.ttf";
-        loadFont.fontParameters.size = 15;
-        manager.load("PressStart2P.ttf", BitmapFont.class, loadFont);
-
-        BitmapFont FF = manager.get("PressStart2P.ttf");
-
-        -----------11/1 ^^^
-
-       /* font = new BitmapFont(Gdx.files.internal("assets/font1.fnt"));
-        skins = new Skin();
-
-        stage = new Stage(new ScreenViewport());
-        playButton = new TextButton("PLAY", skins);*/
-
-
-       // skins = new Skin();
-       // skins.add("test", new Texture("assets/playButton.png"));
-       //bbstyle = skins.get("playButton", TextButton.TextButtonStyle.class);
-      // playButton = new TextButton("Play", skins)
-       /* skins = new Skin();
-        skins.add("test", new Texture("assets/playButton.png"));
-        TEST = new Image(skins, "test");*/
-
-        /* manager.load("assets/PressStart2P.ttf", BitmapFont.class);
-        FileHandleResolver resolver = new InternalFileHandleResolver();
-        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
-        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
-        FreetypeFontLoader.FreeTypeFontLoaderParameter loadFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        loadFont.fontFileName = "PressStart2P.ttf";
-        loadFont.fontParameters.size = 15;
-        manager.load("PressStart2P.ttf", BitmapFont.class, loadFont);
-        BitmapFont mainFont = manager.get("PressStart2P.ttf", BitmapFont.class);
-
-        skins = new Skin();
-        //skins.add("test", new Texture("assets/playButton.png"));
-       // bbstyle = skins.get("playButton", TextButton.TextButtonStyle.class);
-        TextButton testButton = new TextButton("Helo ther", bbstyle); // */
-
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/PressStart2P.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 35;
-        BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
-        generator.dispose(); // don't forget to dispose to avoid memory leaks!
-
-        /*BitmapFont font = new BitmapFont();
-        Label.LabelStyle sty = new Label.LabelStyle();
-        sty.font = font12;
-        Label lab = new Label("Hello Dana!", sty);
-        lab.setBounds(25, 25, 25, 25);
-        //lab.setFontScale(4);
-        lab.setColor(Color.BLACK);
-        lab.setPosition(50, 650);
-        stage.addActor(lab);*/
+        BitmapFont font12 = game.makeFont(35);
 
         TextButton.TextButtonStyle bs = new TextButton.TextButtonStyle();
         bs.font = font12;

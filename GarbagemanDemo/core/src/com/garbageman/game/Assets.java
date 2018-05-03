@@ -43,7 +43,7 @@ public class Assets {
         newTexture("genericGarbage", "assets/Garbage/genericGarbage.png");
     }
 
-    public static void newTexture(String storageName, String tex){
+    protected static void newTexture(String storageName, String tex){
         Texture texture = new Texture(tex);
         textures.put(storageName, texture);
     }

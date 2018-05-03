@@ -84,6 +84,10 @@ public class Trash extends Image{
         this.setDrawable(sp.divideGarbage(this, name));
     }
 
+    public String getSpawnName(){
+        return (this.baseImgName + this.img + this.fileType);
+    }
+
     public void setIsGhost(boolean ghost){
         isGhost = ghost;
     }

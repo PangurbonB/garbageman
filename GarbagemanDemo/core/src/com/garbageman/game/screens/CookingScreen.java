@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.garbageman.game.Assets;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.PassTrash;
 import com.garbageman.game.SpriteSheetDivider;
@@ -38,7 +39,7 @@ import java.util.Random;
 
 public class CookingScreen implements Screen{
 
-    Image background = new Image(new Texture("assets/Screens/craftingScreen2.png"));
+    Image background = new Image(Assets.findTexture("cookingScreen"));
     Stage stage = new Stage();
     public static boolean allSelected = false;
     int[][] craftingLocs = new int[8][2];
@@ -61,8 +62,8 @@ public class CookingScreen implements Screen{
     private TextButton fakeMenu, fakeInventory;
     private TextButton cookButton;
     private Actor cookBackground;
-    Skin sk = new Skin();
-    Skin s = new Skin();
+    Skin sk = Assets.newSkin();
+    Skin s = Assets.newSkin();
 
 
 
@@ -102,8 +103,6 @@ public class CookingScreen implements Screen{
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.passTrash.dumpTrash();
                 game.setScreen(new MainMenuScreen(game));
-                game.dispose();
-                stage.dispose();
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -146,8 +145,8 @@ public class CookingScreen implements Screen{
             e.printStackTrace();
         }
 
-        sk.add("name", new Texture("assets/Food/" + input.name.toLowerCase() + ".png"));
-        sk.add("ghost", new Texture("assets/Food/"+ input.name.toLowerCase()+ "Ghost.png"));
+        sk.add("name", Assets.findTexture(input.name));
+        sk.add("ghost", Assets.findTexture(input.name+"Ghost"));
 
 
         game.ui.init(this.game, this.stage, this.screenName);
@@ -274,8 +273,6 @@ public class CookingScreen implements Screen{
                     trashes.get(k).setSelectedInInv(true);
 
                     trashes.get(k).setImg();
-                    game.dispose();
-                    stage.dispose();
                     return super.touchDown(event, x, y, pointer, button);
                 }
             });
@@ -417,7 +414,7 @@ public class CookingScreen implements Screen{
                 input.setX(stage.getWidth()/2 - input.getWidth() + 40);
                 input.setY(stage.getHeight()/2 - input.getHeight() + 35);
                 input.setVisible(true);
-                TextureRegion t = new TextureRegion(new Texture("assets/food/"+input.name+"Ghost.png"));
+                TextureRegion t = new TextureRegion(Assets.findTexture(input.name+"Ghost"));
                 TextureRegionDrawable tt = new TextureRegionDrawable();
                 t.setRegion(0,0,32,32);
                 tt.setRegion(t);
@@ -445,7 +442,7 @@ public class CookingScreen implements Screen{
         }
 
         if (allSelected){
-            TextureRegion t = new TextureRegion(new Texture("assets/food/"+input.name+".png"));
+            TextureRegion t = new TextureRegion(Assets.findTexture(input.name+"Ghost"));
             TextureRegionDrawable tt = new TextureRegionDrawable();
             t.setRegion(0,0,32,32);
             tt.setRegion(t);
@@ -467,8 +464,7 @@ public class CookingScreen implements Screen{
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.F)){
             game.setScreen(new MainMenuScreen(this.game));
-            game.dispose();
-            stage.dispose();
+            this.dispose();
         }
 
        Gdx.input.setInputProcessor(stage);

@@ -33,10 +33,10 @@ public class SpriteSheetDivider {
 
     public SpriteSheetDivider(){
         Float[] temp;
-        infoMap.put("Trashcans", new Float[]{384f, 216f, 1f, 1f});    ///
-        infoMap.put("TitleScreen", new Float[]{384f, 216f, 1f, 1f}); ///
-        infoMap.put("Inventory", new Float[]{384f, 216f, 4f, 6f});   ///
-        infoMap.put("SmallInv", new Float[]{96f, 216f, 4f, 5f});    ///
+        infoMap.put("trashcans", new Float[]{384f, 216f, 1f, 1f});    ///
+        infoMap.put("titleScreen", new Float[]{384f, 216f, 1f, 1f}); ///
+        infoMap.put("inventory", new Float[]{384f, 216f, 4f, 6f});   ///
+        infoMap.put("smallInv", new Float[]{96f, 216f, 4f, 5f});    ///
 
     }
 
@@ -44,16 +44,17 @@ public class SpriteSheetDivider {
         return x + WIDTH*y;
     }
 
-    public TextureRegionDrawable divideItem(String itemName, int place){
+    public TextureRegionDrawable divideScreen(String itemName, int place){
+        System.out.println(itemName);
         Float[] currInfo = infoMap.get(itemName);
-
+        System.out.println(currInfo.length);
         int x = place % Math.round(currInfo[2]) +1;
 
         int y = (int)((place - place%x)/currInfo[2]);
         x--;
 
         TextureRegion temp = new TextureRegion();
-        temp.setTexture(new Texture("assets/Screens/"+itemName+".png"));
+        temp.setTexture(Assets.findTexture(itemName));
         temp.setRegion(Math.round((currInfo[0])*x), Math.round((currInfo[1])*y), Math.round((currInfo[0])), Math.round((currInfo[1])));
         //System.out.println((currInfo[0])*x+"+"+(currInfo[1])*y+"+"+(currInfo[0])+"+"+(currInfo[1]));
         TextureRegionDrawable temp1 = new TextureRegionDrawable();
@@ -63,13 +64,14 @@ public class SpriteSheetDivider {
 
     public TextureRegionDrawable divideGarbage(Trash item, String name) {
         TextureRegion temp = new TextureRegion();
+        CrowWithOddEyeInfection crow = new CrowWithOddEyeInfection();
         try {
-            temp.setTexture(new Texture(item.baseImgName + name + item.fileType));
+            temp.setTexture(Assets.findTexture(item.name));
         }
         catch (GdxRuntimeException e){
             e.printStackTrace();
             CrowWithOddEyeInfection c = new CrowWithOddEyeInfection();
-            temp.setTexture(new Texture(c.baseImgName + "CrowWithOddEyeInfection" + c.fileType));
+            temp.setTexture(Assets.findTexture(crow.name));
         }
         if (temp.getTexture().getTextureData().getWidth() == 96) {
             if (item.nast >= item.HMTHRESH) {
@@ -93,12 +95,12 @@ public class SpriteSheetDivider {
     public TextureRegionDrawable divideCustomer(Customer customer, String name, int indexX, int indexY) {
         TextureRegion temp = new TextureRegion();
         try {
-            temp.setTexture(new Texture(customer.fileLocation + name + customer.fileType));
+            temp.setTexture(Assets.findTexture(customer.customerName));
         }
         catch (GdxRuntimeException e){
             e.printStackTrace();
             Duy j = new Duy();
-            temp.setTexture(new Texture(j.fileLocation + "customer0" + j.fileType));
+            temp.setTexture(Assets.findTexture(j.customerName));
         }
         try {
             if (!(indexX * 32 >= temp.getTexture().getTextureData().getWidth()) && !(indexY*32 >= temp.getTexture().getTextureData().getHeight())) {
@@ -138,9 +140,8 @@ public class SpriteSheetDivider {
             }
         }
 
-        Skin skin = new Skin();
         TextureRegion temp = new TextureRegion();
-        temp.setTexture(new Texture("assets/Garbage/genericGarbage.png"));
+        temp.setTexture(Assets.findTexture("genericGarbage"));
         temp.setRegion(x*32, y*32, (32), (32));
         TextureRegionDrawable temp1 = new TextureRegionDrawable();
         temp1.setRegion(temp);

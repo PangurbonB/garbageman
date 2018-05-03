@@ -6,19 +6,16 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.garbageman.game.Assets;
 import com.garbageman.game.Backpack;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.UI;
@@ -39,7 +36,6 @@ public class Trashcan implements Screen {
         //Basic Stuffs
             ArrayList<Skin> skins = new ArrayList<com.badlogic.gdx.scenes.scene2d.ui.Skin>();
             static Garbageman game;
-            SpriteBatch batch;
             private Stage stage = new Stage();
             private UI ui;
             public static String screenName = "Trashcan";//this is for the UI <3 Dana
@@ -54,16 +50,14 @@ public class Trashcan implements Screen {
 
         //Console Stuffs
             private boolean consoleOpen = false;
-            Label Ltext;
-            Label.LabelStyle textStyle;
             private int consoleIndex = 0;
-            private Skin txtSkin = new Skin(Gdx.files.internal("uiskin.json"));
+            private Skin txtSkin = Assets.newSkin(Gdx.files.internal("uiskin.json"));
 
             private TextField text = new TextField("", txtSkin);
 
         //Background/Screen Stuffs
             private String currBg = "dumpster1";
-            private Image background = new Image(new Texture("assets/Screens/dumpster1.png"));
+            private Image background = new Image(Assets.findTexture("background"));
 
         //Interaction Stuffs
             private boolean wasTouched = false;
@@ -192,10 +186,7 @@ public class Trashcan implements Screen {
         try {
             Random rand = new Random();
 
-
-            Skin skin1 = new Skin();
-
-            skin1.add(trash.name, new Texture(trash.baseImgName + trash.img + trash.fileType));
+            Skin skin1 = Assets.newSkin(trash.name, Assets.findTexture( trash.name));
             trash.nast = rand.nextInt(100)+1;
             trash.setImg();
             stage.addActor(trash);
@@ -381,12 +372,6 @@ public class Trashcan implements Screen {
     //The method that initially draws things.
     @Override
     public void show() {
-        Skin skin = new Skin();
-        skin.add("hi", new Texture("assets/Buttons/PLAY.png"));
-
-
-
-
 
         spawnItem(20);
         spawnJunk(40);
@@ -399,7 +384,7 @@ public class Trashcan implements Screen {
         text.toFront();
 
         SpriteSheetDivider sp = new SpriteSheetDivider();
-        backpackImg.setDrawable(sp.divideItem("Inventory", 0));
+        backpackImg.setDrawable(sp.divideScreen("inventory", 0));
         backpackImg.setSize(backpack.getWidth(), stage.getHeight()-game.ui.topBarHeight);
         backpackImg.setX(stage.getWidth() - backpackImg.getWidth());
         stage.addActor(backpackImg);
@@ -447,11 +432,11 @@ public class Trashcan implements Screen {
             SpriteSheetDivider sp = new SpriteSheetDivider();
 
             try {
-                backpackImg.setDrawable(sp.divideItem("SmallInv", 0));
+                backpackImg.setDrawable(sp.divideScreen("smallInv", 0));
             }
             catch (NullPointerException e){
                 e.printStackTrace();
-                backpackImg.setDrawable(sp.divideItem("SmallInv", 0));
+                backpackImg.setDrawable(sp.divideScreen("smallInv", 0));
             }
 
 
@@ -472,12 +457,10 @@ public class Trashcan implements Screen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.O) && !consoleOpen) {
-
-            game.setScreen(new CookingScreen(game));
-            game.dispose();
             this.dispose();
+            game.setScreen(new CookingScreen(game));
             //stage.dispose();
-            background.remove();
+            //background.remove();
         }
 
         /*Console controls*/
@@ -689,13 +672,8 @@ public class Trashcan implements Screen {
 
     @Override
     public void dispose() {
-        background.remove();
         game.dispose();
-        for (Actor i : stage.getActors()) {
-            i.clear();
-        }
-        for (Skin i: skins) {
-            i.dispose();
-        }
+        System.out.println("CRASHY");
+        stage.dispose();
     }
 }

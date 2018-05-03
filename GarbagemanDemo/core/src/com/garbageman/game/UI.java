@@ -109,7 +109,7 @@ public class UI {
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.rect(posX, posY, width, height, bb, bb, bb, bb);
         shape.end();//*/
-        Image item = new Image(new Texture("assets/Buttons/whiteBlank.png"));
+        Image item = new Image(Assets.findTexture("whiteBlank"));
         item.setBounds(posX, posY, width, height);
         item.setColor(bb);
         stage.addActor(item);
@@ -145,7 +145,7 @@ public class UI {
     }
 
     private Texture getTextureFromTrash(Trash item){//unused, get the texture of a trash item
-        return new Texture("assets/Garbage/"+item.img+".png");
+        return Assets.findTexture(item.name);
     }
 
     private void createLabels(){//makes the info labels for clicking an item, like nastiness, name, and description
@@ -260,14 +260,14 @@ public class UI {
                 showInfo = false;
                 infoItem = null;
                 currentDown = null;
-                game.getScreen().dispose();
-                stage.dispose();
+                //game.getScreen().dispose();
+                //stage.dispose();
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
         stage.addActor(addToCook);
 
-        invImgBack = new Image(new Texture("assets/Screens/TrashBackpackRestaurantCrop.png"));
+        invImgBack = new Image(Assets.findTexture("backpackRestaurant"));
         stage.addActor(invImgBack);
         invImgBack.setSize(stage.getWidth(), stage.getHeight());
         invImgBack.setVisible(false);
@@ -477,9 +477,9 @@ public class UI {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("CHECK ME: "+ checkCurrentScreen());
                 if (checkCurrentScreen()){
-                    game.setScreen(new MainMenuScreen(game));
+                    System.out.println("Disposing: "+game.getScreen());
                     game.getScreen().dispose();
-                    stage.dispose();
+                    game.setScreen(new MainMenuScreen(game));
                 }
                 return true;
             }
@@ -503,8 +503,6 @@ public class UI {
 
                          showInfo = false;
                          infoItem = null;
-                         game.getScreen().dispose();
-                         stage.dispose();
                     }
                     if (!screenName.equals(trashcanScreenName)) {
                         showInv = !showInv;

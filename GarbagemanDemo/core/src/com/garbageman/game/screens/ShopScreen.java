@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.garbageman.game.Assets;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.ListAccess;
 import com.garbageman.game.UI;
@@ -33,6 +34,8 @@ public class ShopScreen implements Screen {
         game.currentScreen = screenName;
         game.ui.init(game, stage, screenName);
         game.ui.makeUI();
+        background = new Image(Assets.findTexture("shopScreenCrop"));
+        background.setSize(stage.getWidth(), stage.getHeight()-game.ui.topBarHeight);
 
 
         int yInBetween = 155;
@@ -74,8 +77,6 @@ public class ShopScreen implements Screen {
                 }
             }
         }
-
-        background = new Image(new Texture("assets/Screens/shopScreenCrop.png"));
         background.setSize(stage.getWidth(), stage.getHeight());
         background.setPosition(0, 0);
         sendToBack.add(background);

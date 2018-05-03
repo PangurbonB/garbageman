@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.Garbageman;
+import com.garbageman.game.Save;
 import com.garbageman.game.UI;
 
 import sun.font.TextLabel;

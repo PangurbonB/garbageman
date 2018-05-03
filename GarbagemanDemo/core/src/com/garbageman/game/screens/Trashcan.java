@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.garbageman.game.Assets;
 import com.garbageman.game.Backpack;
 import com.garbageman.game.Garbageman;
+import com.garbageman.game.Save;
 import com.garbageman.game.UI;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.world.GestureHandler;
@@ -428,20 +429,13 @@ public class Trashcan implements Screen {
 
         background.toBack();
         if (Gdx.input.getX() >= stage.getWidth() - backpackImg.getWidth() - backpackOpenProc && wasTouched && !touchingBug) {
-            backpackImg.setVisible(true);
-            SpriteSheetDivider sp = new SpriteSheetDivider();
-
-            try {
-                backpackImg.setDrawable(sp.divideScreen("smallInv", 0));
+            if (!backpackImg.isVisible()) {
+                backpackImg.setVisible(true);
             }
-            catch (NullPointerException e){
-                e.printStackTrace();
-                backpackImg.setDrawable(sp.divideScreen("smallInv", 0));
-            }
-
-
         } else {
-            backpackImg.setVisible(false);
+            if (backpackImg.isVisible()) {
+                backpackImg.setVisible(false);
+            }
         }
         game.batch.begin();
         text.toFront();
@@ -457,6 +451,7 @@ public class Trashcan implements Screen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.O) && !consoleOpen) {
+            Save.save(backpack);
             this.dispose();
             game.setScreen(new CookingScreen(game));
             //stage.dispose();

@@ -35,6 +35,7 @@ public class Garbageman extends Game {
 	private boolean autoGenInvItems = true;
 	private int numOfGenItems = 11;
 
+
 	public PassTrash passTrash = new PassTrash(this);
 
 	//colors for rarity:
@@ -94,6 +95,11 @@ public class Garbageman extends Game {
 
 	@Override
 	public void create () {
+
+		if (Save.load() != null){
+			backpack = Save.load();
+		}
+
 		this.garbageItems = ListAccess.garbageItems;
 		this.safeModeExclusions = ListAccess.safeModeExclusions;
 		this.customers = ListAccess.customers;

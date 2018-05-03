@@ -47,7 +47,7 @@ public class SpriteSheetDivider {
     public TextureRegionDrawable divideScreen(String itemName, int place){
         System.out.println(itemName);
         Float[] currInfo = infoMap.get(itemName);
-        System.out.println(currInfo.length);
+        //System.out.println(currInfo.length);
         int x = place % Math.round(currInfo[2]) +1;
 
         int y = (int)((place - place%x)/currInfo[2]);

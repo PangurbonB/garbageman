@@ -551,6 +551,11 @@ public class UI {
                 if (infoLabels.size()> 0) {
                     invInfo.setVisible(true);
                     invInfo.toFront();
+                    rotBarBar.setVisible(true);
+                    rotBarBack.setVisible(true);
+                    rotBarBack.toFront();
+                    rotBarBar.toFront();
+                    addToCook.toFront();
                     for (int x = 0; x < infoLabels.size(); x++) {
                         //System.out.println("ITEM: "+x+" ;; SIZE: "+infoLabels.size());
                         Label local = infoLabels.get(x);
@@ -573,9 +578,19 @@ public class UI {
                         }
                         else if (x == 3){
                             //System.out.println("LENY: "+local.getText().length);
+                            String desc;
+                            if (infoItem.nast >= infoItem.HMTHRESH && infoItem.desc3 != "") {
+                                desc = infoItem.desc3;
+                            } else if (infoItem.nast >= infoItem.MLTHRESH && infoItem.desc2 != "") {
+                                desc = infoItem.desc2;
+                            } else {
+                                desc = infoItem.desc;
+                            }
+                            local.setText(desc);
                             if (local.getText().length > 30) {
                                 local.setY(local.getHeight()*(float)4.75);
                             }
+
                         }
                         else if (x == 1) {
                             float numy = rotBarY-(float)(rotBarY*-.04);
@@ -601,8 +616,7 @@ public class UI {
                             //System.out.println("FLOAT ME BB: "+width);
                             rotBarBar.setSize(width, rotBarBar.getHeight());
 
-                            this.rotBarBack.toFront();
-                            this.rotBarBar.toFront();
+                            rotBarBar.toFront();
                             local.toFront();
                             //rotBarBar.;
                             //System.out.println("x == 3, "+rotBarY+", "+rotBarBack.getY());
@@ -613,6 +627,7 @@ public class UI {
                         //System.out.println(x+":: set text to '"+curInfoList.get(x)+"'");
 
                     }
+
                     //System.out.println("current type: "+infoItem.type+" : "+PassTrash.currentTypeToAdd);
                     if (game.currentScreen.equals(FakeInvScreen.screenName)&& infoItem.type == game.passTrash.currentTypeToAdd){
                         addToCook.setVisible(true);

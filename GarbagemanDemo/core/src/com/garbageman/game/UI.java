@@ -540,14 +540,6 @@ public class UI {
         upInv();
     }
 
-    public void updateSlidescreen(Stage lstage, Image slider, String curScreen){
-        if (curScreen.equals(trashcanScreenName)){
-
-        }
-        else
-            System.out.println("Slider only works on "+trashcanScreenName);
-    }
-
     public void update(){//call this in the render method of your screen to update the UI info on render
         Color barBackgroundGrey = Color.valueOf("#939598");
 

@@ -636,9 +636,6 @@ public class Trashcan implements Screen {
         }
 
         game.ui.update();
-        if (this.screenName.equals(game.ui.trashcanScreenName)){
-            game.ui.updateSlidescreen(this.stage, this.backpackImg, this.screenName);
-        }
 
         stage.draw();
         

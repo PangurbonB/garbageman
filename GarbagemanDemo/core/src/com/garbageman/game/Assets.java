@@ -6,6 +6,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.customers.Customer;
+import com.garbageman.game.garbage.BagOfSugar;
+import com.garbageman.game.garbage.Bean;
+import com.garbageman.game.garbage.Bread;
+import com.garbageman.game.garbage.Ketchup;
+import com.garbageman.game.garbage.Pork;
+import com.garbageman.game.garbage.Salad;
 import com.garbageman.game.garbage.Trash;
 
 import java.util.ArrayList;
@@ -145,6 +151,20 @@ public class Assets {
                 e.printStackTrace();
             }
         }
+
+        Trash item = new BagOfSugar();
+        newTexture(item.name+"Ghost", item.baseImgName + item.img + "Ghost" + item.fileType);
+        item = new Bean();
+        newTexture(item.name+"Ghost", item.baseImgName + item.img + "Ghost" + item.fileType);
+        item = new Bread();
+        newTexture(item.name+"Ghost", item.baseImgName + item.img + "Ghost" + item.fileType);
+        item = new Ketchup();
+        newTexture(item.name+"Ghost", item.baseImgName + item.img + "Ghost" + item.fileType);
+        item = new Pork();
+        newTexture(item.name+"Ghost", item.baseImgName + item.img + "Ghost" + item.fileType);
+        item = new Salad();
+        newTexture(item.name+"Ghost", item.baseImgName + item.img + "Ghost" + item.fileType);
+        newTexture("CLEAR", item.baseImgName + "CLEAR" + item.fileType);
     }
 
     private void initScreens(){

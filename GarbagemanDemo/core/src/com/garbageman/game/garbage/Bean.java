@@ -9,7 +9,7 @@ public class Bean extends Trash {
         type = FILLER;
         rarity = BOUGHT;
         name = "A Can of Beans";
-        img = "bean";
+        img = "Bean";
         desc = "This store bought can of beans was expensive, but people will like it";
     }
 }

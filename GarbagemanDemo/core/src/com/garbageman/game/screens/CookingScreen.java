@@ -69,7 +69,11 @@ public class CookingScreen implements Screen{
 
 
 
+
+
     public CookingScreen(Garbageman game){
+        PassTrash.place = 0;
+        input.setImg("BurritoGhost");
         this.game = game;
         foodItems = game.foodItems;
         for (int i = 0; i < foodItems.size(); i++) {
@@ -304,11 +308,11 @@ public class CookingScreen implements Screen{
                     break;
                 case Trash.FILLER:
                     newT = new Bean();
-                    newT.setImg("beanGhost");
+                    newT.setImg(Bean.name + "Ghost");
                     break;
                 case Trash.SWEETENER:
                     newT = new BagOfSugar();
-                    newT.setImg("bagOfSugarGhost");
+                    newT.setImg(BagOfSugar.name + "Ghost");
                     break;
                 case Trash.SAUCE:
                     newT = new Ketchup();
@@ -350,12 +354,12 @@ public class CookingScreen implements Screen{
                     break;
                 case Trash.FILLER:
                     newT = new Bean();
-                    newT.setImg("beanGhost");
+                    newT.setImg(Bean.name + "Ghost");
                     newT.setVisible(true);
                     break;
                 case Trash.SWEETENER:
                     newT = new BagOfSugar();
-                    newT.setImg("bagOfSugarGhost");
+                    newT.setImg(BagOfSugar.name + "Ghost");
                     newT.setVisible(true);
                     break;
                 case Trash.SAUCE:
@@ -384,9 +388,6 @@ public class CookingScreen implements Screen{
 
         if (changed){
             drawNewRecipe(input);
-
-
-
             changed ^= true;
         }
 

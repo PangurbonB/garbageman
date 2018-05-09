@@ -284,8 +284,8 @@ public class UI {
         stage.addActor(rotBarBar);
         //inv.add(rotBarBar);
 
-        this.rotBarBack.setVisible(false);
-        this.rotBarBar.setVisible(false);
+        //this.rotBarBack.setVisible(false);
+        //this.rotBarBar.setVisible(false);
 
 
         createLabels();
@@ -547,7 +547,7 @@ public class UI {
             if (showInfo && infoItem != null){
                 setInvVis(true, true);//HERE
 
-                System.out.println("INFO_LABELS: "+infoLabels.size());
+                //System.out.println("INFO_LABELS: "+infoLabels.size());
                 if (infoLabels.size()> 0) {
                     invInfo.setVisible(true);
                     invInfo.toFront();
@@ -612,7 +612,7 @@ public class UI {
                             else if (nast > infoItem.HMTHRESH){
                                 rotBarBar.setColor(game.colorMap.get("Red"));
                             }
-                            float width = ((rotBarBack.getWidth()*((infoItem.nast/100 ))));
+                            float width = ((rotBarBack.getWidth()*(((float)nast/100 ))));
                             //System.out.println("FLOAT ME BB: "+width);
                             rotBarBar.setSize(width, rotBarBar.getHeight());
 
@@ -623,7 +623,7 @@ public class UI {
                         }
                         //local.setText("!!! "+curInfoList.get(x));
                         local.setVisible(true);
-                        System.out.println(local.getText());
+                        //System.out.println(local.getText());
                         //System.out.println(x+":: set text to '"+curInfoList.get(x)+"'");
 
                     }
@@ -673,5 +673,9 @@ public class UI {
                 //e.printStackTrace();
             }
         }
+        /*if (rotBarBar.isVisible() && showInfo){
+            rotBarBar.toFront();
+            System.out.println("TO FRONT!  "+rotBarBar.isVisible()+ "  "+ rotBarBar.getHeight()+ ", "+rotBarBar.getWidth());
+        }*/
     }
 }

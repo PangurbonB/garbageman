@@ -153,7 +153,7 @@ public class UI {
                         rotBarY = infoName.getY();
                     }
                     //inv.add(infoName);
-                    //infoFrame.add(infoName);
+                    infoFrame.add(infoName);
                     infoLabels.add(infoName);
                     infoName.setVisible(false);
                     System.out.println("info label " + x + " made "+ infoLabels.size());
@@ -172,6 +172,11 @@ public class UI {
         if (showInfo){
             for (Actor item: infoFrame) {
                 item.toFront();
+            }
+        }
+        if (getInfoFrame){
+            for (Actor item:infoFrame) {
+                item.setVisible(val);
             }
         }
         /*if (getInfoFrame){
@@ -279,9 +284,11 @@ public class UI {
 
         this.rotBarBack = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(invInfo.getWidth()*.8), (int)invInfo.getHeight()/16, barBackgroundGrey, false);
         stage.addActor(this.rotBarBack);
+        infoFrame.add(rotBarBack);
         //inv.add(rotBarBack);
         this.rotBarBar = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(rotBarBack.getWidth()*.8), (int)invInfo.getHeight()/16, Color.valueOf("#f49542"), false);
         stage.addActor(rotBarBar);
+        infoFrame.add(rotBarBar);
         //inv.add(rotBarBar);
 
         //this.rotBarBack.setVisible(false);
@@ -639,9 +646,11 @@ public class UI {
             }
             else if (showInfo && !showInv){
                 closeInvInfo();
+                invInfo.setVisible(false);
             }
             else{
                 //setInvVis(false, false);//HERE
+                invInfo.setVisible(false);
                 closeInvInfo();
             }
 
@@ -664,6 +673,10 @@ public class UI {
             catch(java.lang.NullPointerException e){
                 //e.printStackTrace();
             }
+        }
+        if (!showInv){
+            invInfo.setVisible(false);
+            setInvVis(false, true);
         }
         /*if (rotBarBar.isVisible() && showInfo){
             rotBarBar.toFront();

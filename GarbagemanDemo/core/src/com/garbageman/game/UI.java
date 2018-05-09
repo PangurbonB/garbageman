@@ -95,15 +95,6 @@ public class UI {
         return game.currentScreen.equals(screenName);
     }//check if current screen is the same in game class
 
-    private BitmapFont makeFont(int size){//get a new font with size "size"
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/PressStart2P.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = size;
-        BitmapFont press2P = generator.generateFont(parameter);
-        generator.dispose();
-        return press2P;
-    }
-
     public Actor makeRect(int posX, int posY, int width, int height, Color bb, boolean vis){//makes a new shape, replacing using ShapeRenderers
         Image item = new Image(Assets.findTexture("whiteBlank"));
         item.setBounds(posX, posY, width, height);
@@ -404,7 +395,7 @@ public class UI {
 
     public void makeUI(){//call this to make the UI in a new screen after initing it
         Label.LabelStyle repStyle = new Label.LabelStyle();
-        repStyle.font = makeFont(25);
+        repStyle.font = game.makeFont(25);
         repText = new Label("Reputation", repStyle);
         repText.setBounds(250, game.window_height-75, 250, 75);
         repText.setColor(Color.BLACK);
@@ -416,7 +407,7 @@ public class UI {
         stage.addActor(moneyText);
 
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = makeFont(35);
+        buttonStyle.font = game.makeFont(35);
         menuButton = new TextButton("Menu", buttonStyle);
         menuButton.setBounds(0, game.window_height-75, 175, 50);
         menuButton.getLabel().setColor(Color.BLACK);
@@ -439,7 +430,7 @@ public class UI {
 
         if (!game.currentScreen.equals("Trashcan")){
             TextButton.TextButtonStyle invBStyle = new TextButton.TextButtonStyle();
-            invBStyle.font = makeFont(25);
+            invBStyle.font = game.makeFont(25);
             invButton = new TextButton("Inventory", invBStyle);
             int invWidth = 250;
             invButton.setBounds(game.window_width-invWidth, game.window_height-75, invWidth, 50);

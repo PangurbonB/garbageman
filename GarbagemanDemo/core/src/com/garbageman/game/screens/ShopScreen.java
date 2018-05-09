@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.garbageman.game.Assets;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.ListAccess;
@@ -29,6 +30,18 @@ public class ShopScreen implements Screen {
         this.game = game;
     }
 
+    private ArrayList<Actor> makeButton(String text, Color backgroundColor){
+        TextButton.TextButtonStyle bs = new TextButton.TextButtonStyle();
+        bs.font = game.makeFont(25);
+        bs.fontColor = Color.BLACK;
+        TextButton button = new TextButton(text, bs);
+        
+
+        ArrayList<Actor> list = new ArrayList<Actor>();
+        list.add(0, button);
+        return list;
+    }
+
     @Override
     public void show() {
         game.currentScreen = screenName;
@@ -41,14 +54,6 @@ public class ShopScreen implements Screen {
         int yInBetween = 155;
         int ySize = 133;
         int height = 350;
-        /*Actor rect = game.ui.makeRect(0, height, yInBetween, 50, Color.BLUE, true);
-        rect.setVisible(true);
-        sendToBack.add(rect);
-        stage.addActor(rect);
-        Actor rect2 = game.ui.makeRect(yInBetween, height, ySize, 50, Color.GOLD, true);
-        rect2.setVisible(true);
-        sendToBack.add(rect2);
-        stage.addActor(rect2);//*/
         int itemNum = 0;
 
         for (int x = 1; x <= 3; x++){
@@ -72,7 +77,7 @@ public class ShopScreen implements Screen {
                     stage.addActor(localItem);
                     localItem.setVisible(true);
                     localItem.setSize(UI.squareSize, UI.squareSize);
-                    localItem.setPosition(xPos, setHeight);
+                    localItem.setPosition(xPos-10, setHeight-15);
                     itemNum++;
                 }
             }

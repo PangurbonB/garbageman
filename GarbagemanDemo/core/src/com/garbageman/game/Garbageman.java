@@ -96,9 +96,9 @@ public class Garbageman extends Game {
 	@Override
 	public void create () {
 
-		if (Save.load() != null){
+		/*if (Save.load() != null){
 			backpack = Save.load();
-		}
+		}*/
 
 		this.garbageItems = ListAccess.garbageItems;
 		this.safeModeExclusions = ListAccess.safeModeExclusions;

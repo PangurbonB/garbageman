@@ -52,8 +52,6 @@ public class CookingScreen implements Screen{
 
     CookedFood input = new CookedFood();
 
-    Trash bird = new CrowWithOddEyeInfection();
-
     Garbageman game;
 
     ArrayList<Class> foodItems;
@@ -72,9 +70,21 @@ public class CookingScreen implements Screen{
 
 
     public CookingScreen(Garbageman game){
-        PassTrash.place = 0;
-        input.setImg("BurritoGhost");
         this.game = game;
+        this.foodItems = Garbageman.foodItems;
+
+        try {
+            input = (CookedFood) Class.forName(foodItems.get(PassTrash.place).getName()).newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        input.setImg("BurritoGhost");
+
         foodItems = game.foodItems;
         for (int i = 0; i < foodItems.size(); i++) {
             try {
@@ -308,11 +318,11 @@ public class CookingScreen implements Screen{
                     break;
                 case Trash.FILLER:
                     newT = new Bean();
-                    newT.setImg(Bean.name + "Ghost");
+                    newT.setImg(new Bean().name + "Ghost");
                     break;
                 case Trash.SWEETENER:
                     newT = new BagOfSugar();
-                    newT.setImg(BagOfSugar.name + "Ghost");
+                    newT.setImg(new BagOfSugar().name + "Ghost");
                     break;
                 case Trash.SAUCE:
                     newT = new Ketchup();
@@ -354,12 +364,12 @@ public class CookingScreen implements Screen{
                     break;
                 case Trash.FILLER:
                     newT = new Bean();
-                    newT.setImg(Bean.name + "Ghost");
+                    newT.setImg(new Bean().name + "Ghost");
                     newT.setVisible(true);
                     break;
                 case Trash.SWEETENER:
                     newT = new BagOfSugar();
-                    newT.setImg(BagOfSugar.name + "Ghost");
+                    newT.setImg(new BagOfSugar().name + "Ghost");
                     newT.setVisible(true);
                     break;
                 case Trash.SAUCE:
@@ -410,7 +420,6 @@ public class CookingScreen implements Screen{
             try {
                 input.setVisible(false);
                 input = (CookedFood) Class.forName(foodItems.get(loc).getName()).newInstance();
-                cookButton.setText(input.name);
                 input.setSize(96, 96);
                 input.setX(stage.getWidth()/2 - input.getWidth() + 40);
                 input.setY(stage.getHeight()/2 - input.getHeight() + 35);
@@ -443,7 +452,8 @@ public class CookingScreen implements Screen{
         }
 
         if (allSelected){
-            TextureRegion t = new TextureRegion(Assets.findTexture(input.name+"Ghost"));
+            cookButton.setText("Cook " + input.name);
+            TextureRegion t = new TextureRegion(Assets.findTexture(input.name));
             TextureRegionDrawable tt = new TextureRegionDrawable();
             t.setRegion(0,0,32,32);
             tt.setRegion(t);

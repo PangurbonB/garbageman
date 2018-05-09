@@ -126,8 +126,8 @@ public class Assets {
         for (Class i : Garbageman.foodItems) {
             try {
                 CookedFood item = (CookedFood) Class.forName(i.getName()).newInstance();
-                newTexture(item.name, item.getSpawnName());
-                newTexture(item.name+"Ghost", "assets/Food/"+item.name+"Ghost"+item.fileType);
+                newTexture(item.name, "assets/Food/" + item.name.toLowerCase() +  item.fileType);
+                newTexture(item.name+"Ghost", "assets/Food/"+item.name.toLowerCase()+"Ghost"+item.fileType);
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {

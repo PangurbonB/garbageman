@@ -43,7 +43,7 @@ public class MainMenuScreen implements Screen {
     //private BitmapFont font;
    // private TextButton playButton;
     private TextButton.TextButtonStyle bbstyle;
-    private ImageButton playButton, exitButton;
+    private TextButton playButton, exitButton;
     private final int pbHeight = 250;
     private final int pbWidth = 350;
     private String screenName = "MainMenuScreen";
@@ -116,7 +116,7 @@ public class MainMenuScreen implements Screen {
 
 
 
-        Skin playButtonSkin = Assets.newSkin();
+        /*Skin playButtonSkin = Assets.newSkin();
         playButtonSkin.add("play", Assets.findTexture("playButtonMenu"));
         playButtonSkin.add("exit", Assets.findTexture("exitButtonMenu"));
        // playButtonSkin.add("playDown", new Texture("assets/playButtonActive.png"));
@@ -125,9 +125,12 @@ public class MainMenuScreen implements Screen {
         playImgStyle.imageUp = playButtonSkin.getDrawable("play");
         ImageButton.ImageButtonStyle exitImgStyle = new ImageButton.ImageButtonStyle();
         exitImgStyle.imageUp = playButtonSkin.getDrawable("exit");
-        //playImgStyle.imageDown = playButtonSkin.getDrawable("playDown");
+        //playImgStyle.imageDown = playButtonSkin.getDrawable("playDown");*/
 
-        playButton = new ImageButton(playImgStyle);
+        TextButton.TextButtonStyle mainBS = new TextButton.TextButtonStyle();
+        mainBS.font = game.makeFont(70);
+        mainBS.fontColor = Color.BLACK;
+        playButton = new TextButton("Play", mainBS);
         playButton.setSize(pbWidth, pbHeight);
         playButton.setPosition((game.window_width-pbWidth)/2, (game.window_height-pbHeight)/2);
         playButton.addListener(new InputListener(){
@@ -145,7 +148,7 @@ public class MainMenuScreen implements Screen {
         });
         playButton.setVisible(true);
 
-        exitButton = new ImageButton(exitImgStyle);
+        exitButton = new TextButton("Exit", mainBS);
         exitButton.setSize(pbWidth, pbHeight);
         exitButton.setPosition((game.window_width-pbWidth)/2, ((game.window_height-pbHeight)/2)-pbHeight);
         exitButton.addListener(new InputListener(){
@@ -157,6 +160,9 @@ public class MainMenuScreen implements Screen {
            }
         });
         exitButton.setVisible(true);
+
+        stage.addActor(playButton);
+        stage.addActor(exitButton);
     }
 
     @Override
@@ -172,8 +178,8 @@ public class MainMenuScreen implements Screen {
         //stage.addActor(TEST);
         if (backing != null)
             stage.addActor(backing);
-        stage.addActor(playButton);
-        stage.addActor(exitButton);
+        playButton.toFront();
+        exitButton.toFront();
         //stage.addActor(lab);
         game.batch.begin();
 

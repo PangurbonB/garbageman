@@ -37,7 +37,7 @@ public class Trash extends Image{
     public static final  int BOUGHT = 5;
     public static final  int BEYOND_COMPREHENSION = 6;
 
-    public static String name = "Bug";
+    public String name = "Bug";
     public String baseImgName = "assets/Garbage/";
     public String fileType = ".png";
     public String img = "error";

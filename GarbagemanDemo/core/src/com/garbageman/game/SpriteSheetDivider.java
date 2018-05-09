@@ -70,7 +70,6 @@ public class SpriteSheetDivider {
         }
         catch (GdxRuntimeException e){
             e.printStackTrace();
-            CrowWithOddEyeInfection c = new CrowWithOddEyeInfection();
             temp.setTexture(Assets.findTexture(crow.name));
         }
         if (temp.getTexture().getTextureData().getWidth() == 96) {

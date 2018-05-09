@@ -82,9 +82,6 @@ public class CookingScreen implements Screen{
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-        input.setImg("BurritoGhost");
-
         foodItems = game.foodItems;
         for (int i = 0; i < foodItems.size(); i++) {
             try {
@@ -179,11 +176,6 @@ public class CookingScreen implements Screen{
                 return super.touchDown(event, x, y, pointer, button);
         }
         });
-
-
-
-        sk.add("name", "assets/food/"+input.name+"Ghost.png");
-        input.setDrawable(sk, "ghost");
         stage.addActor(input);
 
         background.toBack();

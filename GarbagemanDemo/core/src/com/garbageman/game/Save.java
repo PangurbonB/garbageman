@@ -14,14 +14,13 @@ import java.io.IOException;
 
 public class Save {
 
-    static JSONArray inventory = new JSONArray();
+    static JSONObject inventory = new JSONObject();
     static JSONObject backpackObject = new JSONObject();
 
     public static void save(Backpack backpack){
         backpackObject.put("backpack", backpack);
-        for (int i = 0; i < backpack.contents.size(); i++) {
-            inventory.add(i, backpack.contents);
-        }
+        inventory.put("backpack", backpack.contents);
+
 
         try {
             FileWriter file = new FileWriter("Save1.json");

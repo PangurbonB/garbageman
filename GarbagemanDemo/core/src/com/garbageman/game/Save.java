@@ -28,9 +28,10 @@ public class Save {
     public static void save(Backpack backpack){
 
         for (Trash i : backpack.contents) {
+            System.out.println("?????????????????????????????"+i.getName());
             ArrayList<String> trashInfo = new ArrayList<String>();
             trashInfo.add(String.valueOf(i.isCookedFood));
-            trashInfo.add(i.getName());
+            trashInfo.add(i.img);
             trashInfo.add(String.valueOf(i.nast));
             trashInfo.add(String.valueOf(i.containsCrowWithOddEyeInfection));
             if (i instanceof CookedFood){
@@ -57,14 +58,14 @@ public class Save {
     public static ArrayList<ArrayList<String>> load(){
         try {
             JSONArray obj = (JSONArray) parser.parse(new FileReader("Save1.json"));
-            System.out.println(obj);
-            ArrayList<String> e = (ArrayList) obj.get(0);
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!"+obj);
             ArrayList<ArrayList<String>> ret = new ArrayList<ArrayList<String>>();
-            for (Object i : obj) {
-                ret.add((ArrayList<String>) i);
+            if (obj.size() != 0) {
+                for (Object i : obj) {
+                    ret.add((ArrayList<String>) i);
+                }
             }
             return ret;
-
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {

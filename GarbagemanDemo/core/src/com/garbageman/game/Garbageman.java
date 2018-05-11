@@ -138,12 +138,11 @@ public class Garbageman extends Game {
 				//System.out.println("added an item "+item.name);
 			}
 		}
+		this.setScreen(new MainMenuScreen(this));
 
 		ArrayList<ArrayList<String>> obj = Save.load();
+		updateBackpackFromLoad(obj);
 
-
-
-		this.setScreen(new MainMenuScreen(this));
 
         ListAccess.updateMaps();
         this.colorMap = ListAccess.colorMap;
@@ -162,14 +161,17 @@ public class Garbageman extends Game {
 
 	private void updateBackpackFromLoad(ArrayList<ArrayList<String>> obj){
 		if (obj != null){
+            backpack.contents = new ArrayList<Trash>();
 			for (ArrayList<String> e : obj) {
 				Trash object = null;
 				if (e.get(0).equals("false")) {
-					for (Class garbageItem : Garbageman.garbageItems) {
+                    System.out.println("NNNNNNNNNNNNNN"+e);
+                    for (Class garbageItem : Garbageman.garbageItems) {
 						if (garbageItem.getSimpleName().toLowerCase().equals(e.get(1).toLowerCase())) {
 							try {
 								object = (Trash) Class.forName(garbageItem.getName()).newInstance();
 								object.nast = Integer.valueOf(e.get(2));
+
 							} catch (InstantiationException e1) {
 								e1.printStackTrace();
 							} catch (IllegalAccessException e1) {
@@ -198,7 +200,12 @@ public class Garbageman extends Game {
 						}
 					}
 				}
-				backpack.add(object);
+				if (object != null) {
+					object.setImg();
+					object.setVisible(true);
+					object.setSize(UI.squareSize, UI.squareSize);
+				}
+				this.backpack.add(object);
 			}
 		}
 	}

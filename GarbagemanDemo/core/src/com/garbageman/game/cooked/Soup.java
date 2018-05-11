@@ -8,6 +8,7 @@ public class Soup extends CookedFood{
 
     {
         name = "Soup";
+        img = name;
         desc = "Just ignore the floating debris and it's alright";
         reqTypes = new int[] {t.VEGGIE, t.SAUCE, t.FILLER};
         optionalTypes = new int[] {t.MEAT, t.VEGGIE, t.VEGGIE, t.SAUCE, t.NONE};

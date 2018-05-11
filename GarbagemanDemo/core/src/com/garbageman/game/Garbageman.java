@@ -141,6 +141,26 @@ public class Garbageman extends Game {
 
 		ArrayList<ArrayList<String>> obj = Save.load();
 
+
+
+		this.setScreen(new MainMenuScreen(this));
+
+        ListAccess.updateMaps();
+        this.colorMap = ListAccess.colorMap;
+        this.typeMap = ListAccess.typeMap;
+
+		//typeMap.put("Completed Meals", new CookedFood().)//make this show cooked food later -Dana
+	}
+
+	@Override
+	public void render () {
+		if (Gdx.input.isKeyPressed(Input.Keys.Q)){
+			Gdx.app.exit();
+		}
+		super.render();
+	}
+
+	private void updateBackpackFromLoad(ArrayList<ArrayList<String>> obj){
 		if (obj != null){
 			for (ArrayList<String> e : obj) {
 				Trash object = null;
@@ -181,24 +201,10 @@ public class Garbageman extends Game {
 				backpack.add(object);
 			}
 		}
-
-
-		this.setScreen(new MainMenuScreen(this));
-
-        ListAccess.updateMaps();
-        this.colorMap = ListAccess.colorMap;
-        this.typeMap = ListAccess.typeMap;
-
-		//typeMap.put("Completed Meals", new CookedFood().)//make this show cooked food later -Dana
 	}
 
-	@Override
-	public void render () {
-		if (Gdx.input.isKeyPressed(Input.Keys.Q)){
-			Gdx.app.exit();
-		}
-		super.render();
-	}
+
+
 
 	public void dispose(){
 		Assets.dispose();

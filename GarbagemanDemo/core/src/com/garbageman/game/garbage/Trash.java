@@ -202,12 +202,18 @@ public class Trash extends Image{
 
     public double getNastMultiplier(){
         double base = .8;
-        double i = base + (1-base)*((MAXNAST-nast + 1)/MAXNAST);
+        double i = base + (1-base)*((MAXNAST-this.nast + 1)/MAXNAST);
+
+
+        double basePrice = 5;
+        double num = (0);//(basePrice)-((35/100)*basePrice*2);//too small
+
         return i;
     }
 
     public void setPrice(){
         sellPrice = baseSellPrice * getRarityMultiplier() * getNastMultiplier();
+
     }
 
 }

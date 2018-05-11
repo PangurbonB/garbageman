@@ -8,12 +8,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.MainMenuScreen;
 import com.garbageman.game.screens.Trashcan;
-
-import org.json.simple.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -26,7 +23,7 @@ public class Garbageman extends Game {
 	public String currentScreen = "MainMenuScreen";
 	public AssetManager manager = new AssetManager();
 	public static boolean canResize = false;
-	public int money = 50;
+	public double money = 50;
 	public int reputation = 50;
 	public final int repMax = 100;
 	public String[] sections = {"Veggies", "Meats", "Wraps", "Fillers", "Sweeteners", "Sauces"};
@@ -94,6 +91,17 @@ public class Garbageman extends Game {
 		else
 			System.out.println("Money can't be less than 0: " + (this.money+amt));
 
+	}
+
+	public String getMoneyForDisplay(){
+		String num = ""+money;
+		if (money % 1 == 0){
+			num = ""+(int)money;
+		}
+		else{
+			num = ""+money;
+		}
+		return num;
 	}
 
 	@Override

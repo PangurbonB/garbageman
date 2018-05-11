@@ -17,7 +17,7 @@ public class Backpack extends Actor{
 
     private int vertSlots = 5;
     private int horizSlots = 4;
-    private int totalSlots = vertSlots * horizSlots;
+    public int totalSlots = vertSlots * horizSlots;
 
     public ArrayList<Trash> contents = new ArrayList<Trash>();
     protected ArrayList<Trash> backupContents = new ArrayList<Trash>();

@@ -4,9 +4,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.garbageman.game.Assets;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.ListAccess;
@@ -25,21 +28,42 @@ public class ShopScreen implements Screen {
     public static String screenName = "ShopScreen";
     private Image background;
     private ArrayList<Actor> sendToBack = new ArrayList<Actor>();
+    private float buttonSizeX = 170, buttonSizeY = 50;
+    private ArrayList<Actor> coverTheseWithInv = new ArrayList<Actor>();
 
     public ShopScreen (Garbageman game){
         this.game = game;
     }
 
-    private ArrayList<Actor> makeButton(String text, Color backgroundColor){
+    private ArrayList<Actor> makeButton(String text, Color backgroundColor, float posX, float posY){
         TextButton.TextButtonStyle bs = new TextButton.TextButtonStyle();
-        bs.font = game.makeFont(25);
+        bs.font = game.makeFont(17);
         bs.fontColor = Color.BLACK;
         TextButton button = new TextButton(text, bs);
-        
+        button.setBounds(posX, posY, buttonSizeX, buttonSizeY);
+        button.getLabel().setWrap(true);
+        button.setVisible(true);
+        Actor frame = game.ui.makeRect((int)button.getX(), (int)button.getY(), (int)button.getWidth(), (int)button.getHeight(), backgroundColor, true);
+
+        stage.addActor(button);
+        stage.addActor(frame);
 
         ArrayList<Actor> list = new ArrayList<Actor>();
         list.add(0, button);
+        list.add(1, frame);
+        coverTheseWithInv.add(button);
+        coverTheseWithInv.add(frame);
         return list;
+    }
+
+    private int getOwned(Trash item){
+        int num = 0;
+        for (Trash t:game.backpack.contents) {
+            if (t.type == item.type && t.name == item.name){
+                num++;
+            }
+        }
+        return num;
     }
 
     @Override
@@ -72,12 +96,34 @@ public class ShopScreen implements Screen {
                     else if (x == 3){//this is so dumb
                         xPos = (x*(yInBetween+ySize))+ySize-15;
                     }
-                    Trash localItem = ListAccess.shopMap.get(itemNum); // = game.ui.makeRect(xPos, setHeight, ySize, ySize, Color.GREEN, true);
+                    final Trash localItem = ListAccess.shopMap.get(itemNum); // = game.ui.makeRect(xPos, setHeight, ySize, ySize, Color.GREEN, true);
                     localItem.setImg();
                     stage.addActor(localItem);
                     localItem.setVisible(true);
                     localItem.setSize(UI.squareSize, UI.squareSize);
                     localItem.setPosition(xPos-10, setHeight-15);
+                    coverTheseWithInv.add(localItem);
+                    float bPosY = localItem.getY();
+                    if (y == 2){
+                        bPosY = localItem.getY()+140;
+                    }
+                    int owned = getOwned(localItem);
+                    final ArrayList<Actor> buttons = makeButton("Buy: $"+(int)localItem.baseSellPrice+" (Owned:"+owned+")", Color.GREEN, localItem.getX()-10, bPosY);
+                    final TextButton button = (TextButton)buttons.get(0);
+                    button.addListener(new InputListener(){
+                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button1) {
+                            if (game.money >= localItem.baseSellPrice && game.backpack.contents.size()< game.backpack.totalSlots) {
+                                game.money = game.money - (int)localItem.baseSellPrice;
+                                game.backpack.add(localItem);
+                                int newOwned = getOwned(localItem);
+                                button.setText("Buy: $" + (int) localItem.baseSellPrice + " (Owned:" + newOwned + ")");
+                                game.ui.upInv();
+                                game.ui.update();
+                            }
+                            return super.touchDown(event, x, y, pointer, button1);
+                        }
+                    });
+
                     itemNum++;
                 }
             }
@@ -99,6 +145,17 @@ public class ShopScreen implements Screen {
         game.ui.update();
         sendAllToBack();
         stage.draw();
+
+        if (game.ui.showInv){
+            for (Actor a:coverTheseWithInv) {
+                a.setVisible(false);
+            }
+        }
+        else{
+            for (Actor a:coverTheseWithInv) {
+                a.setVisible(true);
+            }
+        }
     }
 
     @Override

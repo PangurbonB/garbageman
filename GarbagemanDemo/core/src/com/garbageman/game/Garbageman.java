@@ -8,9 +8,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.MainMenuScreen;
 import com.garbageman.game.screens.Trashcan;
+
+import org.json.simple.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -135,6 +138,51 @@ public class Garbageman extends Game {
 				//System.out.println("added an item "+item.name);
 			}
 		}
+
+		ArrayList<ArrayList<String>> obj = Save.load();
+
+		if (obj != null){
+			for (ArrayList<String> e : obj) {
+				Trash object = null;
+				if (e.get(0).equals("false")) {
+					for (Class garbageItem : Garbageman.garbageItems) {
+						if (garbageItem.getSimpleName().toLowerCase().equals(e.get(1).toLowerCase())) {
+							try {
+								object = (Trash) Class.forName(garbageItem.getName()).newInstance();
+								object.nast = Integer.valueOf(e.get(2));
+							} catch (InstantiationException e1) {
+								e1.printStackTrace();
+							} catch (IllegalAccessException e1) {
+								e1.printStackTrace();
+							} catch (ClassNotFoundException e1) {
+								e1.printStackTrace();
+							}
+						}
+					}
+				}
+				else if (e.get(0).equals("true")){
+					for (Class foodItem : Garbageman.foodItems) {
+						if (foodItem.getSimpleName().toLowerCase().equals(e.get(1).toLowerCase())) {
+							try {
+								object = (Trash) Class.forName(foodItem.getName()).newInstance();
+								object.nast = Integer.valueOf(e.get(2));
+								object.containsCrowWithOddEyeInfection = Boolean.valueOf(e.get(3));
+								object.sellPrice = Double.valueOf(e.get(4));
+							} catch (InstantiationException e1) {
+								e1.printStackTrace();
+							} catch (IllegalAccessException e1) {
+								e1.printStackTrace();
+							} catch (ClassNotFoundException e1) {
+								e1.printStackTrace();
+							}
+						}
+					}
+				}
+				backpack.add(object);
+			}
+		}
+
+
 		this.setScreen(new MainMenuScreen(this));
 
         ListAccess.updateMaps();

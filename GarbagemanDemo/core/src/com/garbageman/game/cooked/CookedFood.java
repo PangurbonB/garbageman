@@ -14,6 +14,7 @@ public class CookedFood extends Trash{
     {
         name = "default";
         desc = "A Burrito";
+        isCookedFood = true;
     }
 
     protected Trash t = new Trash();

@@ -11,6 +11,9 @@ import com.garbageman.game.SpriteSheetDivider;
 public class Trash extends Image{
 
     public boolean isGhost = false;
+    public boolean isCookedFood = false;
+
+    public boolean containsCrowWithOddEyeInfection = false;
 
     //Ingredient types
     public static final int UNUSABLE = 0;

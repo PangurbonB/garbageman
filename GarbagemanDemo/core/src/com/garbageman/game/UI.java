@@ -562,7 +562,7 @@ public class UI {
                                 local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
                             }
                             else{
-                                local.setText("Sell Price: $"+((CookedFood) infoItem).sellValue);
+                                local.setText("Sell Price: $"+((CookedFood) infoItem).sellPrice);
                                 local.setColor(Color.WHITE);
                             }
                         }

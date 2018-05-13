@@ -174,6 +174,7 @@ public class Assets {
         newTexture("smallInv", "assets/Screens/smallInv.png");
         newTexture("inventory", "assets/Screens/Inventory.png");
         newTexture("shopScreenCrop", "assets/Screens/shopScreenCrop.png");
+        newTexture("restBack", "assets/Screens/Restaurant.png");
     }
 
 }

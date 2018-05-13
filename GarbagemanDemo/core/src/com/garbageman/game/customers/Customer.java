@@ -70,7 +70,7 @@ public class Customer extends Image {
         if (!this.overheadName.equals(null)){
             this.overheadName.setSize(this.getWidth(), this.getHeight()/4);
             this.overheadName.setPosition(this.getX(), this.getY()+this.getHeight());
-            this.overheadName.setVisible(true);
+            this.overheadName.setVisible(this.isVisible());
             this.overheadName.setColor(Color.BLACK);
         }
     }

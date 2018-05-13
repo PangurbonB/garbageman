@@ -494,7 +494,11 @@ public class UI {
             repText.setAlignment(Align.center);
         }
         if (moneyText != null){
-            moneyText.setText("$"+game.money);
+            String setMoney = ""+game.money;
+            if (game.money % 1 == 0){
+                setMoney = ""+((int)game.money);
+            }
+            moneyText.setText("$"+setMoney);
             moneyText.setAlignment(Align.center);
             moneyText.setColor(Color.BLACK);
         }

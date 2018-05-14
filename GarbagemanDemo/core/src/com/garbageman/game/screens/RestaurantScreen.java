@@ -12,6 +12,7 @@ import com.garbageman.game.Garbageman;
 import com.garbageman.game.customers.Customer;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by dpearson6225 on 3/2/2018.
@@ -23,6 +24,8 @@ public class RestaurantScreen implements Screen {
     Stage stage = new Stage();
     Image background;
     Customer test = null, test2 = null;
+    int currentInterval = 0, maxInterval = new Random().nextInt(40);
+
     private ArrayList<Actor> coverTheseWithInv = new ArrayList<Actor>();
 
 
@@ -31,8 +34,15 @@ public class RestaurantScreen implements Screen {
         this.game = game;
     }
 
-    private void makeCustomer(){
-
+    private Customer makeCustomerToCounter(){
+        Customer c = Customer.randomCustomer(stage);
+        //make order too?
+        /*
+        current idea:
+        customer is generated, customer comes to counter, leaves if not interacted with in certain amount of time
+        after customer leaves it waits a random amount of time and then generates another customer
+         */
+        return c;
     }
 
     @Override
@@ -47,8 +57,8 @@ public class RestaurantScreen implements Screen {
         stage.addActor(background);
         background.toBack();
 
-        test2 = Customer.randomCustomer(stage);
-        coverTheseWithInv.add(test2);
+        /*test2 = Customer.randomCustomer(stage);
+        coverTheseWithInv.add(test2);*/
     }
 
     @Override
@@ -61,7 +71,7 @@ public class RestaurantScreen implements Screen {
         game.ui.update();
         stage.draw();
         Customer.updateAllCurrentCustomers();
-        if (Gdx.input.isKeyPressed(Input.Keys.Y)){
+        if (Gdx.input.isKeyPressed(Input.Keys.Y )&& test2 != null){
             test2.walkToPoint(500, 0);
             System.out.println("moving: ");
         }

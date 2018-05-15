@@ -1,11 +1,18 @@
 package com.garbageman.game;
+import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.garbage.Trash;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+
 
 
 /**
@@ -14,26 +21,59 @@ import java.io.IOException;
 
 public class Save {
 
-    static JSONArray inventory = new JSONArray();
-    static JSONObject backpackObject = new JSONObject();
+    static JSONObject inventory = new JSONObject();
+    static JSONArray backpackContents = new JSONArray();
+    static JSONParser parser = new JSONParser();
 
     public static void save(Backpack backpack){
-        backpackObject.put("backpack", backpack);
-        for (int i = 0; i < backpack.contents.size(); i++) {
-            inventory.add(i, backpack.contents);
+
+        for (Trash i : backpack.contents) {
+            System.out.println("?????????????????????????????"+i.getName());
+            ArrayList<String> trashInfo = new ArrayList<String>();
+            trashInfo.add(String.valueOf(i.isCookedFood));
+            trashInfo.add(i.img);
+            trashInfo.add(String.valueOf(i.nast));
+            trashInfo.add(String.valueOf(i.containsCrowWithOddEyeInfection));
+            if (i instanceof CookedFood){
+                trashInfo.add(String.valueOf(((CookedFood) i).sellValue));
+            }
+            else{
+                trashInfo.add("0");
+            }
+
+            backpackContents.add(trashInfo);
         }
+
+
 
         try {
             FileWriter file = new FileWriter("Save1.json");
-            file.write(inventory.toJSONString());
+            file.write(backpackContents.toJSONString());
             file.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static Backpack load(){
-        return (Backpack) backpackObject.get("backpack");
+    public static ArrayList<ArrayList<String>> load(){
+        try {
+            JSONArray obj = (JSONArray) parser.parse(new FileReader("Save1.json"));
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!"+obj);
+            ArrayList<ArrayList<String>> ret = new ArrayList<ArrayList<String>>();
+            if (obj.size() != 0) {
+                for (Object i : obj) {
+                    ret.add((ArrayList<String>) i);
+                }
+            }
+            return ret;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

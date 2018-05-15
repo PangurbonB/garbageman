@@ -664,8 +664,8 @@ public class Trashcan implements Screen {
 
     @Override
     public void dispose() {
+        //stage.dispose();
         game.dispose();
-        System.out.println("CRASHY");
-        stage.dispose();
+
     }
 }

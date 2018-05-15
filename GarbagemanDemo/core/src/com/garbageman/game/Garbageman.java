@@ -23,7 +23,7 @@ public class Garbageman extends Game {
 	public String currentScreen = "MainMenuScreen";
 	public AssetManager manager = new AssetManager();
 	public static boolean canResize = false;
-	public int money = 50;
+	public double money = 50;
 	public int reputation = 50;
 	public final int repMax = 100;
 	public String[] sections = {"Veggies", "Meats", "Wraps", "Fillers", "Sweeteners", "Sauces"};
@@ -32,7 +32,7 @@ public class Garbageman extends Game {
 	public Backpack backpack = new Backpack();
 	public UI ui = new UI();
     private boolean SAFE_MODE = false;
-	private boolean autoGenInvItems = true;
+	private boolean autoGenInvItems = false;
 	private int numOfGenItems = 11;
 
 
@@ -93,12 +93,23 @@ public class Garbageman extends Game {
 
 	}
 
+	public String getMoneyForDisplay(){
+		String num = ""+money;
+		if (money % 1 == 0){
+			num = ""+(int)money;
+		}
+		else{
+			num = ""+money;
+		}
+		return num;
+	}
+
 	@Override
 	public void create () {
 
-		if (Save.load() != null){
+		/*if (Save.load() != null){
 			backpack = Save.load();
-		}
+		}*/
 
 		this.garbageItems = ListAccess.garbageItems;
 		this.safeModeExclusions = ListAccess.safeModeExclusions;
@@ -137,6 +148,10 @@ public class Garbageman extends Game {
 		}
 		this.setScreen(new MainMenuScreen(this));
 
+		ArrayList<ArrayList<String>> obj = Save.load();
+		updateBackpackFromLoad(obj);
+
+
         ListAccess.updateMaps();
         this.colorMap = ListAccess.colorMap;
         this.typeMap = ListAccess.typeMap;
@@ -151,6 +166,60 @@ public class Garbageman extends Game {
 		}
 		super.render();
 	}
+
+	private void updateBackpackFromLoad(ArrayList<ArrayList<String>> obj){
+		if (obj != null){
+            backpack.contents = new ArrayList<Trash>();
+			for (ArrayList<String> e : obj) {
+				Trash object = null;
+				if (e.get(0).equals("false")) {
+                    System.out.println("NNNNNNNNNNNNNN"+e);
+                    for (Class garbageItem : Garbageman.garbageItems) {
+						if (garbageItem.getSimpleName().toLowerCase().equals(e.get(1).toLowerCase())) {
+							try {
+								object = (Trash) Class.forName(garbageItem.getName()).newInstance();
+								object.nast = Integer.valueOf(e.get(2));
+
+							} catch (InstantiationException e1) {
+								e1.printStackTrace();
+							} catch (IllegalAccessException e1) {
+								e1.printStackTrace();
+							} catch (ClassNotFoundException e1) {
+								e1.printStackTrace();
+							}
+						}
+					}
+				}
+				else if (e.get(0).equals("true")){
+					for (Class foodItem : Garbageman.foodItems) {
+						if (foodItem.getSimpleName().toLowerCase().equals(e.get(1).toLowerCase())) {
+							try {
+								object = (Trash) Class.forName(foodItem.getName()).newInstance();
+								object.nast = Integer.valueOf(e.get(2));
+								object.containsCrowWithOddEyeInfection = Boolean.valueOf(e.get(3));
+								object.sellPrice = Double.valueOf(e.get(4));
+							} catch (InstantiationException e1) {
+								e1.printStackTrace();
+							} catch (IllegalAccessException e1) {
+								e1.printStackTrace();
+							} catch (ClassNotFoundException e1) {
+								e1.printStackTrace();
+							}
+						}
+					}
+				}
+				if (object != null) {
+					object.setImg();
+					object.setVisible(true);
+					object.setSize(UI.squareSize, UI.squareSize);
+				}
+				this.backpack.add(object);
+			}
+		}
+	}
+
+
+
 
 	public void dispose(){
 		Assets.dispose();

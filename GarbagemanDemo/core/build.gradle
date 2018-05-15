@@ -11,6 +11,6 @@ eclipse.project {
 }
 
 dependencies {
-    compile 'org.lwjgl.lwjgl:lwjgl:2.9.2'
     compile files('src/com/garbageman/json-simple-1.1.1.jar')
+    compile 'org.lwjgl.lwjgl:lwjgl:2.9.2'
 }

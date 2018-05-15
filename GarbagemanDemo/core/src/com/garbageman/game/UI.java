@@ -47,7 +47,7 @@ public class UI {
     private Actor currentDown;
     private boolean showInfo = false;
     private int infoX, infoY;
-    private ArrayList<String> curInfoList = new ArrayList<String>();
+    //private ArrayList<String> curInfoList = new ArrayList<String>();
     //private Label infoName;
     private Label rotten;
     private Label desc;
@@ -95,31 +95,13 @@ public class UI {
         return game.currentScreen.equals(screenName);
     }//check if current screen is the same in game class
 
-    private BitmapFont makeFont(int size){//get a new font with size "size"
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/PressStart2P.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = size;
-        BitmapFont press2P = generator.generateFont(parameter);
-        generator.dispose();
-        return press2P;
-    }
-
     public Actor makeRect(int posX, int posY, int width, int height, Color bb, boolean vis){//makes a new shape, replacing using ShapeRenderers
-        /*shape.setAutoShapeType(true);
-        shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.rect(posX, posY, width, height, bb, bb, bb, bb);
-        shape.end();//*/
         Image item = new Image(Assets.findTexture("whiteBlank"));
         item.setBounds(posX, posY, width, height);
         item.setColor(bb);
         stage.addActor(item);
         item.setVisible(vis);
         return item;//*/
-    }
-
-    public void openTestThingy(boolean onOff){
-        BLUE_SQUARE.setVisible(onOff);
-        //System.out.println("IT CHANGED: "+onOff);
     }
 
     private void updateRep(int len, double rep){//update the reputation bar
@@ -144,16 +126,12 @@ public class UI {
         this.repBar.setColor(color);
     }
 
-    private Texture getTextureFromTrash(Trash item){//unused, get the texture of a trash item
-        return Assets.findTexture(item.name);
-    }
-
     private void createLabels(){//makes the info labels for clicking an item, like nastiness, name, and description
         if (infoLabels.size()== 0) {
             Label.LabelStyle smallerStyle = new Label.LabelStyle();
             smallerStyle.font = game.makeFont(15);
-            if (curInfoList.size() >= 4) {
-                for (int x = 0; x <= curInfoList.size(); x++) {
+            if (infoLabels.size() ==0) {
+                for (int x = 0; x <= 4; x++) {
                     //System.out.println("THIS: " + x);
                     Label infoName = new Label("", smallerStyle);
                     infoName.setAlignment(Align.center);
@@ -166,10 +144,10 @@ public class UI {
                         rotBarY = infoName.getY();
                     }
                     //inv.add(infoName);
-                    //infoFrame.add(infoName);
+                    infoFrame.add(infoName);
                     infoLabels.add(infoName);
                     infoName.setVisible(false);
-                    //System.out.println("info label " + x + " made");
+                    System.out.println("info label " + x + " made "+ infoLabels.size());
                 }
             } //else
             //System.out.println("NOT 4:::: " + curInfoList.size());
@@ -177,7 +155,27 @@ public class UI {
     }
 
     private void setInvVis(boolean val, boolean getInfoFrame){//set the items in the inventory gui to show or not show; can also be used to set visibility of infoFrame
-        ArrayList<Actor> check = null;
+        //System.out.println("SET THE INV TO BE VIS: "+val+ ", info FRAME: "+getInfoFrame);
+        for (Actor item:inv) {
+            item.setVisible(val);
+        }
+        invInfo.setVisible(showInfo);
+        if (showInfo){
+            for (Actor item: infoFrame) {
+                item.toFront();
+            }
+        }
+        if (getInfoFrame){
+            for (Actor item:infoFrame) {
+                item.setVisible(val);
+            }
+        }
+        /*if (getInfoFrame){
+            for (Actor item:infoFrame) {
+                item.setVisible(val);
+            }
+        }//*/
+        /*ArrayList<Actor> check = null;
         if (!getInfoFrame){
             check = inv;
             //invInfo.setVisible(false);
@@ -196,11 +194,11 @@ public class UI {
                 Actor b = check.get(i);
                 b.setVisible(val);
             }
-        }
+        }*/
     }
 
     private void closeInvInfo(){//closes the infoFrame and sets its contents to be invisible
-        if (curInfoList.size()>= 4) {
+        /*if (infoLabels.size()>= 4) {
             showInfo = !showInfo;
             for (int x = 0; x < infoLabels.size(); x++) {
                 infoLabels.get(x).setVisible(false);
@@ -208,7 +206,7 @@ public class UI {
             infoLabels.clear();
             rotBarBack.setVisible(false);
             rotBarBar.setVisible(false);
-        }
+        }*/
     }
 
 
@@ -228,7 +226,8 @@ public class UI {
         this.invBackground =  makeRect(0, 0, game.window_width, game.window_height-75, barBackgroundGrey, false);
         this.invInfo =  makeRect(0, 0, 250, game.window_height-75 , Color.BLUE, false);
         inv.add(this.invBackground);
-        inv.add(this.invInfo);
+        //inv.add(this.invInfo);
+        infoFrame.add(invInfo);
 
         BLUE_SQUARE = makeRect(50, 50, 100, 100, Color.BLUE, false);
 
@@ -276,16 +275,18 @@ public class UI {
 
         this.rotBarBack = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(invInfo.getWidth()*.8), (int)invInfo.getHeight()/16, barBackgroundGrey, false);
         stage.addActor(this.rotBarBack);
+        infoFrame.add(rotBarBack);
         //inv.add(rotBarBack);
         this.rotBarBar = makeRect((int)(invInfo.getWidth()*.1), (int)rotBarY, (int)(rotBarBack.getWidth()*.8), (int)invInfo.getHeight()/16, Color.valueOf("#f49542"), false);
         stage.addActor(rotBarBar);
+        infoFrame.add(rotBarBar);
         //inv.add(rotBarBar);
 
-        this.rotBarBack.setVisible(false);
-        this.rotBarBar.setVisible(false);
+        //this.rotBarBack.setVisible(false);
+        //this.rotBarBar.setVisible(false);
 
 
-        //createLabels();
+        createLabels();
         upInv();
 
         if (game.currentScreen.equals(Trashcan.screenName) || game.currentScreen.equals(CookingScreen.screenName))
@@ -305,12 +306,14 @@ public class UI {
         int tot = 0;
         inv.add(noContent);
         //System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBB"+game.backpack.contents.size());
+        System.out.println("infoLabels: "+infoLabels.size());
+        System.out.println("make labels: "+(infoLabels.size()==0));
+        if (infoLabels.size()== 0){
+            createLabels();
+        }
         for (int u = 0; u < game.backpack.contents.size(); u++)
             //System.out.println(u+": "+game.backpack.contents.get(u).name);
             try {
-                while (game.backpack.contents.size()== 0)
-                    System.out.println("waiting...");
-
                 if (game.backpack.contents.size() > 0 && !noContent.equals(null)) {
                     //System.out.println("contents: "+ game.backpack.contents.size());
                     noContent.setVisible(false);
@@ -325,7 +328,6 @@ public class UI {
                                 boolean canAdd = game.passTrash.findTrash(item);
                                 if (!canAdd) {
                                     //System.out.println("interval " + tot + ";;;; " + item.name);
-                                    Drawable img = item.getDrawable();
 
                                     ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
                                     ibStyle.imageUp = item.getDrawable();
@@ -342,76 +344,16 @@ public class UI {
                                     final int finalTot = tot;
                                     localB.addListener(new InputListener() {
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                            //create info
-                                            //System.out.println("CLIEDK");
-                                            //new InfoFrame(game, stage, (int)localB.getX(), (int)localB.getY());
-                                            //makeRect((int)localB.getX(), (int)localB.getY(), 100, 100, Color.BLUE);
-                                            //System.out.println("________________________");
-                                            //System.out.println("current down: " + currentDown);
-                                        /*if (currentDown == null){
-                                            //System.out.println("THIS SHOULD CLOSE THE INFO SCREEN");
-                                            showInfo = false;
-                                            closeInvInfo();
-                                        }
-                                        if (currentDown == null || currentDown != localB) {
-                                            showInfo = true;
-                                            infoX = (int) localB.getX();
-                                            infoY = (int) localB.getY();
-                                            currentDown = localB;
-                                            curInfoList.clear();
-                                            curInfoList.add(0, "Item: " + item.name);
-                                            curInfoList.add(1, Integer.toString(item.nast));//rottenness
-                                            curInfoList.add(2, item.getRarity(item.rarity));
-                                            curInfoList.add(3, item.desc);
-                                           // System.out.println("Current rarity: "+item.getRarity(item.rarity));
-                                            //System.out.println("SIZE:" + curInfoList.size());
-
-                                        } else if (currentDown != null) {
-                                            System.out.println("eq? "+ (currentDown == localB));
-                                            if (currentDown == localB) {
-                                                currentDown = null;
-                                                showInfo = false;
-                                                closeInvInfo();
-                                            }
-                                        }*/
-
                                             if (currentDown == localB) {
                                                 currentDown = null;
                                                 infoItem = null;
                                                 showInfo = false;
 
-                                                for (int g = 0; g < curInfoList.size(); g++) {
-                                                    curInfoList.get(g);
-                                                }
-                                                curInfoList.clear();
                                             } else if (currentDown == null || currentDown != localB) {
                                                 showInfo = true;
                                                 infoX = (int) localB.getX();
                                                 infoY = (int) localB.getY();
                                                 currentDown = localB;
-                                                curInfoList.clear();
-                                                curInfoList.add(0, "Item: " + item.name);
-                                                curInfoList.add(1, Integer.toString(item.nast));//rottenness
-                                                if (!(item instanceof CookedFood)) {
-                                                    curInfoList.add(2, item.getRarity(item.rarity));
-                                                }
-                                                else {
-                                                    curInfoList.add(2, "Sell Price: $"+((CookedFood) item).sellValue);
-                                                }
-                                                //System.out.println(item.name + ":  "+(item instanceof CookedFood));
-                                                if (item.nast >= item.HMTHRESH && item.desc3 != "") {
-                                                    curInfoList.add(3, item.desc3);
-                                                } else if (item.nast >= item.MLTHRESH && item.desc2 != "") {
-                                                    curInfoList.add(3, item.desc2);
-                                                } else {
-                                                    curInfoList.add(3, item.desc);
-                                                }
-                                                /*if (game.currentScreen.equals(FakeInvScreen.screenName)){
-                                                    if (item.type == currentType){
-                                                        curInfoList.add(4, "Add Item");
-                                                        System.out.println("OK ADD 4TH");
-                                                    }
-                                                }*/
 
                                                 infoItem = item;
                                                 infoItemIndex = finalTot;
@@ -453,7 +395,7 @@ public class UI {
 
     public void makeUI(){//call this to make the UI in a new screen after initing it
         Label.LabelStyle repStyle = new Label.LabelStyle();
-        repStyle.font = makeFont(25);
+        repStyle.font = game.makeFont(25);
         repText = new Label("Reputation", repStyle);
         repText.setBounds(250, game.window_height-75, 250, 75);
         repText.setColor(Color.BLACK);
@@ -465,7 +407,7 @@ public class UI {
         stage.addActor(moneyText);
 
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = makeFont(35);
+        buttonStyle.font = game.makeFont(35);
         menuButton = new TextButton("Menu", buttonStyle);
         menuButton.setBounds(0, game.window_height-75, 175, 50);
         menuButton.getLabel().setColor(Color.BLACK);
@@ -488,7 +430,7 @@ public class UI {
 
         if (!game.currentScreen.equals("Trashcan")){
             TextButton.TextButtonStyle invBStyle = new TextButton.TextButtonStyle();
-            invBStyle.font = makeFont(25);
+            invBStyle.font = game.makeFont(25);
             invButton = new TextButton("Inventory", invBStyle);
             int invWidth = 250;
             invButton.setBounds(game.window_width-invWidth, game.window_height-75, invWidth, 50);
@@ -552,7 +494,11 @@ public class UI {
             repText.setAlignment(Align.center);
         }
         if (moneyText != null){
-            moneyText.setText("$"+game.money);
+            String setMoney = ""+game.money;
+            if (game.money % 1 == 0){
+                setMoney = ""+((int)game.money);
+            }
+            moneyText.setText("$"+setMoney);
             moneyText.setAlignment(Align.center);
             moneyText.setColor(Color.BLACK);
         }
@@ -560,7 +506,7 @@ public class UI {
         if (showInv == true && !game.currentScreen.equals(CookingScreen.screenName)){
             if (!game.currentScreen.equals(CookingScreen.screenName)) {
                 if (infoLabels.size() == 0 && showInfo) {
-                    createLabels();
+                    //createLabels();
                     //System.out.println("LABELS MADE!!!!");
                     rotBarBack.setVisible(true);
                     rotBarBar.setVisible(true);
@@ -575,7 +521,7 @@ public class UI {
                         for (int z = 0; z < infoLabels.size(); z++) {
                             infoLabels.get(z).setVisible(false);
                         }
-                        infoLabels.clear();
+                        //infoLabels.clear();
                         rotBarBack.setVisible(false);
                         rotBarBar.setVisible(false);
                     }
@@ -592,33 +538,53 @@ public class UI {
             if (game.currentScreen.equals(FakeInvScreen.screenName))
                 invButton.getLabel().setText("Cancel");
             //System.out.println("curInfoList: "+curInfoList.size());
-            if (showInfo && curInfoList.size()== 4 && infoItem != null){
+            if (showInfo && infoItem != null){
                 setInvVis(true, true);//HERE
 
                 //System.out.println("INFO_LABELS: "+infoLabels.size());
                 if (infoLabels.size()> 0) {
-                    for (int x = 0; x < curInfoList.size(); x++) {
+                    invInfo.setVisible(true);
+                    invInfo.toFront();
+                    rotBarBar.setVisible(true);
+                    rotBarBack.setVisible(true);
+                    rotBarBack.toFront();
+                    rotBarBar.toFront();
+                    addToCook.toFront();
+                    for (int x = 0; x < infoLabels.size(); x++) {
                         //System.out.println("ITEM: "+x+" ;; SIZE: "+infoLabels.size());
                         Label local = infoLabels.get(x);
-                        local.setText(curInfoList.get(x));
+                        local.toFront();
                         local.setWrap(true);
                         //System.out.println("BAS EIMG "+infoItem.baseImgName);
-                        if (x == 2) {
+                        if (x == 0){
+                            local.setText("Item: "+infoItem.name);
+                        }
+                        else if (x == 2) {
                             //System.out.println(local.getText());
                             if (!(infoItem instanceof CookedFood)) {
                                 local.setText(infoItem.getRarity(infoItem.rarity));
                                 local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
                             }
                             else{
-                                local.setText("Sell Price: $"+((CookedFood) infoItem).sellValue);
+                                local.setText("Sell Price: $"+((CookedFood) infoItem).sellPrice);
                                 local.setColor(Color.WHITE);
                             }
                         }
                         else if (x == 3){
                             //System.out.println("LENY: "+local.getText().length);
+                            String desc;
+                            if (infoItem.nast >= infoItem.HMTHRESH && infoItem.desc3 != "") {
+                                desc = infoItem.desc3;
+                            } else if (infoItem.nast >= infoItem.MLTHRESH && infoItem.desc2 != "") {
+                                desc = infoItem.desc2;
+                            } else {
+                                desc = infoItem.desc;
+                            }
+                            local.setText(desc);
                             if (local.getText().length > 30) {
                                 local.setY(local.getHeight()*(float)4.75);
                             }
+
                         }
                         else if (x == 1) {
                             float numy = rotBarY-(float)(rotBarY*-.04);
@@ -626,7 +592,7 @@ public class UI {
                             rotBarBar.setY(numy);
                             local.setSize(rotBarBack.getWidth(), rotBarBack.getHeight());
                             local.setPosition(rotBarBack.getX(), rotBarBack.getY());
-                            local.setText("Nastiness: "+curInfoList.get(x));
+                            local.setText("Nastiness: "+infoItem.nast);
                             int nast = infoItem.nast;
                             local.setWrap(true);
 
@@ -640,21 +606,22 @@ public class UI {
                             else if (nast > infoItem.HMTHRESH){
                                 rotBarBar.setColor(game.colorMap.get("Red"));
                             }
-                            Float width = ((rotBarBack.getWidth()*(Float.parseFloat(curInfoList.get(x))/100 )));
+                            float width = ((rotBarBack.getWidth()*(((float)nast/100 ))));
                             //System.out.println("FLOAT ME BB: "+width);
                             rotBarBar.setSize(width, rotBarBar.getHeight());
 
-                            this.rotBarBack.toFront();
-                            this.rotBarBar.toFront();
+                            rotBarBar.toFront();
                             local.toFront();
                             //rotBarBar.;
                             //System.out.println("x == 3, "+rotBarY+", "+rotBarBack.getY());
                         }
                         //local.setText("!!! "+curInfoList.get(x));
                         local.setVisible(true);
+                        //System.out.println(local.getText());
                         //System.out.println(x+":: set text to '"+curInfoList.get(x)+"'");
 
                     }
+
                     //System.out.println("current type: "+infoItem.type+" : "+PassTrash.currentTypeToAdd);
                     if (game.currentScreen.equals(FakeInvScreen.screenName)&& infoItem.type == game.passTrash.currentTypeToAdd){
                         addToCook.setVisible(true);
@@ -672,11 +639,13 @@ public class UI {
 
                 }
             }
-            else if (showInfo && curInfoList.size()== 4 && !showInv){
+            else if (showInfo && !showInv){
                 closeInvInfo();
+                invInfo.setVisible(false);
             }
             else{
-                setInvVis(false, true);//HERE
+                //setInvVis(false, false);//HERE
+                invInfo.setVisible(false);
                 closeInvInfo();
             }
 
@@ -700,5 +669,13 @@ public class UI {
                 //e.printStackTrace();
             }
         }
+        if (!showInv){
+            invInfo.setVisible(false);
+            setInvVis(false, true);
+        }
+        /*if (rotBarBar.isVisible() && showInfo){
+            rotBarBar.toFront();
+            System.out.println("TO FRONT!  "+rotBarBar.isVisible()+ "  "+ rotBarBar.getHeight()+ ", "+rotBarBar.getWidth());
+        }*/
     }
 }

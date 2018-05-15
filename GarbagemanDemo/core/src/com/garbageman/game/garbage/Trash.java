@@ -11,6 +11,9 @@ import com.garbageman.game.SpriteSheetDivider;
 public class Trash extends Image{
 
     public boolean isGhost = false;
+    public boolean isCookedFood = false;
+
+    public boolean containsCrowWithOddEyeInfection = false;
 
     //Ingredient types
     public static final int UNUSABLE = 0;
@@ -37,7 +40,7 @@ public class Trash extends Image{
     public static final  int BOUGHT = 5;
     public static final  int BEYOND_COMPREHENSION = 6;
 
-    public static String name = "Bug";
+    public String name = "Bug";
     public String baseImgName = "assets/Garbage/";
     public String fileType = ".png";
     public String img = "error";
@@ -57,6 +60,7 @@ public class Trash extends Image{
     public static final int MINNAST = 1;
 
     //Ingredient value multipliers
+    public static final double BASE_MULTIPLIER = .3;
     public static final double COM_MULTIPLIER = 1;
     public static final double UNCOM_MULTIPLIER = 1.5;
     public static final double RARE_MULTIPLIER = 2;
@@ -66,7 +70,7 @@ public class Trash extends Image{
     public static final double BEYOND_COMPREHENSION_MULTIPLIER = 5;
 
     public final double baseSellPrice = 1;
-    public double sellPrice = 1;
+    public double sellPrice = 1000;
 
     public static boolean IS_TYPE_NONE = false;
 
@@ -199,12 +203,43 @@ public class Trash extends Image{
 
     public double getNastMultiplier(){
         double base = .8;
-        double i = base + (1-base)*((MAXNAST-nast + 1)/MAXNAST);
+        double i = base + (1-base)*((MAXNAST-this.nast + 1)/MAXNAST);
+
+
+        double basePrice = 5;
+        double num = (0);//(basePrice)-((35/100)*basePrice*2);//too small
+
         return i;
     }
 
     public void setPrice(){
-        sellPrice = baseSellPrice * getRarityMultiplier() * getNastMultiplier();
+        //sellPrice = baseSellPrice * getRarityMultiplier() * getNastMultiplier();
+
+        double min = 0;
+        //sorry for a bunch of if statements
+        if (this.nast >= 75){//$2 to $3
+            min = 2;
+        }
+        else if (this.nast < 75 && this.nast >= 60){//$3 to $4
+            min = 3;
+        }
+        else if (this.nast < 60 && this.nast >= 35){//$4 to $5
+            min = 4;
+        }
+        else if (this.nast < 35 && this.nast >= 15){//$5 to $6
+            min = 5;
+        }
+        else if (this.nast < 15 && this.nast >= 1){//highest price: $6 to $7
+            min = 6;
+        }
+
+        if (min > 0){
+            double mult = BASE_MULTIPLIER * getRarityMultiplier();
+            System.out.printf("mult: "+mult);
+            System.out.println(mult+ " + "+ min+ " = "+ (mult + min));
+            sellPrice = mult + min;
+            System.out.println("set sell price: "+sellPrice);
+        }
     }
 
 }

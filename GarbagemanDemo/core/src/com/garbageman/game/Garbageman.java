@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.garbageman.game.customers.Customer;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.MainMenuScreen;
 import com.garbageman.game.screens.Trashcan;
@@ -57,6 +58,7 @@ public class Garbageman extends Game {
 	public static ArrayList<Class> safeModeExclusions;
 	public static ArrayList<Class> customers;
 	public static ArrayList<Class> foodItems;
+	public static ArrayList<Customer> currentCustomers;
 
 	public java.util.Map<String, Color> colorMap;
 
@@ -115,6 +117,7 @@ public class Garbageman extends Game {
 		this.safeModeExclusions = ListAccess.safeModeExclusions;
 		this.customers = ListAccess.customers;
 		this.foodItems = ListAccess.foodItems;
+		this.currentCustomers = ListAccess.currentCustomers;
 		this.assets = new Assets(this);
 
 		batch = new SpriteBatch();

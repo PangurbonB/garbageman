@@ -7,7 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.garbageman.game.Garbageman;
+import com.garbageman.game.ListAccess;
 import com.garbageman.game.SpriteSheetDivider;
+import com.garbageman.game.screens.RestaurantScreen;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -73,12 +75,39 @@ public class Customer extends Image {
             this.overheadName.setPosition(this.getX(), this.getY()+this.getHeight());
             this.overheadName.setVisible(this.isVisible());
             this.overheadName.setColor(Color.BLACK);
+            if (this.getStage() != null) {
+                this.getStage().addActor(this.overheadName);
+            }
         }
+    }
+
+    public float getWhatPosXShouldBe(){
+        float posShouldBe = RestaurantScreen.nextToCounter;
+        for (Customer cc : ListAccess.currentCustomers) {
+            if (cc != this){
+                posShouldBe = posShouldBe - ((this.getWidth()/2));
+                int p = (int)posShouldBe;
+                posShouldBe = (float)p;
+            }
+        }
+        return posShouldBe;
+    }
+
+    public static Customer getFirstCustomer(){
+        Customer get = null;
+        if (listOfCustomers.size() > 0){
+            get = listOfCustomers.get(0);
+        }
+        return get;
     }
 
     public static void updateAllCurrentCustomers(){
         for (Customer cust : Customer.listOfCustomers) {
             cust.updateOnRender();
+        }
+        for (int x = 0; x < listOfCustomers.size(); x++){
+            Customer c = listOfCustomers.get(x);
+            //c.say("current: "+x);
         }
     }
 
@@ -116,6 +145,7 @@ public class Customer extends Image {
         if (cc != null){
             cc.choosePicky();
             cc.setImg();
+            cc.setPosition(-200, RestaurantScreen.floorHeight);
             cc.setSize(spriteSize, spriteSize);
             Customer.addCustomerToList(cc);
             Label.LabelStyle style = new Label.LabelStyle();
@@ -126,6 +156,7 @@ public class Customer extends Image {
             cc.setOverheadPos();
             stage.addActor(cc);
             stage.addActor(cc.overheadName);
+            ListAccess.currentCustomers.add(cc);
 
         }
         else if (cc != null){
@@ -143,8 +174,8 @@ public class Customer extends Image {
        this.overheadName.setText(this.customerName+": "+msg);
    }
 
-   public StringBuilder getSaying(){
-       return this.overheadName.getText();
+   public CharSequence getSaying(){
+       return (CharSequence)this.overheadName.getText();
    }
 
    public boolean isMoving(){
@@ -153,6 +184,11 @@ public class Customer extends Image {
            ret = false;
        }
        return ret;
+   }
+
+   public void init(){
+       this.setOverheadPos();
+       this.overheadName.setVisible(this.isVisible());
    }
 
    protected void updateOnRender(){

@@ -23,8 +23,14 @@ public class RestaurantScreen implements Screen {
     String screenName = "RestaurantScreen";
     Stage stage = new Stage();
     Image background;
-    Customer test = null, test2 = null;
-    int currentInterval = 0, maxInterval = new Random().nextInt(40);
+    Customer currentCustomer = null, test2 = null;
+
+    private int getRandInterval(){
+        return new Random().nextInt(300)+350;
+    }
+
+    int currentInterval = 0, maxInterval = getRandInterval();
+    boolean dontGo = false;
 
     private ArrayList<Actor> coverTheseWithInv = new ArrayList<Actor>();
 
@@ -42,6 +48,8 @@ public class RestaurantScreen implements Screen {
         customer is generated, customer comes to counter, leaves if not interacted with in certain amount of time
         after customer leaves it waits a random amount of time and then generates another customer
          */
+        coverTheseWithInv.add(c);
+        c.walkToPoint(650, 25);
         return c;
     }
 
@@ -74,6 +82,25 @@ public class RestaurantScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.Y )&& test2 != null){
             test2.walkToPoint(500, 0);
             System.out.println("moving: ");
+        }
+
+        if (!dontGo) {
+            System.out.println("current interval: " + currentInterval + ", max: " + maxInterval);
+            currentInterval++;
+            if (currentInterval >= maxInterval) {
+                dontGo = true;
+                System.out.println("TIME FOR CUSTOMER!!!");
+                currentInterval = 0;
+                maxInterval = getRandInterval();
+                currentCustomer = makeCustomerToCounter();
+            }
+        }
+        else if (dontGo){
+            if (currentCustomer != null){
+                if (!currentCustomer.isMoving()){
+                    currentCustomer.say("I want some food");
+                }
+            }
         }
 
     }

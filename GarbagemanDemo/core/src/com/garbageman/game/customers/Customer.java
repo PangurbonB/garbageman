@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.StringBuilder;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.SpriteSheetDivider;
 
@@ -138,6 +139,22 @@ public class Customer extends Image {
        this.posY = yPos;
    }
 
+   public void say(String msg){
+       this.overheadName.setText(this.customerName+": "+msg);
+   }
+
+   public StringBuilder getSaying(){
+       return this.overheadName.getText();
+   }
+
+   public boolean isMoving(){
+       boolean ret = true;
+       if (this.posX == this.getX() && this.posY == this.getY()){
+           ret = false;
+       }
+       return ret;
+   }
+
    protected void updateOnRender(){
        for (int i = 0; i <= REPS; i++) {
            if (this.getX() != this.posX) {
@@ -156,19 +173,22 @@ public class Customer extends Image {
            }
            this.setOverheadPos();
        }
-       this.currentCycleStage += 1;
-       if(this.currentCycleStage > 15 && this.currentCycleStage <= 30){
-           this.setImg(1,0);
+       if (this.posX != this.getX() || this.posY != this.getY()) {
+           this.currentCycleStage += 1;
+           if (this.currentCycleStage > 15 && this.currentCycleStage <= 30) {
+               this.setImg(1, 0);
+           } else if (this.currentCycleStage > 30 && this.currentCycleStage <= 45) {
+               this.setImg(2, 0);
+           } else if (this.currentCycleStage > 45 && this.currentCycleStage <= 60) {
+               this.setImg(3, 0);
+           }
+           if (this.currentCycleStage > 60) {
+               this.currentCycleStage = 0;
+               this.setImg(0, 0);
+           }
        }
-       else if(this.currentCycleStage > 30 && this.currentCycleStage <= 45){
-           this.setImg(2,0);
-       }
-       else if(this.currentCycleStage > 45 && this.currentCycleStage <= 60){
-           this.setImg(3,0);
-       }
-       if (this.currentCycleStage > 60){
-           this.currentCycleStage = 0;
-           this.setImg(0,0);
+       else if (this.posX == this.getX() && this.posY == this.getY()){
+           this.setImg();
        }
    }
 

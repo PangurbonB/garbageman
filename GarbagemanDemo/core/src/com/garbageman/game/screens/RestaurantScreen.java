@@ -70,7 +70,7 @@ public class RestaurantScreen implements Screen {
                 stage.addActor(c);
                 coverTheseWithInv.add(c);
                 c.setPosition(c.posX, c.posY);
-                c.say("");
+                c.say();//leave it blank for no msg
             }
             frontCustomer = Customer.getFirstCustomer();
         }
@@ -89,9 +89,10 @@ public class RestaurantScreen implements Screen {
         game.ui.update();
         stage.draw();
         Customer.updateAllCurrentCustomers();
-        if (Gdx.input.isKeyPressed(Input.Keys.Y )&& test2 != null){
-            test2.walkToPoint(500, 0);
-            System.out.println("moving: ");
+        if (Gdx.input.isKeyPressed(Input.Keys.Y )){
+            if (frontCustomer != null){
+                Customer.removeFromFrontOfLine();
+            }
         }
 
         if (frontCustomer != null){

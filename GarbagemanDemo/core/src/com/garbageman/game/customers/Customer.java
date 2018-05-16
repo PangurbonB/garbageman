@@ -173,6 +173,9 @@ public class Customer extends Image {
    public void say(String msg){
        this.overheadName.setText(this.customerName+": "+msg);
    }
+   public void say(){
+       this.overheadName.setText(this.customerName);
+   }
 
    public CharSequence getSaying(){
        return (CharSequence)this.overheadName.getText();
@@ -189,6 +192,13 @@ public class Customer extends Image {
    public void init(){
        this.setOverheadPos();
        this.overheadName.setVisible(this.isVisible());
+   }
+
+   public static void removeFromFrontOfLine(){
+       Customer cc = getFirstCustomer();
+       if (cc != null){
+           cc.walkToPoint(cc.getStage().getWidth()*2, RestaurantScreen.floorHeight);
+       }
    }
 
    protected void updateOnRender(){

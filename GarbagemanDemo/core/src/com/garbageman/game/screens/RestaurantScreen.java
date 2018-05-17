@@ -138,7 +138,7 @@ public class RestaurantScreen implements Screen {
             frontCustomer.say("I want food");
         }
 
-        System.out.println("SHOW ORDER: "+showOrders);
+        //System.out.println("SHOW ORDER: "+showOrders);
         if (showOrders && !game.ui.showInv){
             orderFrame.setVisible(true);
         }

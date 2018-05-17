@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -52,6 +53,8 @@ public class MainMenuScreen implements Screen {
     private TextButton toTest, openShop;
     private Image backing;
 
+    private Music music;
+
     private boolean checkCurrentScreen(){
         return game.currentScreen.equals(screenName);
     }
@@ -75,6 +78,12 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/songs/Menuey.wav"));
+        music.play();
+
+
+
         game.currentScreen = screenName;
         Gdx.input.setInputProcessor(stage);
 
@@ -234,11 +243,11 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
-
+        music.pause();
     }
 
     @Override
     public void dispose() {
-
+        music.dispose();
     }
 }

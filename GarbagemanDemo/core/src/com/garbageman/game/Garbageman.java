@@ -31,6 +31,7 @@ public class Garbageman extends Game {
 	public String[] sectionsForMainInv = {"Veggies", "Meats", "Wraps", "Fillers", "Sweeteners", "Sauces", "Complete Meals", "Restaurant Items"};
 
 	public Backpack backpack = new Backpack();
+	public Save save = new Save(this);
 	public UI ui = new UI();
     private boolean SAFE_MODE = false;
 	private boolean autoGenInvItems = false;
@@ -62,7 +63,7 @@ public class Garbageman extends Game {
 
 
 	//Switch for saving and loading
-	public static boolean savingOn = false;
+	public static boolean savingOn = true;
 
 	public java.util.Map<String, Color> colorMap;
 
@@ -156,7 +157,7 @@ public class Garbageman extends Game {
 		this.setScreen(new MainMenuScreen(this));
 
 		if (savingOn) {
-			ArrayList<ArrayList<String>> obj = Save.load();
+			ArrayList<ArrayList<String>> obj = Save.loadBackpack();
 			updateBackpackFromLoad(obj);
 		}
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.input.GestureDetector;
@@ -68,6 +69,8 @@ public class Trashcan implements Screen {
             private float fric = .9f;
             private float xDiff = 0;
             private float yDiff = 0;
+
+            private Music music;
 
 
 
@@ -374,6 +377,9 @@ public class Trashcan implements Screen {
     @Override
     public void show() {
 
+        music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/cheery.wav"));
+        music.play();
+
         spawnItem(20);
         spawnJunk(40);
 
@@ -452,7 +458,7 @@ public class Trashcan implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.O) && !consoleOpen) {
             if(Garbageman.savingOn) {
-                Save.save(backpack);
+                Save.save();
             }
             this.dispose();
             game.setScreen(new CookingScreen(game));

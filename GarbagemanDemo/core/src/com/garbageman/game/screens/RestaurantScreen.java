@@ -3,6 +3,7 @@ package com.garbageman.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -25,6 +26,9 @@ import java.util.Random;
  */
 
 public class RestaurantScreen implements Screen {
+
+    Music music;
+
     private Garbageman game;
     public static String screenName = "RestaurantScreen";
     private Stage stage = new Stage();
@@ -65,6 +69,11 @@ public class RestaurantScreen implements Screen {
 
     @Override
     public void show() {
+
+        this.music = game.music;
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/clashy.wav"));
+
         game.currentScreen = this.screenName;
         game.ui.init(game, stage, screenName);
         game.ui.makeUI();
@@ -185,7 +194,7 @@ public class RestaurantScreen implements Screen {
 
     @Override
     public void hide() {
-
+        music.pause();
     }
 
     @Override

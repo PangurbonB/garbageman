@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Garbageman extends Game {
+
+	public Music music;
 	public SpriteBatch batch;
 	public static final int window_height = 720;
 	public static final int window_width = 1280;

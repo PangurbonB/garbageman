@@ -225,7 +225,6 @@ public class Garbageman extends Game {
 
 
 	public void dispose(){
-		Assets.dispose();
 		super.dispose();
 	}
 }

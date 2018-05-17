@@ -81,7 +81,7 @@ public class Assets {
         return skin;
     }
 
-    public static void dispose(){
+    /*public static void dispose(){
         for (int i = (textures.size()-1); i >=0; i--) {
             textures.remove(textures.get(i));
             System.out.println(textures.size());
@@ -92,7 +92,7 @@ public class Assets {
         for (Skin i : skins){
             i.dispose();
         }
-    }
+    }*/
 
 
 

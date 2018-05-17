@@ -75,6 +75,8 @@ public class CookingScreen implements Screen{
 
         try {
             input = (CookedFood) Class.forName(foodItems.get(PassTrash.place).getName()).newInstance();
+            input.setImg();
+            input.setVisible(true);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -163,20 +165,27 @@ public class CookingScreen implements Screen{
         game.ui.init(this.game, this.stage, this.screenName);
         game.ui.makeUI();
 
+        stage.addActor(input);
         input.setSize(96, 96);
         input.setX(stage.getWidth()/2 - input.getWidth() + 40);
         input.setY(stage.getHeight()/2 - input.getHeight() + 35);
         input.setVisible(true);
+        input.setImg();
+        TextureRegion t = new TextureRegion(Assets.findTexture(input.name+"Ghost"));
+        TextureRegionDrawable tt = new TextureRegionDrawable();
+        t.setRegion(0,0,32,32);
+        tt.setRegion(t);
+        input.setDrawable(tt);
         input.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                input.setDrawable(sk, "name");
+                input.setImg();
                 input.increment = true;
                 game.passTrash.dumpTrash();
                 return super.touchDown(event, x, y, pointer, button);
         }
         });
-        stage.addActor(input);
+
 
         background.toBack();
         background.setVisible(true);

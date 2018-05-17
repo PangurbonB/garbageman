@@ -11,7 +11,7 @@ public class Seaweed extends Trash {
         rarity = RARE;
         name = "Seaweed";
         img = "seaweed";
-        //desc = "";
+        desc = "This stuff is nasty by itself, imagine when it's found in the garbage";
     }
 
 }

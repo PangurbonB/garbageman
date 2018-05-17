@@ -8,9 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.garbageman.game.Assets;
 import com.garbageman.game.Garbageman;
+import com.garbageman.game.cooked.CookedFood;
+import com.garbageman.game.cooked.Pizza;
 import com.garbageman.game.customers.Customer;
+import com.garbageman.game.garbage.Trash;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by dpearson6225 on 3/2/2018.
@@ -90,8 +94,12 @@ public class RestaurantScreen implements Screen {
         stage.draw();
         Customer.updateAllCurrentCustomers();
         if (Gdx.input.isKeyPressed(Input.Keys.Y )){
+            System.out.println("front customer: "+(frontCustomer == null));
             if (frontCustomer != null){
-                Customer.removeFromFrontOfLine();
+                CookedFood food = new Pizza();
+                food.nast = 45;//new Random().nextInt(100)+1;
+                frontCustomer.order = food;
+                frontCustomer.giveCookedFood(food);
             }
         }
 

@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.StringBuilder;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.ListAccess;
 import com.garbageman.game.SpriteSheetDivider;
+import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.screens.RestaurantScreen;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class Customer extends Image {
     public static int KINDOF_PICKY = 50;//50 to 85
     public static int NOT_PICKY = 20;//20 to 50
     public static int DOESNT_CARE = LOCAL_MIN+1;//0 to 20, will actually just eat anything (Duy oh no <3)
+    private static int MAX_REP = 10, MIN_REP = 1;
 
 
 
@@ -41,6 +43,7 @@ public class Customer extends Image {
 
     //randomly generated customer info
     public int picky = 1;
+    public CookedFood order = null;
     protected static int spriteSize = 350;
     public String customerName = "NAME";
     public Label overheadName;
@@ -154,6 +157,8 @@ public class Customer extends Image {
             cc.overheadName.setAlignment(Align.center);
             cc.overheadName.setWrap(true);
             cc.setOverheadPos();
+            cc.LOCAL_MIN = KINDOF_PICKY;
+            cc.LOCAL_MAX = REALLY_PICKY;
             stage.addActor(cc);
             stage.addActor(cc.overheadName);
             ListAccess.currentCustomers.add(cc);
@@ -236,6 +241,67 @@ public class Customer extends Image {
        else if (this.posX == this.getX() && this.posY == this.getY()){
            this.setImg();
        }
+   }
+
+   public CookedFood makeOrder(){
+       try {
+           this.order = (CookedFood) Class.forName(Garbageman.foodItems.get(new Random().nextInt(Garbageman.foodItems.size())).getName()).newInstance();
+       } catch (InstantiationException e) {
+           e.printStackTrace();
+       } catch (IllegalAccessException e) {
+           e.printStackTrace();
+       } catch (ClassNotFoundException e) {
+           e.printStackTrace();
+       }
+       return this.order;
+   }
+
+   public boolean hasOrder(){
+       boolean has = false;
+       if (this.order != null){
+           has = true;
+       }
+       return has;
+   }
+
+   public void clearOrder(){
+       if (this.hasOrder()){
+           this.order.remove();//uh do i need to do this?
+           this.order = null;
+       }
+   }
+
+   public int giveCookedFood(CookedFood itemToGive){
+       int ratingPlusOrMinus = 0;
+       boolean one = itemToGive.nast >= this.LOCAL_MIN;
+       boolean two = itemToGive.nast < this.LOCAL_MAX;
+       boolean can = one && two;
+       int thresh1 = 0, thresh2 = 0, thresh3 =0;
+
+       int total = (this.LOCAL_MAX-this.LOCAL_MIN);
+       thresh1 = (this.LOCAL_MAX-total);
+       thresh2 = thresh1+(total/3);
+       thresh3 = thresh2+(total/3);
+       System.out.println("S: "+thresh1);
+       System.out.println("S: "+thresh2);
+       System.out.println("S: "+thresh3);
+       if (this.hasOrder() && thresh1 != 0 && thresh2 != 0 && thresh3 != 0){
+           System.out.println("NAST: "+ itemToGive.nast);
+           if (itemToGive.nast < thresh1){
+               System.out.println("VERY LOW");
+           }
+           else if (itemToGive.nast >= thresh1 && itemToGive.nast < thresh2){
+               System.out.println("MEDIUM 1");
+           }
+           else if (itemToGive.nast >= thresh2 && itemToGive.nast < thresh3){
+               System.out.println("MEDIUM 2");
+           }
+           else if (itemToGive.nast >= thresh3){
+               System.out.println("HIGH");
+           }
+           this.clearOrder();
+       }
+       return ratingPlusOrMinus;
    }
 
 }

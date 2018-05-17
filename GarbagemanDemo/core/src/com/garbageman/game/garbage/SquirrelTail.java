@@ -11,7 +11,7 @@ public class SquirrelTail extends Trash {
         rarity = COM;
         name = "Squirrel Tail";
         img = "squirrelTail";
-        //desc =
+        desc = "Why is there only a tail? Whatever I'm sure there's a reasonable explanation for this";
     }
 
 }

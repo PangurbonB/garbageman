@@ -11,7 +11,7 @@ public class PitaBread extends Trash {
         rarity = RARE;
         name = "Pita Bread";
         img = "pitaBread";
-        //desc =
+        desc = "Food is not the only thing that will be stored in this Pita Bread";
     }
 
 }

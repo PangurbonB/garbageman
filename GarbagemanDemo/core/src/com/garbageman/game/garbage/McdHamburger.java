@@ -10,5 +10,6 @@ public class McdHamburger extends Trash {
         rarity = COMMON;
         name = "MacDougall's Hamburger";
         img = "mcdHamburger";
+        desc = "Hopefully Kyle won't recognize this hamburger if it shows up in his food";
     }
 }

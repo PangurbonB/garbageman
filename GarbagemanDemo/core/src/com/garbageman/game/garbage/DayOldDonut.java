@@ -10,5 +10,6 @@ public class DayOldDonut extends Trash {
         rarity = COMMON;
         name = "Day Old Donut";
         img = "dayOldDonut";
+        desc = "There must have been some killer deals at Welmert";
     }
 }

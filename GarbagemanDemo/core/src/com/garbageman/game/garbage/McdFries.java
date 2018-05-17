@@ -10,6 +10,7 @@ public class McdFries extends Trash {
         rarity = COMMON;
         name = "MacDouggal's fries";
         img = "mcdFries";
+        desc = "Weird, communism hardly ever has leftovers";
     }
 
 

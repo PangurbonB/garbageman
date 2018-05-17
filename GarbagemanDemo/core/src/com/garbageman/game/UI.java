@@ -369,6 +369,8 @@ public class UI {
                                     stage.addActor(localB);
                                     if (!canAdd)
                                         xPos = xPos + xPlus;
+                                    else
+                                        xPos = xPos - xPlus;
                                     System.out.println(x);
 
                                     //System.out.println(x + " "+(x <= 6));

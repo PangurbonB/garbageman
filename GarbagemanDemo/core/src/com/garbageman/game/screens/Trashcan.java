@@ -377,7 +377,7 @@ public class Trashcan implements Screen {
     @Override
     public void show() {
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/cheery.wav"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/clashy.wav"));
         music.play();
 
         spawnItem(20);
@@ -667,7 +667,8 @@ public class Trashcan implements Screen {
 
     @Override
     public void hide() {
-
+        music.pause();
+        music.dispose();
     }
 
     @Override

@@ -451,7 +451,9 @@ public class Trashcan implements Screen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.O) && !consoleOpen) {
-            Save.save(backpack);
+            if(Garbageman.savingOn) {
+                Save.save(backpack);
+            }
             this.dispose();
             game.setScreen(new CookingScreen(game));
             //stage.dispose();

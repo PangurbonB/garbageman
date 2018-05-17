@@ -60,6 +60,10 @@ public class Garbageman extends Game {
 	public static ArrayList<Class> foodItems;
 	public static ArrayList<Customer> currentCustomers;
 
+
+	//Switch for saving and loading
+	public static boolean savingOn = false;
+
 	public java.util.Map<String, Color> colorMap;
 
 	public java.util.Map<String, Integer> typeMap;
@@ -151,8 +155,11 @@ public class Garbageman extends Game {
 		}
 		this.setScreen(new MainMenuScreen(this));
 
-		ArrayList<ArrayList<String>> obj = Save.load();
-		updateBackpackFromLoad(obj);
+		if (savingOn) {
+			ArrayList<ArrayList<String>> obj = Save.load();
+			updateBackpackFromLoad(obj);
+		}
+
 
 
         ListAccess.updateMaps();

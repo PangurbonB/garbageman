@@ -119,6 +119,10 @@ public class ShopScreen implements Screen {
                                     game.backpack.add(item);
                                     int newOwned = getOwned(item);
                                     button.setText("Buy: $" + (int) item.baseSellPrice + " (Owned:" + newOwned + ")");
+                                    item.setImg();
+                                    item.setSize(128, 128);
+                                    item.setNast( 1);
+                                    item.setVisible(true);
                                     game.ui.upInv();
                                     game.ui.update();
                                 } catch (ClassNotFoundException e) {

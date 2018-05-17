@@ -367,10 +367,12 @@ public class UI {
                                     inv.add(localB);
                                     localB.setVisible(false);
                                     stage.addActor(localB);
-                                    xPos = xPos + xPlus;
-                                    //System.out.println(x);
+                                    if (!canAdd)
+                                        xPos = xPos + xPlus;
+                                    System.out.println(x);
 
                                     //System.out.println(x + " "+(x <= 6));
+
                                 }
                                 tot++;
                                 canAdd = false;

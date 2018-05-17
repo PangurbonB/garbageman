@@ -288,16 +288,16 @@ public class Customer extends Image {
        if (this.hasOrder() && thresh1 != 0 && thresh2 != 0 && thresh3 != 0){
            System.out.println("NAST: "+ itemToGive.nast);
            if (itemToGive.nast < thresh1){
-               System.out.println("VERY LOW");
+               System.out.println("HIGH");
            }
            else if (itemToGive.nast >= thresh1 && itemToGive.nast < thresh2){
-               System.out.println("MEDIUM 1");
-           }
-           else if (itemToGive.nast >= thresh2 && itemToGive.nast < thresh3){
                System.out.println("MEDIUM 2");
            }
+           else if (itemToGive.nast >= thresh2 && itemToGive.nast < thresh3){
+               System.out.println("MEDIUM 1");
+           }
            else if (itemToGive.nast >= thresh3){
-               System.out.println("HIGH");
+               System.out.println("VERY LOW");
            }
            System.out.println("__________");
            this.clearOrder();

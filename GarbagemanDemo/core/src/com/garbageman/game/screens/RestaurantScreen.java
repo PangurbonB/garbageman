@@ -96,10 +96,12 @@ public class RestaurantScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.Y )){
             System.out.println("front customer: "+(frontCustomer == null));
             if (frontCustomer != null){
-                CookedFood food = new Pizza();
-                food.nast = 45;//new Random().nextInt(100)+1;
-                frontCustomer.order = food;
-                frontCustomer.giveCookedFood(food);
+                if (!frontCustomer.hasOrder()) {
+                    CookedFood food = new Pizza();
+                    food.nast = new Random().nextInt(100) + 1;
+                    frontCustomer.order = food;
+                    frontCustomer.giveCookedFood(food);
+                }
             }
         }
 

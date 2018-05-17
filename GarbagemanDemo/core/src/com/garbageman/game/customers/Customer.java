@@ -299,6 +299,7 @@ public class Customer extends Image {
            else if (itemToGive.nast >= thresh3){
                System.out.println("HIGH");
            }
+           System.out.println("__________");
            this.clearOrder();
        }
        return ratingPlusOrMinus;

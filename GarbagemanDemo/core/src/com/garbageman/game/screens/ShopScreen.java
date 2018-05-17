@@ -114,11 +114,21 @@ public class ShopScreen implements Screen {
                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button1) {
                             if (game.money >= localItem.baseSellPrice && game.backpack.contents.size()< game.backpack.totalSlots) {
                                 game.money = game.money - (int)localItem.baseSellPrice;
-                                game.backpack.add(localItem);
-                                int newOwned = getOwned(localItem);
-                                button.setText("Buy: $" + (int) localItem.baseSellPrice + " (Owned:" + newOwned + ")");
-                                game.ui.upInv();
-                                game.ui.update();
+                                try {
+                                    Trash item = (Trash) Class.forName(localItem.getClass().getName()).newInstance();
+                                    game.backpack.add(item);
+                                    int newOwned = getOwned(item);
+                                    button.setText("Buy: $" + (int) item.baseSellPrice + " (Owned:" + newOwned + ")");
+                                    game.ui.upInv();
+                                    game.ui.update();
+                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (InstantiationException e) {
+                                    e.printStackTrace();
+                                } catch (IllegalAccessException e) {
+                                    e.printStackTrace();
+                                }
+
                             }
                             return super.touchDown(event, x, y, pointer, button1);
                         }

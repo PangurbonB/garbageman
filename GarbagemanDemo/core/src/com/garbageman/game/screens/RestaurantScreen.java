@@ -3,9 +3,13 @@ package com.garbageman.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.garbageman.game.Assets;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.cooked.CookedFood;
@@ -21,11 +25,13 @@ import java.util.Random;
  */
 
 public class RestaurantScreen implements Screen {
-    Garbageman game;
-    String screenName = "RestaurantScreen";
-    Stage stage = new Stage();
-    Image background;
-    Customer currentCustomer = null, test2 = null, frontCustomer = null;
+    private Garbageman game;
+    public static String screenName = "RestaurantScreen";
+    private Stage stage = new Stage();
+    private Image background;
+    private Customer currentCustomer = null, test2 = null, frontCustomer = null;
+    private TextButton viewOrders;
+    private Actor orderFrame;
 
     public static float nextToCounter = 650, floorHeight = 25;
 
@@ -33,8 +39,8 @@ public class RestaurantScreen implements Screen {
         return 10/*new Random().nextInt(0)+100*/;
     }
 
-    int currentInterval = 0, maxInterval = getRandInterval();
-    boolean dontGo = false;
+    private int currentInterval = 0, maxInterval = getRandInterval();
+    private boolean dontGo = false, showOrders = false;
 
     private ArrayList<Actor> coverTheseWithInv = new ArrayList<Actor>();
 
@@ -69,6 +75,27 @@ public class RestaurantScreen implements Screen {
         stage.addActor(background);
         background.toBack();
 
+        TextButton.TextButtonStyle orderStyle = new TextButton.TextButtonStyle();
+        orderStyle.font = game.makeFont(20);
+        orderStyle.fontColor = Color.BLACK;
+        viewOrders = new TextButton("View Orders", orderStyle);
+        float height = 50, width = 150;
+        viewOrders.setBounds(stage.getWidth()-(float)(width*1.5), stage.getHeight()-(height*3), width, height);
+        viewOrders.setVisible(true);
+        stage.addActor(viewOrders);
+        coverTheseWithInv.add(viewOrders);
+        viewOrders.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                orderFrame.setVisible(true);
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+        float frameHeight = 350, frameWidth = 275;
+        orderFrame = game.ui.makeRect((int)(stage.getWidth()-viewOrders.getWidth()*2), (int)(viewOrders.getY()-frameHeight), (int)frameWidth, (int)frameHeight, Color.BLUE, false);
+        stage.addActor(orderFrame);
+        //coverTheseWithInv.add(orderFrame);
+
         if (game.currentCustomers.size()> 0){
             for (Customer c: game.currentCustomers) {
                 stage.addActor(c);
@@ -86,7 +113,9 @@ public class RestaurantScreen implements Screen {
     @Override
     public void render(float delta) {
         for (Actor a : coverTheseWithInv) {
-            a.setVisible(!game.ui.showInv);
+            if (a != orderFrame) {
+                a.setVisible(!game.ui.showInv);
+            }
         }
 
 
@@ -107,6 +136,14 @@ public class RestaurantScreen implements Screen {
 
         if (frontCustomer != null){
             frontCustomer.say("I want food");
+        }
+
+        System.out.println("SHOW ORDER: "+showOrders);
+        if (showOrders && !game.ui.showInv){
+            orderFrame.setVisible(true);
+        }
+        else if (!showOrders){
+            orderFrame.setVisible(false);
         }
 
         if (!dontGo) {

@@ -95,7 +95,7 @@ public class RestaurantScreen implements Screen {
         coverTheseWithInv.add(viewOrders);
         viewOrders.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                orderFrame.setVisible(true);
+                showOrders = !showOrders;
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -147,12 +147,17 @@ public class RestaurantScreen implements Screen {
             frontCustomer.say("I want food");
         }
 
-        //System.out.println("SHOW ORDER: "+showOrders);
-        if (showOrders && !game.ui.showInv){
-            orderFrame.setVisible(true);
+        if (!game.ui.showInv){
+            orderFrame.setVisible(showOrders);
         }
-        else if (!showOrders){
+        else if (game.ui.showInv){
             orderFrame.setVisible(false);
+        }
+        if (showOrders){
+            viewOrders.setText("Close");
+        }
+        else{
+            viewOrders.setText("View Orders");
         }
 
         if (!dontGo) {

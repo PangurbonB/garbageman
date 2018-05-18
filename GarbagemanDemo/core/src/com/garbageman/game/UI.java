@@ -327,7 +327,7 @@ public class UI {
                                 final Trash item = game.backpack.contents.get(tot);
                                 boolean canAdd = game.passTrash.findTrash(item);
                                 if (!canAdd) {
-                                    //System.out.println("interval " + tot + ";;;; " + item.name);
+                                    System.out.println("interval " + tot + ";;;; " + item.name);
 
                                     ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
                                     ibStyle.imageUp = item.getDrawable();
@@ -371,12 +371,13 @@ public class UI {
                                         xPos = xPos + xPlus;
                                     else
                                         xPos = xPos - xPlus;
-                                    System.out.println(x);
+                                    //System.out.println(x);
 
                                     //System.out.println(x + " "+(x <= 6));
 
                                 }
                                 tot++;
+
                                 canAdd = false;
                             }
                         }

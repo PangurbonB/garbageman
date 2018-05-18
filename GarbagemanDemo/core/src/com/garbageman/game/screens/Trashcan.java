@@ -379,6 +379,7 @@ public class Trashcan implements Screen {
 
         music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/clashy.wav"));
         music.play();
+        music.setLooping(true);
 
         spawnItem(20);
         spawnJunk(40);

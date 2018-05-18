@@ -81,6 +81,7 @@ public class MainMenuScreen implements Screen {
 
         music = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/songs/Menuey.wav"));
         music.play();
+        music.setLooping(true);
 
 
 

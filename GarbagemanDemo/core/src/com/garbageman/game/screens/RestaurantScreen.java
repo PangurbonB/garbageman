@@ -70,9 +70,9 @@ public class RestaurantScreen implements Screen {
     @Override
     public void show() {
 
-        this.music = game.music;
-
-        music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/clashy.wav"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/swingy.wav"));
+        music.play();
+        music.setLooping(true);
 
         game.currentScreen = this.screenName;
         game.ui.init(game, stage, screenName);

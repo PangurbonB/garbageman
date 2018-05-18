@@ -55,6 +55,9 @@ public class MainMenuScreen implements Screen {
 
     private Music music;
 
+    private int wait = 0;
+    private boolean played = false;
+
     private boolean checkCurrentScreen(){
         return game.currentScreen.equals(screenName);
     }
@@ -78,9 +81,13 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+        if(Garbageman.startup) {
+            music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/soundEffects/Startup.wav"));
+            music.play();
+            Garbageman.startup ^= true;
+        }
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/songs/Menuey.wav"));
-        music.play();
+
 
 
 
@@ -177,6 +184,15 @@ public class MainMenuScreen implements Screen {
     @Override
     public void render(float delta) {
 
+        if(wait >= 300 && !played){
+            played = true;
+            music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/themey.wav"));
+            music.play();
+            music.setLooping(true);
+        }
+        else{
+            wait++;
+        }
 
 
         Gdx.gl.glClearColor(1, 1, 1, 1);

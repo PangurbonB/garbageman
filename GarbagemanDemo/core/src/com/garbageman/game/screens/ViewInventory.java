@@ -3,6 +3,7 @@ package com.garbageman.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -38,6 +39,8 @@ public class ViewInventory implements Screen{
     UI ui;
     Label heading;
 
+    private Music music;
+
     public ViewInventory(Garbageman game){
         this.game = game;
     }
@@ -52,6 +55,10 @@ public class ViewInventory implements Screen{
 
     @Override
     public void show() {
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/menuey.wav"));
+        music.play();
+        music.setLooping(true);
         stage = new Stage();
         game.currentScreen = screenName;
         Gdx.input.setInputProcessor(stage);

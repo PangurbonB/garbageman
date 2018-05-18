@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Garbageman extends Game {
-
+    public static boolean startup = true;
 	public Music music;
 	public SpriteBatch batch;
 	public static final int window_height = 720;

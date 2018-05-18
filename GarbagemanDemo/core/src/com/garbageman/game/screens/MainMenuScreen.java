@@ -89,8 +89,6 @@ public class MainMenuScreen implements Screen {
 
 
 
-
-
         game.currentScreen = screenName;
         Gdx.input.setInputProcessor(stage);
 

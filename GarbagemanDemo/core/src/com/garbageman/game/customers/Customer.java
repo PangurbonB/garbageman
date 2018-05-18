@@ -60,8 +60,8 @@ public class Customer extends Image {
 
     public void choosePicky(){
         Random rand = new Random();
-        //System.out.println("RAND PARMS: "+(LOCAL_MAX-LOCAL_MIN)+";   "+LOCAL_MIN);
-        this.picky = rand.nextInt(LOCAL_MAX-LOCAL_MIN)+LOCAL_MIN;
+        System.out.println("RAND PARMS: "+(LOCAL_MAX-LOCAL_MIN)+";   "+LOCAL_MIN);
+        this.picky = (rand.nextInt((LOCAL_MAX-LOCAL_MIN)+1)+LOCAL_MIN);
     }
 
     public void setImg(){
@@ -146,6 +146,7 @@ public class Customer extends Image {
            e.printStackTrace();
        }
         if (cc != null){
+            System.out.println("CUSTOMER: "+cc.customerName);
             cc.choosePicky();
             cc.setImg();
             cc.setPosition(-200, RestaurantScreen.floorHeight);

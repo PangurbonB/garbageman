@@ -164,7 +164,7 @@ public class CookingScreen implements Screen{
         });
 
         try {
-            System.out.println(PassTrash.place + "LLLLLLLLLLLLLLLL");
+            //System.out.println(PassTrash.place + "LLLLLLLLLLLLLLLL");
             input = (CookedFood) Class.forName(foodItems.get(PassTrash.place).getName()).newInstance();
         } catch (InstantiationException e) {
             input = new Burrito();

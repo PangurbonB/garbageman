@@ -98,7 +98,6 @@ public void upInv(){//update the inventory display when an item is changed
 			}
 		}
 		catch (java.lang.NullPointerException j){
-			//lol this always errors System.out.println("figgle");
 			j.printStackTrace();
 		}
 }

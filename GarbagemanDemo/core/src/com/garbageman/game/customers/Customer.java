@@ -60,7 +60,7 @@ public class Customer extends Image {
 
     public void choosePicky(){
         Random rand = new Random();
-        System.out.println("RAND PARMS: "+(LOCAL_MAX-LOCAL_MIN)+";   "+LOCAL_MIN);
+        //System.out.println("RAND PARMS: "+(LOCAL_MAX-LOCAL_MIN)+";   "+LOCAL_MIN);
         this.picky = (rand.nextInt((LOCAL_MAX-LOCAL_MIN)+1)+LOCAL_MIN);
     }
 
@@ -146,7 +146,7 @@ public class Customer extends Image {
            e.printStackTrace();
        }
         if (cc != null){
-            System.out.println("CUSTOMER: "+cc.customerName);
+            //System.out.println("CUSTOMER: "+cc.customerName);
             cc.choosePicky();
             cc.setImg();
             cc.setPosition(-200, RestaurantScreen.floorHeight);
@@ -285,11 +285,11 @@ public class Customer extends Image {
        thresh1 = (this.LOCAL_MAX-total);
        thresh2 = thresh1+(total/3);
        thresh3 = thresh2+(total/3);
-       System.out.println("S: "+thresh1);
-       System.out.println("S: "+thresh2);
-       System.out.println("S: "+thresh3);
+       //System.out.println("S: "+thresh1);
+       //System.out.println("S: "+thresh2);
+       //System.out.println("S: "+thresh3);
        if (this.hasOrder() && thresh1 != 0 && thresh2 != 0 && thresh3 != 0){
-           System.out.println("NAST: "+ itemToGive.nast);
+           //System.out.println("NAST: "+ itemToGive.nast);
            if (itemToGive.nast < thresh1){
                System.out.println("HIGH");
            }

@@ -57,7 +57,7 @@ public class Save {
         }
 
         for (Trash i : game.backpack.contents) {
-            System.out.println("?????????????????????????????"+i.getName());
+            //System.out.println("?????????????????????????????"+i.getName());
             ArrayList<String> trashInfo = new ArrayList<String>();
             trashInfo.add(String.valueOf(i.isCookedFood));
             trashInfo.add(i.img);
@@ -92,7 +92,7 @@ public class Save {
 
     public static ArrayList<ArrayList<String>> loadBackpack(){
         if (parsedObject != null) {
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!" + parsedObject);
+            //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!" + parsedObject);
             JSONArray items = (JSONArray) parsedObject.get("Backpack");
             ArrayList<ArrayList<String>> ret = new ArrayList<ArrayList<String>>();
             if (parsedObject.size() != 0) {

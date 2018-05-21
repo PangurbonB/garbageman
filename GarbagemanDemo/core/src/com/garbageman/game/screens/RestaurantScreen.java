@@ -189,9 +189,9 @@ public class RestaurantScreen implements Screen {
         }
 
         if (frontCustomer != null){
-            System.out.println("FRONT LISTENER: "+frontCustomer.getListeners().size);
+            //System.out.println("FRONT LISTENER: "+frontCustomer.getListeners().size);
             if (frontCustomer.getListeners().size == 0){
-                System.out.println("GIVEN FRONT LISTENER");
+                //System.out.println("GIVEN FRONT LISTENER");
                 frontCustomer.addListener(new InputListener(){
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         if (frontCustomer.order == null) {
@@ -222,7 +222,7 @@ public class RestaurantScreen implements Screen {
         }
 
         if (!dontGo) {
-            System.out.println("current interval: " + currentInterval + ", max: " + maxInterval);
+            //System.out.println("current interval: " + currentInterval + ", max: " + maxInterval);
             currentInterval++;
             if (currentInterval >= maxInterval) {
                 dontGo = true;

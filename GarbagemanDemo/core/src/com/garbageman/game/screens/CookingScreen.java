@@ -51,6 +51,8 @@ public class CookingScreen implements Screen{
 
     final ArrayList<Trash> trashes = new ArrayList<Trash>();
 
+    CookedFood item;
+
     CookedFood input = new CookedFood();
 
     Garbageman game;
@@ -65,21 +67,12 @@ public class CookingScreen implements Screen{
     Skin s = Assets.newSkin();
 
 
-    public CookingScreen(Garbageman game){
+    public CookingScreen(Garbageman game, CookedFood item){
+
+        this.item = item;
         this.game = game;
         this.foodItems = Garbageman.foodItems;
 
-        try {
-            input = (CookedFood) Class.forName(foodItems.get(PassTrash.place).getName()).newInstance();
-            input.setImg();
-            input.setVisible(true);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         foodItems = game.foodItems;
         for (int i = 0; i < foodItems.size(); i++) {
             try {
@@ -109,6 +102,22 @@ public class CookingScreen implements Screen{
             game.music.setLooping(true);
 
         }
+
+
+        if (item != null){
+            try {
+                for (int i = 0; i < foodItems.size(); i++) {
+                    if (foodItems.get(i).equals(item.getClass())){
+                        PassTrash.place = i;
+                        System.out.println(i);
+                    }
+                }
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            }
+        }
+
+
 
         game.currentScreen = this.screenName;
 
@@ -155,6 +164,7 @@ public class CookingScreen implements Screen{
         });
 
         try {
+            System.out.println(PassTrash.place + "LLLLLLLLLLLLLLLL");
             input = (CookedFood) Class.forName(foodItems.get(PassTrash.place).getName()).newInstance();
         } catch (InstantiationException e) {
             input = new Burrito();

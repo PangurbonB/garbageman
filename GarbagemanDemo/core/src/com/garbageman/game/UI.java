@@ -287,7 +287,7 @@ public class UI {
                 game.passTrash.addTrash(infoItemIndex);
                 infoItem = null;
                 infoItemIndex = -2;
-                game.setScreen(new CookingScreen(game));
+                game.setScreen(new CookingScreen(game, null));
                 showInfo = false;
                 infoItem = null;
                 currentDown = null;
@@ -476,12 +476,17 @@ public class UI {
             invButton.addListener(new InputListener(){
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     //System.out.println("CLIEKED + " + checkCurrentScreen());
-                     if (screenName.equals(FakeInvScreen.screenName)){
-                         game.setScreen(new CookingScreen(game));
-                         showInv = false;
+                    if(game.currentScreen.equals(CookingScreen.screenName)){
+                        game.setScreen(new RestaurantScreen(game));
+                        return true;
+                    }
 
-                         showInfo = false;
-                         infoItem = null;
+                    if (screenName.equals(FakeInvScreen.screenName)){
+                        game.setScreen(new CookingScreen(game, null));
+                        showInv = false;
+
+                        showInfo = false;
+                        infoItem = null;
                     }
                     if (!screenName.equals(trashcanScreenName)) {
                         showInv = !showInv;
@@ -575,8 +580,11 @@ public class UI {
                         if (lab.getListeners().size == 0){
                             lab.addListener(new InputListener(){
                                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                    //BRETT ADD HERE
-                                    System.out.println("BRETT HERE");
+                                    if (game.getScreen() instanceof RestaurantScreen) {
+
+                                        game.setScreen(new CookingScreen(game, ((RestaurantScreen) game.getScreen()).frontCustomer.order));
+
+                                    }
                                     return super.touchDown(event, x, y, pointer, button);
                                 }
                             });
@@ -814,5 +822,13 @@ public class UI {
                 stage.addActor(viewOrders);
             }
         }
+
+
+        if (game.currentScreen.equals(CookingScreen.screenName)){
+            invButton.setText("Restaurant");
+        }
+
+        invButton.toFront();
+
     }
 }

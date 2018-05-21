@@ -26,6 +26,7 @@ import com.garbageman.game.world.GestureHandler;
 import com.garbageman.game.world.InputHandler;
 import com.garbageman.game.SpriteSheetDivider;
 
+import java.awt.font.ImageGraphicAttribute;
 import java.util.Random;
 
 import java.util.ArrayList;
@@ -373,7 +374,7 @@ public class Trashcan implements Screen {
     @Override
     public void show() {
 
-        game.music  = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/clashy.wav"));
+        game.music  = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/cheery.wav"));
         game.music.play();
         game.music.setLooping(true);
 
@@ -395,9 +396,15 @@ public class Trashcan implements Screen {
         stage.addActor(backpackImg);
         backpackImg.toFront();
         backpackImg.setVisible(false);
+        Random rand = new Random();
+        if (rand.nextBoolean()){
+            background = new Image(Assets.findTexture("background2"));
+        }
         stage.addActor(background);
         background.setWidth(stage.getWidth());
         background.setHeight(stage.getHeight()-game.ui.topBarHeight);
+
+
 
         for (int i = 0; i < imgs.size(); i++) {
             imgs.get(i).setName(Integer.toString(i));

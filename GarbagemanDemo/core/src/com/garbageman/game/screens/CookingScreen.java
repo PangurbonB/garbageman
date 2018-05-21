@@ -46,6 +46,7 @@ public class CookingScreen implements Screen{
     int centerX = 641;
     int centerY = 359;
     boolean changed = false;
+    boolean fakeinvScreen = false;
     SpriteSheetDivider sp = new SpriteSheetDivider();
 
     final ArrayList<Trash> trashes = new ArrayList<Trash>();
@@ -96,9 +97,11 @@ public class CookingScreen implements Screen{
 
     @Override
     public void show() {
-        game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/chordy.wav"));
-        game.music.play();
-        game.music.setLooping(true);
+        if (!game.music.isPlaying()) {
+            game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/chordy.wav"));
+            game.music.play();
+            game.music.setLooping(true);
+        }
 
         game.currentScreen = this.screenName;
 
@@ -283,6 +286,7 @@ public class CookingScreen implements Screen{
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     game.passTrash.currentTypeToAdd = trashes.get(k).type;
                     game.passTrash.selectedIndex = k;
+                    fakeinvScreen = true;
                     game.setScreen(new FakeInvScreen(game, trashes.get(k)));
                     trashes.get(k).setSelectedInInv(true);
 
@@ -521,8 +525,10 @@ public class CookingScreen implements Screen{
     }
 
     @Override
-    public void hide() {
-        game.music.pause();
+    public void hide(){
+        if (!fakeinvScreen) {
+            game.music.pause();
+        }
     }
 
     @Override

@@ -47,7 +47,7 @@ public class MainMenuScreen implements Screen {
     //private BitmapFont font;
    // private TextButton playButton;
     private TextButton.TextButtonStyle bbstyle;
-    private TextButton playButton, exitButton;
+    private TextButton playButton, exitButton, creditsButton;
     private final int pbHeight = 250;
     private final int pbWidth = 350;
     private String screenName = "MainMenuScreen";
@@ -131,6 +131,8 @@ public class MainMenuScreen implements Screen {
         });
         stage.addActor(toTest);
 
+
+
         openShop = new TextButton("Shop", bs);
         openShop.setBounds(0, 300, 250, 75);
         openShop.setColor(Color.BLACK);
@@ -144,7 +146,17 @@ public class MainMenuScreen implements Screen {
         });
 
 
-
+        creditsButton = new TextButton("Credits", bs);
+        creditsButton.setBounds(1000, 300, 250, 75);
+        creditsButton.setColor(Color.BLACK);
+        creditsButton.setVisible(true);
+        stage.addActor(creditsButton);
+        creditsButton.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new CreditsScreen(game));
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
 
 
         /*Skin playButtonSkin = Assets.newSkin();

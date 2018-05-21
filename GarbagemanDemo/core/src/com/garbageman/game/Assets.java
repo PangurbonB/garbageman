@@ -169,6 +169,7 @@ public class Assets {
 
     private void initScreens(){
         newTexture("background", "assets/Screens/dumpster1.png");
+        newTexture("background2", "assets/Screens/Dumpster2.png");
         newTexture("backpackRestaurant", "assets/Screens/TrashBackpackRestaurantCrop.png");
         newTexture("cookingScreen", "assets/Screens/craftingScreen2.png");
         newTexture("smallInv", "assets/Screens/smallInv.png");

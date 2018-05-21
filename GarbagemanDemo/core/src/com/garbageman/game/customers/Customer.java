@@ -204,6 +204,7 @@ public class Customer extends Image {
        Customer cc = getFirstCustomer();
        if (cc != null){
            cc.walkToPoint(cc.getStage().getWidth()*2, RestaurantScreen.floorHeight);
+           Customer.listOfCustomers.remove(0);
        }
    }
 

@@ -17,10 +17,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.cooked.CookedFood;
+import com.garbageman.game.customers.Customer;
 import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.CookingScreen;
 import com.garbageman.game.screens.FakeInvScreen;
 import com.garbageman.game.screens.MainMenuScreen;
+import com.garbageman.game.screens.RestaurantScreen;
+import com.garbageman.game.screens.ShopScreen;
 import com.garbageman.game.screens.Trashcan;
 
 import java.util.ArrayList;
@@ -71,6 +74,12 @@ public class UI {
     private int infoItemIndex = -20;
 
     private Actor BLUE_SQUARE;
+
+    private TextButton viewOrders;
+    private Actor orderFrame;
+    private ArrayList<Actor> orders = new ArrayList<Actor>();
+    public boolean showOrders = false;
+    public ArrayList<Actor> coverTheseWithInv = new ArrayList<Actor>();
 
 
     /*
@@ -230,6 +239,27 @@ public class UI {
         infoFrame.add(invInfo);
 
         BLUE_SQUARE = makeRect(50, 50, 100, 100, Color.BLUE, false);
+
+        TextButton.TextButtonStyle orderStyle = new TextButton.TextButtonStyle();
+        orderStyle.font = game.makeFont(20);
+        orderStyle.fontColor = Color.BLACK;
+        viewOrders = new TextButton("View Orders", orderStyle);
+        float height = 50, width = 150;
+        viewOrders.setBounds(stage.getWidth()-(float)(width*1.5), stage.getHeight()-(height*3), width, height);
+        viewOrders.setVisible(true);
+        stage.addActor(viewOrders);
+        coverTheseWithInv.add(viewOrders);
+        viewOrders.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                showOrders = !showOrders;
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+        float frameHeight = 350, frameWidth = 275;
+        orderFrame = game.ui.makeRect((int)(stage.getWidth()-viewOrders.getWidth()*2), (int)(viewOrders.getY()-frameHeight), (int)frameWidth, (int)frameHeight, Color.GRAY, false);
+        stage.addActor(orderFrame);
+        coverTheseWithInv.add(orderFrame);
 
         BitmapFont labFont = game.makeFont(25);
         TextButton.TextButtonStyle invbbs = new TextButton.TextButtonStyle();
@@ -492,6 +522,85 @@ public class UI {
 
         //System.out.println("ROT BAR VIS:"+rotBarBack.isVisible());
         //System.out.println("CHECK SCREEN: "+checkCurrentScreen());
+
+        if (game.currentScreen.equals(RestaurantScreen.screenName) || game.currentScreen.equals(CookingScreen.screenName)){
+            viewOrders.setVisible(true);
+            viewOrders.toFront();
+            if (viewOrders.getStage() != stage){
+                stage.addActor(viewOrders);
+            }
+            System.out.println("SET VISIBLE! "+viewOrders.isVisible()+" : "+ viewOrders.getX()+", "+viewOrders.getY());
+            for (Actor a : coverTheseWithInv) {
+                //if (a != orderFrame) {
+                    a.setVisible(!game.ui.showInv);
+                //}
+            }
+
+
+            if (!game.ui.showInv){
+                orderFrame.setVisible(showOrders);
+            }
+            else if (game.ui.showInv){
+                orderFrame.setVisible(false);
+            }
+            if (showOrders){
+                viewOrders.setText("Close");
+
+                ArrayList<Customer> getOrders = new ArrayList<Customer>();
+                for (Customer c: Customer.listOfCustomers) {
+                    if (c.order != null){
+                        getOrders.add(c);
+                    }
+                }
+                if (getOrders.size() != orders.size()){
+                    orders.clear();
+                    Label.LabelStyle sty = new Label.LabelStyle();
+                    sty.font = game.makeFont(15);
+                    sty.fontColor = Color.WHITE;
+                    float yPlus = 50;
+                    float y = orderFrame.getY()+(orderFrame.getHeight())-yPlus;
+                    System.out.println("y: "+yPlus);
+                    for (Customer c: getOrders) {
+                        System.out.println("order: "+c.customerName+": "+c.order.name);
+                        Label lab = new Label(c.customerName+": "+c.order.name, sty);
+                        lab.setSize(orderFrame.getWidth(), 50);
+                        lab.setPosition(orderFrame.getX()+10, y);
+                        lab.setWrap(true);
+                        y = y - yPlus;
+                        lab.setVisible(false);
+                        stage.addActor(lab);
+                        orders.add(lab);
+                        coverTheseWithInv.add(lab);
+                    }
+                }
+                else {
+                    for (Actor a: orders) {
+                        a.setVisible(orderFrame.isVisible());
+                    }
+                }
+            }
+            else{
+                viewOrders.setText("View Orders");
+            }
+            for (Actor a: orders) {
+                a.setVisible(orderFrame.isVisible());
+                a.toFront();
+
+                if (a.getStage() != stage){
+                    stage.addActor(a);
+                }
+            }
+        }
+        else{
+            //showInv = false;
+            viewOrders.setVisible(false);
+            orderFrame.setVisible(false);
+
+        }
+        for (Actor a: orders){
+            a.toFront();
+        }//*/
+
         updateRep(len, (double)game.reputation/100);
         if (repText != null){
             repText.setText("Reputation: " + game.reputation + "/100");
@@ -682,5 +791,11 @@ public class UI {
             rotBarBar.toFront();
             System.out.println("TO FRONT!  "+rotBarBar.isVisible()+ "  "+ rotBarBar.getHeight()+ ", "+rotBarBar.getWidth());
         }*/
+        if (viewOrders.isVisible()){
+            viewOrders.toFront();
+            if (viewOrders.getStage() != stage){
+                stage.addActor(viewOrders);
+            }
+        }
     }
 }

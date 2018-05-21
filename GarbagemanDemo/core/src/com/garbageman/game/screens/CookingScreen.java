@@ -397,6 +397,10 @@ public class CookingScreen implements Screen{
         fakeMenu.toFront();
         fakeMenu.setVisible(true);
 
+        for (Actor a: game.ui.coverTheseWithInv) {
+            a.toFront();
+        }
+
         if (changed){
             drawNewRecipe(input);
             changed ^= true;

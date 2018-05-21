@@ -10,12 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.garbageman.game.Assets;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.cooked.Pizza;
 import com.garbageman.game.customers.Customer;
+import com.garbageman.game.customers.Dana;
 import com.garbageman.game.garbage.Trash;
 
 import java.util.ArrayList;
@@ -84,25 +86,6 @@ public class RestaurantScreen implements Screen {
         stage.addActor(background);
         background.toBack();
 
-        TextButton.TextButtonStyle orderStyle = new TextButton.TextButtonStyle();
-        orderStyle.font = game.makeFont(20);
-        orderStyle.fontColor = Color.BLACK;
-        viewOrders = new TextButton("View Orders", orderStyle);
-        float height = 50, width = 150;
-        viewOrders.setBounds(stage.getWidth()-(float)(width*1.5), stage.getHeight()-(height*3), width, height);
-        viewOrders.setVisible(true);
-        stage.addActor(viewOrders);
-        coverTheseWithInv.add(viewOrders);
-        viewOrders.addListener(new InputListener(){
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                showOrders = !showOrders;
-                return super.touchDown(event, x, y, pointer, button);
-            }
-        });
-
-        float frameHeight = 350, frameWidth = 275;
-        orderFrame = game.ui.makeRect((int)(stage.getWidth()-viewOrders.getWidth()*2), (int)(viewOrders.getY()-frameHeight), (int)frameWidth, (int)frameHeight, Color.BLUE, false);
-        stage.addActor(orderFrame);
         //coverTheseWithInv.add(orderFrame);
 
         if (game.currentCustomers.size()> 0){
@@ -144,20 +127,26 @@ public class RestaurantScreen implements Screen {
         }
 
         if (frontCustomer != null){
-            frontCustomer.say("I want food");
+            if (frontCustomer.getListeners().size == 0){
+                frontCustomer.addListener(new InputListener(){
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        if (true/*frontCustomer.order == null*/) {
+                            frontCustomer.makeOrder();
+                            frontCustomer.say("I want " + frontCustomer.order.name);
+                            //frontCustomer.removeListener(this);
+                        }
+                        return super.touchDown(event, x, y, pointer, button);
+                    }
+                });
+            }
         }
 
-        if (!game.ui.showInv){
-            orderFrame.setVisible(showOrders);
-        }
-        else if (game.ui.showInv){
-            orderFrame.setVisible(false);
-        }
-        if (showOrders){
-            viewOrders.setText("Close");
-        }
-        else{
-            viewOrders.setText("View Orders");
+        if (Customer.listOfCustomers.size()> 0){
+            for (Customer c: Customer.listOfCustomers) {
+                if (c.order != null){
+                    //System.out.println(c.customerName+" Order: "+c.order.name);
+                }
+            }
         }
 
         if (!dontGo) {

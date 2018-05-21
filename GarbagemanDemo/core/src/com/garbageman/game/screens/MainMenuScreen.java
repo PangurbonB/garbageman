@@ -257,7 +257,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
-        music.pause();
+        //music.pause();
     }
 
     @Override

@@ -197,7 +197,7 @@ public final class ListAccess {
     ));
 
     public static ArrayList<Class> customers = new ArrayList<Class>(Arrays.asList(
-            /*Duy.class,
+            Duy.class,
             Kyle.class,
             Judas.class,
             Sadie.class,
@@ -205,8 +205,7 @@ public final class ListAccess {
             Alan.class,
             Brett.class,
             Dana.class,
-            healthInspector.class*/
-            Silas.class
+            healthInspector.class
     ));
 
     public static ArrayList<Class> foodItems = new ArrayList<Class>(Arrays.asList(

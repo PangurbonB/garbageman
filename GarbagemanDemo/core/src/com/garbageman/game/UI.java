@@ -72,6 +72,7 @@ public class UI {
     public static int squareSize = 256/2;
     private TextButton addToCook;
     private int infoItemIndex = -20;
+    public boolean giveOrder = false;
 
     private Actor BLUE_SQUARE;
 
@@ -491,6 +492,8 @@ public class UI {
                     else if (screenName.equals(trashcanScreenName)){
                         //BRETT THIS IS WHERE YOU CAN DO INV STUFF IN THE DUMPSTER SCREEN
                     }
+                    giveOrder = false;
+                    addToCook.setVisible(false);
                     return true;
                 }
             });
@@ -750,6 +753,10 @@ public class UI {
                     if (game.currentScreen.equals(FakeInvScreen.screenName)&& infoItem.type == game.passTrash.currentTypeToAdd){
                         addToCook.setVisible(true);
                         //System.out.println("they can cook this!");
+                    }
+                    else if (game.currentScreen.equals(RestaurantScreen.screenName)&& giveOrder && infoItem instanceof CookedFood){
+                        addToCook.setText("Give This Order");
+                        addToCook.setVisible(true);
                     }
                     else{
                         addToCook.setVisible(false);

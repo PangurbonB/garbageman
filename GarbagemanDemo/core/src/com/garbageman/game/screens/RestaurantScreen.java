@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -49,6 +50,7 @@ public class RestaurantScreen implements Screen {
     private ArrayList<Actor> coverTheseWithInv = new ArrayList<Actor>();
 
     private Actor giveOrderFrame;
+    private TextButton give, cancel;
     private ArrayList<Actor> giveOrderList = new ArrayList<Actor>();
 
 
@@ -87,7 +89,7 @@ public class RestaurantScreen implements Screen {
         stage.addActor(background);
         background.toBack();
 
-        giveOrderFrame = game.ui.makeRect(0, 0, 200, 200, Color.GRAY, false);
+        giveOrderFrame = game.ui.makeRect(0, 0, 200, 200, Color.DARK_GRAY, false);
         giveOrderList.add(giveOrderFrame);
         stage.addActor(giveOrderFrame);
         giveOrderFrame.addListener(new InputListener(){
@@ -100,11 +102,44 @@ public class RestaurantScreen implements Screen {
             }
         });
 
+        TextButton.TextButtonStyle giveStyle = new TextButton.TextButtonStyle();
+        giveStyle.font = Garbageman.makeFont(20);
+        giveStyle.fontColor = Color.WHITE;
+        give = new TextButton("Give Order", giveStyle);
+        give.setSize(giveOrderFrame.getWidth(), giveOrderFrame.getHeight()/2);
+        give.setVisible(false);
+        stage.addActor(give);
+        giveOrderList.add(give);
+        give.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.ui.giveOrder = true;
+                game.ui.showInv = true;
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+        cancel = new TextButton("Cancel", giveStyle);
+        cancel.setSize(giveOrderFrame.getWidth(), giveOrderFrame.getHeight()/2);
+        cancel.setVisible(false);
+        stage.addActor(cancel);
+        giveOrderList.add(cancel);
+
+        cancel.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                for (Actor a: giveOrderList) {
+                    a.setVisible(false);
+                }
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+
         //coverTheseWithInv.add(orderFrame);
 
         if (game.currentCustomers.size()> 0){
             for (Customer c: game.currentCustomers) {
                 stage.addActor(c);
+                c.clearListeners();
                 coverTheseWithInv.add(c);
                 c.setPosition(c.posX, c.posY);
                 c.say();//leave it blank for no msg
@@ -153,7 +188,9 @@ public class RestaurantScreen implements Screen {
         }
 
         if (frontCustomer != null){
+            System.out.println("FRONT LISTENER: "+frontCustomer.getListeners().size);
             if (frontCustomer.getListeners().size == 0){
+                System.out.println("GIVEN FRONT LISTENER");
                 frontCustomer.addListener(new InputListener(){
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         if (frontCustomer.order == null) {
@@ -162,8 +199,12 @@ public class RestaurantScreen implements Screen {
                             //frontCustomer.removeListener(this);
                         }
                         else if (frontCustomer.order != null){
-                            giveOrderFrame.setVisible(true);
+                            for (Actor a: giveOrderList) {
+                                a.setVisible(true);
+                            }
                             giveOrderFrame.setPosition(frontCustomer.getX()+(frontCustomer.getWidth()/2), frontCustomer.getY()+(frontCustomer.getHeight()/2));
+                            cancel.setPosition(giveOrderFrame.getX(), giveOrderFrame.getY());
+                            give.setPosition(giveOrderFrame.getX(), cancel.getY()+(giveOrderFrame.getHeight()/2));
                         }
                         return super.touchDown(event, x, y, pointer, button);
                     }

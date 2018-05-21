@@ -223,7 +223,7 @@ public class MainMenuScreen implements Screen {
                 iterateBackground2 = 0;
             }
             if ((iterateBackground2 + 1)%5 == 0){
-                System.out.println(iterateBackground2);
+                //System.out.println(iterateBackground2);
                 background.setDrawable(sp.divideScreen("MainTitiel2", (iterateBackground2)/5));
             }
             iterateBackground2++;

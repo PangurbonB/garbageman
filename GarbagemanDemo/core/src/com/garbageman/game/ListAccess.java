@@ -17,7 +17,7 @@ import com.garbageman.game.customers.Judas;
 import com.garbageman.game.customers.Kyle;
 import com.garbageman.game.customers.Sadie;
 import com.garbageman.game.customers.Silas;
-import com.garbageman.game.customers.healthInspector;
+import com.garbageman.game.customers.HealthInspector;
 import com.garbageman.game.garbage.AllTheBadHalloweenCandy;
 import com.garbageman.game.garbage.AppleCore;
 import com.garbageman.game.garbage.BagOfFlour;
@@ -205,7 +205,7 @@ public final class ListAccess {
             Alan.class,
             Brett.class,
             Dana.class,
-            healthInspector.class
+            HealthInspector.class
     ));
 
     public static ArrayList<Class> foodItems = new ArrayList<Class>(Arrays.asList(

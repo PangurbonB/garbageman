@@ -90,10 +90,17 @@ public class CookingScreen implements Screen{
 
     @Override
     public void show() {
+        int randomMusic = new Random().nextInt(2) + 1;
         if (!game.music.isPlaying()) {
-            game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/chordy.wav"));
+            if (randomMusic == 1) {
+                game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/chordy.wav"));
+            }
+            else{
+                game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/menuey.wav"));
+            }
             game.music.play();
             game.music.setLooping(true);
+
         }
 
 

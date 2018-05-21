@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.ListAccess;
+import com.garbageman.game.PassTrash;
 import com.garbageman.game.SpriteSheetDivider;
 import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.screens.RestaurantScreen;
@@ -51,6 +52,7 @@ public class Customer extends Image {
     protected float DEFAULT_POS = 0;
     protected static final float INCREMENT = 1, REPS = 5;
     public float posX = DEFAULT_POS, posY = DEFAULT_POS;
+    public CookedFood finalFood = null;
 
     int currentCycleStage = 0;
     int totalCycleStages = 60;
@@ -202,7 +204,7 @@ public class Customer extends Image {
    }
 
    public static void removeFromFrontOfLine(){
-       Customer cc = getFirstCustomer();
+       Customer cc = Customer.listOfCustomers.get(0);
        if (cc != null){
            cc.walkToPoint(cc.getStage().getWidth()*2, RestaurantScreen.floorHeight);
            Customer.listOfCustomers.remove(0);
@@ -274,7 +276,14 @@ public class Customer extends Image {
        }
    }
 
+   public boolean hasFinalOrder(){
+       return (this.finalFood != null);
+   }
+
    public int giveCookedFood(CookedFood itemToGive){
+       if (this.hasFinalOrder()){return 0;}
+       this.finalFood = itemToGive;
+       this.order = null;
        int ratingPlusOrMinus = 0;
        boolean one = itemToGive.nast >= this.LOCAL_MIN;
        boolean two = itemToGive.nast < this.LOCAL_MAX;

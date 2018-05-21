@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.garbageman.game.Assets;
 import com.garbageman.game.Garbageman;
+import com.garbageman.game.PassTrash;
 import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.cooked.Pizza;
 import com.garbageman.game.customers.Customer;
@@ -158,6 +159,19 @@ public class RestaurantScreen implements Screen {
         for (Actor a : coverTheseWithInv) {
             if (a != orderFrame) {
                 a.setVisible(!game.ui.showInv);
+            }
+        }
+
+        if (frontCustomer != null){
+            System.out.println("NOT NULL");
+            System.out.println("FIRST "+Customer.listOfCustomers.get(0));
+            if (Customer.listOfCustomers.get(0)== frontCustomer){
+                System.out.println("FIRST CUSTOMER");
+                if (frontCustomer.finalFood != null){
+                    System.out.println("HAS ORDER");
+                    frontCustomer.walkToPoint(1500, RestaurantScreen.floorHeight);
+                    //remove front customer now
+                }
             }
         }
 

@@ -81,6 +81,7 @@ public class UI {
     private ArrayList<Actor> orders = new ArrayList<Actor>();
     public boolean showOrders = false;
     public ArrayList<Actor> coverTheseWithInv = new ArrayList<Actor>();
+    private String orderText = "Give This Order";
 
 
     /*
@@ -282,17 +283,32 @@ public class UI {
         addToCook.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //PassTrash.currentTrashCooking = infoItem;
-                //add item!
-                game.passTrash.addTrash(infoItemIndex);
-                infoItem = null;
-                infoItemIndex = -2;
-                game.setScreen(new CookingScreen(game, null));
-                showInfo = false;
-                infoItem = null;
-                currentDown = null;
-                //game.getScreen().dispose();
-                //stage.dispose();
+                if (game.currentScreen.equals(FakeInvScreen.screenName)) {
+                    //PassTrash.currentTrashCooking = infoItem;
+                    //add item!
+                    game.passTrash.addTrash(infoItemIndex);
+                    infoItem = null;
+                    infoItemIndex = -2;
+                    game.setScreen(new CookingScreen(game, null));
+                    showInfo = false;
+                    infoItem = null;
+                    currentDown = null;
+                    //game.getScreen().dispose();
+                    //stage.dispose();
+                }
+                else if (game.currentScreen.equals(RestaurantScreen.screenName)){
+                    //System.out.println(infoItem.name);
+                    PassTrash.orderToGive = (CookedFood) infoItem;
+                    infoItem = null;
+                    infoItemIndex = -2;
+                    showInfo = false;
+                    currentDown = null;
+                    showOrders = false;
+                    showInv = false;
+                    addToCook.setVisible(false);
+                    Customer c = ((RestaurantScreen)(game.getScreen())).frontCustomer;
+                    c.giveCookedFood(PassTrash.orderToGive);
+                }
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -763,7 +779,7 @@ public class UI {
                         //System.out.println("they can cook this!");
                     }
                     else if (game.currentScreen.equals(RestaurantScreen.screenName)&& giveOrder && infoItem instanceof CookedFood){
-                        addToCook.setText("Give This Order");
+                        addToCook.setText(orderText);
                         addToCook.setVisible(true);
                     }
                     else{
@@ -774,6 +790,12 @@ public class UI {
                         //Brett add the question mark catch here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         //uh I may have already added it right here
                         addToCook.setVisible(true);
+                    }
+                    if (addToCook.getText() == "Cook This"){
+                        addToCook.getLabel().setWrap(false);
+                    }
+                    else{
+                        addToCook.getLabel().setWrap(true);
                     }
 
                 }
@@ -827,8 +849,8 @@ public class UI {
         if (game.currentScreen.equals(CookingScreen.screenName)){
             invButton.setText("Restaurant");
         }
-
-        invButton.toFront();
+        if (invButton != null)
+            invButton.toFront();
 
     }
 }

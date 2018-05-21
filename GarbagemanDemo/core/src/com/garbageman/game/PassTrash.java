@@ -17,6 +17,7 @@ public class PassTrash {
     public int currentTypeToAdd = -20;
     public final static int ALLFOODTYPES = 1200;
     public int selectedIndex = -1;
+    public static CookedFood orderToGive = null;
     Garbageman game;
 
     public PassTrash(Garbageman game){

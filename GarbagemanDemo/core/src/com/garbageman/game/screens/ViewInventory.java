@@ -55,10 +55,6 @@ public class ViewInventory implements Screen{
 
     @Override
     public void show() {
-
-        music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/menuey.wav"));
-        music.play();
-        music.setLooping(true);
         stage = new Stage();
         game.currentScreen = screenName;
         Gdx.input.setInputProcessor(stage);

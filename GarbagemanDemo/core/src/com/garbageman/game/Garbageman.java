@@ -180,6 +180,7 @@ public class Garbageman extends Game {
 		super.render();
 	}
 
+
 	private void updateBackpackFromLoad(ArrayList<ArrayList<String>> obj){
 		if (obj != null){
             backpack.contents = new ArrayList<Trash>();

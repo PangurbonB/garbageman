@@ -37,7 +37,7 @@ public class SpriteSheetDivider {
         infoMap.put("titleScreen", new Float[]{384f, 216f, 1f, 1f}); ///
         infoMap.put("inventory", new Float[]{384f, 216f, 4f, 6f});   ///
         infoMap.put("smallInv", new Float[]{96f, 216f, 4f, 5f});    ///
-
+        infoMap.put("MainTitiel", new Float[]{384f, 216f, 4f, 23f});
     }
 
     private int xy(int x, int y){
@@ -48,7 +48,7 @@ public class SpriteSheetDivider {
         System.out.println(itemName);
         Float[] currInfo = infoMap.get(itemName);
         //System.out.println(currInfo.length);
-        int x = place % Math.round(currInfo[2]) +1;
+        int x = (place % Math.round(currInfo[2])) +1;
 
         int y = (int)((place - place%x)/currInfo[2]);
         x--;
@@ -56,7 +56,7 @@ public class SpriteSheetDivider {
         TextureRegion temp = new TextureRegion();
         temp.setTexture(Assets.findTexture(itemName));
         temp.setRegion(Math.round((currInfo[0])*x), Math.round((currInfo[1])*y), Math.round((currInfo[0])), Math.round((currInfo[1])));
-        //System.out.println((currInfo[0])*x+"+"+(currInfo[1])*y+"+"+(currInfo[0])+"+"+(currInfo[1]));
+        System.out.println((currInfo[0])*x+"+"+(currInfo[1])*y+"+"+(currInfo[0])+"+"+(currInfo[1]));
         TextureRegionDrawable temp1 = new TextureRegionDrawable();
         temp1.setRegion(temp);
         return temp1;

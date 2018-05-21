@@ -165,6 +165,7 @@ public class UI {
 
     private void setInvVis(boolean val, boolean getInfoFrame){//set the items in the inventory gui to show or not show; can also be used to set visibility of infoFrame
         //System.out.println("SET THE INV TO BE VIS: "+val+ ", info FRAME: "+getInfoFrame);
+
         for (Actor item:inv) {
             item.setVisible(val);
         }
@@ -529,7 +530,7 @@ public class UI {
             if (viewOrders.getStage() != stage){
                 stage.addActor(viewOrders);
             }
-            System.out.println("SET VISIBLE! "+viewOrders.isVisible()+" : "+ viewOrders.getX()+", "+viewOrders.getY());
+            //System.out.println("SET VISIBLE! "+viewOrders.isVisible()+" : "+ viewOrders.getX()+", "+viewOrders.getY());
             for (Actor a : coverTheseWithInv) {
                 //if (a != orderFrame) {
                     a.setVisible(!game.ui.showInv);

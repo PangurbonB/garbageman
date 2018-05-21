@@ -102,6 +102,7 @@ public class RestaurantScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
         for (Actor a : coverTheseWithInv) {
             if (a != orderFrame) {
                 a.setVisible(!game.ui.showInv);

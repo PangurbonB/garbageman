@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.garbageman.game.Assets;
 import com.garbageman.game.Garbageman;
+import com.garbageman.game.SpriteSheetDivider;
 import com.garbageman.game.game.world.GestureHandler;
 import com.garbageman.game.game.world.GetInput;
 
@@ -37,6 +38,8 @@ public class MainMenuScreen implements Screen {
 
     Texture playButtonActive;
     Texture playButtonInactive;
+
+    private int iterateBackground = 0;
 
     private Stage stage = new Stage();
     private Skin skin;
@@ -53,10 +56,15 @@ public class MainMenuScreen implements Screen {
     private TextButton toTest, openShop;
     private Image backing;
 
+    private SpriteSheetDivider sp = new SpriteSheetDivider();
+
+    private Image background = new Image();
+
     private int waitLimit = 300;
 
     private int wait = 0;
     private boolean played = false;
+
 
     private boolean checkCurrentScreen(){
         return game.currentScreen.equals(screenName);
@@ -82,6 +90,11 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+        background.setDrawable(sp.divideScreen("MainTitiel", 0));
+        background.setSize(stage.getWidth(), stage.getHeight());
+        background.toBack();
+        background.setVisible(true);
+        stage.addActor(background);
 
         if(Garbageman.startup) {
             game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/soundEffects/Startup.wav"));
@@ -185,6 +198,13 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
+        if (iterateBackground<115) {
+            if((iterateBackground+1)%5 == 0){
+                background.setDrawable(sp.divideScreen("MainTitiel", iterateBackground/5));
+            }
+            iterateBackground++;
+        }
 
         if(wait >= waitLimit && !played){
             played = true;

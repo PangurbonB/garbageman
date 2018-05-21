@@ -3,8 +3,8 @@ package com.garbageman.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -62,11 +62,6 @@ public class CookingScreen implements Screen{
     private Actor cookBackground;
     Skin sk = Assets.newSkin();
     Skin s = Assets.newSkin();
-
-
-
-
-
 
 
     public CookingScreen(Garbageman game){
@@ -398,6 +393,7 @@ public class CookingScreen implements Screen{
 
     @Override
     public void render(float delta) {
+
         fakeMenu.toFront();
         fakeMenu.setVisible(true);
 

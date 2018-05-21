@@ -373,9 +373,10 @@ public class Trashcan implements Screen {
     @Override
     public void show() {
 
-        game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/clashy.wav"));
+        game.music  = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/clashy.wav"));
         game.music.play();
         game.music.setLooping(true);
+
 
         spawnItem(20);
         spawnJunk(40);
@@ -423,7 +424,6 @@ public class Trashcan implements Screen {
 
     @Override
     public void render(float delta) {
-
 
         for (int i = 0; i < imgs.size(); i++) {
             imgs.get(i).setName(Integer.toString(i));

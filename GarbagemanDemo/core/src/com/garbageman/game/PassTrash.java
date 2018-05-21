@@ -99,6 +99,13 @@ public class PassTrash {
                 if (i instanceof CrowWithOddEyeInfection){
                     emptyFood.containsCrowWithOddEyeInfection = true;
                 }
+
+                for (int x = 0; x < game.backpack.contents.size(); x++){
+                    Trash t = game.backpack.contents.get(x);
+                    if (t.equals(i)){
+                        game.backpack.contents.remove(x);
+                    }
+                }
             }
         }
 
@@ -108,6 +115,8 @@ public class PassTrash {
 
         emptyFood.nast = nastAvg;
         emptyFood.sellValue = totalPrice;
+
+
 
 
         return emptyFood;

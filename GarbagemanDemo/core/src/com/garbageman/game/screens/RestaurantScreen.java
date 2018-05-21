@@ -48,6 +48,9 @@ public class RestaurantScreen implements Screen {
 
     private ArrayList<Actor> coverTheseWithInv = new ArrayList<Actor>();
 
+    private Actor giveOrderFrame;
+    private ArrayList<Actor> giveOrderList = new ArrayList<Actor>();
+
 
 
     public RestaurantScreen(Garbageman game){
@@ -84,6 +87,19 @@ public class RestaurantScreen implements Screen {
         stage.addActor(background);
         background.toBack();
 
+        giveOrderFrame = game.ui.makeRect(0, 0, 200, 200, Color.GRAY, false);
+        giveOrderList.add(giveOrderFrame);
+        stage.addActor(giveOrderFrame);
+        giveOrderFrame.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (giveOrderFrame.isVisible()){
+                    giveOrderFrame.setVisible(false);
+                }
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
         //coverTheseWithInv.add(orderFrame);
 
         if (game.currentCustomers.size()> 0){
@@ -109,6 +125,17 @@ public class RestaurantScreen implements Screen {
             }
         }
 
+        if (game.ui.showInv){
+            for (Actor a: giveOrderList){
+                a.setVisible(false);
+            }
+        }
+        for (Actor a: giveOrderList){
+            if (a.isVisible()){
+                a.toFront();
+            }
+        }
+
 
         game.ui.update();
         stage.draw();
@@ -129,10 +156,14 @@ public class RestaurantScreen implements Screen {
             if (frontCustomer.getListeners().size == 0){
                 frontCustomer.addListener(new InputListener(){
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        if (true/*frontCustomer.order == null*/) {
+                        if (frontCustomer.order == null) {
                             frontCustomer.makeOrder();
                             frontCustomer.say("I want " + frontCustomer.order.name);
                             //frontCustomer.removeListener(this);
+                        }
+                        else if (frontCustomer.order != null){
+                            giveOrderFrame.setVisible(true);
+                            giveOrderFrame.setPosition(frontCustomer.getX()+(frontCustomer.getWidth()/2), frontCustomer.getY()+(frontCustomer.getHeight()/2));
                         }
                         return super.touchDown(event, x, y, pointer, button);
                     }

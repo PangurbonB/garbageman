@@ -158,11 +158,12 @@ public class Customer extends Image {
             cc.overheadName.setAlignment(Align.center);
             cc.overheadName.setWrap(true);
             cc.setOverheadPos();
-            cc.LOCAL_MIN = KINDOF_PICKY;
+            cc.LOCAL_MIN = KINDOF_PICKY;//CHANGE THIS AT SOME POINT
             cc.LOCAL_MAX = REALLY_PICKY;
             stage.addActor(cc);
             stage.addActor(cc.overheadName);
             ListAccess.currentCustomers.add(cc);
+            cc.say();
 
         }
         else if (cc != null){
@@ -180,7 +181,7 @@ public class Customer extends Image {
        this.overheadName.setText(this.customerName+": "+msg);
    }
    public void say(){
-       this.overheadName.setText(this.customerName);
+       this.overheadName.setText("");
    }
 
    public CharSequence getSaying(){

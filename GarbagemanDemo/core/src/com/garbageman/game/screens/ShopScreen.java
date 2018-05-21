@@ -1,5 +1,6 @@
 package com.garbageman.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -68,6 +69,11 @@ public class ShopScreen implements Screen {
 
     @Override
     public void show() {
+
+        game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/roundy.wav"));
+        game.music.play();
+        game.music.setLooping(true);
+
         game.currentScreen = screenName;
         game.ui.init(game, stage, screenName);
         game.ui.makeUI();
@@ -189,7 +195,7 @@ public class ShopScreen implements Screen {
 
     @Override
     public void hide() {
-
+        game.music.pause();
     }
 
     @Override

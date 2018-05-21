@@ -101,6 +101,10 @@ public class CookingScreen implements Screen{
 
     @Override
     public void show() {
+        game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/chordy.wav"));
+        game.music.play();
+        game.music.setLooping(true);
+
         game.currentScreen = this.screenName;
 
         //inventory buttons:
@@ -522,7 +526,7 @@ public class CookingScreen implements Screen{
 
     @Override
     public void hide() {
-
+        game.music.pause();
     }
 
     @Override

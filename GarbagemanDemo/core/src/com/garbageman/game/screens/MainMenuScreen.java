@@ -53,6 +53,8 @@ public class MainMenuScreen implements Screen {
     private TextButton toTest, openShop;
     private Image backing;
 
+    private int waitLimit = 300;
+
     private int wait = 0;
     private boolean played = false;
 
@@ -61,7 +63,6 @@ public class MainMenuScreen implements Screen {
     }
 
     public MainMenuScreen(Garbageman game){
-
 
         InputProcessor inputProcessorOne = new GetInput();
         InputProcessor inputProcessorTwo = new GestureDetector(new GestureHandler());
@@ -81,13 +82,16 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+
         if(Garbageman.startup) {
             game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/soundEffects/Startup.wav"));
             game.music.play();
-            Garbageman.startup ^= true;
+            Garbageman.startup = false;
+            waitLimit = 300;
         }
-
-
+        else {
+            waitLimit = 50;
+        }
 
         game.currentScreen = screenName;
         Gdx.input.setInputProcessor(stage);
@@ -182,13 +186,13 @@ public class MainMenuScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        if(wait >= 300 && !played){
+        if(wait >= waitLimit && !played){
             played = true;
             game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/themey.wav"));
             game.music.play();
             game.music.setLooping(true);
         }
-        else{
+        else if(wait < waitLimit){
             wait++;
         }
 

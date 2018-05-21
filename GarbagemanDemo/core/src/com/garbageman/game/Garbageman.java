@@ -66,7 +66,7 @@ public class Garbageman extends Game {
 
 
 	//Switch for saving and loading
-	public static boolean savingOn = true;
+	public static boolean savingOn = false;
 
 	public java.util.Map<String, Color> colorMap;
 
@@ -129,7 +129,6 @@ public class Garbageman extends Game {
 		this.assets = new Assets(this);
 
 		batch = new SpriteBatch();
-		this.setScreen(new MainMenuScreen(this));
 		ArrayList<Class> deleteList = new ArrayList<Class>();
         if (SAFE_MODE){
 			for (Class i : garbageItems) {

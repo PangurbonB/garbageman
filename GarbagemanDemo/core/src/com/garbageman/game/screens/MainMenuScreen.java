@@ -115,24 +115,6 @@ public class MainMenuScreen implements Screen {
         TextButton.TextButtonStyle bs = new TextButton.TextButtonStyle();
         bs.font = font12;
         bs.fontColor = Color.BLACK;
-        toTest = new TextButton("Test Restaurant", bs);
-        float num = 150;
-        toTest.setBounds(num, num, num, num);
-        toTest.setColor(Color.BLACK);
-        toTest.setSize(250, 75);
-        toTest.setPosition(0, 500);
-        toTest.setVisible(true);
-        toTest.addListener(new InputListener(){
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //toTest.getLabel().setText("ME LLAMO:TYRONE");
-                game.setScreen(new RestaurantScreen(game));
-                //game.getScreen().dispose();
-                return true;
-            }
-        });
-        stage.addActor(toTest);
-
-
 
         openShop = new TextButton("Shop", bs);
         openShop.setBounds(0, 300, 250, 75);
@@ -181,7 +163,7 @@ public class MainMenuScreen implements Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //System.out.println(game.getScreen() + "   " + this.getClass());
                 if (checkCurrentScreen()){
-                    game.setScreen(new Trashcan(game));
+                    game.setScreen(new RestaurantScreen(game));
                     //game.getScreen().dispose();
                 }
                 return true;
@@ -223,7 +205,7 @@ public class MainMenuScreen implements Screen {
                 iterateBackground2 = 0;
             }
             if ((iterateBackground2 + 1)%5 == 0){
-                System.out.println(iterateBackground2);
+                //System.out.println(iterateBackground2);
                 background.setDrawable(sp.divideScreen("MainTitiel2", (iterateBackground2)/5));
             }
             iterateBackground2++;

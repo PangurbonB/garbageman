@@ -158,7 +158,7 @@ public class UI {
                     infoFrame.add(infoName);
                     infoLabels.add(infoName);
                     infoName.setVisible(false);
-                    System.out.println("info label " + x + " made "+ infoLabels.size());
+                    //System.out.println("info label " + x + " made "+ infoLabels.size());
                 }
             } //else
             //System.out.println("NOT 4:::: " + curInfoList.size());
@@ -354,8 +354,8 @@ public class UI {
         int tot = 0;
         inv.add(noContent);
         //System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBB"+game.backpack.contents.size());
-        System.out.println("infoLabels: "+infoLabels.size());
-        System.out.println("make labels: "+(infoLabels.size()==0));
+        //System.out.println("infoLabels: "+infoLabels.size());
+        //System.out.println("make labels: "+(infoLabels.size()==0));
         if (infoLabels.size()== 0){
             createLabels();
         }
@@ -586,6 +586,7 @@ public class UI {
                     float y = orderFrame.getY()+(orderFrame.getHeight())-yPlus;
                     System.out.println("y: "+yPlus);
                     for (Customer c: getOrders) {
+                        final Customer z = c;
                         //System.out.println("order: "+c.customerName+": "+c.order.name);
                         Label lab = new Label(c.customerName+": "+c.order.name, sty);
                         lab.setSize(orderFrame.getWidth(), 50);
@@ -596,9 +597,9 @@ public class UI {
                         if (lab.getListeners().size == 0){
                             lab.addListener(new InputListener(){
                                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                    if (game.getScreen() instanceof RestaurantScreen) {
+                                    if (game.getScreen() instanceof RestaurantScreen || game.getScreen() instanceof CookingScreen) {
 
-                                        game.setScreen(new CookingScreen(game, ((RestaurantScreen) game.getScreen()).frontCustomer.order));
+                                        game.setScreen(new CookingScreen(game, z.order));
 
                                     }
                                     return super.touchDown(event, x, y, pointer, button);

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -67,6 +68,11 @@ public class CookingScreen implements Screen{
     Skin s = Assets.newSkin();
 
 
+    TextButton.TextButtonStyle bs = new TextButton.TextButtonStyle();
+    private TextButton shopButton, scavengeButton;
+    BitmapFont font12 = game.makeFont(35);
+
+
     public CookingScreen(Garbageman game, CookedFood item){
 
         this.item = item;
@@ -90,6 +96,9 @@ public class CookingScreen implements Screen{
 
     @Override
     public void show() {
+
+        //MUSIC STUFF
+        /*--------------------------------------------------------------------------------------------*/
         int randomMusic = new Random().nextInt(2) + 1;
         if (!game.music.isPlaying()) {
             if (randomMusic == 1) {
@@ -102,6 +111,33 @@ public class CookingScreen implements Screen{
             game.music.setLooping(true);
 
         }
+        /*--------------------------------------------------------------------------------------------*/
+
+        bs.font = font12;
+        bs.fontColor = Color.BLACK;
+        scavengeButton = new TextButton("Scavenge", bs);
+        scavengeButton.setBounds(35, 575, 250, 50);
+        scavengeButton.setVisible(true);
+        scavengeButton.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new Trashcan(game));
+                return true;
+            }
+        });
+
+        shopButton = new TextButton("Shop", bs);
+        shopButton.setBounds(-33, 500, 250, 50);
+        shopButton.setVisible(true);
+        shopButton.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new ShopScreen(game));
+                return true;
+            }
+        });
+
+        stage.addActor(shopButton);
+        stage.addActor(scavengeButton);
+
 
 
         if (item != null){
@@ -225,6 +261,9 @@ public class CookingScreen implements Screen{
 
 
         input.toFront();
+
+        shopButton.toFront();
+        scavengeButton.toFront();
 
 
     }

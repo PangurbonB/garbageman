@@ -8,7 +8,7 @@ public class Brett extends Customer{
     {
         fileName = "Brett";
         customerName = "Brett";
-        LOCAL_MIN = KINDOF_PICKY;
-        LOCAL_MAX = REALLY_PICKY;
+        LOCAL_MIN = REALLY_PICKY;
+        LOCAL_MAX = LOCAL_MAX;
     }
 }

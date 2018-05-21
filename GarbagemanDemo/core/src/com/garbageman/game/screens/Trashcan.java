@@ -70,10 +70,6 @@ public class Trashcan implements Screen {
             private float xDiff = 0;
             private float yDiff = 0;
 
-            private Music music;
-
-
-
         //Array/Arraylist/Map Stuffs
             private Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
             private Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
@@ -377,9 +373,9 @@ public class Trashcan implements Screen {
     @Override
     public void show() {
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/clashy.wav"));
-        music.play();
-        music.setLooping(true);
+        game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/clashy.wav"));
+        game.music.play();
+        game.music.setLooping(true);
 
         spawnItem(20);
         spawnJunk(40);
@@ -668,8 +664,7 @@ public class Trashcan implements Screen {
 
     @Override
     public void hide() {
-        music.pause();
-        music.dispose();
+        game.music.pause();
     }
 
     @Override

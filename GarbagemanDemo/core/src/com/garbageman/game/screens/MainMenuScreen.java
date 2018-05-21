@@ -53,8 +53,6 @@ public class MainMenuScreen implements Screen {
     private TextButton toTest, openShop;
     private Image backing;
 
-    private Music music;
-
     private int wait = 0;
     private boolean played = false;
 
@@ -63,6 +61,8 @@ public class MainMenuScreen implements Screen {
     }
 
     public MainMenuScreen(Garbageman game){
+
+
         InputProcessor inputProcessorOne = new GetInput();
         InputProcessor inputProcessorTwo = new GestureDetector(new GestureHandler());
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -82,8 +82,8 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
         if(Garbageman.startup) {
-            music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/soundEffects/Startup.wav"));
-            music.play();
+            game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/soundEffects/Startup.wav"));
+            game.music.play();
             Garbageman.startup ^= true;
         }
 
@@ -184,9 +184,9 @@ public class MainMenuScreen implements Screen {
 
         if(wait >= 300 && !played){
             played = true;
-            music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/themey.wav"));
-            music.play();
-            music.setLooping(true);
+            game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/themey.wav"));
+            game.music.play();
+            game.music.setLooping(true);
         }
         else{
             wait++;
@@ -257,11 +257,11 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
-        //music.pause();
+        game.music.pause();
     }
 
     @Override
     public void dispose() {
-        music.dispose();
+
     }
 }

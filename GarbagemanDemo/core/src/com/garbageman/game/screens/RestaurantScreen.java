@@ -29,8 +29,6 @@ import java.util.Random;
 
 public class RestaurantScreen implements Screen {
 
-    Music music;
-
     private Garbageman game;
     public static String screenName = "RestaurantScreen";
     private Stage stage = new Stage();
@@ -72,9 +70,9 @@ public class RestaurantScreen implements Screen {
     @Override
     public void show() {
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/swingy.wav"));
-        music.play();
-        music.setLooping(true);
+        game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/swingy.wav"));
+        game.music.play();
+        game.music.setLooping(true);
 
         game.currentScreen = this.screenName;
         game.ui.init(game, stage, screenName);
@@ -188,7 +186,7 @@ public class RestaurantScreen implements Screen {
 
     @Override
     public void hide() {
-        music.pause();
+        game.music.pause();
     }
 
     @Override

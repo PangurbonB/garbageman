@@ -38,6 +38,7 @@ public class SpriteSheetDivider {
         infoMap.put("inventory", new Float[]{384f, 216f, 4f, 6f});   ///
         infoMap.put("smallInv", new Float[]{96f, 216f, 4f, 5f});    ///
         infoMap.put("MainTitiel", new Float[]{384f, 216f, 4f, 23f});
+        infoMap.put("MainTitiel2", new Float[]{384f, 216f, 4f, 10f});
     }
 
     private int xy(int x, int y){

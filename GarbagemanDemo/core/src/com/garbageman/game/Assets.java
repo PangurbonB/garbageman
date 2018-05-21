@@ -177,6 +177,6 @@ public class Assets {
         newTexture("shopScreenCrop", "assets/Screens/shopScreenCrop.png");
         newTexture("restBack", "assets/Screens/Restaurant.png");
         newTexture("MainTitiel", "assets/Screens/MainTitiel.png");
+        newTexture("MainTitiel2", "assets/Screens/mainTitiel2.png");
     }
-
 }

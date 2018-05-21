@@ -40,6 +40,7 @@ public class MainMenuScreen implements Screen {
     Texture playButtonInactive;
 
     private int iterateBackground = 0;
+    private int iterateBackground2 = 0;
 
     private Stage stage = new Stage();
     private Skin skin;
@@ -216,6 +217,16 @@ public class MainMenuScreen implements Screen {
                 background.setDrawable(sp.divideScreen("MainTitiel", iterateBackground/5));
             }
             iterateBackground++;
+        }
+        else{
+            if(iterateBackground2 > 50){
+                iterateBackground2 = 0;
+            }
+            if ((iterateBackground2 + 1)%5 == 0){
+                System.out.println(iterateBackground2);
+                background.setDrawable(sp.divideScreen("MainTitiel2", (iterateBackground2)/5));
+            }
+            iterateBackground2++;
         }
 
         if(wait >= waitLimit && !played){

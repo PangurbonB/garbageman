@@ -562,13 +562,22 @@ public class UI {
                     float y = orderFrame.getY()+(orderFrame.getHeight())-yPlus;
                     System.out.println("y: "+yPlus);
                     for (Customer c: getOrders) {
-                        System.out.println("order: "+c.customerName+": "+c.order.name);
+                        //System.out.println("order: "+c.customerName+": "+c.order.name);
                         Label lab = new Label(c.customerName+": "+c.order.name, sty);
                         lab.setSize(orderFrame.getWidth(), 50);
                         lab.setPosition(orderFrame.getX()+10, y);
                         lab.setWrap(true);
                         y = y - yPlus;
                         lab.setVisible(false);
+                        if (lab.getListeners().size == 0){
+                            lab.addListener(new InputListener(){
+                                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                    //BRETT ADD HERE
+                                    System.out.println("BRETT HERE");
+                                    return super.touchDown(event, x, y, pointer, button);
+                                }
+                            });
+                        }
                         stage.addActor(lab);
                         orders.add(lab);
                         coverTheseWithInv.add(lab);

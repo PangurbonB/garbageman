@@ -286,7 +286,7 @@ public class UI {
                 game.passTrash.addTrash(infoItemIndex);
                 infoItem = null;
                 infoItemIndex = -2;
-                game.setScreen(new CookingScreen(game));
+                game.setScreen(new CookingScreen(game, null));
                 showInfo = false;
                 infoItem = null;
                 currentDown = null;
@@ -476,7 +476,7 @@ public class UI {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     //System.out.println("CLIEKED + " + checkCurrentScreen());
                      if (screenName.equals(FakeInvScreen.screenName)){
-                         game.setScreen(new CookingScreen(game));
+                         game.setScreen(new CookingScreen(game, null));
                          showInv = false;
 
                          showInfo = false;
@@ -572,8 +572,11 @@ public class UI {
                         if (lab.getListeners().size == 0){
                             lab.addListener(new InputListener(){
                                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                    //BRETT ADD HERE
-                                    System.out.println("BRETT HERE");
+                                    if (game.getScreen() instanceof RestaurantScreen) {
+
+                                        game.setScreen(new CookingScreen(game, ((RestaurantScreen) game.getScreen()).frontCustomer.order));
+
+                                    }
                                     return super.touchDown(event, x, y, pointer, button);
                                 }
                             });

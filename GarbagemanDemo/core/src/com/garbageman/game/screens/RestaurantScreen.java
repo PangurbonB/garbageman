@@ -33,7 +33,8 @@ public class RestaurantScreen implements Screen {
     public static String screenName = "RestaurantScreen";
     private Stage stage = new Stage();
     private Image background;
-    private Customer currentCustomer = null, test2 = null, frontCustomer = null;
+    private Customer currentCustomer = null, test2 = null;
+    public Customer frontCustomer = null;
     private TextButton viewOrders;
     private Actor orderFrame;
 

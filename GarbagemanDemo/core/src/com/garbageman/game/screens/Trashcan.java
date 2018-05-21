@@ -465,7 +465,7 @@ public class Trashcan implements Screen {
                 Save.save();
             }
             this.dispose();
-            game.setScreen(new CookingScreen(game));
+            game.setScreen(new CookingScreen(game, null));
             //stage.dispose();
             //background.remove();
         }

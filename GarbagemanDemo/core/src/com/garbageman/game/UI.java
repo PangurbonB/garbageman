@@ -309,7 +309,7 @@ public class UI {
                     Customer c = ((RestaurantScreen)(game.getScreen())).frontCustomer;
                     int rep = c.giveCookedFood(PassTrash.orderToGive, game);
                     game.giveReputation(rep);
-                    Customer.removeFromFrontOfLine();
+                    game.giveMoney(PassTrash.orderToGive.sellValue);
                 }
                 return super.touchDown(event, x, y, pointer, button);
             }

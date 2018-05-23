@@ -2,9 +2,7 @@ package com.garbageman.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.customers.Customer;
@@ -23,7 +20,6 @@ import com.garbageman.game.screens.CookingScreen;
 import com.garbageman.game.screens.FakeInvScreen;
 import com.garbageman.game.screens.MainMenuScreen;
 import com.garbageman.game.screens.RestaurantScreen;
-import com.garbageman.game.screens.ShopScreen;
 import com.garbageman.game.screens.Trashcan;
 
 import java.util.ArrayList;
@@ -723,7 +719,7 @@ public class UI {
                                 local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
                             }
                             else{
-                                local.setText("Sell Price: $"+((CookedFood) infoItem).sellPrice);
+                                local.setText("Sell Price: $"+((CookedFood) infoItem).trashSellPrice);
                                 local.setColor(Color.WHITE);
                             }
                         }
@@ -826,7 +822,7 @@ public class UI {
                 //System.out.println("IT'S not vis");
             }
         }
-        else if (showInv == false){
+        else if (!showInv){
             setInvVis(false, false);
             closeInvInfo();
             try{

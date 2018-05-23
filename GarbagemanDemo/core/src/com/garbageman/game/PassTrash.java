@@ -93,7 +93,8 @@ public class PassTrash {
         for (Trash i : trashes) {
             if (!i.isGhost){
                 i.setPrice();
-                totalPrice += i.sellPrice;
+                totalPrice += i.trashSellPrice;
+                System.out.println(i.name+ " " +i.trashSellPrice);
                 nastSum += i.nast;
                 totalVals++;
 

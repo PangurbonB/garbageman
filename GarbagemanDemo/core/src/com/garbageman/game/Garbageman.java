@@ -211,7 +211,7 @@ public class Garbageman extends Game {
 								object = (Trash) Class.forName(foodItem.getName()).newInstance();
 								object.nast = Integer.valueOf(e.get(2));
 								object.containsCrowWithOddEyeInfection = Boolean.valueOf(e.get(3));
-								object.sellPrice = Double.valueOf(e.get(4));
+								object.trashSellPrice = Double.valueOf(e.get(4));
 							} catch (InstantiationException e1) {
 								e1.printStackTrace();
 							} catch (IllegalAccessException e1) {

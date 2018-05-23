@@ -93,14 +93,19 @@ public class Garbageman extends Game {
 		return press2P;
 	}
 
-	public void giveMoney(int amt){
+	public void giveMoney(double amt){
 		//for now
 
-		if (this.money + amt >= 0)
+		if (this.money + amt >= 0) {
 			this.money = this.money + amt;
-		else
-			System.out.println("Money can't be less than 0: " + (this.money+amt));
-
+			double cash2 = this.money * 100;
+			int cash = (int) cash2;
+			cash2 = (double) cash;
+			this.money = (cash2 / 100);
+		}
+		else {
+			System.out.println("Money can't be less than 0: " + (this.money + amt));
+		}
 	}
 
 	public String getMoneyForDisplay(){

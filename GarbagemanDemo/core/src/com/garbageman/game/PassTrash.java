@@ -84,9 +84,9 @@ public class PassTrash {
         System.out.println("IT GOT COOKED");
         //dumpTrash();
 
-        int totalPrice = 0;
-        int nastSum = 0;
-        int totalVals = 0;
+        double totalPrice = 0;
+        double nastSum = 0;
+        double totalVals = 0;
 
         emptyFood.containsCrowWithOddEyeInfection = false;
 
@@ -111,7 +111,7 @@ public class PassTrash {
             }
         }
 
-        int nastAvg = nastSum/totalVals;
+        int nastAvg = (int) (nastSum/totalVals);
 
         System.out.println("NAST VALUE OF "+emptyFood.name+":  "+nastAvg);
 

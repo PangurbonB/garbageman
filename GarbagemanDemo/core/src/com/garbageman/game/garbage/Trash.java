@@ -69,7 +69,7 @@ public class Trash extends Image{
     public static final double BOUGHT_MULTIPLIER = 1.1;
     public static final double BEYOND_COMPREHENSION_MULTIPLIER = 5;
 
-    public final double baseSellPrice = 1;
+    public final double baseSellPrice = 2.5;
     public double trashSellPrice = 0;
 
     public static boolean IS_TYPE_NONE = false;

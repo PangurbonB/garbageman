@@ -652,6 +652,17 @@ public class UI {
             if (game.money % 1 == 0){
                 setMoney = ""+((int)game.money);
             }
+            else if((game.money*10)%1 == 0){
+                setMoney = ""+game.money+"0";
+            }
+
+            if (setMoney.length() > 5){
+                String[] letters = setMoney.split("");
+                setMoney = "";
+                for (int i = 0; i < 5; i++) {
+                    setMoney = setMoney + letters[i];
+                }
+            }
             moneyText.setText("$"+setMoney);
             moneyText.setAlignment(Align.center);
             moneyText.setColor(Color.BLACK);

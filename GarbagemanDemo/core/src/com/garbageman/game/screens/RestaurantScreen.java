@@ -189,7 +189,7 @@ public class RestaurantScreen implements Screen {
 
         game.ui.update();
         stage.draw();
-        Customer.updateAllCurrentCustomers();
+        Customer.updateAllCurrentCustomers(game);
         if (Gdx.input.isKeyPressed(Input.Keys.Y )){
             System.out.println("front customer: "+(frontCustomer == null));
             if (frontCustomer != null){

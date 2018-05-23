@@ -195,6 +195,10 @@ public class CookingScreen implements Screen{
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.backpack.add(game.passTrash.cookFood(input, trashes));
                 drawNewRecipe(input);
+                input.setImg();
+                input.increment = true;
+                game.passTrash.dumpTrash();
+
                 return super.touchDown(event, x, y, pointer, button);
             }
         });

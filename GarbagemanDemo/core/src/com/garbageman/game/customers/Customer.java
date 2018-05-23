@@ -114,9 +114,11 @@ public class Customer extends Image {
         for (Customer cust : Customer.listOfCustomers) {
             cust.updateOnRender();
         }
-        for (int x = 0; x < listOfCustomers.size(); x++){
-            Customer c = listOfCustomers.get(x);
-            //c.say("current: "+x);
+    }
+
+    public static void updateAllCurrentCustomers(Garbageman game){
+        for (Customer cust : Customer.listOfCustomers) {
+            cust.updateOnRender(game);
         }
     }
 
@@ -268,6 +270,14 @@ public class Customer extends Image {
        }
    }
 
+   protected void updateOnRender(Garbageman game){
+       updateOnRender();
+       /*if (this.isMoving()) {
+           game.ui.update();
+           game.ui.upInv();
+       }*/
+   }
+
    public CookedFood makeOrder(){
        try {
            this.order = (CookedFood) Class.forName(Garbageman.foodItems.get(new Random().nextInt(Garbageman.foodItems.size())).getName()).newInstance();
@@ -344,6 +354,8 @@ public class Customer extends Image {
        }
 
        ratingPlusOrMinus = 13;
+       game.ui.update();
+       game.ui.upInv();
        return ratingPlusOrMinus;
    }
 

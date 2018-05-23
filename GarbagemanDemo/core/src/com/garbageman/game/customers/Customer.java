@@ -208,6 +208,13 @@ public class Customer extends Image {
        if (cc != null){
            cc.walkToPoint(cc.getStage().getWidth()*2, RestaurantScreen.floorHeight);
            Customer.listOfCustomers.remove(0);
+           ArrayList<Customer> replace = new ArrayList<Customer>();
+           int newPos = 0;
+           for (int x = 1; x < Customer.listOfCustomers.size(); x++){
+               replace.add(newPos, Customer.listOfCustomers.get(x));
+               newPos++;
+           }
+           Customer.listOfCustomers = replace;
        }
    }
 
@@ -314,6 +321,8 @@ public class Customer extends Image {
            System.out.println("__________");
            this.clearOrder();
        }
+
+       ratingPlusOrMinus = 13;
        return ratingPlusOrMinus;
    }
 

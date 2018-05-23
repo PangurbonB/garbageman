@@ -163,12 +163,12 @@ public class RestaurantScreen implements Screen {
         }
 
         if (frontCustomer != null){
-            System.out.println("NOT NULL");
-            System.out.println("FIRST "+Customer.listOfCustomers.get(0));
+            //System.out.println("NOT NULL");
+            //System.out.println("FIRST "+Customer.listOfCustomers.get(0));
             if (Customer.listOfCustomers.get(0)== frontCustomer){
-                System.out.println("FIRST CUSTOMER");
+                //System.out.println("FIRST CUSTOMER");
                 if (frontCustomer.finalFood != null){
-                    System.out.println("HAS ORDER");
+                    //System.out.println("HAS ORDER");
                     frontCustomer.walkToPoint(1500, RestaurantScreen.floorHeight);
                     //remove front customer now
                 }
@@ -197,7 +197,7 @@ public class RestaurantScreen implements Screen {
                     CookedFood food = new Pizza();
                     food.nast = new Random().nextInt(100) + 1;
                     frontCustomer.order = food;
-                    frontCustomer.giveCookedFood(food);
+                    frontCustomer.giveCookedFood(food, game);
                 }
             }
         }

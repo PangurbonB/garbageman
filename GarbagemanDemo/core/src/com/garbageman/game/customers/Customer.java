@@ -11,6 +11,8 @@ import com.garbageman.game.ListAccess;
 import com.garbageman.game.PassTrash;
 import com.garbageman.game.SpriteSheetDivider;
 import com.garbageman.game.cooked.CookedFood;
+import com.garbageman.game.cooked.Pizza;
+import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.RestaurantScreen;
 
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ public class Customer extends Image {
 
     //list of all currently running customers:
     public static ArrayList<Customer> listOfCustomers = new ArrayList<Customer>();
+    public static int front = 0;
 
     //randomly generated customer info
     public int picky = 1;
@@ -88,7 +91,8 @@ public class Customer extends Image {
 
     public float getWhatPosXShouldBe(){
         float posShouldBe = RestaurantScreen.nextToCounter;
-        for (Customer cc : ListAccess.currentCustomers) {
+        for (int x = Customer.front; x < Customer.listOfCustomers.size(); x++) {
+            Customer cc = Customer.listOfCustomers.get(x);
             if (cc != this){
                 posShouldBe = posShouldBe - ((this.getWidth()/2));
                 int p = (int)posShouldBe;
@@ -101,7 +105,7 @@ public class Customer extends Image {
     public static Customer getFirstCustomer(){
         Customer get = null;
         if (listOfCustomers.size() > 0){
-            get = listOfCustomers.get(0);
+            get = listOfCustomers.get(Customer.front);
         }
         return get;
     }
@@ -203,18 +207,27 @@ public class Customer extends Image {
        this.overheadName.setVisible(this.isVisible());
    }
 
+   public static float getWhatCustomerPosShouldBe(int index){
+       float fIndex = (float)index;
+       return 352353420;
+   }
+
    public static void removeFromFrontOfLine(){
-       Customer cc = Customer.listOfCustomers.get(0);
+       Customer cc = Customer.listOfCustomers.get(Customer.front);
+       float oldX = cc.getX();
+       float oldXDiff = oldX- Customer.listOfCustomers.get(Customer.front+1).getX();
+       Customer.front++;
        if (cc != null){
            cc.walkToPoint(cc.getStage().getWidth()*2, RestaurantScreen.floorHeight);
-           Customer.listOfCustomers.remove(0);
-           ArrayList<Customer> replace = new ArrayList<Customer>();
-           int newPos = 0;
-           for (int x = 1; x < Customer.listOfCustomers.size(); x++){
-               replace.add(newPos, Customer.listOfCustomers.get(x));
-               newPos++;
+           cc.order = null;
+           float mult = 1;
+           for(int x = Customer.front; x < Customer.listOfCustomers.size(); x++){
+               Customer c = Customer.listOfCustomers.get(x);
+               if (c != null){
+                   c.walkToPoint(c.getX()+(c.getWidth()/2), RestaurantScreen.floorHeight);
+                   mult++;
+               }
            }
-           Customer.listOfCustomers = replace;
        }
    }
 
@@ -287,8 +300,16 @@ public class Customer extends Image {
        return (this.finalFood != null);
    }
 
-   public int giveCookedFood(CookedFood itemToGive){
+   public int giveCookedFood(CookedFood itemToGive, Garbageman game){
        if (this.hasFinalOrder()){return 0;}
+       for (int x = 0; x < game.backpack.contents.size(); x++){
+           Trash item = game.backpack.contents.get(x);
+           if (item instanceof CookedFood){
+               if (item.equals(itemToGive)){
+                   game.backpack.contents.remove(x);
+               }
+           }
+       }
        this.finalFood = itemToGive;
        this.order = null;
        int ratingPlusOrMinus = 0;

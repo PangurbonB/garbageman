@@ -302,11 +302,13 @@ public class UI {
                     showOrders = false;
                     showInv = false;
                     addToCook.setVisible(false);
-                    Customer c = ((RestaurantScreen)(game.getScreen())).frontCustomer;
+                    RestaurantScreen screen = ((RestaurantScreen)(game.getScreen()));
+                    Customer c = screen.frontCustomer;
                     int rep = c.giveCookedFood(PassTrash.orderToGive, game);
                     game.giveReputation(rep);
                     game.giveMoney(PassTrash.orderToGive.sellValue);
                     Customer.removeFromFrontOfLine();
+                    orders.clear();
                 }
                 return super.touchDown(event, x, y, pointer, button);
             }

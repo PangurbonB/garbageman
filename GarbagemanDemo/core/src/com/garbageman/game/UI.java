@@ -306,6 +306,7 @@ public class UI {
                     int rep = c.giveCookedFood(PassTrash.orderToGive, game);
                     game.giveReputation(rep);
                     game.giveMoney(PassTrash.orderToGive.sellValue);
+                    Customer.removeFromFrontOfLine();
                 }
                 return super.touchDown(event, x, y, pointer, button);
             }
@@ -719,7 +720,7 @@ public class UI {
                                 local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
                             }
                             else{
-                                local.setText("Sell Price: $"+((CookedFood) infoItem).trashSellPrice);
+                                local.setText("Sell Price: $"+((CookedFood) infoItem).sellValue);
                                 local.setColor(Color.WHITE);
                             }
                         }

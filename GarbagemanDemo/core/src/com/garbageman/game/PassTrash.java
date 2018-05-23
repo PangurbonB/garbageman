@@ -17,6 +17,7 @@ public class PassTrash {
     public int currentTypeToAdd = -20;
     public final static int ALLFOODTYPES = 1200;
     public int selectedIndex = -1;
+    public static CookedFood orderToGive = null;
     Garbageman game;
 
     public PassTrash(Garbageman game){
@@ -83,16 +84,17 @@ public class PassTrash {
         System.out.println("IT GOT COOKED");
         //dumpTrash();
 
-        int totalPrice = 0;
-        int nastSum = 0;
-        int totalVals = 0;
+        double totalPrice = 0;
+        double nastSum = 0;
+        double totalVals = 0;
 
         emptyFood.containsCrowWithOddEyeInfection = false;
 
         for (Trash i : trashes) {
             if (!i.isGhost){
                 i.setPrice();
-                totalPrice += i.sellPrice;
+                totalPrice += i.trashSellPrice;
+                System.out.println(i.name+ " " +i.trashSellPrice);
                 nastSum += i.nast;
                 totalVals++;
 
@@ -109,7 +111,7 @@ public class PassTrash {
             }
         }
 
-        int nastAvg = nastSum/totalVals;
+        int nastAvg = (int) (nastSum/totalVals);
 
         System.out.println("NAST VALUE OF "+emptyFood.name+":  "+nastAvg);
 

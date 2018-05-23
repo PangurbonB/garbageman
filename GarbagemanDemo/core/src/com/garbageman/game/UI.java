@@ -2,9 +2,7 @@ package com.garbageman.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.customers.Customer;
@@ -23,7 +20,6 @@ import com.garbageman.game.screens.CookingScreen;
 import com.garbageman.game.screens.FakeInvScreen;
 import com.garbageman.game.screens.MainMenuScreen;
 import com.garbageman.game.screens.RestaurantScreen;
-import com.garbageman.game.screens.ShopScreen;
 import com.garbageman.game.screens.Trashcan;
 
 import java.util.ArrayList;
@@ -81,6 +77,7 @@ public class UI {
     private ArrayList<Actor> orders = new ArrayList<Actor>();
     public boolean showOrders = false;
     public ArrayList<Actor> coverTheseWithInv = new ArrayList<Actor>();
+    private String orderText = "Give This Order";
 
 
     /*
@@ -282,17 +279,37 @@ public class UI {
         addToCook.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //PassTrash.currentTrashCooking = infoItem;
-                //add item!
-                game.passTrash.addTrash(infoItemIndex);
-                infoItem = null;
-                infoItemIndex = -2;
-                game.setScreen(new CookingScreen(game, null));
-                showInfo = false;
-                infoItem = null;
-                currentDown = null;
-                //game.getScreen().dispose();
-                //stage.dispose();
+                if (game.currentScreen.equals(FakeInvScreen.screenName)) {
+                    //PassTrash.currentTrashCooking = infoItem;
+                    //add item!
+                    game.passTrash.addTrash(infoItemIndex);
+                    infoItem = null;
+                    infoItemIndex = -2;
+                    game.setScreen(new CookingScreen(game, null));
+                    showInfo = false;
+                    infoItem = null;
+                    currentDown = null;
+                    //game.getScreen().dispose();
+                    //stage.dispose();
+                }
+                else if (game.currentScreen.equals(RestaurantScreen.screenName)){
+                    //System.out.println(infoItem.name);
+                    PassTrash.orderToGive = (CookedFood) infoItem;
+                    infoItem = null;
+                    infoItemIndex = -2;
+                    showInfo = false;
+                    currentDown = null;
+                    showOrders = false;
+                    showInv = false;
+                    addToCook.setVisible(false);
+                    RestaurantScreen screen = ((RestaurantScreen)(game.getScreen()));
+                    Customer c = screen.frontCustomer;
+                    int rep = c.giveCookedFood(PassTrash.orderToGive, game);
+                    game.giveReputation(rep);
+                    game.giveMoney(PassTrash.orderToGive.sellValue);
+                    Customer.removeFromFrontOfLine();
+                    orders.clear();
+                }
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -457,6 +474,9 @@ public class UI {
                 System.out.println("CHECK ME: "+ checkCurrentScreen());
                 if (checkCurrentScreen()){
                     System.out.println("Disposing: "+game.getScreen());
+                    if (game.currentScreen.equals(FakeInvScreen.screenName)){
+                        game.music.pause();
+                    }
                     game.getScreen().dispose();
                     game.setScreen(new MainMenuScreen(game));
                 }
@@ -634,6 +654,17 @@ public class UI {
             if (game.money % 1 == 0){
                 setMoney = ""+((int)game.money);
             }
+            else if((game.money*10)%1 == 0){
+                setMoney = ""+game.money+"0";
+            }
+
+            if (setMoney.length() > 5){
+                String[] letters = setMoney.split("");
+                setMoney = "";
+                for (int i = 0; i < 5; i++) {
+                    setMoney = setMoney + letters[i];
+                }
+            }
             moneyText.setText("$"+setMoney);
             moneyText.setAlignment(Align.center);
             moneyText.setColor(Color.BLACK);
@@ -702,7 +733,7 @@ public class UI {
                                 local.setColor(game.colorMap.get(infoLabels.get(x).getText().toString()));
                             }
                             else{
-                                local.setText("Sell Price: $"+((CookedFood) infoItem).sellPrice);
+                                local.setText("Sell Price: $"+((CookedFood) infoItem).sellValue);
                                 local.setColor(Color.WHITE);
                             }
                         }
@@ -764,7 +795,7 @@ public class UI {
                         //System.out.println("they can cook this!");
                     }
                     else if (game.currentScreen.equals(RestaurantScreen.screenName)&& giveOrder && infoItem instanceof CookedFood){
-                        addToCook.setText("Give This Order");
+                        addToCook.setText(orderText);
                         addToCook.setVisible(true);
                     }
                     else{
@@ -775,6 +806,12 @@ public class UI {
                         //Brett add the question mark catch here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         //uh I may have already added it right here
                         addToCook.setVisible(true);
+                    }
+                    if (addToCook.getText() == "Cook This"){
+                        addToCook.getLabel().setWrap(false);
+                    }
+                    else{
+                        addToCook.getLabel().setWrap(true);
                     }
 
                 }
@@ -799,7 +836,7 @@ public class UI {
                 //System.out.println("IT'S not vis");
             }
         }
-        else if (showInv == false){
+        else if (!showInv){
             setInvVis(false, false);
             closeInvInfo();
             try{
@@ -828,8 +865,8 @@ public class UI {
         if (game.currentScreen.equals(CookingScreen.screenName)){
             invButton.setText("Restaurant");
         }
-
-        invButton.toFront();
+        if (invButton != null)
+            invButton.toFront();
 
     }
 }

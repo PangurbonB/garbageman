@@ -60,17 +60,17 @@ public class Trash extends Image{
     public static final int MINNAST = 1;
 
     //Ingredient value multipliers
-    public static final double BASE_MULTIPLIER = .3;
+    public static final double BASE_MULTIPLIER = .6;
     public static final double COM_MULTIPLIER = 1;
-    public static final double UNCOM_MULTIPLIER = 1.5;
-    public static final double RARE_MULTIPLIER = 2;
-    public static final double VRARE_MULTIPLIER = 2.5;
+    public static final double UNCOM_MULTIPLIER = 1.3;
+    public static final double RARE_MULTIPLIER = 1.5;
+    public static final double VRARE_MULTIPLIER = 2;
     public static final double LEGENDARY_MULTIPLIER = 3;
-    public static final double BOUGHT_MULTIPLIER = 1.5;
+    public static final double BOUGHT_MULTIPLIER = 1.1;
     public static final double BEYOND_COMPREHENSION_MULTIPLIER = 5;
 
-    public final double baseSellPrice = 1;
-    public double sellPrice = 1000;
+    public final double baseSellPrice = 2.5;
+    public double trashSellPrice = 0;
 
     public static boolean IS_TYPE_NONE = false;
 
@@ -213,32 +213,32 @@ public class Trash extends Image{
     }
 
     public void setPrice(){
-        //sellPrice = baseSellPrice * getRarityMultiplier() * getNastMultiplier();
+        //trashSellPrice = baseSellPrice * getRarityMultiplier() * getNastMultiplier();
 
         double min = 0;
         //sorry for a bunch of if statements
         if (this.nast >= 75){//$2 to $3
-            min = 2;
+            min = .3;
         }
         else if (this.nast < 75 && this.nast >= 60){//$3 to $4
-            min = 3;
+            min = .5;
         }
         else if (this.nast < 60 && this.nast >= 35){//$4 to $5
-            min = 4;
+            min = .7;
         }
         else if (this.nast < 35 && this.nast >= 15){//$5 to $6
-            min = 5;
+            min = .9;
         }
         else if (this.nast < 15 && this.nast >= 1){//highest price: $6 to $7
-            min = 6;
+            min = 1.0;
         }
 
         if (min > 0){
             double mult = BASE_MULTIPLIER * getRarityMultiplier();
-            System.out.printf("mult: "+mult);
+            System.out.println("mult: "+mult);
             System.out.println(mult+ " + "+ min+ " = "+ (mult + min));
-            sellPrice = mult + min;
-            System.out.println("set sell price: "+sellPrice);
+            trashSellPrice = mult + min;
+            System.out.println("set sell price: "+ trashSellPrice);
         }
     }
 

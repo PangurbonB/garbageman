@@ -27,7 +27,7 @@ public class CookedFood extends Trash{
 
     public final int baseSellPrice = 5;
 
-    public int sellValue = baseSellPrice;
+    public double sellValue = baseSellPrice;
 
     public boolean containsCrowWithOddEyeInfection = false;
 

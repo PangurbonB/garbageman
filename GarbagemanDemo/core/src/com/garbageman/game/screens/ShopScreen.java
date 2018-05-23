@@ -37,7 +37,7 @@ public class ShopScreen implements Screen {
 
     private ArrayList<Actor> makeButton(String text, Color backgroundColor, float posX, float posY){
         TextButton.TextButtonStyle bs = new TextButton.TextButtonStyle();
-        bs.font = game.makeFont(17);
+        bs.font = game.makeFont(15);
         bs.fontColor = Color.BLACK;
         TextButton button = new TextButton(text, bs);
         button.setBounds(posX, posY, buttonSizeX, buttonSizeY);
@@ -113,17 +113,17 @@ public class ShopScreen implements Screen {
                         bPosY = localItem.getY()+140;
                     }
                     int owned = getOwned(localItem);
-                    final ArrayList<Actor> buttons = makeButton("Buy: $"+(int)localItem.baseSellPrice+" (Owned:"+owned+")", Color.GREEN, localItem.getX()-10, bPosY);
+                    final ArrayList<Actor> buttons = makeButton("Buy: $"+localItem.baseSellPrice+"0"+" (Owned:"+owned+")", Color.GREEN, localItem.getX()-10, bPosY);
                     final TextButton button = (TextButton)buttons.get(0);
                     button.addListener(new InputListener(){
                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button1) {
                             if (game.money >= localItem.baseSellPrice && game.backpack.contents.size()< game.backpack.totalSlots) {
-                                game.money = game.money - (int)localItem.baseSellPrice;
+                                game.money = game.money - localItem.baseSellPrice;
                                 try {
                                     Trash item = (Trash) Class.forName(localItem.getClass().getName()).newInstance();
                                     game.backpack.add(item);
                                     int newOwned = getOwned(item);
-                                    button.setText("Buy: $" + (int) item.baseSellPrice + " (Owned:" + newOwned + ")");
+                                    button.setText("Buy: $" + item.baseSellPrice+"0" + " (Owned:" + newOwned + ")");
                                     item.setImg();
                                     item.setSize(128, 128);
                                     item.setNast( 1);

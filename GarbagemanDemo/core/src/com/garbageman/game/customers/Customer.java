@@ -8,8 +8,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.garbageman.game.Garbageman;
 import com.garbageman.game.ListAccess;
+import com.garbageman.game.PassTrash;
 import com.garbageman.game.SpriteSheetDivider;
 import com.garbageman.game.cooked.CookedFood;
+import com.garbageman.game.cooked.Pizza;
+import com.garbageman.game.garbage.Trash;
 import com.garbageman.game.screens.RestaurantScreen;
 
 import java.util.ArrayList;
@@ -40,6 +43,7 @@ public class Customer extends Image {
 
     //list of all currently running customers:
     public static ArrayList<Customer> listOfCustomers = new ArrayList<Customer>();
+    public static int front = 0;
 
     //randomly generated customer info
     public int picky = 1;
@@ -51,6 +55,7 @@ public class Customer extends Image {
     protected float DEFAULT_POS = 0;
     protected static final float INCREMENT = 1, REPS = 5;
     public float posX = DEFAULT_POS, posY = DEFAULT_POS;
+    public CookedFood finalFood = null;
 
     int currentCycleStage = 0;
     int totalCycleStages = 60;
@@ -86,7 +91,8 @@ public class Customer extends Image {
 
     public float getWhatPosXShouldBe(){
         float posShouldBe = RestaurantScreen.nextToCounter;
-        for (Customer cc : ListAccess.currentCustomers) {
+        for (int x = Customer.front; x < Customer.listOfCustomers.size(); x++) {
+            Customer cc = Customer.listOfCustomers.get(x);
             if (cc != this){
                 posShouldBe = posShouldBe - ((this.getWidth()/2));
                 int p = (int)posShouldBe;
@@ -99,7 +105,7 @@ public class Customer extends Image {
     public static Customer getFirstCustomer(){
         Customer get = null;
         if (listOfCustomers.size() > 0){
-            get = listOfCustomers.get(0);
+            get = listOfCustomers.get(Customer.front);
         }
         return get;
     }
@@ -108,9 +114,11 @@ public class Customer extends Image {
         for (Customer cust : Customer.listOfCustomers) {
             cust.updateOnRender();
         }
-        for (int x = 0; x < listOfCustomers.size(); x++){
-            Customer c = listOfCustomers.get(x);
-            //c.say("current: "+x);
+    }
+
+    public static void updateAllCurrentCustomers(Garbageman game){
+        for (Customer cust : Customer.listOfCustomers) {
+            cust.updateOnRender(game);
         }
     }
 
@@ -201,11 +209,27 @@ public class Customer extends Image {
        this.overheadName.setVisible(this.isVisible());
    }
 
+   public static float getWhatCustomerPosShouldBe(int index){
+       float fIndex = (float)index;
+       return 352353420;
+   }
+
    public static void removeFromFrontOfLine(){
-       Customer cc = getFirstCustomer();
+       Customer cc = Customer.listOfCustomers.get(Customer.front);
+       float oldX = cc.getX();
+       float oldXDiff = oldX- Customer.listOfCustomers.get(Customer.front+1).getX();
+       Customer.front++;
        if (cc != null){
            cc.walkToPoint(cc.getStage().getWidth()*2, RestaurantScreen.floorHeight);
-           Customer.listOfCustomers.remove(0);
+           cc.order = null;
+           float mult = 1;
+           for(int x = Customer.front; x < Customer.listOfCustomers.size(); x++){
+               Customer c = Customer.listOfCustomers.get(x);
+               if (c != null){
+                   c.walkToPoint(c.getX()+(c.getWidth()/2), RestaurantScreen.floorHeight);
+                   mult++;
+               }
+           }
        }
    }
 
@@ -246,6 +270,14 @@ public class Customer extends Image {
        }
    }
 
+   protected void updateOnRender(Garbageman game){
+       updateOnRender();
+       /*if (this.isMoving()) {
+           game.ui.update();
+           game.ui.upInv();
+       }*/
+   }
+
    public CookedFood makeOrder(){
        try {
            this.order = (CookedFood) Class.forName(Garbageman.foodItems.get(new Random().nextInt(Garbageman.foodItems.size())).getName()).newInstance();
@@ -267,14 +299,29 @@ public class Customer extends Image {
        return has;
    }
 
-   public void clearOrder(){
+   private void clearOrder(){
        if (this.hasOrder()){
            this.order.remove();//uh do i need to do this?
            this.order = null;
        }
    }
 
-   public int giveCookedFood(CookedFood itemToGive){
+   private boolean hasFinalOrder(){
+       return (this.finalFood != null);
+   }
+
+   public int giveCookedFood(CookedFood itemToGive, Garbageman game){
+       if (this.hasFinalOrder()){return 0;}
+       for (int x = 0; x < game.backpack.contents.size(); x++){
+           Trash item = game.backpack.contents.get(x);
+           if (item instanceof CookedFood){
+               if (item.equals(itemToGive)){
+                   game.backpack.contents.remove(x);
+               }
+           }
+       }
+       this.finalFood = itemToGive;
+       this.order = null;
        int ratingPlusOrMinus = 0;
        boolean one = itemToGive.nast >= this.LOCAL_MIN;
        boolean two = itemToGive.nast < this.LOCAL_MAX;
@@ -305,6 +352,10 @@ public class Customer extends Image {
            System.out.println("__________");
            this.clearOrder();
        }
+
+       ratingPlusOrMinus = 13;
+       game.ui.update();
+       game.ui.upInv();
        return ratingPlusOrMinus;
    }
 

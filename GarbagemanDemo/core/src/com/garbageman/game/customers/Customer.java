@@ -289,14 +289,14 @@ public class Customer extends Image {
        return has;
    }
 
-   public void clearOrder(){
+   private void clearOrder(){
        if (this.hasOrder()){
            this.order.remove();//uh do i need to do this?
            this.order = null;
        }
    }
 
-   public boolean hasFinalOrder(){
+   private boolean hasFinalOrder(){
        return (this.finalFood != null);
    }
 

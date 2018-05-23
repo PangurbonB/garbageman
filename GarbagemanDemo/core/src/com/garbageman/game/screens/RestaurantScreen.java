@@ -13,8 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
 import com.garbageman.game.Assets;
 import com.garbageman.game.Garbageman;
+import com.garbageman.game.GarbagemanInTheFlesh;
 import com.garbageman.game.PassTrash;
 import com.garbageman.game.cooked.CookedFood;
 import com.garbageman.game.cooked.Pizza;
@@ -76,6 +78,19 @@ public class RestaurantScreen implements Screen {
 
     @Override
     public void show() {
+
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.font = Garbageman.makeFont(15);
+        GarbagemanInTheFlesh cc = new GarbagemanInTheFlesh();
+        cc.setImg();
+        cc.setPosition(1000, RestaurantScreen.floorHeight-5);
+        cc.setSize(350, 350);
+        cc.overheadName = new Label(cc.customerName, style);
+        cc.overheadName.setAlignment(Align.center);
+        cc.overheadName.setWrap(true);
+        cc.setOverheadPos();
+        stage.addActor(cc);
+        stage.addActor(cc.overheadName);
 
         game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/swingy.wav"));
         game.music.play();

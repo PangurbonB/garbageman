@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -68,6 +69,22 @@ public class ShopScreen implements Screen {
 
     @Override
     public void show() {
+
+        /*TextButton.TextButtonStyle bs = new TextButton.TextButtonStyle();
+        BitmapFont font12 = Garbageman.makeFont(35);
+        bs.font = font12;
+        bs.fontColor = Color.BLACK;
+        TextButton shopButton = new TextButton("Shop", bs);
+        shopButton.setBounds(-33, 500, 250, 50);
+        shopButton.setVisible(true);
+        shopButton.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new ShopScreen(game));
+                return true;
+            }
+        });
+        stage.addActor(shopButton);
+        coverTheseWithInv.add(shopButton);*/
 
         game.music = Gdx.audio.newMusic(Gdx.files.internal("assets/Sounds/Songs/roundy.wav"));
         game.music.play();

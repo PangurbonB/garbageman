@@ -475,6 +475,9 @@ public class UI {
                 System.out.println("CHECK ME: "+ checkCurrentScreen());
                 if (checkCurrentScreen()){
                     System.out.println("Disposing: "+game.getScreen());
+                    if (game.currentScreen.equals(FakeInvScreen.screenName)){
+                        game.music.pause();
+                    }
                     game.getScreen().dispose();
                     game.setScreen(new MainMenuScreen(game));
                 }

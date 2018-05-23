@@ -10,7 +10,7 @@ public class Justin extends Customer{
         fileName = "customer0";
         customerName = "Justin";
         LOCAL_MIN = LOCAL_MIN;
-        LOCAL_MAX = NOT_PICKY;
+        LOCAL_MAX = LOCAL_MAX;
     }
 
 }

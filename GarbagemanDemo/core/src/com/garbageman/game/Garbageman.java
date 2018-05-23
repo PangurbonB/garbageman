@@ -64,6 +64,8 @@ public class Garbageman extends Game {
 	public static ArrayList<Class> foodItems;
 	public static ArrayList<Customer> currentCustomers;
 
+	public boolean resetRestaurant = false, doReset = false;
+
 
 	//Switch for saving and loading
 	public static boolean savingOn = false;

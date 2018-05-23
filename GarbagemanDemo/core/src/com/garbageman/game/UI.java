@@ -306,6 +306,7 @@ public class UI {
                     int rep = c.giveCookedFood(PassTrash.orderToGive, game);
                     game.giveReputation(rep);
                     game.giveMoney(PassTrash.orderToGive.sellValue);
+                    Customer.removeFromFrontOfLine();
                 }
                 return super.touchDown(event, x, y, pointer, button);
             }

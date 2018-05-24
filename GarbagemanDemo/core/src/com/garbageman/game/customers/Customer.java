@@ -214,7 +214,7 @@ public class Customer extends Image {
        return 352353420;
    }
 
-   public static void removeFromFrontOfLine(Garbageman game){
+   public static void removeFromFrontOfLine(){
        Customer cc = Customer.listOfCustomers.get(Customer.front);
        float oldX = cc.getX();
        float oldXDiff = oldX- Customer.listOfCustomers.get(Customer.front+1).getX();
@@ -222,8 +222,14 @@ public class Customer extends Image {
        if (cc != null){
            cc.walkToPoint(cc.getStage().getWidth()*2, RestaurantScreen.floorHeight);
            cc.order = null;
-           game.resetRestaurant = true;
-           game.doReset = true;
+           float mult = 1;
+           for(int x = Customer.front; x < Customer.listOfCustomers.size(); x++){
+               Customer c = Customer.listOfCustomers.get(x);
+               if (c != null){
+                   c.walkToPoint(c.getX()+(c.getWidth()/2), RestaurantScreen.floorHeight);
+                   mult++;
+               }
+           }
        }
    }
 

@@ -153,29 +153,8 @@ public class RestaurantScreen implements Screen {
         coverTheseWithInv.add(test2);*/
     }
 
-
-    int waitTime = 0, waitMax = 120;
     @Override
     public void render(float delta) {
-
-        if (game.resetRestaurant){
-            if (waitTime >= waitMax) {
-                game.resetRestaurant = false;
-                game.setScreen(new RestaurantScreen(game));
-            }
-            else{
-                waitTime++;
-            }
-        }
-        else if (game.doReset){
-            game.doReset = false;
-            for(int x = Customer.front; x < Customer.listOfCustomers.size(); x++){
-                Customer c = Customer.listOfCustomers.get(x);
-                if (c != null){
-                    c.walkToPoint(c.getX()+(c.getWidth()/2), RestaurantScreen.floorHeight);
-                }
-            }
-        }
 
         for (Actor a : coverTheseWithInv) {
             if (a != orderFrame) {

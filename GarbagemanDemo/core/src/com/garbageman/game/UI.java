@@ -76,7 +76,7 @@ public class UI {
     private Actor orderFrame;
     private ArrayList<Actor> orders = new ArrayList<Actor>();
     public boolean showOrders = false;
-    public ArrayList<Actor> coverTheseWithInv = new ArrayList<Actor>(), whenRemoved = new ArrayList<Actor>();
+    public ArrayList<Actor> coverTheseWithInv = new ArrayList<Actor>();
     private String orderText = "Give This Order";
 
 
@@ -104,10 +104,10 @@ public class UI {
 
     public Actor makeRect(int posX, int posY, int width, int height, Color bb, boolean vis){//makes a new shape, replacing using ShapeRenderers
         Image item = new Image(Assets.findTexture("whiteBlank"));
-        item.setVisible(vis);
         item.setBounds(posX, posY, width, height);
         item.setColor(bb);
         stage.addActor(item);
+        item.setVisible(vis);
         return item;//*/
     }
 
@@ -248,17 +248,15 @@ public class UI {
         viewOrders.setVisible(true);
         stage.addActor(viewOrders);
         coverTheseWithInv.add(viewOrders);
-        final float frameHeight = 350, frameWidth = 275;
         viewOrders.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 showOrders = !showOrders;
-                orderFrame.setPosition((stage.getWidth()-viewOrders.getWidth()*2), (viewOrders.getY()-frameHeight));
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
 
-
-        orderFrame = game.ui.makeRect(1500, 1500, (int)frameWidth, (int)frameHeight, Color.GRAY, false);
+        float frameHeight = 350, frameWidth = 275;
+        orderFrame = game.ui.makeRect((int)(stage.getWidth()-viewOrders.getWidth()*2), (int)(viewOrders.getY()-frameHeight), (int)frameWidth, (int)frameHeight, Color.GRAY, false);
         stage.addActor(orderFrame);
         coverTheseWithInv.add(orderFrame);
 
@@ -309,7 +307,7 @@ public class UI {
                     int rep = c.giveCookedFood(PassTrash.orderToGive, game);
                     game.giveReputation(rep);
                     game.giveMoney(PassTrash.orderToGive.sellValue);
-                    Customer.removeFromFrontOfLine(game);
+                    Customer.removeFromFrontOfLine();
                     orders.clear();
                 }
                 return super.touchDown(event, x, y, pointer, button);
@@ -594,7 +592,7 @@ public class UI {
                     for (Customer c: getOrders) {
                         final Customer z = c;
                         //System.out.println("order: "+c.customerName+": "+c.order.name);
-                        final Label lab = new Label(c.customerName+": "+c.order.name, sty);
+                        Label lab = new Label(c.customerName+": "+c.order.name, sty);
                         lab.setSize(orderFrame.getWidth(), 50);
                         lab.setPosition(orderFrame.getX()+10, y);
                         lab.setWrap(true);
@@ -604,7 +602,7 @@ public class UI {
                             lab.addListener(new InputListener(){
                                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                     if (game.getScreen() instanceof RestaurantScreen || game.getScreen() instanceof CookingScreen) {
-                                        showOrders = false;
+
                                         game.setScreen(new CookingScreen(game, z.order));
 
                                     }
@@ -614,7 +612,6 @@ public class UI {
                         }
                         stage.addActor(lab);
                         orders.add(lab);
-                        whenRemoved.add(lab);
                         coverTheseWithInv.add(lab);
                     }
                 }
@@ -671,19 +668,6 @@ public class UI {
             moneyText.setText("$"+setMoney);
             moneyText.setAlignment(Align.center);
             moneyText.setColor(Color.BLACK);
-        }
-
-        for (Actor a: whenRemoved) {
-            boolean found = false;
-            for (Actor ord : orders) {
-                if (ord.equals(a)){
-                    found = true;
-                    break;
-                }
-            }
-            if (!found){
-                a.setVisible(false);
-            }
         }
 
         if (showInv == true && !game.currentScreen.equals(CookingScreen.screenName)){

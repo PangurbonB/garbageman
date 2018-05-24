@@ -193,7 +193,19 @@ public class CookingScreen implements Screen{
         cookButton.setVisible(false);
         cookButton.addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.backpack.add(game.passTrash.cookFood(input, trashes));
+                try {
+                    game.backpack.add(game.passTrash.cookFood((CookedFood)Class.forName(input.getClass().getName()).newInstance() , trashes));
+                    //PROBLEM HERE
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                catch (java.lang.NullPointerException e){
+                    e.printStackTrace();
+                }
                 drawNewRecipe(input);
                 input.setImg();
                 input.increment = true;

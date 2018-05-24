@@ -67,6 +67,7 @@ public class SpriteSheetDivider {
         TextureRegion temp = new TextureRegion();
         CrowWithOddEyeInfection crow = new CrowWithOddEyeInfection();
         try {
+            System.out.println("NAME "+name);
             temp.setTexture(Assets.findTexture(name));
         }
         catch (GdxRuntimeException e){

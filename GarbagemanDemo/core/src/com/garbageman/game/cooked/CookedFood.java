@@ -1,6 +1,7 @@
 package com.garbageman.game.cooked;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.garbageman.game.SpriteSheetDivider;
 import com.garbageman.game.garbage.Trash;
 
 import java.util.ArrayList;

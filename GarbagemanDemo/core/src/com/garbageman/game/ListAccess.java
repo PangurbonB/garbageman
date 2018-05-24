@@ -206,8 +206,8 @@ public final class ListAccess {
             Alan.class,
             Brett.class,
             Dana.class,
-            HealthInspector.class,
-            Justin.class
+            HealthInspector.class
+            //Justin.class
     ));
 
     public static ArrayList<Class> foodItems = new ArrayList<Class>(Arrays.asList(

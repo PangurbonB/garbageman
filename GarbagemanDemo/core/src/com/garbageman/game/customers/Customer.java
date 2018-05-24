@@ -66,6 +66,7 @@ public class Customer extends Image {
     public void choosePicky(){
         Random rand = new Random();
         //System.out.println("RAND PARMS: "+(LOCAL_MAX-LOCAL_MIN)+";   "+LOCAL_MIN);
+        System.out.println(this.customerName);
         this.picky = (rand.nextInt((LOCAL_MAX-LOCAL_MIN)+1)+LOCAL_MIN);
     }
 

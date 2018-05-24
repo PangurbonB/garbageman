@@ -294,6 +294,7 @@ public class UI {
                 }
                 else if (game.currentScreen.equals(RestaurantScreen.screenName)){
                     //System.out.println(infoItem.name);
+                    game.passTrash.addTrash(infoItemIndex);
                     PassTrash.orderToGive = (CookedFood) infoItem;
                     infoItem = null;
                     infoItemIndex = -2;
@@ -832,6 +833,11 @@ public class UI {
                 //System.out.println("SET NO CONTENT BIS");
             }
             else if (game.backpack.contents.size()> 0){
+                for (int i = 0; i < game.backpack.contents.size(); i++) {
+                    game.backpack.contents.get(i).setImg();
+                    game.backpack.contents.get(i).setSize(128,128);
+                    game.backpack.contents.get(i).toFront();
+                }
                 noContent.setVisible(false);
                 //System.out.println("IT'S not vis");
             }

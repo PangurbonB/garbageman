@@ -47,7 +47,6 @@ public class Assets {
 
         //Initialization for generic clutter/junk items. Did not see a point to making a method for this.
         newTexture("genericGarbage", "assets/Garbage/genericGarbage.png");
-        newTexture("garbageManMirror2", "assets/Screens/GarbagemanMirror2.png");
     }
 
     protected static void newTexture(String storageName, String tex){

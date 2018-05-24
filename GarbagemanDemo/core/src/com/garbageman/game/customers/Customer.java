@@ -77,7 +77,7 @@ public class Customer extends Image {
         this.setDrawable(SpriteDivide.divideCustomer(this, this.fileName, indexX, indexY));
     }
 
-    public void setOverheadPos(){
+    protected void setOverheadPos(){
         if (!this.overheadName.equals(null)){
             this.overheadName.setSize(this.getWidth(), this.getHeight()/4);
             this.overheadName.setPosition(this.getX(), this.getY()+this.getHeight());

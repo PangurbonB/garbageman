@@ -25,7 +25,7 @@ public class PassTrash {
     }
 
     public void addTrash(int indexBackpack){
-        System.out.println("INDEX BACK " +indexBackpack);
+        //System.out.println("INDEX BACK " +indexBackpack);
         if (game.backpack.contents.size() > indexBackpack) {
             Trash item = game.backpack.contents.get(indexBackpack);
             currentCooking[selectedIndex] = item;
@@ -94,7 +94,7 @@ public class PassTrash {
             if (!i.isGhost){
                 i.setPrice();
                 totalPrice += i.trashSellPrice;
-                System.out.println(i.name+ " " +i.trashSellPrice);
+                //System.out.println(i.name+ " " +i.trashSellPrice);
                 nastSum += i.nast;
                 totalVals++;
 
@@ -113,12 +113,12 @@ public class PassTrash {
 
         int nastAvg = (int) (nastSum/totalVals);
 
-        System.out.println("NAST VALUE OF "+emptyFood.name+":  "+nastAvg);
+        //System.out.println("NAST VALUE OF "+emptyFood.name+":  "+nastAvg);
 
         emptyFood.nast = nastAvg;
         emptyFood.sellValue = totalPrice;
 
-
+        emptyFood.setVisible(true);
 
 
         return emptyFood;

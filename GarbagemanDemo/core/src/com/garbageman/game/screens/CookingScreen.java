@@ -195,6 +195,7 @@ public class CookingScreen implements Screen{
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 try {
                     game.backpack.add(game.passTrash.cookFood((CookedFood)Class.forName(input.getClass().getName()).newInstance() , trashes));
+                    System.out.println(game.backpack.contents.size());
                     //PROBLEM HERE
                 } catch (InstantiationException e) {
                     e.printStackTrace();

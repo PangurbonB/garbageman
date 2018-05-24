@@ -376,7 +376,7 @@ public class UI {
                                 final Trash item = game.backpack.contents.get(tot);
                                 boolean canAdd = game.passTrash.findTrash(item);
                                 if (!canAdd) {
-                                    System.out.println("interval " + tot + ";;;; " + item.name);
+                                    //System.out.println("interval " + tot + ";;;; " + item.name);
 
                                     ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
                                     ibStyle.imageUp = item.getDrawable();
@@ -443,7 +443,7 @@ public class UI {
             }
             catch (java.lang.NullPointerException j){
                 //lol this always errors System.out.println("figgle");
-                j.printStackTrace();
+                //j.printStackTrace();
             }
     }
 
@@ -588,7 +588,7 @@ public class UI {
                     sty.fontColor = Color.WHITE;
                     float yPlus = 50;
                     float y = orderFrame.getY()+(orderFrame.getHeight())-yPlus;
-                    System.out.println("y: "+yPlus);
+                    //System.out.println("y: "+yPlus);
                     for (Customer c: getOrders) {
                         final Customer z = c;
                         //System.out.println("order: "+c.customerName+": "+c.order.name);

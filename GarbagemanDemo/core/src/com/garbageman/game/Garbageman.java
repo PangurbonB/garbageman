@@ -192,7 +192,7 @@ public class Garbageman extends Game {
 			for (ArrayList<String> e : obj) {
 				Trash object = null;
 				if (e.get(0).equals("false")) {
-                    System.out.println("NNNNNNNNNNNNNN"+e);
+                    //System.out.println("NNNNNNNNNNNNNN"+e);
                     for (Class garbageItem : Garbageman.garbageItems) {
 						if (garbageItem.getSimpleName().toLowerCase().equals(e.get(1).toLowerCase())) {
 							try {

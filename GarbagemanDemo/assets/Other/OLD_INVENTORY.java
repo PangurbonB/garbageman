@@ -11,8 +11,8 @@ public void upInv(){//update the inventory display when an item is changed
 	int tot = 0;
 	inv.add(noContent);
 	//System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBB"+game.backpack.contents.size());
-	System.out.println("infoLabels: "+infoLabels.size());
-	System.out.println("make labels: "+(infoLabels.size()==0));
+	//System.out.println("infoLabels: "+infoLabels.size());
+	//System.out.println("make labels: "+(infoLabels.size()==0));
 	if (infoLabels.size()== 0){
 		createLabels();
 	}
@@ -32,7 +32,7 @@ public void upInv(){//update the inventory display when an item is changed
 							final Trash item = game.backpack.contents.get(tot);
 							boolean canAdd = game.passTrash.findTrash(item);
 							if (!canAdd) {
-								System.out.println("interval " + tot + ";;;; " + item.name);
+								//System.out.println("interval " + tot + ";;;; " + item.name);
 
 								ImageButton.ImageButtonStyle ibStyle = new ImageButton.ImageButtonStyle();
 								ibStyle.imageUp = item.getDrawable();

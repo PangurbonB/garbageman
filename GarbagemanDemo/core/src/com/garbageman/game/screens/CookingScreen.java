@@ -63,6 +63,7 @@ public class CookingScreen implements Screen{
     public static String screenName = "Crafting";
     private TextButton fakeMenu, fakeInventory;
     private TextButton cookButton;
+    private boolean cooked = false;
     private Actor cookBackground;
     Skin sk = Assets.newSkin();
     Skin s = Assets.newSkin();
@@ -204,10 +205,11 @@ public class CookingScreen implements Screen{
                 catch (java.lang.NullPointerException e){
                     e.printStackTrace();
                 }
-                drawNewRecipe(input);
+                /*drawNewRecipe(input);
                 input.setImg();
                 input.increment = true;
-                game.passTrash.dumpTrash();
+                game.passTrash.dumpTrash();*/
+                cooked = false;
 
                 return super.touchDown(event, x, y, pointer, button);
             }
@@ -251,6 +253,7 @@ public class CookingScreen implements Screen{
                 input.setImg();
                 input.increment = true;
                 game.passTrash.dumpTrash();
+                cooked = false;
                 return super.touchDown(event, x, y, pointer, button);
         }
         });
@@ -517,6 +520,7 @@ public class CookingScreen implements Screen{
                         input.setDrawable(sk, "name");
                         input.increment = true;
                         game.passTrash.dumpTrash();
+                        cooked = false;
                         return super.touchDown(event, x, y, pointer, button);
                     }
                 });
@@ -530,7 +534,7 @@ public class CookingScreen implements Screen{
             }
         }
 
-        if (allSelected){
+        if (allSelected && !cooked){
             cookButton.setText("Cook " + input.name);
             TextureRegion t = new TextureRegion(Assets.findTexture(input.name));
             TextureRegionDrawable tt = new TextureRegionDrawable();

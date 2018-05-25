@@ -43,6 +43,8 @@ public class Garbageman extends Game {
 
 	public PassTrash passTrash = new PassTrash(this);
 
+    public boolean resetRestaurant = false, doReset = false;
+
 	//colors for rarity:
 	public static Color COMMON = Color.WHITE;
 	public static Color UNCOMMON = Color.valueOf("#08f900");

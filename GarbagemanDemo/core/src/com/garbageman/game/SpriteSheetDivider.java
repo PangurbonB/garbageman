@@ -147,6 +147,7 @@ public class SpriteSheetDivider {
         TextureRegionDrawable temp1 = new TextureRegionDrawable();
         temp1.setRegion(temp);
         Trash img = new Trash();
+        Garbageman.IDCount = img.setID(Garbageman.IDCount);
         img.setDrawable(temp1);
         return img;
     }

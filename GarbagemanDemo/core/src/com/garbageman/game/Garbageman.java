@@ -40,6 +40,8 @@ public class Garbageman extends Game {
 	private boolean autoGenInvItems = false;
 	private int numOfGenItems = 11;
 
+	public static int IDCount = 0;
+
 
 	public PassTrash passTrash = new PassTrash(this);
 

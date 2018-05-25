@@ -15,6 +15,8 @@ public class Trash extends Image{
 
     public boolean containsCrowWithOddEyeInfection = false;
 
+    public int ID = 0;
+
     //Ingredient types
     public static final int UNUSABLE = 0;
     public static final int MEAT = 1;
@@ -86,6 +88,12 @@ public class Trash extends Image{
     public void setImg(String name){
         SpriteSheetDivider sp = new SpriteSheetDivider();
         this.setDrawable(sp.divideGarbage(this, name));
+    }
+
+    public int setID(int IDCount){
+        IDCount += 1;
+        this.ID = IDCount;
+        return IDCount;
     }
 
     public String getSpawnName(){

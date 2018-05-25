@@ -12,6 +12,7 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -33,6 +34,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import sun.font.TextLabel;
 
 public class Trashcan implements Screen {
     //All of my initializations:
@@ -72,11 +75,11 @@ public class Trashcan implements Screen {
             private float yDiff = 0;
 
         //Array/Arraylist/Map Stuffs
-            private Map<String, Float> velMap = Collections.synchronizedMap(new HashMap());
-            private Map<String, Float> oldLocMap = Collections.synchronizedMap(new HashMap());
             private Map<String, Float[]> bglocs = Collections.synchronizedMap(new HashMap());
             ArrayList<Trash> imgs = new ArrayList();
             private ArrayList<String> consoleLog = new ArrayList<String>();
+            private Map<String, Float[]> velMap = Collections.synchronizedMap(new HashMap());
+            private Map<String, Float[]> oldLocMap = Collections.synchronizedMap(new HashMap());
 
         //Filled Array Stuffs
             private String[] helpList = {
@@ -193,8 +196,6 @@ public class Trashcan implements Screen {
             stage.addActor(trash);
             imgs.add(trash);
             imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size() - 1));
-            velMap.put(imgs.get(imgs.size() - 1).getName() + "x", 0f);
-            velMap.put(imgs.get(imgs.size() - 1).getName() + "y", 0f);
             imgs.get(imgs.size() - 1).toBack();
             imgs.get(imgs.size() - 1).setSize(size, size);
             imgs.get(imgs.size() - 1).setX(x);
@@ -300,6 +301,14 @@ public class Trashcan implements Screen {
             }
         }else if (cmds[0].equals("cursorLoc")) {
             System.out.println(Gdx.input.getX() + "," + Gdx.input.getY());
+        } else if (cmds[0].equals("addNumbers")){
+            for (int i = 0; i < imgs.size(); i++) {
+                Label.LabelStyle style = new Label.LabelStyle();
+                BitmapFont font12;
+                font12 = Garbageman.makeFont(12);
+                style.font = font12;
+                Label label = new Label(Integer.toString(imgs.get(i).ID), style);
+            }
         } else if (cmds[0].equals("setSize")) {
             try {
                 imgs.get(Integer.parseInt(cmds[1])).setSize(Integer.parseInt(cmds[2]), Integer.parseInt(cmds[3]));
@@ -339,8 +348,6 @@ public class Trashcan implements Screen {
             }
         } else if (cmds[0].equals("setVel")) {
             try {
-                velMap.put(imgs.get(Integer.parseInt(cmds[1]) - 1).getName() + "x", Float.parseFloat(cmds[2]));
-                velMap.put(imgs.get(Integer.parseInt(cmds[1]) - 1).getName() + "y", Float.parseFloat(cmds[3]));
             } catch (GdxRuntimeException e) {
                 e.printStackTrace();
             } catch (IndexOutOfBoundsException e) {
@@ -350,8 +357,6 @@ public class Trashcan implements Screen {
             }
         } else if (cmds[0].equals("removeVels")) {
             for (Image i : imgs) {
-                velMap.put(i.getName() + "x", 0f);
-                velMap.put(i.getName() + "y", 0f);
             }
         } else if (cmds[0].equals("setFric")) {
             try {
@@ -410,16 +415,8 @@ public class Trashcan implements Screen {
             imgs.get(i).setName(Integer.toString(i));
         }
 
-        for (int i = 0; i < 100; i++) {
-            for (int k = 0; k < imgs.size(); k++) {
-                oldLocMap.put("y" + "null" + Integer.toString(i), imgs.get(k).getY() + i);
-                oldLocMap.put("x" + "null" + Integer.toString(i), imgs.get(k).getX() + i);
-            }
-        }
 
         for (int k = 0; k < imgs.size(); k++) {
-            velMap.put(imgs.get(k).getName() + "x", 0f);
-            velMap.put(imgs.get(k).getName() + "y", 0f);
         }
 
         for (int i = 0; i < imgs.size(); i++) {
@@ -518,59 +515,16 @@ public class Trashcan implements Screen {
                 stage.addActor(imgs.get(i));
                 final int k = i;
 
-                imgs.get(k).setX(imgs.get(k).getX() + velMap.get(imgs.get(k).getName() + "x"));
-                imgs.get(k).setY(imgs.get(k).getY() + velMap.get(imgs.get(k).getName() + "y"));
-
-
-                float tx = velMap.get(imgs.get(k).getName() + "x");
-                float ty = velMap.get(imgs.get(k).getName() + "y");
-                float tm = (float) Math.sqrt((tx * tx) + (ty * ty));
-
-
-                if (velMap.get(imgs.get(k).getName() + "x") >= 0)
-                    velMap.put(imgs.get(k).getName() + "x", tx * fric/*((tm-.5f)/tm)*/);
-                if (velMap.get(imgs.get(k).getName() + "x") <= 0)
-                    velMap.put(imgs.get(k).getName() + "x", tx * fric/*((tm+.5f)/tm)*/);
-                if (velMap.get(imgs.get(k).getName() + "y") >= 0)
-                    velMap.put(imgs.get(k).getName() + "y", ty * fric/*((tm-.5f)/tm)*/);
-                if (velMap.get(imgs.get(k).getName() + "y") <= 0)
-                    velMap.put(imgs.get(k).getName() + "y", ty * fric/*((tm+.5f)/tm)*/);
-
 
 
                 imgs.get(i).addListener(new ClickListener() {
 
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-
-                        xDiff = imgs.get(k).getX() - Gdx.input.getX();
-                        yDiff = imgs.get(k).getY() - stage.getHeight() + Gdx.input.getY();
+                        float oldX = imgs.get(k).getX();
+                        float oldY = imgs.get(k).getY();
+                        Float[] floats = {oldX, oldY};
+                        oldLocMap.put(Integer.toString(imgs.get(k).ID) + "0", floats);
                         wasTouched = true;
-                        //System.out.println("called TouchDown");
-
-                       /* Texture referenceTexture = new Texture(imgs.get(k).baseImgName + imgs.get(k).img + imgs.get(k).fileType);
-
-                        Sprite sprite = new Sprite();
-                        sprite.setRegion(referenceTexture);
-                        Rectangle spriteBounds = sprite.getBoundingRectangle();
-                        Color color = new Color();
-                        if (spriteBounds.contains(xDiff, yDiff)) {
-                            Texture texture = sprite.getTexture();
-
-                            int spriteLocalX = (int) (xDiff);
-                            // we need to "invert" Y, because the screen coordinate origin is top-left
-                            int spriteLocalY = (int) (yDiff);
-
-                            System.out.println(xDiff + " " + yDiff);
-
-                            int textureLocalX = sprite.getRegionX() + spriteLocalX;
-                            int textureLocalY = sprite.getRegionY() + spriteLocalY;
-
-                            if (!texture.getTextureData().isPrepared()) {
-                                texture.getTextureData().prepare();
-                            }
-                            Pixmap pixmap = texture.getTextureData().consumePixmap();
-                        }
-*/
                         return true;
                     }
 
@@ -589,28 +543,9 @@ public class Trashcan implements Screen {
                             boolean gotY = false;
                             float xVel = 0f;
                             float yVel = 0f;
-                            for (int i = 9; i > 0; i--) {
-
-                                if (oldLocMap.get("y" + "null" + "0") - oldLocMap.get("y" + "null" + Integer.toString(i)) != 0f) {
-                                    yVel = oldLocMap.get("y" + "null" + "0") - oldLocMap.get("y" + "null" + Integer.toString(i));
-                                    gotY = true;
-                                }
-                                if (oldLocMap.get("x" + "null" + "0") - oldLocMap.get("x" + "null" + Integer.toString(i)) != 0f) {
-                                    xVel = oldLocMap.get("x" + "null" + "0") - oldLocMap.get("x" + "null" + Integer.toString(i));
-                                    gotX = true;
-                                }
-
-                            }
                             if (!gotX) xVel = 0f;
                             if (!gotY) yVel = 0f;
 
-                            velMap.put(imgs.get(k).getName() + "x", xVel);
-                            velMap.put(imgs.get(k).getName() + "y", yVel);
-
-                            for (int i = 0; i < 10; i++) {
-                                oldLocMap.put("y" + "null" + Integer.toString(i), imgs.get(k).getY());
-                                oldLocMap.put("x" + "null" + Integer.toString(i), imgs.get(k).getX());
-                            }
                         }
 
                         wasTouched = false;
@@ -629,15 +564,10 @@ public class Trashcan implements Screen {
                         currentObject = imgs.get(k);
                         imgs.get(k).toFront();
 
-                        if (countFrame == 9) {
-                            for (int i = 9; i >= 0; i--) {
-                                oldLocMap.put("y" + "null" + Integer.toString(i + 1), oldLocMap.get("y" + "null" + Integer.toString(i)));
-                                oldLocMap.put("x" + "null" + Integer.toString(i + 1), oldLocMap.get("x" + "null" + Integer.toString(i)));
-                            }
-                            countFrame = 0;
-                        }
-                        oldLocMap.put("x" + "null" + "0", imgs.get(k).getX());
-                        oldLocMap.put("y" + "null" + "0", imgs.get(k).getY());
+                        /*for (int j = 0; j < 10; j++) {
+                            oldLocMap.put(Integer.toString(imgs.get(k).ID)+j+1, oldLocMap.get());
+                        }*/
+
 
                         countFrame++;
                         imgs.get(k).setPosition(Gdx.input.getX() + xDiff, stage.getHeight()-(Gdx.input.getY()) + yDiff);

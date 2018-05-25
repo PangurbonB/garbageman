@@ -194,12 +194,14 @@ public class Trashcan implements Screen {
             trash.nast = rand.nextInt(100)+1;
             trash.setImg();
             stage.addActor(trash);
+            Garbageman.IDCount = trash.setID(Garbageman.IDCount);
             imgs.add(trash);
             imgs.get(imgs.size() - 1).setName(Integer.toString(imgs.size() - 1));
             imgs.get(imgs.size() - 1).toBack();
             imgs.get(imgs.size() - 1).setSize(size, size);
             imgs.get(imgs.size() - 1).setX(x);
             imgs.get(imgs.size() - 1).setY(y);
+
         } catch (GdxRuntimeException e) {
             e.printStackTrace();
         }
@@ -235,6 +237,7 @@ public class Trashcan implements Screen {
             item.setVisible(true);
             item.setSize(128, 128);
             item.toFront();
+            Garbageman.IDCount = item.setID(Garbageman.IDCount);
             imgs.add(item);
 
         }
@@ -276,6 +279,93 @@ public class Trashcan implements Screen {
                 ty = Integer.parseInt(cmds[3]);
                 imgs.get(imgs.size() - 1).setX(tx);
                 imgs.get(imgs.size() - 1).setY(ty);
+            }
+        }
+    }
+
+    private void addTrashListeners(){
+        for (int i = 0; i < imgs.size(); i++) {
+            if(imgs.get(i) != null) {
+                final int k = i;
+                final Trash refObj = imgs.get(k);
+                final int refID = refObj.ID;
+
+                imgs.get(i).addListener(new ClickListener() {
+
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+                        float oldX = imgs.get(k).getX();
+                        float oldY = imgs.get(k).getY();
+                        Float[] floats = {oldX, oldY};
+                        oldLocMap.put(Integer.toString(imgs.get(k).ID) + "0", floats);
+                        wasTouched = true;
+                        return true;
+                    }
+
+                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+
+                        if ((imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/ >= (stage.getWidth() - backpackImg.getWidth())) && wasTouched) {
+
+                            if (!touchingBug) {
+                                backpack.add(imgs.get(k));
+                                imgs.get(k).setVisible(false);
+                            }
+
+                        } else if (wasTouched) {
+                            Float xVel = 0f;
+                            Float yVel = 0f;
+
+                            try {
+                                Float[] oldLocs = oldLocMap.get(Integer.toString(refID)+"1");
+                                xVel = imgs.get(k).getX() - oldLocs[0];
+                                yVel = imgs.get(k).getX() - oldLocs[1];
+                                Float[] vels = {xVel, yVel};
+
+                                velMap.put(Integer.toString(imgs.get(k).ID), vels);
+                            }
+                            catch (NullPointerException e){
+                                System.out.println("Cannot Write vel");
+                            }
+                        }
+
+                        wasTouched = false;
+                        touchingBug = false;
+                        currentObject = null;
+
+
+                    }
+
+
+                    public void touchDragged(InputEvent event, float x, float y, int pointer) {
+                        if (imgs.get(k).name.toLowerCase().equals("bug")) {
+                            touchingBug = true;
+                        }
+                        wasTouched = true;
+                        currentObject = imgs.get(k);
+                        imgs.get(k).toFront();
+
+                        for (int j = 9; j >= 0; j--) {
+                            oldLocMap.put((Integer.toString(imgs.get(k).ID)) + Integer.toString(j+1), oldLocMap.get(Integer.toString(imgs.get(k).ID) + Integer.toString(j)) );
+                        }
+
+
+                        float oldX = imgs.get(k).getX();
+                        float oldY = imgs.get(k).getY();
+                        try {
+                            System.out.println(oldLocMap.get(refID + "" + "9")[0] + " " + oldLocMap.get(refID + "" + "9")[1] + refObj.getX() + " " + refObj.getY());
+                        }
+                        catch (NullPointerException e){
+                            System.out.println("Not there yet");
+                        }
+                        Float[] locs = {oldX, oldY};
+                        oldLocMap.put(Integer.toString(imgs.get(k).ID)+"0", locs);
+
+
+
+                        countFrame++;
+                        imgs.get(k).setPosition(Gdx.input.getX() + xDiff, stage.getHeight()-(Gdx.input.getY()) + yDiff);
+                    }
+
+                });
             }
         }
     }
@@ -423,7 +513,11 @@ public class Trashcan implements Screen {
             imgs.get(i).setSize(160, 160);
         }
 
+        addTrashListeners();
 
+        for (int i = 0; i < imgs.size(); i++) {
+            System.out.println(imgs.get(i).name + " " +imgs.get(i).ID);
+        }
     }
 
     @Override
@@ -435,6 +529,8 @@ public class Trashcan implements Screen {
 
 
         background.toBack();
+
+
         if (Gdx.input.getX() >= stage.getWidth() - backpackImg.getWidth() - backpackOpenProc && wasTouched && !touchingBug) {
             if (!backpackImg.isVisible()) {
                 backpackImg.setVisible(true);
@@ -444,6 +540,8 @@ public class Trashcan implements Screen {
                 backpackImg.setVisible(false);
             }
         }
+
+
         game.batch.begin();
         text.toFront();
 
@@ -511,69 +609,17 @@ public class Trashcan implements Screen {
         }
 
         for (int i = 0; i < imgs.size(); i++) {
-            if(imgs.get(i) != null) {
-                stage.addActor(imgs.get(i));
-                final int k = i;
+            final int k = i;
+            final Trash refObj = imgs.get(k);
+            final int refID = refObj.ID;
 
-
-
-                imgs.get(i).addListener(new ClickListener() {
-
-                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-                        float oldX = imgs.get(k).getX();
-                        float oldY = imgs.get(k).getY();
-                        Float[] floats = {oldX, oldY};
-                        oldLocMap.put(Integer.toString(imgs.get(k).ID) + "0", floats);
-                        wasTouched = true;
-                        return true;
-                    }
-
-                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
-                        if ((imgs.get(k).getX() /*- (imgs.get(k).getWidth() / 2)*/ >= (stage.getWidth() - backpackImg.getWidth())) && wasTouched) {
-
-                            if (!touchingBug) {
-                                backpack.add(imgs.get(k));
-                                imgs.get(k).setVisible(false);
-                            }
-
-                        } else if (wasTouched) {
-
-                            boolean gotX = false;
-                            boolean gotY = false;
-                            float xVel = 0f;
-                            float yVel = 0f;
-                            if (!gotX) xVel = 0f;
-                            if (!gotY) yVel = 0f;
-
-                        }
-
-                        wasTouched = false;
-                        touchingBug = false;
-                        currentObject = null;
-
-
-                    }
-
-
-                    public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                        if (imgs.get(k).name.toLowerCase().equals("bug")) {
-                            touchingBug = true;
-                        }
-                        wasTouched = true;
-                        currentObject = imgs.get(k);
-                        imgs.get(k).toFront();
-
-                        /*for (int j = 0; j < 10; j++) {
-                            oldLocMap.put(Integer.toString(imgs.get(k).ID)+j+1, oldLocMap.get());
-                        }*/
-
-
-                        countFrame++;
-                        imgs.get(k).setPosition(Gdx.input.getX() + xDiff, stage.getHeight()-(Gdx.input.getY()) + yDiff);
-                    }
-
-                });
+            try {
+                Float newX = refObj.getX() + velMap.get(Integer.toString(refID))[0];
+                Float newY = refObj.getY() + velMap.get(Integer.toString(refID))[1];
+                imgs.get(i).setPosition(newX, newY);
+            }
+            catch (NullPointerException e){
+                //System.out.println("No valid Vels");
             }
         }
 

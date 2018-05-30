@@ -295,6 +295,10 @@ public class Trashcan implements Screen {
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
                         float oldX = imgs.get(k).getX();
                         float oldY = imgs.get(k).getY();
+
+                        xDiff = imgs.get(k).getX() - Gdx.input.getX();
+                        yDiff = stage.getHeight() - imgs.get(k).getY() - Gdx.input.getY();
+
                         Float[] floats = {oldX, oldY};
                         oldLocMap.put(Integer.toString(imgs.get(k).ID) + "0", floats);
                         wasTouched = true;
@@ -362,7 +366,7 @@ public class Trashcan implements Screen {
 
 
                         countFrame++;
-                        imgs.get(k).setPosition(Gdx.input.getX() + xDiff, stage.getHeight()-(Gdx.input.getY()) + yDiff);
+                        imgs.get(k).setPosition(Gdx.input.getX() + xDiff, stage.getHeight()-(Gdx.input.getY() + yDiff));
                     }
 
                 });
@@ -616,10 +620,10 @@ public class Trashcan implements Screen {
             try {
                 Float newX = refObj.getX() + velMap.get(Integer.toString(refID))[0];
                 Float newY = refObj.getY() + velMap.get(Integer.toString(refID))[1];
-                imgs.get(i).setPosition(newX, newY);
+                imgs.get(k).setPosition(newX, newY);
             }
             catch (NullPointerException e){
-                //System.out.println("No valid Vels");
+
             }
         }
 

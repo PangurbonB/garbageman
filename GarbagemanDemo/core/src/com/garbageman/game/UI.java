@@ -308,10 +308,8 @@ public class UI {
                     int rep = c.giveCookedFood(PassTrash.orderToGive, game);
                     game.giveReputation(rep);
                     game.giveMoney(PassTrash.orderToGive.sellValue);
-                    //Customer.removeFromFrontOfLine();
+                    Customer.removeFromFrontOfLine();
                     orders.clear();
-                    game.resetRestaurant = true;
-                    game.doReset = true;
                 }
                 return super.touchDown(event, x, y, pointer, button);
             }

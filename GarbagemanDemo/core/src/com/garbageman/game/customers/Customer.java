@@ -108,9 +108,6 @@ public class Customer extends Image {
         if (listOfCustomers.size() > 0){
             get = listOfCustomers.get(Customer.front);
         }
-        if (get != null){
-            get.toFront();
-        }
         return get;
     }
 
@@ -211,6 +208,11 @@ public class Customer extends Image {
    public void init(){
        this.setOverheadPos();
        this.overheadName.setVisible(this.isVisible());
+   }
+
+   public static float getWhatCustomerPosShouldBe(int index){
+       float fIndex = (float)index;
+       return 352353420;
    }
 
    public static void removeFromFrontOfLine(){

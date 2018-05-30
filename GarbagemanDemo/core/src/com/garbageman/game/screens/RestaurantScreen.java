@@ -153,27 +153,8 @@ public class RestaurantScreen implements Screen {
         coverTheseWithInv.add(test2);*/
     }
 
-    int time = 0, max = 120;
     @Override
     public void render(float delta) {
-
-        if (game.resetRestaurant && game.doReset){
-            if (time == 0){
-                game.setScreen(new RestaurantScreen(game));
-                game.resetRestaurant = false;
-            }
-
-        }
-        else if (!game.resetRestaurant && game.doReset){
-            time++;
-            frontCustomer.say("Thanks!");
-            if (time >= max){
-                game.doReset = false;
-                Customer.removeFromFrontOfLine();
-                frontCustomer = Customer.getFirstCustomer();
-            }
-        }
-
 
         for (Actor a : coverTheseWithInv) {
             if (a != orderFrame) {
